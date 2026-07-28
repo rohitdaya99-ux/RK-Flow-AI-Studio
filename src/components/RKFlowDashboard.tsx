@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { executeRKAIFeature } from '../services/geminiService';
+import { geminiServiceV2 } from '../services/GeminiServiceV2';
 
 export const RKFlowDashboard = () => {
     const [status, setStatus] = useState("RK Flow AI Ready. Waiting for command...");
@@ -9,7 +9,7 @@ export const RKFlowDashboard = () => {
         setLoading(true);
         setStatus(`⏳ Processing: ${featureName}...`);
         
-        const response = await executeRKAIFeature(featureName, params);
+        const response = await geminiServiceV2.executeFeature(featureName, params);
         
         setStatus(response.success ? `✅ ${response.message}` : `❌ ${response.message}`);
         setLoading(false);
