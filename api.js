@@ -1,0 +1,1 @@
+window.PPRO = require('premierepro');
