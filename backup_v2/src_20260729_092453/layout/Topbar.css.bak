@@ -1,0 +1,62 @@
+.topbar{
+height:clamp(64px,5vw,80px);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 24px;
+background:rgba(18,20,24,.92);
+border-bottom:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(24px);
+-webkit-backdrop-filter:blur(24px);
+}
+
+.topbar h1{
+margin:0;
+font-size:var(--font-xl);
+font-weight:700;
+color:#fff;
+}
+
+.topbar p{
+margin:4px 0 0;
+font-size:var(--font-sm);
+color:#9aa4b2;
+}
+
+.topbar-actions{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.topbar-search{
+width:320px;
+height:44px;
+padding:0 16px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,.08);
+background:rgba(255,255,255,.04);
+color:#fff;
+outline:none;
+}
+
+.topbar-search::placeholder{
+color:#7d8795;
+}
+
+.topbar-button{
+height:44px;
+padding:0 20px;
+border:none;
+border-radius:14px;
+background:#5ea2ff;
+color:#fff;
+font-weight:600;
+cursor:pointer;
+transition:.2s;
+}
+
+.topbar-button:hover{
+background:#7cb5ff;
+transform:translateY(-2px);
+}

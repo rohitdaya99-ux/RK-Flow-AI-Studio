@@ -1,0 +1,21 @@
+:root{
+  --font-family:
+  "SF Pro Display",
+  Inter,
+  system-ui,
+  sans-serif;
+
+  --font-title:34px;
+  --font-h1:28px;
+  --font-h2:22px;
+  --font-h3:18px;
+
+  --font-body:15px;
+  --font-small:13px;
+  --font-tiny:11px;
+
+  --weight-regular:400;
+  --weight-medium:500;
+  --weight-semibold:600;
+  --weight-bold:700;
+}

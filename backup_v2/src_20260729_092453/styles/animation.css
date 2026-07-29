@@ -1,0 +1,34 @@
+*{
+  transition:
+  background var(--transition),
+  color var(--transition),
+  border-color var(--transition),
+  transform var(--transition),
+  opacity var(--transition);
+}
+
+.fade-in{
+  animation:fadeIn .4s ease;
+}
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(8px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.scale-hover:hover{
+transform:scale(1.03);
+}
+
+.press:active{
+transform:scale(.98);
+}

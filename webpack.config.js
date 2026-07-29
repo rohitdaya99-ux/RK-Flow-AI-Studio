@@ -1,35 +1,41 @@
-const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
+const path = require("path");
 
 module.exports = {
-  mode: 'production', 
-  entry: './src/index.tsx',
-  target: 'node-webkit',
+  mode: "development",
+
+  entry: "./src/index.tsx",
+
+  target: "node-webkit",
+
+  devtool: "source-map",
+
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, "dist"),
+    filename: "main.bundle.js",
+    clean: true,
   },
+
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
-  optimization: {
-    minimize: true,
-    minimizer: [new TerserPlugin({
-      terserOptions: { compress: { drop_console: true } }
-    })],
-    splitChunks: { chunks: 'all' },
-  },
+
   module: {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        use: 'ts-loader',
+        use: "ts-loader",
         exclude: /node_modules/,
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      }
+        use: ["style-loader", "css-loader"],
+      },
     ],
+  },
+
+  optimization: {
+    minimize: false,
+    splitChunks: false,
+    runtimeChunk: false,
   },
 };

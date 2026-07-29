@@ -1,0 +1,17 @@
+export type PageType =
+  | "dashboard"
+  | "ai"
+  | "timeline"
+  | "autoEdit"
+  | "wedding"
+  | "music"
+  | "face"
+  | "color"
+  | "motion"
+  | "caption"
+  | "assets"
+  | "export"
+  | "analytics"
+  | "marketplace"
+  | "developer"
+  | "settings";
