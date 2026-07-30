@@ -1,7 +1,10 @@
 import { CommandRequest } from "../types/CommandTypes";
+import { CommandRegistry } from "../registry/CommandRegistry";
 
 export class CommandValidator {
+  private readonly registry = new CommandRegistry();
+
   validate(command: CommandRequest): boolean {
-    return command.intent !== "UNKNOWN";
+    return this.registry.has(command.intent);
   }
 }

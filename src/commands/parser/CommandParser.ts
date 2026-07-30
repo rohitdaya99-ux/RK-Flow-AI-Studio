@@ -2,12 +2,13 @@ import { CommandRequest } from "../types/CommandTypes";
 
 export class CommandParser {
   parse(input: string): CommandRequest {
-    const text = input.toLowerCase();
+    const text = input.toLowerCase().trim();
 
     if (text.includes("reel")) {
       return {
         intent: "CREATE_REEL",
-        source: "selected_clips"
+        source: "selected_clips",
+        style: text.includes("cinematic") ? "cinematic" : "default"
       };
     }
 
@@ -25,9 +26,22 @@ export class CommandParser {
       };
     }
 
-    if (text.includes("music")) {
+    if (text.includes("trim") && text.includes("silence")) {
       return {
-        intent: "SYNC_MUSIC"
+        intent: "TRIM_SILENCE"
+      };
+    }
+
+    if (text.includes("transition")) {
+      return {
+        intent: "ADD_TRANSITIONS"
+      };
+    }
+
+    if (text.includes("music") || text.includes("beat")) {
+      return {
+        intent: "SYNC_MUSIC",
+        musicSync: true
       };
     }
 
