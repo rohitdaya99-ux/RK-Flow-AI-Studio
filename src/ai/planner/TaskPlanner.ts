@@ -9,29 +9,26 @@ export default class TaskPlanner {
 
     const p = prompt.toLowerCase();
 
-    if (/(auto sequence|sequence builder)/.test(p))
-      return [{ action: "autoSequence", payload: null }];
+    if (/\bundo\b/.test(p))
+      return [{ action: "undo", payload: null }];
 
-    if (/(multicam|multi cam)/.test(p))
-      return [{ action: "multicamSync", payload: null }];
+    if (/\bredo\b/.test(p))
+      return [{ action: "redo", payload: null }];
 
-    if (/(speech to text|transcribe)/.test(p))
-      return [{ action: "speechToText", payload: null }];
+    if (/save as/.test(p))
+      return [{ action: "saveAs", payload: null }];
 
-    if (/(subtitle|captions)/.test(p))
-      return [{ action: "autoSubtitles", payload: null }];
+    if (/\bsave\b/.test(p))
+      return [{ action: "save", payload: null }];
 
-    if (/(proxy)/.test(p))
-      return [{ action: "smartProxy", payload: null }];
+    if (/close project/.test(p))
+      return [{ action: "closeProject", payload: null }];
 
-    if (/(duplicate shot|duplicate clip)/.test(p))
-      return [{ action: "detectDuplicateShots", payload: null }];
+    if (/render/.test(p))
+      return [{ action: "renderInToOut", payload: null }];
 
-    if (/(cleanup project|project cleanup)/.test(p))
-      return [{ action: "autoProjectCleanup", payload: null }];
-
-    if (/(relink|missing media)/.test(p))
-      return [{ action: "smartRelink", payload: null }];
+    if (/export/.test(p))
+      return [{ action: "exportMedia", payload: null }];
 
     return [{ action: "chat", payload: prompt }];
 

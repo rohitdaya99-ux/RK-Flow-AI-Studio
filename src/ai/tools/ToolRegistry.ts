@@ -10,6 +10,7 @@ import MusicActions from "../actions/MusicActions";
 import WorkflowActions from "../actions/WorkflowActions";
 import AIActions from "../actions/AIActions";
 import PremiereAIActions from "../actions/PremiereAIActions";
+import CommandActions from "../actions/CommandActions";
 
 export default class ToolRegistry {
 
@@ -36,5 +37,7 @@ export default class ToolRegistry {
   ai = new AIActions();
 
   premiere = new PremiereAIActions();
+
+  command = new CommandActions();
 
 }

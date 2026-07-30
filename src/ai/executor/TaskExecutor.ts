@@ -13,36 +13,32 @@ export default class TaskExecutor {
 
       switch (task.action) {
 
-        case "autoSequence":
-          results.push(await this.tools.premiere.autoSequence());
+        case "undo":
+          results.push(await this.tools.command.undo());
           break;
 
-        case "multicamSync":
-          results.push(await this.tools.premiere.multicamSync());
+        case "redo":
+          results.push(await this.tools.command.redo());
           break;
 
-        case "speechToText":
-          results.push(await this.tools.premiere.speechToText());
+        case "save":
+          results.push(await this.tools.command.save());
           break;
 
-        case "autoSubtitles":
-          results.push(await this.tools.premiere.autoSubtitles());
+        case "saveAs":
+          results.push(await this.tools.command.saveAs());
           break;
 
-        case "smartProxy":
-          results.push(await this.tools.premiere.smartProxy());
+        case "closeProject":
+          results.push(await this.tools.command.closeProject());
           break;
 
-        case "detectDuplicateShots":
-          results.push(await this.tools.premiere.detectDuplicateShots());
+        case "renderInToOut":
+          results.push(await this.tools.command.renderInToOut());
           break;
 
-        case "autoProjectCleanup":
-          results.push(await this.tools.premiere.autoProjectCleanup());
-          break;
-
-        case "smartRelink":
-          results.push(await this.tools.premiere.smartRelink());
+        case "exportMedia":
+          results.push(await this.tools.command.exportMedia());
           break;
 
         default:
