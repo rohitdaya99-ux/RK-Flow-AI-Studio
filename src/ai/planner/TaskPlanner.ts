@@ -9,23 +9,20 @@ export default class TaskPlanner {
 
     const p = prompt.toLowerCase();
 
-    if (p.includes("face"))
-      return [{ action: "detectFaces", payload: null }];
+    if (/(music|song|audio)/.test(p))
+      return [{ action: "analyzeMusic", payload: null }];
 
-    if (p.includes("smile"))
-      return [{ action: "detectSmile", payload: null }];
+    if (/(beat|bpm)/.test(p))
+      return [{ action: "detectBeat", payload: null }];
 
-    if (p.includes("blur"))
-      return [{ action: "detectBlur", payload: null }];
+    if (/(drop)/.test(p))
+      return [{ action: "detectDrops", payload: null }];
 
-    if (p.includes("closed eye"))
-      return [{ action: "detectClosedEyes", payload: null }];
+    if (/(chorus|hook)/.test(p))
+      return [{ action: "detectChorus", payload: null }];
 
-    if (p.includes("best"))
-      return [{ action: "detectBestMoments", payload: null }];
-
-    if (p.includes("emotion"))
-      return [{ action: "detectEmotion", payload: null }];
+    if (/(sync|beat sync)/.test(p))
+      return [{ action: "autoBeatSync", payload: null }];
 
     return [{ action: "chat", payload: prompt }];
 

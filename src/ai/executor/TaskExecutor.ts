@@ -13,28 +13,24 @@ export default class TaskExecutor {
 
       switch (task.action) {
 
-        case "detectFaces":
-          results.push(await this.tools.analysis.detectFaces());
+        case "analyzeMusic":
+          results.push(await this.tools.music.analyzeMusic());
           break;
 
-        case "detectSmile":
-          results.push(await this.tools.analysis.detectSmile());
+        case "detectBeat":
+          results.push(await this.tools.music.detectBeat());
           break;
 
-        case "detectBlur":
-          results.push(await this.tools.analysis.detectBlur());
+        case "detectDrops":
+          results.push(await this.tools.music.detectDrops());
           break;
 
-        case "detectClosedEyes":
-          results.push(await this.tools.analysis.detectClosedEyes());
+        case "detectChorus":
+          results.push(await this.tools.music.detectChorus());
           break;
 
-        case "detectBestMoments":
-          results.push(await this.tools.analysis.detectBestMoments());
-          break;
-
-        case "detectEmotion":
-          results.push(await this.tools.analysis.detectEmotion());
+        case "autoBeatSync":
+          results.push(await this.tools.music.autoBeatSync());
           break;
 
         default:
