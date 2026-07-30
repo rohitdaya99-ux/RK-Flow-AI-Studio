@@ -1,14 +1,35 @@
+import AIChat from "../chat/AIChat";
 import TaskPlanner from "../planner/TaskPlanner";
 import TaskExecutor from "../executor/TaskExecutor";
 
-export class RKFlowAgent {
+export default class RKFlowAgent {
+
   private planner = new TaskPlanner();
+
   private executor = new TaskExecutor();
 
-  async run(prompt: string) {
-    const plan = await this.planner.create(prompt);
-    return this.executor.execute(plan);
-  }
-}
+  private chat = new AIChat();
 
-export default RKFlowAgent;
+  async execute(
+    prompt: string,
+    onStream?: (text: string) => void
+  ) {
+
+    const tasks = await this.planner.create(prompt);
+
+    if (tasks.length === 1 && tasks[0].action === "chat") {
+      return this.chat.ask(
+        prompt,
+        onStream ?? (() => {})
+      );
+    }
+
+    return this.executor.execute(tasks);
+
+  }
+
+  clearMemory() {
+    this.chat.clear();
+  }
+
+}

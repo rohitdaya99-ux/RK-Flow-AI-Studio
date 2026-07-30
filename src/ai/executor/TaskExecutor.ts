@@ -1,5 +1,5 @@
-import type { AgentTask } from "../planner/TaskPlanner";
 import ToolRegistry from "../tools/ToolRegistry";
+import type { AgentTask } from "../planner/TaskPlanner";
 
 export default class TaskExecutor {
 
@@ -29,10 +29,23 @@ export default class TaskExecutor {
           results.push(await this.tools.project.save());
           break;
 
+        case "transition":
+          results.push(await this.tools.timeline.applyTransition(String(task.payload)));
+          break;
+
+        case "marker":
+          results.push(await this.tools.timeline.addMarker(String(task.payload)));
+          break;
+
+        case "deleteGap":
+          results.push(await this.tools.timeline.deleteGaps());
+          break;
+
         default:
           results.push({
             success: true,
-            message: task.payload
+            action: task.action,
+            payload: task.payload
           });
 
       }
