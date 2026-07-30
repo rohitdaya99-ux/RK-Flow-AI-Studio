@@ -17,3 +17,7 @@ export * from "./context/AIContextBridge";
 export * from "./planner/AIPlanner";
 export * from "./workflows/WorkflowExecutor";
 export * from "./diagnostics/AIDiagnostics";
+export * from "./chains/ExecutionChain";
+export * from "./tools/AITool";
+export * from "./registry/ToolRegistry";
+export * from "./events/AIEventBus";
