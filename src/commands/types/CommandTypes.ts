@@ -10,6 +10,10 @@ export type CommandIntent =
   | "READ_SEQUENCE"
   | "READ_SELECTION"
   | "READ_TIMELINE"
+  | "TRIM_SELECTED"
+  | "RAZOR"
+  | "RIPPLE_DELETE"
+  | "ADD_AUDIO_FADE"
   | "UNKNOWN";
 
 export interface CommandRequest {

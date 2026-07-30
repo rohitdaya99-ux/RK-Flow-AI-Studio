@@ -53,6 +53,14 @@ export class CommandParser {
 
     if (text.includes("project")) { return { intent: "READ_PROJECT" }; }
 
+    if (text.includes("trim")) { return { intent: "TRIM_SELECTED" }; }
+
+    if (text.includes("razor")) { return { intent: "RAZOR" }; }
+
+    if (text.includes("ripple")) { return { intent: "RIPPLE_DELETE" }; }
+
+    if (text.includes("audio fade")) { return { intent: "ADD_AUDIO_FADE" }; }
+
     if (text.includes("export")) {
       return {
         intent: "EXPORT"

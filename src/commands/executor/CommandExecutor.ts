@@ -1,11 +1,13 @@
 import { CommandRequest, CommandResult } from "../types/CommandTypes";
 import { CommandValidator } from "../validator/CommandValidator";
 import PremiereActions from "../../premiere/actions/PremiereActions";
+import EditActions from "../../premiere/actions/EditActions";
 
 export class CommandExecutor {
 
   private validator = new CommandValidator();
   private actions = new PremiereActions();
+  private edit = new EditActions();
 
   async execute(command: CommandRequest): Promise<CommandResult> {
 
@@ -53,6 +55,22 @@ export class CommandExecutor {
 
       case "READ_TIMELINE":
         await this.actions.getTimeline();
+        break;
+
+      case "TRIM_SELECTED":
+        await this.edit.trimSelected();
+        break;
+
+      case "RAZOR":
+        await this.edit.razorAtPlayhead();
+        break;
+
+      case "RIPPLE_DELETE":
+        await this.edit.rippleDelete();
+        break;
+
+      case "ADD_AUDIO_FADE":
+        await this.edit.addAudioFade();
         break;
 
       case "EXPORT":

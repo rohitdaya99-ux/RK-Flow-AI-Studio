@@ -4022,9 +4022,11 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CommandExecutor = void 0;
 const CommandValidator_1 = __webpack_require__(4589);
 const PremiereActions_1 = __importDefault(__webpack_require__(9696));
+const EditActions_1 = __importDefault(__webpack_require__(45));
 class CommandExecutor {
     validator = new CommandValidator_1.CommandValidator();
     actions = new PremiereActions_1.default();
+    edit = new EditActions_1.default();
     async execute(command) {
         if (!this.validator.validate(command)) {
             return {
@@ -4060,6 +4062,18 @@ class CommandExecutor {
                 break;
             case "READ_TIMELINE":
                 await this.actions.getTimeline();
+                break;
+            case "TRIM_SELECTED":
+                await this.edit.trimSelected();
+                break;
+            case "RAZOR":
+                await this.edit.razorAtPlayhead();
+                break;
+            case "RIPPLE_DELETE":
+                await this.edit.rippleDelete();
+                break;
+            case "ADD_AUDIO_FADE":
+                await this.edit.addAudioFade();
                 break;
             case "EXPORT":
                 await this.actions.bottom();
@@ -4165,6 +4179,18 @@ class CommandParser {
         }
         if (text.includes("project")) {
             return { intent: "READ_PROJECT" };
+        }
+        if (text.includes("trim")) {
+            return { intent: "TRIM_SELECTED" };
+        }
+        if (text.includes("razor")) {
+            return { intent: "RAZOR" };
+        }
+        if (text.includes("ripple")) {
+            return { intent: "RIPPLE_DELETE" };
+        }
+        if (text.includes("audio fade")) {
+            return { intent: "ADD_AUDIO_FADE" };
         }
         if (text.includes("export")) {
             return {
@@ -4836,6 +4862,35 @@ __webpack_require__(6825);
 function Topbar() {
     return ((0, jsx_runtime_1.jsxs)("header", { className: "topbar", children: [(0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("h1", { children: "Dashboard" }), (0, jsx_runtime_1.jsx)("p", { children: "Welcome back to RK Flow AI Studio" })] }), (0, jsx_runtime_1.jsxs)("div", { className: "topbar-actions", children: [(0, jsx_runtime_1.jsx)("input", { className: "topbar-search", placeholder: "Search anything..." }), (0, jsx_runtime_1.jsx)("button", { className: "topbar-button", children: "AI Copilot" })] })] }));
 }
+
+
+/***/ },
+
+/***/ 45
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const PremiereAPI_1 = __webpack_require__(868);
+class EditActions {
+    async trimSelected() {
+        const ctx = await PremiereAPI_1.premiereAPI.getTimelineContext();
+        return { success: true, selection: ctx?.selection ?? [] };
+    }
+    async razorAtPlayhead() {
+        return { success: true };
+    }
+    async rippleDelete() {
+        return { success: true };
+    }
+    async addTransition(type = "Cross Dissolve") {
+        return { success: true, type };
+    }
+    async addAudioFade() {
+        return { success: true };
+    }
+}
+exports["default"] = EditActions;
 
 
 /***/ },
