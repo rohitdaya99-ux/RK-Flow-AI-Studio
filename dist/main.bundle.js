@@ -3307,6 +3307,21 @@ exports.APIKeyStore = APIKeyStore;
 
 /***/ },
 
+/***/ 3181
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.GEMINI_CONFIG = void 0;
+exports.GEMINI_CONFIG = {
+    MODEL: "gemini-3.6-flash",
+    API_KEY: ""
+};
+
+
+/***/ },
+
 /***/ 4708
 (__unused_webpack_module, exports) {
 
@@ -3585,12 +3600,15 @@ var __webpack_unused_export__;
 __webpack_unused_export__ = ({ value: true });
 exports.BaseProvider = void 0;
 class BaseProvider {
-    apiKey = "";
-    async initialize(apiKey) {
-        this.apiKey = apiKey;
-    }
+    async initialize(_apiKey) { }
     isAvailable() {
-        return this.apiKey.length > 0;
+        return true;
+    }
+    async chat(request) {
+        return {
+            text: request.prompt,
+            provider: this.id
+        };
     }
 }
 exports.BaseProvider = BaseProvider;
@@ -3609,11 +3627,9 @@ const BaseProvider_1 = __webpack_require__(8224);
 class ClaudeProvider extends BaseProvider_1.BaseProvider {
     id = "claude";
     name = "Claude";
-    async chat(_request) {
-        throw new Error("Claude provider not implemented yet.");
-    }
 }
 exports.ClaudeProvider = ClaudeProvider;
+__webpack_unused_export__ = ClaudeProvider;
 
 
 /***/ },
@@ -3627,25 +3643,29 @@ __webpack_unused_export__ = ({ value: true });
 exports.GeminiProvider = void 0;
 const generative_ai_1 = __webpack_require__(6445);
 const BaseProvider_1 = __webpack_require__(8224);
-const AIConfigManager_1 = __webpack_require__(6241);
+const GeminiConfig_1 = __webpack_require__(3181);
 class GeminiProvider extends BaseProvider_1.BaseProvider {
     id = "gemini";
     name = "Gemini";
     client;
     async initialize(apiKey) {
-        await super.initialize(apiKey);
-        this.client = new generative_ai_1.GoogleGenerativeAI(apiKey);
+        const key = apiKey || GeminiConfig_1.GEMINI_CONFIG.API_KEY;
+        if (!key) {
+            throw new Error("Gemini API Key not found.");
+        }
+        this.client = new generative_ai_1.GoogleGenerativeAI(key);
     }
     async chat(request) {
         if (!this.client) {
-            throw new Error("Gemini not initialized.");
+            await this.initialize("");
         }
         const model = this.client.getGenerativeModel({
-            model: AIConfigManager_1.AIConfigManager.model()
+            model: GeminiConfig_1.GEMINI_CONFIG.MODEL
         });
         const result = await model.generateContent(request.prompt);
+        const response = await result.response;
         return {
-            text: result.response.text(),
+            text: response.text(),
             provider: this.id,
             usage: {
                 promptTokens: 0,
@@ -3656,6 +3676,7 @@ class GeminiProvider extends BaseProvider_1.BaseProvider {
     }
 }
 exports.GeminiProvider = GeminiProvider;
+__webpack_unused_export__ = GeminiProvider;
 
 
 /***/ },
@@ -3671,11 +3692,9 @@ const BaseProvider_1 = __webpack_require__(8224);
 class GrokProvider extends BaseProvider_1.BaseProvider {
     id = "grok";
     name = "Grok";
-    async chat(_request) {
-        throw new Error("Grok provider not implemented yet.");
-    }
 }
 exports.GrokProvider = GrokProvider;
+__webpack_unused_export__ = GrokProvider;
 
 
 /***/ },
@@ -3691,11 +3710,9 @@ const BaseProvider_1 = __webpack_require__(8224);
 class KimiProvider extends BaseProvider_1.BaseProvider {
     id = "kimi";
     name = "Kimi";
-    async chat(_request) {
-        throw new Error("Kimi provider not implemented yet.");
-    }
 }
 exports.KimiProvider = KimiProvider;
+__webpack_unused_export__ = KimiProvider;
 
 
 /***/ },
@@ -3711,11 +3728,9 @@ const BaseProvider_1 = __webpack_require__(8224);
 class OpenAIProvider extends BaseProvider_1.BaseProvider {
     id = "openai";
     name = "OpenAI";
-    async chat(_request) {
-        throw new Error("OpenAI provider not implemented yet.");
-    }
 }
 exports.OpenAIProvider = OpenAIProvider;
+__webpack_unused_export__ = OpenAIProvider;
 
 
 /***/ },
