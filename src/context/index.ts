@@ -21,3 +21,6 @@ export * from "./metrics/ContextMetrics";
 export * from "./profile/EditingProfile";
 export * from "./normalizers/ContextNormalizer";
 export * from "./history/ContextHistory";
+export * from "./presets/WeddingContextPreset";
+export * from "./recommendations/ContextRecommendationEngine";
+export * from "./events/WeddingEventContext";
