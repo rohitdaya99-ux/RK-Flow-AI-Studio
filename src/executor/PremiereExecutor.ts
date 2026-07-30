@@ -2,11 +2,13 @@ import { CommandRequest, CommandResult } from "../commands/types/CommandTypes";
 import { CommandExecutor } from "../commands/executor/CommandExecutor";
 
 export class PremiereExecutor {
+
   private executor = new CommandExecutor();
 
-  run(command: CommandRequest): CommandResult {
+  async run(command: CommandRequest): Promise<CommandResult> {
     return this.executor.execute(command);
   }
+
 }
 
 export function inspectPremiereAPI(): void {

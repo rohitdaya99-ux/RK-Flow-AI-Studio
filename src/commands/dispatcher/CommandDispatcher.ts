@@ -8,7 +8,7 @@ export class CommandDispatcher {
   private readonly validator = new CommandValidator();
   private readonly executor = new PremiereExecutor();
 
-  dispatch(prompt: string): CommandResult {
+  async dispatch(prompt: string): Promise<CommandResult> {
     const command = this.parser.parse(prompt);
 
     if (!this.validator.validate(command)) {
@@ -21,6 +21,6 @@ export class CommandDispatcher {
       };
     }
 
-    return this.executor.run(command);
+    return await this.executor.run(command);
   }
 }

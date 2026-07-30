@@ -3992,7 +3992,7 @@ class CommandDispatcher {
     parser = new CommandParser_1.CommandParser();
     validator = new CommandValidator_1.CommandValidator();
     executor = new PremiereExecutor_1.PremiereExecutor();
-    dispatch(prompt) {
+    async dispatch(prompt) {
         const command = this.parser.parse(prompt);
         if (!this.validator.validate(command)) {
             return {
@@ -4003,7 +4003,7 @@ class CommandDispatcher {
                 warnings: ["Unsupported intent"]
             };
         }
-        return this.executor.run(command);
+        return await this.executor.run(command);
     }
 }
 exports.CommandDispatcher = CommandDispatcher;
@@ -4015,12 +4015,17 @@ exports.CommandDispatcher = CommandDispatcher;
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CommandExecutor = void 0;
 const CommandValidator_1 = __webpack_require__(4589);
+const PremiereActions_1 = __importDefault(__webpack_require__(9696));
 class CommandExecutor {
     validator = new CommandValidator_1.CommandValidator();
-    execute(command) {
+    actions = new PremiereActions_1.default();
+    async execute(command) {
         if (!this.validator.validate(command)) {
             return {
                 success: false,
@@ -4030,11 +4035,31 @@ class CommandExecutor {
                 warnings: ["Validation failed."]
             };
         }
+        const start = Date.now();
+        switch (command.intent) {
+            case "CREATE_REEL":
+                await this.actions.center();
+                break;
+            case "CREATE_TEASER":
+                await this.actions.left();
+                break;
+            case "CREATE_HIGHLIGHT":
+                await this.actions.right();
+                break;
+            case "ADD_TRANSITIONS":
+                await this.actions.top();
+                break;
+            case "EXPORT":
+                await this.actions.bottom();
+                break;
+            default:
+                break;
+        }
         return {
             success: true,
-            message: "Command accepted.",
-            actionsExecuted: 0,
-            executionTime: 0,
+            message: command.intent,
+            actionsExecuted: 1,
+            executionTime: Date.now() - start,
             warnings: []
         };
     }
@@ -4432,7 +4457,7 @@ exports.testMoveAction = testMoveAction;
 const CommandExecutor_1 = __webpack_require__(2329);
 class PremiereExecutor {
     executor = new CommandExecutor_1.CommandExecutor();
-    run(command) {
+    async run(command) {
         return this.executor.execute(command);
     }
 }
@@ -4787,6 +4812,37 @@ __webpack_require__(6825);
 function Topbar() {
     return ((0, jsx_runtime_1.jsxs)("header", { className: "topbar", children: [(0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("h1", { children: "Dashboard" }), (0, jsx_runtime_1.jsx)("p", { children: "Welcome back to RK Flow AI Studio" })] }), (0, jsx_runtime_1.jsxs)("div", { className: "topbar-actions", children: [(0, jsx_runtime_1.jsx)("input", { className: "topbar-search", placeholder: "Search anything..." }), (0, jsx_runtime_1.jsx)("button", { className: "topbar-button", children: "AI Copilot" })] })] }));
 }
+
+
+/***/ },
+
+/***/ 9696
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const PremiereAPI_1 = __webpack_require__(868);
+class PremiereActions {
+    async center() {
+        return PremiereAPI_1.premiereAPI.center();
+    }
+    async left() {
+        return PremiereAPI_1.premiereAPI.left();
+    }
+    async right() {
+        return PremiereAPI_1.premiereAPI.right();
+    }
+    async top() {
+        return PremiereAPI_1.premiereAPI.top();
+    }
+    async bottom() {
+        return PremiereAPI_1.premiereAPI.bottom();
+    }
+    async position(x, y) {
+        return PremiereAPI_1.premiereAPI.setPosition(x, y);
+    }
+}
+exports["default"] = PremiereActions;
 
 
 /***/ },

@@ -1,20 +1,21 @@
-import { CommandDispatcher } from "../../commands";
+import { CommandDispatcher } from "../../commands/dispatcher/CommandDispatcher";
 
 export class AIPlanner {
-  private readonly dispatcher = new CommandDispatcher();
 
-  createPlan(prompt: string) {
-    const command = this.dispatcher.dispatch(prompt);
+  private dispatcher = new CommandDispatcher();
+
+  async plan(prompt: string) {
+    const command = await this.dispatcher.dispatch(prompt);
 
     return {
-      prompt,
       intent: command.message,
-      steps: [
-        "Collect Context",
-        "Analyze Timeline",
-        "Generate Edit Plan",
-        "Execute Premiere Actions"
-      ]
+      success: command.success,
+      warnings: command.warnings
     };
   }
+
+  async createPlan(prompt: string) {
+    return this.plan(prompt);
+  }
+
 }
