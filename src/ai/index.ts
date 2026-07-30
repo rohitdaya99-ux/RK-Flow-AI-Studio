@@ -10,3 +10,7 @@ export * from "./router/ModelRouter";
 export * from "./executor/AIExecutor";
 export * from "./fallback/FallbackProvider";
 export * from "./metrics/AIMetrics";
+export * from "./session/AISession";
+export * from "./history/ConversationHistory";
+export * from "./validators/AIRequestValidator";
+export * from "./context/AIContextBridge";
