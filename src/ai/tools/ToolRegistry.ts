@@ -3,6 +3,7 @@ import SequenceActions from "../actions/SequenceActions";
 import ProjectActions from "../actions/ProjectActions";
 import MediaActions from "../actions/MediaActions";
 import ExportActions from "../actions/ExportActions";
+import EditActions from "../actions/EditActions";
 
 export default class ToolRegistry {
 
@@ -15,5 +16,7 @@ export default class ToolRegistry {
   media = new MediaActions();
 
   export = new ExportActions();
+
+  edit = new EditActions();
 
 }

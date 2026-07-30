@@ -13,6 +13,26 @@ export default class TaskExecutor {
 
       switch (task.action) {
 
+        case "weddingReel":
+          results.push(await this.tools.edit.autoWeddingReel());
+          break;
+
+        case "highlightFilm":
+          results.push(await this.tools.edit.autoHighlightFilm());
+          break;
+
+        case "teaser":
+          results.push(await this.tools.edit.autoTeaser());
+          break;
+
+        case "shorts":
+          results.push(await this.tools.edit.autoShorts());
+          break;
+
+        case "beatSync":
+          results.push(await this.tools.edit.autoBeatSync());
+          break;
+
         case "instagramReel":
           results.push(await this.tools.export.instagramReel());
           break;

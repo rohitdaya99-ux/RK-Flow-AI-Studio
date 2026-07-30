@@ -9,34 +9,43 @@ export default class TaskPlanner {
 
     const p = prompt.toLowerCase();
 
-    if (/(instagram|reel)/.test(p))
-      return [{ action: "instagramReel", payload: prompt }];
+    if (p.includes("wedding reel"))
+      return [{ action: "weddingReel", payload: null }];
 
-    if (/(highlight|film)/.test(p))
-      return [{ action: "youtubeHighlight", payload: prompt }];
+    if (p.includes("highlight"))
+      return [{ action: "highlightFilm", payload: null }];
 
-    if (/(teaser)/.test(p))
-      return [{ action: "youtubeHighlight", payload: prompt }];
+    if (p.includes("teaser"))
+      return [{ action: "teaser", payload: null }];
 
-    if (/(export|render|4k)/.test(p))
-      return [{ action: "master4K", payload: prompt }];
+    if (p.includes("short"))
+      return [{ action: "shorts", payload: null }];
 
-    if (/(transition)/.test(p))
+    if (p.includes("beat"))
+      return [{ action: "beatSync", payload: null }];
+
+    if (p.includes("instagram"))
+      return [{ action: "instagramReel", payload: null }];
+
+    if (p.includes("export"))
+      return [{ action: "master4K", payload: null }];
+
+    if (p.includes("transition"))
       return [{ action: "transition", payload: "Cross Dissolve" }];
 
-    if (/(marker)/.test(p))
+    if (p.includes("marker"))
       return [{ action: "marker", payload: "RK Flow Marker" }];
 
-    if (/(trim)/.test(p))
+    if (p.includes("trim"))
       return [{ action: "trim", payload: null }];
 
-    if (/(gap)/.test(p))
+    if (p.includes("gap"))
       return [{ action: "deleteGap", payload: null }];
 
-    if (/(ripple)/.test(p))
+    if (p.includes("ripple"))
       return [{ action: "rippleDelete", payload: null }];
 
-    if (/(save)/.test(p))
+    if (p.includes("save"))
       return [{ action: "saveProject", payload: null }];
 
     return [{ action: "chat", payload: prompt }];
