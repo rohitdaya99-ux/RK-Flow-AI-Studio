@@ -25,3 +25,7 @@ export * from "./agents/AIAgent";
 export * from "./tasks/AITask";
 export * from "./state/AIState";
 export * from "./logging/AILogger";
+export * from "./config/AIConfig";
+export * from "./queue/AIQueue";
+export * from "./recovery/RecoveryManager";
+export * from "./telemetry/AITelemetry";
