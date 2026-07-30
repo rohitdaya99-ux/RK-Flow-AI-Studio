@@ -1,7 +1,7 @@
-import { AIPlanner } from "../planner/AIPlanner";
+import { PlanExecutor } from "../plans/PlanExecutor";
+import { WeddingPlans } from "../plans/WeddingPlans";
 
-const planner = new AIPlanner();
-
-console.log(
-  planner.createPlan("Create cinematic Indian wedding teaser")
-);
+(async () => {
+  const executor = new PlanExecutor();
+  await executor.execute(WeddingPlans.reel());
+})();
