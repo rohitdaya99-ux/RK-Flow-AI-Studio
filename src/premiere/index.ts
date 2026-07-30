@@ -26,3 +26,8 @@ export { default as WeddingTagger } from "./tagging/WeddingTagger";
 export { default as ClipScorer } from "./scoring/ClipScorer";
 export { default as RecommendationEngine } from "./recommendation/RecommendationEngine";
 export { default as ClipSearch } from "./search/ClipSearch";
+export { default as FaceMatcher } from "./face/FaceMatcher";
+export { default as EventClassifier } from "./events/EventClassifier";
+export { default as HighlightSelector } from "./highlights/HighlightSelector";
+export { default as StoryBuilder } from "./story/StoryBuilder";
+export { default as MusicSync } from "./sync/MusicSync";
