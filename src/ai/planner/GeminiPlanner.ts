@@ -1,17 +1,18 @@
-import { chatWithGemini } from "../../services/geminiService";
+import { AIChatService } from "../services/AIChatService";
 import { ExecutionPlan } from "../plans/ExecutionPlan";
 
 export default class GeminiPlanner {
 
-  async create(prompt:string):Promise<ExecutionPlan>{
+  private chat = new AIChatService();
 
-    try{
+  async create(prompt: string): Promise<ExecutionPlan> {
 
-      const response = await chatWithGemini({
-        prompt:`
+    try {
+
+      const response = await this.chat.ask(`
 You are RK Flow AI Planner.
 
-Convert the user's request into ONLY valid JSON.
+Return ONLY valid JSON.
 
 Schema:
 
@@ -25,28 +26,24 @@ Schema:
 }
 
 User Request:
+
 ${prompt}
-`
-      });
+`);
 
-      if(!response.success){
-        throw new Error(response.error ?? "Gemini failed");
-      }
-
-      const cleaned = response.text
-        .replace(/```json/g,"")
-        .replace(/```/g,"")
+      const cleaned = response
+        .replace(/```json/g, "")
+        .replace(/```/g, "")
         .trim();
 
       return JSON.parse(cleaned);
 
-    }catch{
+    } catch {
 
-      return{
-        goal:prompt,
-        steps:[
-          {command:"read project"},
-          {command:"read timeline"}
+      return {
+        goal: prompt,
+        steps: [
+          { command: "read project" },
+          { command: "read timeline" }
         ]
       };
 
