@@ -1,7 +1,11 @@
-import { PlanExecutor } from "../plans/PlanExecutor";
-import { WeddingPlans } from "../plans/WeddingPlans";
+import Agent from "../planner/Agent";
 
-(async () => {
-  const executor = new PlanExecutor();
-  await executor.execute(WeddingPlans.reel());
+(async()=>{
+
+  const agent = new Agent();
+
+  await agent.run(
+    "Create cinematic wedding reel with trim transitions music export"
+  );
+
 })();
