@@ -14,3 +14,6 @@ export * from "./session/AISession";
 export * from "./history/ConversationHistory";
 export * from "./validators/AIRequestValidator";
 export * from "./context/AIContextBridge";
+export * from "./planner/AIPlanner";
+export * from "./workflows/WorkflowExecutor";
+export * from "./diagnostics/AIDiagnostics";
