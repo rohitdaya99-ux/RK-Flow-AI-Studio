@@ -1,4 +1,4 @@
-import PremiereAPI from "../../services/PremiereAPI";
+import { PremiereAPI } from "../../services/PremiereAPI";
 
 export default class PremiereBridgeActions {
 
