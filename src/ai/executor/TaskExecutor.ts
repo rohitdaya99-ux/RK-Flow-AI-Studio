@@ -13,67 +13,46 @@ export default class TaskExecutor {
 
       switch (task.action) {
 
-        case "weddingReel":
-          results.push(await this.tools.edit.autoWeddingReel());
+        case "brideEntry":
+          results.push(await this.tools.wedding.brideEntry());
           break;
 
-        case "highlightFilm":
-          results.push(await this.tools.edit.autoHighlightFilm());
+        case "groomEntry":
+          results.push(await this.tools.wedding.groomEntry());
           break;
 
-        case "teaser":
-          results.push(await this.tools.edit.autoTeaser());
+        case "haldi":
+          results.push(await this.tools.wedding.haldi());
           break;
 
-        case "shorts":
-          results.push(await this.tools.edit.autoShorts());
+        case "mehndi":
+          results.push(await this.tools.wedding.mehndi());
           break;
 
-        case "beatSync":
-          results.push(await this.tools.edit.autoBeatSync());
+        case "sangeet":
+          results.push(await this.tools.wedding.sangeet());
           break;
 
-        case "instagramReel":
-          results.push(await this.tools.export.instagramReel());
+        case "baraat":
+          results.push(await this.tools.wedding.baraat());
           break;
 
-        case "youtubeHighlight":
-          results.push(await this.tools.export.youtubeHighlight());
+        case "varmala":
+          results.push(await this.tools.wedding.varmala());
           break;
 
-        case "master4K":
-          results.push(await this.tools.export.master4K());
+        case "pheras":
+          results.push(await this.tools.wedding.pheras());
           break;
 
-        case "transition":
-          results.push(await this.tools.timeline.applyTransition(String(task.payload)));
-          break;
-
-        case "marker":
-          results.push(await this.tools.timeline.addMarker(String(task.payload)));
-          break;
-
-        case "trim":
-          results.push(await this.tools.timeline.trimSelectedClips());
-          break;
-
-        case "deleteGap":
-          results.push(await this.tools.timeline.deleteGaps());
-          break;
-
-        case "rippleDelete":
-          results.push(await this.tools.timeline.rippleDelete());
-          break;
-
-        case "saveProject":
-          results.push(await this.tools.project.save());
+        case "reception":
+          results.push(await this.tools.wedding.reception());
           break;
 
         default:
           results.push({
             success: true,
-            action: task.action,
-            payload: task.payload
+            action: task.action
           });
 
       }

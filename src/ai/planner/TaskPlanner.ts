@@ -9,6 +9,33 @@ export default class TaskPlanner {
 
     const p = prompt.toLowerCase();
 
+    if (p.includes("bride"))
+      return [{ action: "brideEntry", payload: null }];
+
+    if (p.includes("groom"))
+      return [{ action: "groomEntry", payload: null }];
+
+    if (p.includes("haldi"))
+      return [{ action: "haldi", payload: null }];
+
+    if (p.includes("mehndi"))
+      return [{ action: "mehndi", payload: null }];
+
+    if (p.includes("sangeet"))
+      return [{ action: "sangeet", payload: null }];
+
+    if (p.includes("baraat"))
+      return [{ action: "baraat", payload: null }];
+
+    if (p.includes("varmala"))
+      return [{ action: "varmala", payload: null }];
+
+    if (p.includes("phera"))
+      return [{ action: "pheras", payload: null }];
+
+    if (p.includes("reception"))
+      return [{ action: "reception", payload: null }];
+
     if (p.includes("wedding reel"))
       return [{ action: "weddingReel", payload: null }];
 
@@ -23,30 +50,6 @@ export default class TaskPlanner {
 
     if (p.includes("beat"))
       return [{ action: "beatSync", payload: null }];
-
-    if (p.includes("instagram"))
-      return [{ action: "instagramReel", payload: null }];
-
-    if (p.includes("export"))
-      return [{ action: "master4K", payload: null }];
-
-    if (p.includes("transition"))
-      return [{ action: "transition", payload: "Cross Dissolve" }];
-
-    if (p.includes("marker"))
-      return [{ action: "marker", payload: "RK Flow Marker" }];
-
-    if (p.includes("trim"))
-      return [{ action: "trim", payload: null }];
-
-    if (p.includes("gap"))
-      return [{ action: "deleteGap", payload: null }];
-
-    if (p.includes("ripple"))
-      return [{ action: "rippleDelete", payload: null }];
-
-    if (p.includes("save"))
-      return [{ action: "saveProject", payload: null }];
 
     return [{ action: "chat", payload: prompt }];
 
