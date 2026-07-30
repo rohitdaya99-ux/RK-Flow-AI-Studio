@@ -7,6 +7,7 @@ import EditActions from "../actions/EditActions";
 import WeddingActions from "../actions/WeddingActions";
 import AnalysisActions from "../actions/AnalysisActions";
 import MusicActions from "../actions/MusicActions";
+import WorkflowActions from "../actions/WorkflowActions";
 
 export default class ToolRegistry {
 
@@ -27,5 +28,7 @@ export default class ToolRegistry {
   analysis = new AnalysisActions();
 
   music = new MusicActions();
+
+  workflow = new WorkflowActions();
 
 }

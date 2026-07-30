@@ -13,24 +13,32 @@ export default class TaskExecutor {
 
       switch (task.action) {
 
-        case "analyzeMusic":
-          results.push(await this.tools.music.analyzeMusic());
+        case "weddingFilm":
+          results.push(await this.tools.workflow.autoWeddingFilm());
           break;
 
-        case "detectBeat":
-          results.push(await this.tools.music.detectBeat());
+        case "weddingHighlight":
+          results.push(await this.tools.workflow.autoWeddingHighlight());
           break;
 
-        case "detectDrops":
-          results.push(await this.tools.music.detectDrops());
+        case "instagramReel":
+          results.push(await this.tools.workflow.autoInstagramReel());
           break;
 
-        case "detectChorus":
-          results.push(await this.tools.music.detectChorus());
+        case "youtubeShort":
+          results.push(await this.tools.workflow.autoYoutubeShort());
           break;
 
-        case "autoBeatSync":
-          results.push(await this.tools.music.autoBeatSync());
+        case "babyShower":
+          results.push(await this.tools.workflow.autoBabyShower());
+          break;
+
+        case "preWedding":
+          results.push(await this.tools.workflow.autoPreWedding());
+          break;
+
+        case "saveTheDate":
+          results.push(await this.tools.workflow.autoSaveTheDate());
           break;
 
         default:
