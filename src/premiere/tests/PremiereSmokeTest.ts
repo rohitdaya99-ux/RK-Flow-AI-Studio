@@ -1,3 +1,6 @@
-import { TimelineAnalyzer } from "../analyzers/TimelineAnalyzer";
+import TimelineAnalyzer from "../analyzers/TimelineAnalyzer";
 
-console.log(new TimelineAnalyzer());
+(async () => {
+  const analyzer = new TimelineAnalyzer();
+  console.log(await analyzer.analyze());
+})();
