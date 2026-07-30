@@ -51,3 +51,8 @@ export { default as JobQueue } from "./jobs/JobQueue";
 export { default as EventBus } from "./eventsystem/EventBus";
 export { default as Pipeline } from "./pipeline/Pipeline";
 export { default as PremiereBootstrap } from "./bootstrap/PremiereBootstrap";
+export { default as PremiereSmokeTest } from "./testing/PremiereSmokeTest";
+export { default as Diagnostics } from "./diagnostics/Diagnostics";
+export { default as PermissionGuard } from "./security/PermissionGuard";
+export { default as PreferencesStore } from "./preferences/UserPreferences";
+export { PREMIERE_MODULE_VERSION } from "./version/Version";
