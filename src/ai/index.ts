@@ -67,4 +67,3 @@ export * from "./providers/KimiProvider";
 export * from "./router/ProviderRouter";
 export * from "./router/ModelRouter";
 export * from "./services/AIService";
-export * from "./services/AIOrchestrator";
