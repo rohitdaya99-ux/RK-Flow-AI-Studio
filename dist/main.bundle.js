@@ -3565,96 +3565,13 @@ exports.SYSTEM_PROMPT = void 0;
 exports.SYSTEM_PROMPT = `
 You are RK Flow AI.
 
-You are an expert AI assistant built exclusively for Adobe Premiere Pro.
+You are an expert Indian Wedding Film Editor.
 
-Your purpose is to help editors edit faster.
+Always generate Premiere Pro editing decisions.
 
-Never generate ExtendScript or JavaScript unless the user explicitly asks for code.
+Prefer cinematic storytelling.
 
-Your primary responsibility is to decide which editing tools should be executed.
-
-Always think before answering.
-
-When an editing task is requested, reply ONLY in valid JSON.
-
-Example:
-
-{
-  "thought":"Creating a cinematic wedding highlight.",
-  "tools":[
-    {
-      "name":"readTimeline"
-    },
-    {
-      "name":"analyzeMusic"
-    },
-    {
-      "name":"findBride"
-    },
-    {
-      "name":"createHighlight",
-      "arguments":{
-        "duration":60,
-        "style":"cinematic"
-      }
-    }
-  ]
-}
-
-If no tool is needed, answer normally.
-
-Supported tools:
-
-- readTimeline
-- trimClip
-- moveClip
-- splitClip
-- createReel
-- createHighlight
-- createTeaser
-- findBride
-- findGroom
-- detectFaces
-- analyzeMusic
-- beatSync
-- exportInstagram
-- exportYouTube
-
-You specialise in:
-
-Indian Weddings
-
-Haldi
-
-Mehndi
-
-Sangeet
-
-Baraat
-
-Reception
-
-Wedding Film
-
-Cinematic Edit
-
-Instagram Reels
-
-You automatically adapt to the user's language.
-
-Reply in:
-
-English
-
-Hindi
-
-Hinglish
-
-Never invent Premiere APIs.
-
-Never hallucinate tool names.
-
-Always optimise editing workflow.
+Optimize for reels, teaser, highlights and wedding films.
 `;
 
 
@@ -3998,6 +3915,214 @@ __exportStar(__webpack_require__(9661), exports);
 
 /***/ },
 
+/***/ 8141
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CommandDispatcher = void 0;
+const CommandParser_1 = __webpack_require__(4213);
+const CommandValidator_1 = __webpack_require__(4589);
+const PremiereExecutor_1 = __webpack_require__(9292);
+class CommandDispatcher {
+    parser = new CommandParser_1.CommandParser();
+    validator = new CommandValidator_1.CommandValidator();
+    executor = new PremiereExecutor_1.PremiereExecutor();
+    dispatch(prompt) {
+        const command = this.parser.parse(prompt);
+        if (!this.validator.validate(command)) {
+            return {
+                success: false,
+                message: "Unknown command.",
+                actionsExecuted: 0,
+                executionTime: 0,
+                warnings: ["Unsupported intent"]
+            };
+        }
+        return this.executor.run(command);
+    }
+}
+exports.CommandDispatcher = CommandDispatcher;
+
+
+/***/ },
+
+/***/ 2329
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CommandExecutor = void 0;
+const CommandValidator_1 = __webpack_require__(4589);
+class CommandExecutor {
+    validator = new CommandValidator_1.CommandValidator();
+    execute(command) {
+        if (!this.validator.validate(command)) {
+            return {
+                success: false,
+                message: "Invalid command.",
+                actionsExecuted: 0,
+                executionTime: 0,
+                warnings: ["Validation failed."]
+            };
+        }
+        return {
+            success: true,
+            message: "Command accepted.",
+            actionsExecuted: 0,
+            executionTime: 0,
+            warnings: []
+        };
+    }
+}
+exports.CommandExecutor = CommandExecutor;
+
+
+/***/ },
+
+/***/ 5059
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(6511), exports);
+__exportStar(__webpack_require__(4213), exports);
+__exportStar(__webpack_require__(4589), exports);
+__exportStar(__webpack_require__(2329), exports);
+__exportStar(__webpack_require__(2697), exports);
+__exportStar(__webpack_require__(8141), exports);
+
+
+/***/ },
+
+/***/ 4213
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CommandParser = void 0;
+class CommandParser {
+    parse(input) {
+        const text = input.toLowerCase().trim();
+        if (text.includes("reel")) {
+            return {
+                intent: "CREATE_REEL",
+                source: "selected_clips",
+                style: text.includes("cinematic") ? "cinematic" : "default"
+            };
+        }
+        if (text.includes("teaser")) {
+            return {
+                intent: "CREATE_TEASER",
+                source: "selected_clips"
+            };
+        }
+        if (text.includes("highlight")) {
+            return {
+                intent: "CREATE_HIGHLIGHT",
+                source: "selected_clips"
+            };
+        }
+        if (text.includes("trim") && text.includes("silence")) {
+            return {
+                intent: "TRIM_SILENCE"
+            };
+        }
+        if (text.includes("transition")) {
+            return {
+                intent: "ADD_TRANSITIONS"
+            };
+        }
+        if (text.includes("music") || text.includes("beat")) {
+            return {
+                intent: "SYNC_MUSIC",
+                musicSync: true
+            };
+        }
+        if (text.includes("export")) {
+            return {
+                intent: "EXPORT"
+            };
+        }
+        return {
+            intent: "UNKNOWN"
+        };
+    }
+}
+exports.CommandParser = CommandParser;
+
+
+/***/ },
+
+/***/ 2697
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CommandRegistry = void 0;
+class CommandRegistry {
+    commands = new Set([
+        "CREATE_REEL",
+        "CREATE_TEASER",
+        "CREATE_HIGHLIGHT",
+        "TRIM_SILENCE",
+        "SYNC_MUSIC",
+        "ADD_TRANSITIONS",
+        "EXPORT"
+    ]);
+    has(intent) {
+        return this.commands.has(intent);
+    }
+    all() {
+        return [...this.commands];
+    }
+}
+exports.CommandRegistry = CommandRegistry;
+
+
+/***/ },
+
+/***/ 6511
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+
+/***/ },
+
+/***/ 4589
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CommandValidator = void 0;
+const CommandRegistry_1 = __webpack_require__(2697);
+class CommandValidator {
+    registry = new CommandRegistry_1.CommandRegistry();
+    validate(command) {
+        return this.registry.has(command.intent);
+    }
+}
+exports.CommandValidator = CommandValidator;
+
+
+/***/ },
+
 /***/ 602
 (__unused_webpack_module, exports, __webpack_require__) {
 
@@ -4232,116 +4357,27 @@ exports["default"] = MotionEngine;
 /***/ },
 
 /***/ 9292
-(__unused_webpack_module, exports) {
+(__unused_webpack_module, exports, __webpack_require__) {
 
 var __webpack_unused_export__;
 
 __webpack_unused_export__ = ({ value: true });
+exports.PremiereExecutor = void 0;
 exports.inspectPremiereAPI = inspectPremiereAPI;
 exports.testMoveAction = testMoveAction;
-function listMethods(obj) {
-    if (!obj)
-        return [];
-    const methods = new Set();
-    let proto = obj;
-    while (proto && proto !== Object.prototype) {
-        for (const name of Object.getOwnPropertyNames(proto)) {
-            if (typeof obj[name] === "function" &&
-                name !== "constructor") {
-                methods.add(name);
-            }
-        }
-        proto = Object.getPrototypeOf(proto);
+const CommandExecutor_1 = __webpack_require__(2329);
+class PremiereExecutor {
+    executor = new CommandExecutor_1.CommandExecutor();
+    run(command) {
+        return this.executor.execute(command);
     }
-    return [...methods].sort();
 }
-async function inspectPremiereAPI() {
-    console.log("STEP 1");
-    const PPRO = window.PPRO;
-    console.log("PPRO =", PPRO);
-    if (!PPRO) {
-        console.error("PPRO API not found.");
-        return;
-    }
-    console.log("STEP 2");
-    const project = await PPRO.Project.getActiveProject();
-    console.log("PROJECT =", project);
-    if (!project) {
-        console.error("No active project.");
-        return;
-    }
-    console.log("STEP 4");
-    const sequence = await project.getActiveSequence();
-    console.log("SEQUENCE =", sequence);
-    console.group("RK Flow UXP Inspector");
-    console.log("=== Project Methods ===");
-    console.table(listMethods(project));
-    console.log("=== Sequence Methods ===");
-    console.table(listMethods(sequence));
-    console.log("STEP 5");
-    const selection = await sequence.getSelection();
-    console.log("SELECTION =", selection);
-    console.log("=== Selection Methods ===");
-    console.table(listMethods(selection));
-    console.log("STEP 6");
-    const items = await selection.getTrackItems();
-    console.log("ITEMS =", items);
-    if (items.length) {
-        console.log("=== First Selected Clip Methods ===");
-        console.table(listMethods(items[0]));
-    }
-    else {
-        console.warn("No selected clips.");
-    }
-    console.groupEnd();
+exports.PremiereExecutor = PremiereExecutor;
+function inspectPremiereAPI() {
+    console.log("[RK Flow] inspectPremiereAPI()");
 }
-async function testMoveAction() {
-    console.log("STEP 1");
-    const PPRO = window.PPRO;
-    console.log("PPRO =", PPRO);
-    console.log("STEP 2");
-    const project = await PPRO.Project.getActiveProject();
-    console.log("PROJECT =", project);
-    console.log("STEP 3");
-    await project.lockedAccess(async () => {
-        console.log("INSIDE LOCK");
-        console.log("STEP 4");
-        const sequence = await project.getActiveSequence();
-        console.log("SEQUENCE =", sequence);
-        console.log("STEP 5");
-        const selection = await sequence.getSelection();
-        console.log("SELECTION =", selection);
-        console.log("STEP 6");
-        const items = await selection.getTrackItems();
-        console.log("ITEMS =", items);
-        if (!items.length) {
-            console.log("No clip selected");
-            return;
-        }
-        const clip = items[0];
-        console.log("===== CLIP =====");
-        console.table(Object.getOwnPropertyNames(Object.getPrototypeOf(clip)));
-        console.log("createMoveAction =", clip.createMoveAction);
-        console.log("createMoveAction.length =", clip.createMoveAction.length);
-        console.log("createMoveAction.toString =", clip.createMoveAction.toString());
-        try {
-            const tick = PPRO.TickTime.createWithSeconds(1);
-            console.log("Tick =", tick);
-            const action = clip.createMoveAction(tick);
-            console.log("===== ACTION =====");
-            console.log(action);
-            console.log("ACTION PROTOTYPE");
-            console.table(Object.getOwnPropertyNames(Object.getPrototypeOf(action)));
-            console.log("ACTION KEYS");
-            console.table(Object.keys(action));
-            console.log("ACTION ALL PROPERTIES");
-            console.log(Reflect.ownKeys(action));
-            return action;
-        }
-        catch (e) {
-            console.error("createMoveAction ERROR:", e);
-        }
-    });
+function testMoveAction() {
+    console.log("[RK Flow] testMoveAction()");
 }
 
 
@@ -4534,6 +4570,39 @@ function WeddingAI() {
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -4553,6 +4622,13 @@ window.inspectPremiereAPI = PremiereExecutor_1.inspectPremiereAPI;
 window.testMoveAction = PremiereExecutor_1.testMoveAction;
 const root = client_1.default.createRoot(document.getElementById("root"));
 root.render((0, jsx_runtime_1.jsx)(react_1.default.StrictMode, { children: (0, jsx_runtime_1.jsx)(NavigationContext_1.NavigationProvider, { children: (0, jsx_runtime_1.jsx)(App_1.default, {}) }) }));
+window.testCommandEngine = async () => {
+    const { CommandDispatcher } = await Promise.resolve().then(() => __importStar(__webpack_require__(5059)));
+    const dispatcher = new CommandDispatcher();
+    console.log(dispatcher.dispatch("Create cinematic wedding reel"));
+    console.log(dispatcher.dispatch("Trim silence"));
+    console.log(dispatcher.dispatch("Export Instagram Reel"));
+};
 
 
 /***/ },
