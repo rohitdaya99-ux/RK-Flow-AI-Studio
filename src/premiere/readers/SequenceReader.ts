@@ -1,12 +1,18 @@
-import { SequenceInfo } from "../types/PremiereTypes";
+import { premiereAPI } from "../../services/PremiereAPI";
 
-export class SequenceReader {
-  async read(): Promise<SequenceInfo> {
+export default class SequenceReader {
+  async read() {
+    const ctx = await premiereAPI.getTimelineContext();
+
+    if (!ctx)
+      return null;
+
     return {
-      id: "",
-      name: "",
-      fps: 25,
-      duration: 0
+      name: ctx.sequenceName,
+      videoTracks: ctx.videoTracks,
+      audioTracks: ctx.audioTracks,
+      frameSize: ctx.frameSize,
+      timebase: ctx.timebase
     };
   }
 }
