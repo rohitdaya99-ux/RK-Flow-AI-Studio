@@ -3,3 +3,4 @@ export * from "./parser/CommandParser";
 export * from "./validator/CommandValidator";
 export * from "./executor/CommandExecutor";
 export * from "./registry/CommandRegistry";
+export * from "./dispatcher/CommandDispatcher";
