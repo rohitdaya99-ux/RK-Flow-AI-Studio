@@ -13,32 +13,36 @@ export default class TaskExecutor {
 
       switch (task.action) {
 
-        case "weddingFilm":
-          results.push(await this.tools.workflow.autoWeddingFilm());
+        case "autoClipSelection":
+          results.push(await this.tools.ai.autoClipSelection());
           break;
 
-        case "weddingHighlight":
-          results.push(await this.tools.workflow.autoWeddingHighlight());
+        case "autoFaceGrouping":
+          results.push(await this.tools.ai.autoFaceGrouping());
           break;
 
-        case "instagramReel":
-          results.push(await this.tools.workflow.autoInstagramReel());
+        case "autoSceneDetection":
+          results.push(await this.tools.ai.autoSceneDetection());
           break;
 
-        case "youtubeShort":
-          results.push(await this.tools.workflow.autoYoutubeShort());
+        case "autoColorMatch":
+          results.push(await this.tools.ai.autoColorMatch());
           break;
 
-        case "babyShower":
-          results.push(await this.tools.workflow.autoBabyShower());
+        case "autoAudioCleanup":
+          results.push(await this.tools.ai.autoAudioCleanup());
           break;
 
-        case "preWedding":
-          results.push(await this.tools.workflow.autoPreWedding());
+        case "autoCaption":
+          results.push(await this.tools.ai.autoCaption());
           break;
 
-        case "saveTheDate":
-          results.push(await this.tools.workflow.autoSaveTheDate());
+        case "autoBrollSuggestion":
+          results.push(await this.tools.ai.autoBrollSuggestion());
+          break;
+
+        case "autoStoryBuilder":
+          results.push(await this.tools.ai.autoStoryBuilder());
           break;
 
         default:

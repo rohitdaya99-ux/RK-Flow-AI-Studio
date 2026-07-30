@@ -9,26 +9,29 @@ export default class TaskPlanner {
 
     const p = prompt.toLowerCase();
 
-    if (/(wedding film)/.test(p))
-      return [{ action: "weddingFilm", payload: null }];
+    if (/(best clip|best shot|clip selection)/.test(p))
+      return [{ action: "autoClipSelection", payload: null }];
 
-    if (/(wedding highlight|highlight film)/.test(p))
-      return [{ action: "weddingHighlight", payload: null }];
+    if (/(face group|group faces)/.test(p))
+      return [{ action: "autoFaceGrouping", payload: null }];
 
-    if (/(instagram reel)/.test(p))
-      return [{ action: "instagramReel", payload: null }];
+    if (/(scene detect|scene detection)/.test(p))
+      return [{ action: "autoSceneDetection", payload: null }];
 
-    if (/(youtube short|yt short)/.test(p))
-      return [{ action: "youtubeShort", payload: null }];
+    if (/(color match)/.test(p))
+      return [{ action: "autoColorMatch", payload: null }];
 
-    if (/(baby shower)/.test(p))
-      return [{ action: "babyShower", payload: null }];
+    if (/(audio cleanup|noise)/.test(p))
+      return [{ action: "autoAudioCleanup", payload: null }];
 
-    if (/(pre wedding)/.test(p))
-      return [{ action: "preWedding", payload: null }];
+    if (/(caption|subtitle)/.test(p))
+      return [{ action: "autoCaption", payload: null }];
 
-    if (/(save the date)/.test(p))
-      return [{ action: "saveTheDate", payload: null }];
+    if (/(broll|b-roll)/.test(p))
+      return [{ action: "autoBrollSuggestion", payload: null }];
+
+    if (/(story|storyline)/.test(p))
+      return [{ action: "autoStoryBuilder", payload: null }];
 
     return [{ action: "chat", payload: prompt }];
 
