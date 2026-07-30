@@ -1,19 +1,28 @@
 import { CommandDispatcher } from "../../commands/dispatcher/CommandDispatcher";
 import { ExecutionPlan } from "./ExecutionPlan";
 
-export class PlanExecutor {
+export class PlanExecutor{
 
-  private dispatcher = new CommandDispatcher();
+  private dispatcher=new CommandDispatcher();
 
-  async execute(plan: ExecutionPlan) {
+  async execute(plan:ExecutionPlan){
 
-    const results = [];
+    const results=[];
 
-    for (const step of plan.steps) {
-      results.push(await this.dispatcher.dispatch(step.command));
+    for(const step of plan.steps){
+
+      results.push({
+        command:step.command,
+        result:await this.dispatcher.dispatch(step.command)
+      });
+
     }
 
-    return results;
+    return{
+      goal:plan.goal,
+      completed:results.length,
+      results
+    };
 
   }
 

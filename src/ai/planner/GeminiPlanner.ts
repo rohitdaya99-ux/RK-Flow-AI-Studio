@@ -1,40 +1,49 @@
+import { executeRKAIFeature } from "../../services/geminiService";
 import { ExecutionPlan } from "../plans/ExecutionPlan";
 
 export default class GeminiPlanner {
 
   async create(prompt:string):Promise<ExecutionPlan>{
 
-    const text = prompt.toLowerCase();
+    try{
 
-    const steps:any[] = [];
+      const response = await executeRKAIFeature(`
+You are RK Flow AI Planner.
 
-    steps.push({ command:"read project" });
-    steps.push({ command:"read timeline" });
+Convert the following user request into a JSON execution plan.
 
-    if(text.includes("selection") || text.includes("selected")){
-      steps.push({ command:"read selection" });
+Return ONLY valid JSON.
+
+Schema:
+
+{
+  "goal":"string",
+  "steps":[
+    {
+      "command":"string"
     }
+  ]
+}
 
-    if(text.includes("trim")){
-      steps.push({ command:"trim selected clips" });
+User Request:
+${prompt}
+`);
+
+      const text = response.replace(/```json|```/g,"").trim();
+
+      return JSON.parse(text);
+
+    }catch{
+
+      return {
+        goal:prompt,
+        steps:[
+          {command:"read project"},
+          {command:"read timeline"}
+        ]
+      };
+
     }
-
-    if(text.includes("transition")){
-      steps.push({ command:"add transitions" });
-    }
-
-    if(text.includes("music") || text.includes("beat")){
-      steps.push({ command:"sync music" });
-    }
-
-    if(text.includes("export")){
-      steps.push({ command:"export" });
-    }
-
-    return {
-      goal:prompt,
-      steps
-    };
 
   }
 

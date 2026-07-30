@@ -2,10 +2,12 @@ import Agent from "../planner/Agent";
 
 (async()=>{
 
-  const agent = new Agent();
+  const agent=new Agent();
 
-  await agent.run(
-    "Create cinematic wedding reel with trim transitions music export"
+  console.log(
+    await agent.run(
+      "Create a 30 second cinematic Indian wedding reel with beat sync smooth transitions and export for Instagram"
+    )
   );
 
 })();
