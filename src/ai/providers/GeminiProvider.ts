@@ -2,6 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { BaseProvider } from "./BaseProvider";
 import { ChatRequest, ChatResponse } from "../models/ChatTypes";
 import { GEMINI_CONFIG } from "../config/GeminiConfig";
+import { retry } from "../utils/retry";
 
 export class GeminiProvider extends BaseProvider {
   readonly id = "gemini";
@@ -13,7 +14,7 @@ export class GeminiProvider extends BaseProvider {
     const key = apiKey || GEMINI_CONFIG.API_KEY;
 
     if (!key) {
-      throw new Error("Gemini API Key not found.");
+      throw new Error("Gemini API key missing.");
     }
 
     this.client = new GoogleGenerativeAI(key);
@@ -24,22 +25,24 @@ export class GeminiProvider extends BaseProvider {
       await this.initialize("");
     }
 
-    const model = this.client!.getGenerativeModel({
-      model: GEMINI_CONFIG.MODEL
+    return retry(async () => {
+      const model = this.client!.getGenerativeModel({
+        model: GEMINI_CONFIG.MODEL
+      });
+
+      const result = await model.generateContent(request.prompt);
+      const response = await result.response;
+
+      return {
+        text: response.text(),
+        provider: this.id,
+        usage: {
+          promptTokens: 0,
+          completionTokens: 0,
+          totalTokens: 0
+        }
+      };
     });
-
-    const result = await model.generateContent(request.prompt);
-    const response = await result.response;
-
-    return {
-      text: response.text(),
-      provider: this.id,
-      usage: {
-        promptTokens: 0,
-        completionTokens: 0,
-        totalTokens: 0
-      }
-    };
   }
 }
 

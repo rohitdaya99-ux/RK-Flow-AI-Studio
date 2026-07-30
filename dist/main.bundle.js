@@ -3644,6 +3644,7 @@ exports.GeminiProvider = void 0;
 const generative_ai_1 = __webpack_require__(6445);
 const BaseProvider_1 = __webpack_require__(8224);
 const GeminiConfig_1 = __webpack_require__(3181);
+const retry_1 = __webpack_require__(6539);
 class GeminiProvider extends BaseProvider_1.BaseProvider {
     id = "gemini";
     name = "Gemini";
@@ -3651,7 +3652,7 @@ class GeminiProvider extends BaseProvider_1.BaseProvider {
     async initialize(apiKey) {
         const key = apiKey || GeminiConfig_1.GEMINI_CONFIG.API_KEY;
         if (!key) {
-            throw new Error("Gemini API Key not found.");
+            throw new Error("Gemini API key missing.");
         }
         this.client = new generative_ai_1.GoogleGenerativeAI(key);
     }
@@ -3659,20 +3660,22 @@ class GeminiProvider extends BaseProvider_1.BaseProvider {
         if (!this.client) {
             await this.initialize("");
         }
-        const model = this.client.getGenerativeModel({
-            model: GeminiConfig_1.GEMINI_CONFIG.MODEL
+        return (0, retry_1.retry)(async () => {
+            const model = this.client.getGenerativeModel({
+                model: GeminiConfig_1.GEMINI_CONFIG.MODEL
+            });
+            const result = await model.generateContent(request.prompt);
+            const response = await result.response;
+            return {
+                text: response.text(),
+                provider: this.id,
+                usage: {
+                    promptTokens: 0,
+                    completionTokens: 0,
+                    totalTokens: 0
+                }
+            };
         });
-        const result = await model.generateContent(request.prompt);
-        const response = await result.response;
-        return {
-            text: response.text(),
-            provider: this.id,
-            usage: {
-                promptTokens: 0,
-                completionTokens: 0,
-                totalTokens: 0
-            }
-        };
     }
 }
 exports.GeminiProvider = GeminiProvider;
@@ -3926,6 +3929,36 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__webpack_require__(3054), exports);
 __exportStar(__webpack_require__(9661), exports);
+
+
+/***/ },
+
+/***/ 6539
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.retry = retry;
+async function retry(fn, retries = 5, delay = 1000) {
+    let lastError;
+    for (let i = 0; i < retries; i++) {
+        try {
+            return await fn();
+        }
+        catch (error) {
+            lastError = error;
+            const message = String(error?.message || "");
+            if (!message.includes("503") &&
+                !message.includes("429") &&
+                !message.toLowerCase().includes("unavailable")) {
+                throw error;
+            }
+            await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
+        }
+    }
+    throw lastError;
+}
 
 
 /***/ },
