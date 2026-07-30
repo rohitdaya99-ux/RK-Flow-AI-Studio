@@ -1,4 +1,4 @@
-import { executeRKAIFeature } from "../../services/geminiService";
+import { chatWithGemini } from "../../services/geminiService";
 import { ExecutionPlan } from "../plans/ExecutionPlan";
 
 export default class GeminiPlanner {
@@ -7,12 +7,11 @@ export default class GeminiPlanner {
 
     try{
 
-      const response = await executeRKAIFeature(`
+      const response = await chatWithGemini({
+        prompt:`
 You are RK Flow AI Planner.
 
-Convert the following user request into a JSON execution plan.
-
-Return ONLY valid JSON.
+Convert the user's request into ONLY valid JSON.
 
 Schema:
 
@@ -27,15 +26,23 @@ Schema:
 
 User Request:
 ${prompt}
-`);
+`
+      });
 
-      const text = response.replace(/```json|```/g,"").trim();
+      if(!response.success){
+        throw new Error(response.error ?? "Gemini failed");
+      }
 
-      return JSON.parse(text);
+      const cleaned = response.text
+        .replace(/```json/g,"")
+        .replace(/```/g,"")
+        .trim();
+
+      return JSON.parse(cleaned);
 
     }catch{
 
-      return {
+      return{
         goal:prompt,
         steps:[
           {command:"read project"},
