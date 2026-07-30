@@ -2,6 +2,1544 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 6445
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+
+/**
+ * Contains the list of OpenAPI data types
+ * as defined by https://swagger.io/docs/specification/data-models/data-types/
+ * @public
+ */
+exports._L = void 0;
+(function (SchemaType) {
+    /** String type. */
+    SchemaType["STRING"] = "string";
+    /** Number type. */
+    SchemaType["NUMBER"] = "number";
+    /** Integer type. */
+    SchemaType["INTEGER"] = "integer";
+    /** Boolean type. */
+    SchemaType["BOOLEAN"] = "boolean";
+    /** Array type. */
+    SchemaType["ARRAY"] = "array";
+    /** Object type. */
+    SchemaType["OBJECT"] = "object";
+})(exports._L || (exports._L = {}));
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * @public
+ */
+exports.Kf = void 0;
+(function (ExecutableCodeLanguage) {
+    ExecutableCodeLanguage["LANGUAGE_UNSPECIFIED"] = "language_unspecified";
+    ExecutableCodeLanguage["PYTHON"] = "python";
+})(exports.Kf || (exports.Kf = {}));
+/**
+ * Possible outcomes of code execution.
+ * @public
+ */
+exports.Pi = void 0;
+(function (Outcome) {
+    /**
+     * Unspecified status. This value should not be used.
+     */
+    Outcome["OUTCOME_UNSPECIFIED"] = "outcome_unspecified";
+    /**
+     * Code execution completed successfully.
+     */
+    Outcome["OUTCOME_OK"] = "outcome_ok";
+    /**
+     * Code execution finished but with a failure. `stderr` should contain the
+     * reason.
+     */
+    Outcome["OUTCOME_FAILED"] = "outcome_failed";
+    /**
+     * Code execution ran for too long, and was cancelled. There may or may not
+     * be a partial output present.
+     */
+    Outcome["OUTCOME_DEADLINE_EXCEEDED"] = "outcome_deadline_exceeded";
+})(exports.Pi || (exports.Pi = {}));
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Possible roles.
+ * @public
+ */
+const POSSIBLE_ROLES = ["user", "model", "function", "system"];
+/**
+ * Harm categories that would cause prompts or candidates to be blocked.
+ * @public
+ */
+exports.DE = void 0;
+(function (HarmCategory) {
+    HarmCategory["HARM_CATEGORY_UNSPECIFIED"] = "HARM_CATEGORY_UNSPECIFIED";
+    HarmCategory["HARM_CATEGORY_HATE_SPEECH"] = "HARM_CATEGORY_HATE_SPEECH";
+    HarmCategory["HARM_CATEGORY_SEXUALLY_EXPLICIT"] = "HARM_CATEGORY_SEXUALLY_EXPLICIT";
+    HarmCategory["HARM_CATEGORY_HARASSMENT"] = "HARM_CATEGORY_HARASSMENT";
+    HarmCategory["HARM_CATEGORY_DANGEROUS_CONTENT"] = "HARM_CATEGORY_DANGEROUS_CONTENT";
+    HarmCategory["HARM_CATEGORY_CIVIC_INTEGRITY"] = "HARM_CATEGORY_CIVIC_INTEGRITY";
+})(exports.DE || (exports.DE = {}));
+/**
+ * Threshold above which a prompt or candidate will be blocked.
+ * @public
+ */
+exports.vk = void 0;
+(function (HarmBlockThreshold) {
+    /** Threshold is unspecified. */
+    HarmBlockThreshold["HARM_BLOCK_THRESHOLD_UNSPECIFIED"] = "HARM_BLOCK_THRESHOLD_UNSPECIFIED";
+    /** Content with NEGLIGIBLE will be allowed. */
+    HarmBlockThreshold["BLOCK_LOW_AND_ABOVE"] = "BLOCK_LOW_AND_ABOVE";
+    /** Content with NEGLIGIBLE and LOW will be allowed. */
+    HarmBlockThreshold["BLOCK_MEDIUM_AND_ABOVE"] = "BLOCK_MEDIUM_AND_ABOVE";
+    /** Content with NEGLIGIBLE, LOW, and MEDIUM will be allowed. */
+    HarmBlockThreshold["BLOCK_ONLY_HIGH"] = "BLOCK_ONLY_HIGH";
+    /** All content will be allowed. */
+    HarmBlockThreshold["BLOCK_NONE"] = "BLOCK_NONE";
+})(exports.vk || (exports.vk = {}));
+/**
+ * Probability that a prompt or candidate matches a harm category.
+ * @public
+ */
+exports.uR = void 0;
+(function (HarmProbability) {
+    /** Probability is unspecified. */
+    HarmProbability["HARM_PROBABILITY_UNSPECIFIED"] = "HARM_PROBABILITY_UNSPECIFIED";
+    /** Content has a negligible chance of being unsafe. */
+    HarmProbability["NEGLIGIBLE"] = "NEGLIGIBLE";
+    /** Content has a low chance of being unsafe. */
+    HarmProbability["LOW"] = "LOW";
+    /** Content has a medium chance of being unsafe. */
+    HarmProbability["MEDIUM"] = "MEDIUM";
+    /** Content has a high chance of being unsafe. */
+    HarmProbability["HIGH"] = "HIGH";
+})(exports.uR || (exports.uR = {}));
+/**
+ * Reason that a prompt was blocked.
+ * @public
+ */
+exports.Cr = void 0;
+(function (BlockReason) {
+    // A blocked reason was not specified.
+    BlockReason["BLOCKED_REASON_UNSPECIFIED"] = "BLOCKED_REASON_UNSPECIFIED";
+    // Content was blocked by safety settings.
+    BlockReason["SAFETY"] = "SAFETY";
+    // Content was blocked, but the reason is uncategorized.
+    BlockReason["OTHER"] = "OTHER";
+})(exports.Cr || (exports.Cr = {}));
+/**
+ * Reason that a candidate finished.
+ * @public
+ */
+exports.eD = void 0;
+(function (FinishReason) {
+    // Default value. This value is unused.
+    FinishReason["FINISH_REASON_UNSPECIFIED"] = "FINISH_REASON_UNSPECIFIED";
+    // Natural stop point of the model or provided stop sequence.
+    FinishReason["STOP"] = "STOP";
+    // The maximum number of tokens as specified in the request was reached.
+    FinishReason["MAX_TOKENS"] = "MAX_TOKENS";
+    // The candidate content was flagged for safety reasons.
+    FinishReason["SAFETY"] = "SAFETY";
+    // The candidate content was flagged for recitation reasons.
+    FinishReason["RECITATION"] = "RECITATION";
+    // The candidate content was flagged for using an unsupported language.
+    FinishReason["LANGUAGE"] = "LANGUAGE";
+    // Token generation stopped because the content contains forbidden terms.
+    FinishReason["BLOCKLIST"] = "BLOCKLIST";
+    // Token generation stopped for potentially containing prohibited content.
+    FinishReason["PROHIBITED_CONTENT"] = "PROHIBITED_CONTENT";
+    // Token generation stopped because the content potentially contains Sensitive Personally Identifiable Information (SPII).
+    FinishReason["SPII"] = "SPII";
+    // The function call generated by the model is invalid.
+    FinishReason["MALFORMED_FUNCTION_CALL"] = "MALFORMED_FUNCTION_CALL";
+    // Unknown reason.
+    FinishReason["OTHER"] = "OTHER";
+})(exports.eD || (exports.eD = {}));
+/**
+ * Task type for embedding content.
+ * @public
+ */
+exports.wP = void 0;
+(function (TaskType) {
+    TaskType["TASK_TYPE_UNSPECIFIED"] = "TASK_TYPE_UNSPECIFIED";
+    TaskType["RETRIEVAL_QUERY"] = "RETRIEVAL_QUERY";
+    TaskType["RETRIEVAL_DOCUMENT"] = "RETRIEVAL_DOCUMENT";
+    TaskType["SEMANTIC_SIMILARITY"] = "SEMANTIC_SIMILARITY";
+    TaskType["CLASSIFICATION"] = "CLASSIFICATION";
+    TaskType["CLUSTERING"] = "CLUSTERING";
+})(exports.wP || (exports.wP = {}));
+/**
+ * @public
+ */
+exports.m0 = void 0;
+(function (FunctionCallingMode) {
+    // Unspecified function calling mode. This value should not be used.
+    FunctionCallingMode["MODE_UNSPECIFIED"] = "MODE_UNSPECIFIED";
+    // Default model behavior, model decides to predict either a function call
+    // or a natural language repspose.
+    FunctionCallingMode["AUTO"] = "AUTO";
+    // Model is constrained to always predicting a function call only.
+    // If "allowed_function_names" are set, the predicted function call will be
+    // limited to any one of "allowed_function_names", else the predicted
+    // function call will be any one of the provided "function_declarations".
+    FunctionCallingMode["ANY"] = "ANY";
+    // Model will not predict any function call. Model behavior is same as when
+    // not passing any function declarations.
+    FunctionCallingMode["NONE"] = "NONE";
+})(exports.m0 || (exports.m0 = {}));
+/**
+ * The mode of the predictor to be used in dynamic retrieval.
+ * @public
+ */
+exports.bh = void 0;
+(function (DynamicRetrievalMode) {
+    // Unspecified function calling mode. This value should not be used.
+    DynamicRetrievalMode["MODE_UNSPECIFIED"] = "MODE_UNSPECIFIED";
+    // Run retrieval only when system decides it is necessary.
+    DynamicRetrievalMode["MODE_DYNAMIC"] = "MODE_DYNAMIC";
+})(exports.bh || (exports.bh = {}));
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Basic error type for this SDK.
+ * @public
+ */
+class GoogleGenerativeAIError extends Error {
+    constructor(message) {
+        super(`[GoogleGenerativeAI Error]: ${message}`);
+    }
+}
+/**
+ * Errors in the contents of a response from the model. This includes parsing
+ * errors, or responses including a safety block reason.
+ * @public
+ */
+class GoogleGenerativeAIResponseError extends GoogleGenerativeAIError {
+    constructor(message, response) {
+        super(message);
+        this.response = response;
+    }
+}
+/**
+ * Error class covering HTTP errors when calling the server. Includes HTTP
+ * status, statusText, and optional details, if provided in the server response.
+ * @public
+ */
+class GoogleGenerativeAIFetchError extends GoogleGenerativeAIError {
+    constructor(message, status, statusText, errorDetails) {
+        super(message);
+        this.status = status;
+        this.statusText = statusText;
+        this.errorDetails = errorDetails;
+    }
+}
+/**
+ * Errors in the contents of a request originating from user input.
+ * @public
+ */
+class GoogleGenerativeAIRequestInputError extends GoogleGenerativeAIError {
+}
+/**
+ * Error thrown when a request is aborted, either due to a timeout or
+ * intentional cancellation by the user.
+ * @public
+ */
+class GoogleGenerativeAIAbortError extends GoogleGenerativeAIError {
+}
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const DEFAULT_BASE_URL = "https://generativelanguage.googleapis.com";
+const DEFAULT_API_VERSION = "v1beta";
+/**
+ * We can't `require` package.json if this runs on web. We will use rollup to
+ * swap in the version number here at build time.
+ */
+const PACKAGE_VERSION = "0.24.1";
+const PACKAGE_LOG_HEADER = "genai-js";
+var Task;
+(function (Task) {
+    Task["GENERATE_CONTENT"] = "generateContent";
+    Task["STREAM_GENERATE_CONTENT"] = "streamGenerateContent";
+    Task["COUNT_TOKENS"] = "countTokens";
+    Task["EMBED_CONTENT"] = "embedContent";
+    Task["BATCH_EMBED_CONTENTS"] = "batchEmbedContents";
+})(Task || (Task = {}));
+class RequestUrl {
+    constructor(model, task, apiKey, stream, requestOptions) {
+        this.model = model;
+        this.task = task;
+        this.apiKey = apiKey;
+        this.stream = stream;
+        this.requestOptions = requestOptions;
+    }
+    toString() {
+        var _a, _b;
+        const apiVersion = ((_a = this.requestOptions) === null || _a === void 0 ? void 0 : _a.apiVersion) || DEFAULT_API_VERSION;
+        const baseUrl = ((_b = this.requestOptions) === null || _b === void 0 ? void 0 : _b.baseUrl) || DEFAULT_BASE_URL;
+        let url = `${baseUrl}/${apiVersion}/${this.model}:${this.task}`;
+        if (this.stream) {
+            url += "?alt=sse";
+        }
+        return url;
+    }
+}
+/**
+ * Simple, but may become more complex if we add more versions to log.
+ */
+function getClientHeaders(requestOptions) {
+    const clientHeaders = [];
+    if (requestOptions === null || requestOptions === void 0 ? void 0 : requestOptions.apiClient) {
+        clientHeaders.push(requestOptions.apiClient);
+    }
+    clientHeaders.push(`${PACKAGE_LOG_HEADER}/${PACKAGE_VERSION}`);
+    return clientHeaders.join(" ");
+}
+async function getHeaders(url) {
+    var _a;
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("x-goog-api-client", getClientHeaders(url.requestOptions));
+    headers.append("x-goog-api-key", url.apiKey);
+    let customHeaders = (_a = url.requestOptions) === null || _a === void 0 ? void 0 : _a.customHeaders;
+    if (customHeaders) {
+        if (!(customHeaders instanceof Headers)) {
+            try {
+                customHeaders = new Headers(customHeaders);
+            }
+            catch (e) {
+                throw new GoogleGenerativeAIRequestInputError(`unable to convert customHeaders value ${JSON.stringify(customHeaders)} to Headers: ${e.message}`);
+            }
+        }
+        for (const [headerName, headerValue] of customHeaders.entries()) {
+            if (headerName === "x-goog-api-key") {
+                throw new GoogleGenerativeAIRequestInputError(`Cannot set reserved header name ${headerName}`);
+            }
+            else if (headerName === "x-goog-api-client") {
+                throw new GoogleGenerativeAIRequestInputError(`Header name ${headerName} can only be set using the apiClient field`);
+            }
+            headers.append(headerName, headerValue);
+        }
+    }
+    return headers;
+}
+async function constructModelRequest(model, task, apiKey, stream, body, requestOptions) {
+    const url = new RequestUrl(model, task, apiKey, stream, requestOptions);
+    return {
+        url: url.toString(),
+        fetchOptions: Object.assign(Object.assign({}, buildFetchOptions(requestOptions)), { method: "POST", headers: await getHeaders(url), body }),
+    };
+}
+async function makeModelRequest(model, task, apiKey, stream, body, requestOptions = {}, 
+// Allows this to be stubbed for tests
+fetchFn = fetch) {
+    const { url, fetchOptions } = await constructModelRequest(model, task, apiKey, stream, body, requestOptions);
+    return makeRequest(url, fetchOptions, fetchFn);
+}
+async function makeRequest(url, fetchOptions, fetchFn = fetch) {
+    let response;
+    try {
+        response = await fetchFn(url, fetchOptions);
+    }
+    catch (e) {
+        handleResponseError(e, url);
+    }
+    if (!response.ok) {
+        await handleResponseNotOk(response, url);
+    }
+    return response;
+}
+function handleResponseError(e, url) {
+    let err = e;
+    if (err.name === "AbortError") {
+        err = new GoogleGenerativeAIAbortError(`Request aborted when fetching ${url.toString()}: ${e.message}`);
+        err.stack = e.stack;
+    }
+    else if (!(e instanceof GoogleGenerativeAIFetchError ||
+        e instanceof GoogleGenerativeAIRequestInputError)) {
+        err = new GoogleGenerativeAIError(`Error fetching from ${url.toString()}: ${e.message}`);
+        err.stack = e.stack;
+    }
+    throw err;
+}
+async function handleResponseNotOk(response, url) {
+    let message = "";
+    let errorDetails;
+    try {
+        const json = await response.json();
+        message = json.error.message;
+        if (json.error.details) {
+            message += ` ${JSON.stringify(json.error.details)}`;
+            errorDetails = json.error.details;
+        }
+    }
+    catch (e) {
+        // ignored
+    }
+    throw new GoogleGenerativeAIFetchError(`Error fetching from ${url.toString()}: [${response.status} ${response.statusText}] ${message}`, response.status, response.statusText, errorDetails);
+}
+/**
+ * Generates the request options to be passed to the fetch API.
+ * @param requestOptions - The user-defined request options.
+ * @returns The generated request options.
+ */
+function buildFetchOptions(requestOptions) {
+    const fetchOptions = {};
+    if ((requestOptions === null || requestOptions === void 0 ? void 0 : requestOptions.signal) !== undefined || (requestOptions === null || requestOptions === void 0 ? void 0 : requestOptions.timeout) >= 0) {
+        const controller = new AbortController();
+        if ((requestOptions === null || requestOptions === void 0 ? void 0 : requestOptions.timeout) >= 0) {
+            setTimeout(() => controller.abort(), requestOptions.timeout);
+        }
+        if (requestOptions === null || requestOptions === void 0 ? void 0 : requestOptions.signal) {
+            requestOptions.signal.addEventListener("abort", () => {
+                controller.abort();
+            });
+        }
+        fetchOptions.signal = controller.signal;
+    }
+    return fetchOptions;
+}
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Adds convenience helper methods to a response object, including stream
+ * chunks (as long as each chunk is a complete GenerateContentResponse JSON).
+ */
+function addHelpers(response) {
+    response.text = () => {
+        if (response.candidates && response.candidates.length > 0) {
+            if (response.candidates.length > 1) {
+                console.warn(`This response had ${response.candidates.length} ` +
+                    `candidates. Returning text from the first candidate only. ` +
+                    `Access response.candidates directly to use the other candidates.`);
+            }
+            if (hadBadFinishReason(response.candidates[0])) {
+                throw new GoogleGenerativeAIResponseError(`${formatBlockErrorMessage(response)}`, response);
+            }
+            return getText(response);
+        }
+        else if (response.promptFeedback) {
+            throw new GoogleGenerativeAIResponseError(`Text not available. ${formatBlockErrorMessage(response)}`, response);
+        }
+        return "";
+    };
+    /**
+     * TODO: remove at next major version
+     */
+    response.functionCall = () => {
+        if (response.candidates && response.candidates.length > 0) {
+            if (response.candidates.length > 1) {
+                console.warn(`This response had ${response.candidates.length} ` +
+                    `candidates. Returning function calls from the first candidate only. ` +
+                    `Access response.candidates directly to use the other candidates.`);
+            }
+            if (hadBadFinishReason(response.candidates[0])) {
+                throw new GoogleGenerativeAIResponseError(`${formatBlockErrorMessage(response)}`, response);
+            }
+            console.warn(`response.functionCall() is deprecated. ` +
+                `Use response.functionCalls() instead.`);
+            return getFunctionCalls(response)[0];
+        }
+        else if (response.promptFeedback) {
+            throw new GoogleGenerativeAIResponseError(`Function call not available. ${formatBlockErrorMessage(response)}`, response);
+        }
+        return undefined;
+    };
+    response.functionCalls = () => {
+        if (response.candidates && response.candidates.length > 0) {
+            if (response.candidates.length > 1) {
+                console.warn(`This response had ${response.candidates.length} ` +
+                    `candidates. Returning function calls from the first candidate only. ` +
+                    `Access response.candidates directly to use the other candidates.`);
+            }
+            if (hadBadFinishReason(response.candidates[0])) {
+                throw new GoogleGenerativeAIResponseError(`${formatBlockErrorMessage(response)}`, response);
+            }
+            return getFunctionCalls(response);
+        }
+        else if (response.promptFeedback) {
+            throw new GoogleGenerativeAIResponseError(`Function call not available. ${formatBlockErrorMessage(response)}`, response);
+        }
+        return undefined;
+    };
+    return response;
+}
+/**
+ * Returns all text found in all parts of first candidate.
+ */
+function getText(response) {
+    var _a, _b, _c, _d;
+    const textStrings = [];
+    if ((_b = (_a = response.candidates) === null || _a === void 0 ? void 0 : _a[0].content) === null || _b === void 0 ? void 0 : _b.parts) {
+        for (const part of (_d = (_c = response.candidates) === null || _c === void 0 ? void 0 : _c[0].content) === null || _d === void 0 ? void 0 : _d.parts) {
+            if (part.text) {
+                textStrings.push(part.text);
+            }
+            if (part.executableCode) {
+                textStrings.push("\n```" +
+                    part.executableCode.language +
+                    "\n" +
+                    part.executableCode.code +
+                    "\n```\n");
+            }
+            if (part.codeExecutionResult) {
+                textStrings.push("\n```\n" + part.codeExecutionResult.output + "\n```\n");
+            }
+        }
+    }
+    if (textStrings.length > 0) {
+        return textStrings.join("");
+    }
+    else {
+        return "";
+    }
+}
+/**
+ * Returns functionCall of first candidate.
+ */
+function getFunctionCalls(response) {
+    var _a, _b, _c, _d;
+    const functionCalls = [];
+    if ((_b = (_a = response.candidates) === null || _a === void 0 ? void 0 : _a[0].content) === null || _b === void 0 ? void 0 : _b.parts) {
+        for (const part of (_d = (_c = response.candidates) === null || _c === void 0 ? void 0 : _c[0].content) === null || _d === void 0 ? void 0 : _d.parts) {
+            if (part.functionCall) {
+                functionCalls.push(part.functionCall);
+            }
+        }
+    }
+    if (functionCalls.length > 0) {
+        return functionCalls;
+    }
+    else {
+        return undefined;
+    }
+}
+const badFinishReasons = [
+    exports.eD.RECITATION,
+    exports.eD.SAFETY,
+    exports.eD.LANGUAGE,
+];
+function hadBadFinishReason(candidate) {
+    return (!!candidate.finishReason &&
+        badFinishReasons.includes(candidate.finishReason));
+}
+function formatBlockErrorMessage(response) {
+    var _a, _b, _c;
+    let message = "";
+    if ((!response.candidates || response.candidates.length === 0) &&
+        response.promptFeedback) {
+        message += "Response was blocked";
+        if ((_a = response.promptFeedback) === null || _a === void 0 ? void 0 : _a.blockReason) {
+            message += ` due to ${response.promptFeedback.blockReason}`;
+        }
+        if ((_b = response.promptFeedback) === null || _b === void 0 ? void 0 : _b.blockReasonMessage) {
+            message += `: ${response.promptFeedback.blockReasonMessage}`;
+        }
+    }
+    else if ((_c = response.candidates) === null || _c === void 0 ? void 0 : _c[0]) {
+        const firstCandidate = response.candidates[0];
+        if (hadBadFinishReason(firstCandidate)) {
+            message += `Candidate was blocked due to ${firstCandidate.finishReason}`;
+            if (firstCandidate.finishMessage) {
+                message += `: ${firstCandidate.finishMessage}`;
+            }
+        }
+    }
+    return message;
+}
+
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise, SuppressedError, Symbol */
+
+
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+    var e = new Error(message);
+    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const responseLineRE = /^data\: (.*)(?:\n\n|\r\r|\r\n\r\n)/;
+/**
+ * Process a response.body stream from the backend and return an
+ * iterator that provides one complete GenerateContentResponse at a time
+ * and a promise that resolves with a single aggregated
+ * GenerateContentResponse.
+ *
+ * @param response - Response from a fetch call
+ */
+function processStream(response) {
+    const inputStream = response.body.pipeThrough(new TextDecoderStream("utf8", { fatal: true }));
+    const responseStream = getResponseStream(inputStream);
+    const [stream1, stream2] = responseStream.tee();
+    return {
+        stream: generateResponseSequence(stream1),
+        response: getResponsePromise(stream2),
+    };
+}
+async function getResponsePromise(stream) {
+    const allResponses = [];
+    const reader = stream.getReader();
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+            return addHelpers(aggregateResponses(allResponses));
+        }
+        allResponses.push(value);
+    }
+}
+function generateResponseSequence(stream) {
+    return __asyncGenerator(this, arguments, function* generateResponseSequence_1() {
+        const reader = stream.getReader();
+        while (true) {
+            const { value, done } = yield __await(reader.read());
+            if (done) {
+                break;
+            }
+            yield yield __await(addHelpers(value));
+        }
+    });
+}
+/**
+ * Reads a raw stream from the fetch response and join incomplete
+ * chunks, returning a new stream that provides a single complete
+ * GenerateContentResponse in each iteration.
+ */
+function getResponseStream(inputStream) {
+    const reader = inputStream.getReader();
+    const stream = new ReadableStream({
+        start(controller) {
+            let currentText = "";
+            return pump();
+            function pump() {
+                return reader
+                    .read()
+                    .then(({ value, done }) => {
+                    if (done) {
+                        if (currentText.trim()) {
+                            controller.error(new GoogleGenerativeAIError("Failed to parse stream"));
+                            return;
+                        }
+                        controller.close();
+                        return;
+                    }
+                    currentText += value;
+                    let match = currentText.match(responseLineRE);
+                    let parsedResponse;
+                    while (match) {
+                        try {
+                            parsedResponse = JSON.parse(match[1]);
+                        }
+                        catch (e) {
+                            controller.error(new GoogleGenerativeAIError(`Error parsing JSON response: "${match[1]}"`));
+                            return;
+                        }
+                        controller.enqueue(parsedResponse);
+                        currentText = currentText.substring(match[0].length);
+                        match = currentText.match(responseLineRE);
+                    }
+                    return pump();
+                })
+                    .catch((e) => {
+                    let err = e;
+                    err.stack = e.stack;
+                    if (err.name === "AbortError") {
+                        err = new GoogleGenerativeAIAbortError("Request aborted when reading from the stream");
+                    }
+                    else {
+                        err = new GoogleGenerativeAIError("Error reading from the stream");
+                    }
+                    throw err;
+                });
+            }
+        },
+    });
+    return stream;
+}
+/**
+ * Aggregates an array of `GenerateContentResponse`s into a single
+ * GenerateContentResponse.
+ */
+function aggregateResponses(responses) {
+    const lastResponse = responses[responses.length - 1];
+    const aggregatedResponse = {
+        promptFeedback: lastResponse === null || lastResponse === void 0 ? void 0 : lastResponse.promptFeedback,
+    };
+    for (const response of responses) {
+        if (response.candidates) {
+            let candidateIndex = 0;
+            for (const candidate of response.candidates) {
+                if (!aggregatedResponse.candidates) {
+                    aggregatedResponse.candidates = [];
+                }
+                if (!aggregatedResponse.candidates[candidateIndex]) {
+                    aggregatedResponse.candidates[candidateIndex] = {
+                        index: candidateIndex,
+                    };
+                }
+                // Keep overwriting, the last one will be final
+                aggregatedResponse.candidates[candidateIndex].citationMetadata =
+                    candidate.citationMetadata;
+                aggregatedResponse.candidates[candidateIndex].groundingMetadata =
+                    candidate.groundingMetadata;
+                aggregatedResponse.candidates[candidateIndex].finishReason =
+                    candidate.finishReason;
+                aggregatedResponse.candidates[candidateIndex].finishMessage =
+                    candidate.finishMessage;
+                aggregatedResponse.candidates[candidateIndex].safetyRatings =
+                    candidate.safetyRatings;
+                /**
+                 * Candidates should always have content and parts, but this handles
+                 * possible malformed responses.
+                 */
+                if (candidate.content && candidate.content.parts) {
+                    if (!aggregatedResponse.candidates[candidateIndex].content) {
+                        aggregatedResponse.candidates[candidateIndex].content = {
+                            role: candidate.content.role || "user",
+                            parts: [],
+                        };
+                    }
+                    const newPart = {};
+                    for (const part of candidate.content.parts) {
+                        if (part.text) {
+                            newPart.text = part.text;
+                        }
+                        if (part.functionCall) {
+                            newPart.functionCall = part.functionCall;
+                        }
+                        if (part.executableCode) {
+                            newPart.executableCode = part.executableCode;
+                        }
+                        if (part.codeExecutionResult) {
+                            newPart.codeExecutionResult = part.codeExecutionResult;
+                        }
+                        if (Object.keys(newPart).length === 0) {
+                            newPart.text = "";
+                        }
+                        aggregatedResponse.candidates[candidateIndex].content.parts.push(newPart);
+                    }
+                }
+            }
+            candidateIndex++;
+        }
+        if (response.usageMetadata) {
+            aggregatedResponse.usageMetadata = response.usageMetadata;
+        }
+    }
+    return aggregatedResponse;
+}
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+async function generateContentStream(apiKey, model, params, requestOptions) {
+    const response = await makeModelRequest(model, Task.STREAM_GENERATE_CONTENT, apiKey, 
+    /* stream */ true, JSON.stringify(params), requestOptions);
+    return processStream(response);
+}
+async function generateContent(apiKey, model, params, requestOptions) {
+    const response = await makeModelRequest(model, Task.GENERATE_CONTENT, apiKey, 
+    /* stream */ false, JSON.stringify(params), requestOptions);
+    const responseJson = await response.json();
+    const enhancedResponse = addHelpers(responseJson);
+    return {
+        response: enhancedResponse,
+    };
+}
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function formatSystemInstruction(input) {
+    // null or undefined
+    if (input == null) {
+        return undefined;
+    }
+    else if (typeof input === "string") {
+        return { role: "system", parts: [{ text: input }] };
+    }
+    else if (input.text) {
+        return { role: "system", parts: [input] };
+    }
+    else if (input.parts) {
+        if (!input.role) {
+            return { role: "system", parts: input.parts };
+        }
+        else {
+            return input;
+        }
+    }
+}
+function formatNewContent(request) {
+    let newParts = [];
+    if (typeof request === "string") {
+        newParts = [{ text: request }];
+    }
+    else {
+        for (const partOrString of request) {
+            if (typeof partOrString === "string") {
+                newParts.push({ text: partOrString });
+            }
+            else {
+                newParts.push(partOrString);
+            }
+        }
+    }
+    return assignRoleToPartsAndValidateSendMessageRequest(newParts);
+}
+/**
+ * When multiple Part types (i.e. FunctionResponsePart and TextPart) are
+ * passed in a single Part array, we may need to assign different roles to each
+ * part. Currently only FunctionResponsePart requires a role other than 'user'.
+ * @private
+ * @param parts Array of parts to pass to the model
+ * @returns Array of content items
+ */
+function assignRoleToPartsAndValidateSendMessageRequest(parts) {
+    const userContent = { role: "user", parts: [] };
+    const functionContent = { role: "function", parts: [] };
+    let hasUserContent = false;
+    let hasFunctionContent = false;
+    for (const part of parts) {
+        if ("functionResponse" in part) {
+            functionContent.parts.push(part);
+            hasFunctionContent = true;
+        }
+        else {
+            userContent.parts.push(part);
+            hasUserContent = true;
+        }
+    }
+    if (hasUserContent && hasFunctionContent) {
+        throw new GoogleGenerativeAIError("Within a single message, FunctionResponse cannot be mixed with other type of part in the request for sending chat message.");
+    }
+    if (!hasUserContent && !hasFunctionContent) {
+        throw new GoogleGenerativeAIError("No content is provided for sending chat message.");
+    }
+    if (hasUserContent) {
+        return userContent;
+    }
+    return functionContent;
+}
+function formatCountTokensInput(params, modelParams) {
+    var _a;
+    let formattedGenerateContentRequest = {
+        model: modelParams === null || modelParams === void 0 ? void 0 : modelParams.model,
+        generationConfig: modelParams === null || modelParams === void 0 ? void 0 : modelParams.generationConfig,
+        safetySettings: modelParams === null || modelParams === void 0 ? void 0 : modelParams.safetySettings,
+        tools: modelParams === null || modelParams === void 0 ? void 0 : modelParams.tools,
+        toolConfig: modelParams === null || modelParams === void 0 ? void 0 : modelParams.toolConfig,
+        systemInstruction: modelParams === null || modelParams === void 0 ? void 0 : modelParams.systemInstruction,
+        cachedContent: (_a = modelParams === null || modelParams === void 0 ? void 0 : modelParams.cachedContent) === null || _a === void 0 ? void 0 : _a.name,
+        contents: [],
+    };
+    const containsGenerateContentRequest = params.generateContentRequest != null;
+    if (params.contents) {
+        if (containsGenerateContentRequest) {
+            throw new GoogleGenerativeAIRequestInputError("CountTokensRequest must have one of contents or generateContentRequest, not both.");
+        }
+        formattedGenerateContentRequest.contents = params.contents;
+    }
+    else if (containsGenerateContentRequest) {
+        formattedGenerateContentRequest = Object.assign(Object.assign({}, formattedGenerateContentRequest), params.generateContentRequest);
+    }
+    else {
+        // Array or string
+        const content = formatNewContent(params);
+        formattedGenerateContentRequest.contents = [content];
+    }
+    return { generateContentRequest: formattedGenerateContentRequest };
+}
+function formatGenerateContentInput(params) {
+    let formattedRequest;
+    if (params.contents) {
+        formattedRequest = params;
+    }
+    else {
+        // Array or string
+        const content = formatNewContent(params);
+        formattedRequest = { contents: [content] };
+    }
+    if (params.systemInstruction) {
+        formattedRequest.systemInstruction = formatSystemInstruction(params.systemInstruction);
+    }
+    return formattedRequest;
+}
+function formatEmbedContentInput(params) {
+    if (typeof params === "string" || Array.isArray(params)) {
+        const content = formatNewContent(params);
+        return { content };
+    }
+    return params;
+}
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+// https://ai.google.dev/api/rest/v1beta/Content#part
+const VALID_PART_FIELDS = [
+    "text",
+    "inlineData",
+    "functionCall",
+    "functionResponse",
+    "executableCode",
+    "codeExecutionResult",
+];
+const VALID_PARTS_PER_ROLE = {
+    user: ["text", "inlineData"],
+    function: ["functionResponse"],
+    model: ["text", "functionCall", "executableCode", "codeExecutionResult"],
+    // System instructions shouldn't be in history anyway.
+    system: ["text"],
+};
+function validateChatHistory(history) {
+    let prevContent = false;
+    for (const currContent of history) {
+        const { role, parts } = currContent;
+        if (!prevContent && role !== "user") {
+            throw new GoogleGenerativeAIError(`First content should be with role 'user', got ${role}`);
+        }
+        if (!POSSIBLE_ROLES.includes(role)) {
+            throw new GoogleGenerativeAIError(`Each item should include role field. Got ${role} but valid roles are: ${JSON.stringify(POSSIBLE_ROLES)}`);
+        }
+        if (!Array.isArray(parts)) {
+            throw new GoogleGenerativeAIError("Content should have 'parts' property with an array of Parts");
+        }
+        if (parts.length === 0) {
+            throw new GoogleGenerativeAIError("Each Content should have at least one part");
+        }
+        const countFields = {
+            text: 0,
+            inlineData: 0,
+            functionCall: 0,
+            functionResponse: 0,
+            fileData: 0,
+            executableCode: 0,
+            codeExecutionResult: 0,
+        };
+        for (const part of parts) {
+            for (const key of VALID_PART_FIELDS) {
+                if (key in part) {
+                    countFields[key] += 1;
+                }
+            }
+        }
+        const validParts = VALID_PARTS_PER_ROLE[role];
+        for (const key of VALID_PART_FIELDS) {
+            if (!validParts.includes(key) && countFields[key] > 0) {
+                throw new GoogleGenerativeAIError(`Content with role '${role}' can't contain '${key}' part`);
+            }
+        }
+        prevContent = true;
+    }
+}
+/**
+ * Returns true if the response is valid (could be appended to the history), flase otherwise.
+ */
+function isValidResponse(response) {
+    var _a;
+    if (response.candidates === undefined || response.candidates.length === 0) {
+        return false;
+    }
+    const content = (_a = response.candidates[0]) === null || _a === void 0 ? void 0 : _a.content;
+    if (content === undefined) {
+        return false;
+    }
+    if (content.parts === undefined || content.parts.length === 0) {
+        return false;
+    }
+    for (const part of content.parts) {
+        if (part === undefined || Object.keys(part).length === 0) {
+            return false;
+        }
+        if (part.text !== undefined && part.text === "") {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Do not log a message for this error.
+ */
+const SILENT_ERROR = "SILENT_ERROR";
+/**
+ * ChatSession class that enables sending chat messages and stores
+ * history of sent and received messages so far.
+ *
+ * @public
+ */
+class ChatSession {
+    constructor(apiKey, model, params, _requestOptions = {}) {
+        this.model = model;
+        this.params = params;
+        this._requestOptions = _requestOptions;
+        this._history = [];
+        this._sendPromise = Promise.resolve();
+        this._apiKey = apiKey;
+        if (params === null || params === void 0 ? void 0 : params.history) {
+            validateChatHistory(params.history);
+            this._history = params.history;
+        }
+    }
+    /**
+     * Gets the chat history so far. Blocked prompts are not added to history.
+     * Blocked candidates are not added to history, nor are the prompts that
+     * generated them.
+     */
+    async getHistory() {
+        await this._sendPromise;
+        return this._history;
+    }
+    /**
+     * Sends a chat message and receives a non-streaming
+     * {@link GenerateContentResult}.
+     *
+     * Fields set in the optional {@link SingleRequestOptions} parameter will
+     * take precedence over the {@link RequestOptions} values provided to
+     * {@link GoogleGenerativeAI.getGenerativeModel }.
+     */
+    async sendMessage(request, requestOptions = {}) {
+        var _a, _b, _c, _d, _e, _f;
+        await this._sendPromise;
+        const newContent = formatNewContent(request);
+        const generateContentRequest = {
+            safetySettings: (_a = this.params) === null || _a === void 0 ? void 0 : _a.safetySettings,
+            generationConfig: (_b = this.params) === null || _b === void 0 ? void 0 : _b.generationConfig,
+            tools: (_c = this.params) === null || _c === void 0 ? void 0 : _c.tools,
+            toolConfig: (_d = this.params) === null || _d === void 0 ? void 0 : _d.toolConfig,
+            systemInstruction: (_e = this.params) === null || _e === void 0 ? void 0 : _e.systemInstruction,
+            cachedContent: (_f = this.params) === null || _f === void 0 ? void 0 : _f.cachedContent,
+            contents: [...this._history, newContent],
+        };
+        const chatSessionRequestOptions = Object.assign(Object.assign({}, this._requestOptions), requestOptions);
+        let finalResult;
+        // Add onto the chain.
+        this._sendPromise = this._sendPromise
+            .then(() => generateContent(this._apiKey, this.model, generateContentRequest, chatSessionRequestOptions))
+            .then((result) => {
+            var _a;
+            if (isValidResponse(result.response)) {
+                this._history.push(newContent);
+                const responseContent = Object.assign({ parts: [], 
+                    // Response seems to come back without a role set.
+                    role: "model" }, (_a = result.response.candidates) === null || _a === void 0 ? void 0 : _a[0].content);
+                this._history.push(responseContent);
+            }
+            else {
+                const blockErrorMessage = formatBlockErrorMessage(result.response);
+                if (blockErrorMessage) {
+                    console.warn(`sendMessage() was unsuccessful. ${blockErrorMessage}. Inspect response object for details.`);
+                }
+            }
+            finalResult = result;
+        })
+            .catch((e) => {
+            // Resets _sendPromise to avoid subsequent calls failing and throw error.
+            this._sendPromise = Promise.resolve();
+            throw e;
+        });
+        await this._sendPromise;
+        return finalResult;
+    }
+    /**
+     * Sends a chat message and receives the response as a
+     * {@link GenerateContentStreamResult} containing an iterable stream
+     * and a response promise.
+     *
+     * Fields set in the optional {@link SingleRequestOptions} parameter will
+     * take precedence over the {@link RequestOptions} values provided to
+     * {@link GoogleGenerativeAI.getGenerativeModel }.
+     */
+    async sendMessageStream(request, requestOptions = {}) {
+        var _a, _b, _c, _d, _e, _f;
+        await this._sendPromise;
+        const newContent = formatNewContent(request);
+        const generateContentRequest = {
+            safetySettings: (_a = this.params) === null || _a === void 0 ? void 0 : _a.safetySettings,
+            generationConfig: (_b = this.params) === null || _b === void 0 ? void 0 : _b.generationConfig,
+            tools: (_c = this.params) === null || _c === void 0 ? void 0 : _c.tools,
+            toolConfig: (_d = this.params) === null || _d === void 0 ? void 0 : _d.toolConfig,
+            systemInstruction: (_e = this.params) === null || _e === void 0 ? void 0 : _e.systemInstruction,
+            cachedContent: (_f = this.params) === null || _f === void 0 ? void 0 : _f.cachedContent,
+            contents: [...this._history, newContent],
+        };
+        const chatSessionRequestOptions = Object.assign(Object.assign({}, this._requestOptions), requestOptions);
+        const streamPromise = generateContentStream(this._apiKey, this.model, generateContentRequest, chatSessionRequestOptions);
+        // Add onto the chain.
+        this._sendPromise = this._sendPromise
+            .then(() => streamPromise)
+            // This must be handled to avoid unhandled rejection, but jump
+            // to the final catch block with a label to not log this error.
+            .catch((_ignored) => {
+            throw new Error(SILENT_ERROR);
+        })
+            .then((streamResult) => streamResult.response)
+            .then((response) => {
+            if (isValidResponse(response)) {
+                this._history.push(newContent);
+                const responseContent = Object.assign({}, response.candidates[0].content);
+                // Response seems to come back without a role set.
+                if (!responseContent.role) {
+                    responseContent.role = "model";
+                }
+                this._history.push(responseContent);
+            }
+            else {
+                const blockErrorMessage = formatBlockErrorMessage(response);
+                if (blockErrorMessage) {
+                    console.warn(`sendMessageStream() was unsuccessful. ${blockErrorMessage}. Inspect response object for details.`);
+                }
+            }
+        })
+            .catch((e) => {
+            // Errors in streamPromise are already catchable by the user as
+            // streamPromise is returned.
+            // Avoid duplicating the error message in logs.
+            if (e.message !== SILENT_ERROR) {
+                // Users do not have access to _sendPromise to catch errors
+                // downstream from streamPromise, so they should not throw.
+                console.error(e);
+            }
+        });
+        return streamPromise;
+    }
+}
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+async function countTokens(apiKey, model, params, singleRequestOptions) {
+    const response = await makeModelRequest(model, Task.COUNT_TOKENS, apiKey, false, JSON.stringify(params), singleRequestOptions);
+    return response.json();
+}
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+async function embedContent(apiKey, model, params, requestOptions) {
+    const response = await makeModelRequest(model, Task.EMBED_CONTENT, apiKey, false, JSON.stringify(params), requestOptions);
+    return response.json();
+}
+async function batchEmbedContents(apiKey, model, params, requestOptions) {
+    const requestsWithModel = params.requests.map((request) => {
+        return Object.assign(Object.assign({}, request), { model });
+    });
+    const response = await makeModelRequest(model, Task.BATCH_EMBED_CONTENTS, apiKey, false, JSON.stringify({ requests: requestsWithModel }), requestOptions);
+    return response.json();
+}
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Class for generative model APIs.
+ * @public
+ */
+class GenerativeModel {
+    constructor(apiKey, modelParams, _requestOptions = {}) {
+        this.apiKey = apiKey;
+        this._requestOptions = _requestOptions;
+        if (modelParams.model.includes("/")) {
+            // Models may be named "models/model-name" or "tunedModels/model-name"
+            this.model = modelParams.model;
+        }
+        else {
+            // If path is not included, assume it's a non-tuned model.
+            this.model = `models/${modelParams.model}`;
+        }
+        this.generationConfig = modelParams.generationConfig || {};
+        this.safetySettings = modelParams.safetySettings || [];
+        this.tools = modelParams.tools;
+        this.toolConfig = modelParams.toolConfig;
+        this.systemInstruction = formatSystemInstruction(modelParams.systemInstruction);
+        this.cachedContent = modelParams.cachedContent;
+    }
+    /**
+     * Makes a single non-streaming call to the model
+     * and returns an object containing a single {@link GenerateContentResponse}.
+     *
+     * Fields set in the optional {@link SingleRequestOptions} parameter will
+     * take precedence over the {@link RequestOptions} values provided to
+     * {@link GoogleGenerativeAI.getGenerativeModel }.
+     */
+    async generateContent(request, requestOptions = {}) {
+        var _a;
+        const formattedParams = formatGenerateContentInput(request);
+        const generativeModelRequestOptions = Object.assign(Object.assign({}, this._requestOptions), requestOptions);
+        return generateContent(this.apiKey, this.model, Object.assign({ generationConfig: this.generationConfig, safetySettings: this.safetySettings, tools: this.tools, toolConfig: this.toolConfig, systemInstruction: this.systemInstruction, cachedContent: (_a = this.cachedContent) === null || _a === void 0 ? void 0 : _a.name }, formattedParams), generativeModelRequestOptions);
+    }
+    /**
+     * Makes a single streaming call to the model and returns an object
+     * containing an iterable stream that iterates over all chunks in the
+     * streaming response as well as a promise that returns the final
+     * aggregated response.
+     *
+     * Fields set in the optional {@link SingleRequestOptions} parameter will
+     * take precedence over the {@link RequestOptions} values provided to
+     * {@link GoogleGenerativeAI.getGenerativeModel }.
+     */
+    async generateContentStream(request, requestOptions = {}) {
+        var _a;
+        const formattedParams = formatGenerateContentInput(request);
+        const generativeModelRequestOptions = Object.assign(Object.assign({}, this._requestOptions), requestOptions);
+        return generateContentStream(this.apiKey, this.model, Object.assign({ generationConfig: this.generationConfig, safetySettings: this.safetySettings, tools: this.tools, toolConfig: this.toolConfig, systemInstruction: this.systemInstruction, cachedContent: (_a = this.cachedContent) === null || _a === void 0 ? void 0 : _a.name }, formattedParams), generativeModelRequestOptions);
+    }
+    /**
+     * Gets a new {@link ChatSession} instance which can be used for
+     * multi-turn chats.
+     */
+    startChat(startChatParams) {
+        var _a;
+        return new ChatSession(this.apiKey, this.model, Object.assign({ generationConfig: this.generationConfig, safetySettings: this.safetySettings, tools: this.tools, toolConfig: this.toolConfig, systemInstruction: this.systemInstruction, cachedContent: (_a = this.cachedContent) === null || _a === void 0 ? void 0 : _a.name }, startChatParams), this._requestOptions);
+    }
+    /**
+     * Counts the tokens in the provided request.
+     *
+     * Fields set in the optional {@link SingleRequestOptions} parameter will
+     * take precedence over the {@link RequestOptions} values provided to
+     * {@link GoogleGenerativeAI.getGenerativeModel }.
+     */
+    async countTokens(request, requestOptions = {}) {
+        const formattedParams = formatCountTokensInput(request, {
+            model: this.model,
+            generationConfig: this.generationConfig,
+            safetySettings: this.safetySettings,
+            tools: this.tools,
+            toolConfig: this.toolConfig,
+            systemInstruction: this.systemInstruction,
+            cachedContent: this.cachedContent,
+        });
+        const generativeModelRequestOptions = Object.assign(Object.assign({}, this._requestOptions), requestOptions);
+        return countTokens(this.apiKey, this.model, formattedParams, generativeModelRequestOptions);
+    }
+    /**
+     * Embeds the provided content.
+     *
+     * Fields set in the optional {@link SingleRequestOptions} parameter will
+     * take precedence over the {@link RequestOptions} values provided to
+     * {@link GoogleGenerativeAI.getGenerativeModel }.
+     */
+    async embedContent(request, requestOptions = {}) {
+        const formattedParams = formatEmbedContentInput(request);
+        const generativeModelRequestOptions = Object.assign(Object.assign({}, this._requestOptions), requestOptions);
+        return embedContent(this.apiKey, this.model, formattedParams, generativeModelRequestOptions);
+    }
+    /**
+     * Embeds an array of {@link EmbedContentRequest}s.
+     *
+     * Fields set in the optional {@link SingleRequestOptions} parameter will
+     * take precedence over the {@link RequestOptions} values provided to
+     * {@link GoogleGenerativeAI.getGenerativeModel }.
+     */
+    async batchEmbedContents(batchEmbedContentRequest, requestOptions = {}) {
+        const generativeModelRequestOptions = Object.assign(Object.assign({}, this._requestOptions), requestOptions);
+        return batchEmbedContents(this.apiKey, this.model, batchEmbedContentRequest, generativeModelRequestOptions);
+    }
+}
+
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Top-level class for this SDK
+ * @public
+ */
+class GoogleGenerativeAI {
+    constructor(apiKey) {
+        this.apiKey = apiKey;
+    }
+    /**
+     * Gets a {@link GenerativeModel} instance for the provided model name.
+     */
+    getGenerativeModel(modelParams, requestOptions) {
+        if (!modelParams.model) {
+            throw new GoogleGenerativeAIError(`Must provide a model name. ` +
+                `Example: genai.getGenerativeModel({ model: 'my-model-name' })`);
+        }
+        return new GenerativeModel(this.apiKey, modelParams, requestOptions);
+    }
+    /**
+     * Creates a {@link GenerativeModel} instance from provided content cache.
+     */
+    getGenerativeModelFromCachedContent(cachedContent, modelParams, requestOptions) {
+        if (!cachedContent.name) {
+            throw new GoogleGenerativeAIRequestInputError("Cached content must contain a `name` field.");
+        }
+        if (!cachedContent.model) {
+            throw new GoogleGenerativeAIRequestInputError("Cached content must contain a `model` field.");
+        }
+        /**
+         * Not checking tools and toolConfig for now as it would require a deep
+         * equality comparison and isn't likely to be a common case.
+         */
+        const disallowedDuplicates = ["model", "systemInstruction"];
+        for (const key of disallowedDuplicates) {
+            if ((modelParams === null || modelParams === void 0 ? void 0 : modelParams[key]) &&
+                cachedContent[key] &&
+                (modelParams === null || modelParams === void 0 ? void 0 : modelParams[key]) !== cachedContent[key]) {
+                if (key === "model") {
+                    const modelParamsComp = modelParams.model.startsWith("models/")
+                        ? modelParams.model.replace("models/", "")
+                        : modelParams.model;
+                    const cachedContentComp = cachedContent.model.startsWith("models/")
+                        ? cachedContent.model.replace("models/", "")
+                        : cachedContent.model;
+                    if (modelParamsComp === cachedContentComp) {
+                        continue;
+                    }
+                }
+                throw new GoogleGenerativeAIRequestInputError(`Different value for "${key}" specified in modelParams` +
+                    ` (${modelParams[key]}) and cachedContent (${cachedContent[key]})`);
+            }
+        }
+        const modelParamsFromCache = Object.assign(Object.assign({}, modelParams), { model: cachedContent.model, tools: cachedContent.tools, toolConfig: cachedContent.toolConfig, systemInstruction: cachedContent.systemInstruction, cachedContent });
+        return new GenerativeModel(this.apiKey, modelParamsFromCache, requestOptions);
+    }
+}
+
+__webpack_unused_export__ = ChatSession;
+__webpack_unused_export__ = GenerativeModel;
+exports.GoogleGenerativeAI = GoogleGenerativeAI;
+__webpack_unused_export__ = GoogleGenerativeAIAbortError;
+__webpack_unused_export__ = GoogleGenerativeAIError;
+__webpack_unused_export__ = GoogleGenerativeAIFetchError;
+__webpack_unused_export__ = GoogleGenerativeAIRequestInputError;
+__webpack_unused_export__ = GoogleGenerativeAIResponseError;
+__webpack_unused_export__ = POSSIBLE_ROLES;
+//# sourceMappingURL=index.js.map
+
+
+/***/ },
+
 /***/ 6830
 (module, __webpack_exports__, __webpack_require__) {
 
@@ -146,90 +1684,32 @@ color:#fff;
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `.app-shell{
+___CSS_LOADER_EXPORT___.push([module.id, `.rk-app{
 display:flex;
-width:100%;
 height:100vh;
+background:var(--bg);
 overflow:hidden;
-background:var(--bg-primary);
-color:var(--text-primary);
-font-size:var(--font-md);
 }
 
-.app-main{
+.rk-main{
 flex:1;
 display:flex;
 flex-direction:column;
-min-width:0;
-min-height:0;
 overflow:hidden;
 }
 
-.workspace{
+.rk-workspace{
 flex:1;
 display:flex;
-min-width:0;
-min-height:0;
 overflow:hidden;
 }
 
-.workspace-main{
-flex:1 1 auto;
-min-width:0;
-min-height:0;
+.rk-content{
+flex:1;
+padding:24px;
 overflow:auto;
-padding:var(--space-5);
-background:var(--bg-secondary);
 }
-
-.workspace-ai{
-flex:0 1 var(--right-panel-width);
-width:var(--right-panel-width);
-min-width:260px;
-max-width:420px;
-display:flex;
-overflow:hidden;
-background:var(--surface-1);
-border-left:1px solid var(--divider);
-transition:var(--transition);
-}
-
-.workspace-ai>*{
-flex:1;
-min-width:0;
-}
-
-.status-bar{
-height:var(--statusbar-height);
-flex-shrink:0;
-}
-
-@media (max-width:1200px){
-
-.workspace-ai{
-min-width:240px;
-max-width:320px;
-}
-
-}
-
-@media (max-width:900px){
-
-.workspace{
-flex-direction:column;
-}
-
-.workspace-ai{
-width:100%;
-max-width:none;
-min-width:0;
-height:320px;
-border-left:none;
-border-top:1px solid var(--divider);
-}
-
-}
-`, "",{"version":3,"sources":["webpack://./src/layout/AppShell.css"],"names":[],"mappings":"AAAA;AACA,YAAY;AACZ,UAAU;AACV,YAAY;AACZ,eAAe;AACf,4BAA4B;AAC5B,yBAAyB;AACzB,wBAAwB;AACxB;;AAEA;AACA,MAAM;AACN,YAAY;AACZ,qBAAqB;AACrB,WAAW;AACX,YAAY;AACZ,eAAe;AACf;;AAEA;AACA,MAAM;AACN,YAAY;AACZ,WAAW;AACX,YAAY;AACZ,eAAe;AACf;;AAEA;AACA,aAAa;AACb,WAAW;AACX,YAAY;AACZ,aAAa;AACb,sBAAsB;AACtB,8BAA8B;AAC9B;;AAEA;AACA,iCAAiC;AACjC,8BAA8B;AAC9B,eAAe;AACf,eAAe;AACf,YAAY;AACZ,eAAe;AACf,2BAA2B;AAC3B,oCAAoC;AACpC,4BAA4B;AAC5B;;AAEA;AACA,MAAM;AACN,WAAW;AACX;;AAEA;AACA,8BAA8B;AAC9B,aAAa;AACb;;AAEA;;AAEA;AACA,eAAe;AACf,eAAe;AACf;;AAEA;;AAEA;;AAEA;AACA,qBAAqB;AACrB;;AAEA;AACA,UAAU;AACV,cAAc;AACd,WAAW;AACX,YAAY;AACZ,gBAAgB;AAChB,mCAAmC;AACnC;;AAEA","sourcesContent":[".app-shell{\ndisplay:flex;\nwidth:100%;\nheight:100vh;\noverflow:hidden;\nbackground:var(--bg-primary);\ncolor:var(--text-primary);\nfont-size:var(--font-md);\n}\n\n.app-main{\nflex:1;\ndisplay:flex;\nflex-direction:column;\nmin-width:0;\nmin-height:0;\noverflow:hidden;\n}\n\n.workspace{\nflex:1;\ndisplay:flex;\nmin-width:0;\nmin-height:0;\noverflow:hidden;\n}\n\n.workspace-main{\nflex:1 1 auto;\nmin-width:0;\nmin-height:0;\noverflow:auto;\npadding:var(--space-5);\nbackground:var(--bg-secondary);\n}\n\n.workspace-ai{\nflex:0 1 var(--right-panel-width);\nwidth:var(--right-panel-width);\nmin-width:260px;\nmax-width:420px;\ndisplay:flex;\noverflow:hidden;\nbackground:var(--surface-1);\nborder-left:1px solid var(--divider);\ntransition:var(--transition);\n}\n\n.workspace-ai>*{\nflex:1;\nmin-width:0;\n}\n\n.status-bar{\nheight:var(--statusbar-height);\nflex-shrink:0;\n}\n\n@media (max-width:1200px){\n\n.workspace-ai{\nmin-width:240px;\nmax-width:320px;\n}\n\n}\n\n@media (max-width:900px){\n\n.workspace{\nflex-direction:column;\n}\n\n.workspace-ai{\nwidth:100%;\nmax-width:none;\nmin-width:0;\nheight:320px;\nborder-left:none;\nborder-top:1px solid var(--divider);\n}\n\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/layout/AppShell.css"],"names":[],"mappings":"AAAA;AACA,YAAY;AACZ,YAAY;AACZ,oBAAoB;AACpB,eAAe;AACf;;AAEA;AACA,MAAM;AACN,YAAY;AACZ,qBAAqB;AACrB,eAAe;AACf;;AAEA;AACA,MAAM;AACN,YAAY;AACZ,eAAe;AACf;;AAEA;AACA,MAAM;AACN,YAAY;AACZ,aAAa;AACb","sourcesContent":[".rk-app{\ndisplay:flex;\nheight:100vh;\nbackground:var(--bg);\noverflow:hidden;\n}\n\n.rk-main{\nflex:1;\ndisplay:flex;\nflex-direction:column;\noverflow:hidden;\n}\n\n.rk-workspace{\nflex:1;\ndisplay:flex;\noverflow:hidden;\n}\n\n.rk-content{\nflex:1;\npadding:24px;\noverflow:auto;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -514,488 +1994,6 @@ background:#7cb5ff;
 transform:translateY(-2px);
 }
 `, "",{"version":3,"sources":["webpack://./src/layout/Topbar.css"],"names":[],"mappings":"AAAA;AACA,2BAA2B;AAC3B,YAAY;AACZ,kBAAkB;AAClB,6BAA6B;AAC7B,cAAc;AACd,6BAA6B;AAC7B,6CAA6C;AAC7C,0BAA0B;AAC1B,kCAAkC;AAClC;;AAEA;AACA,QAAQ;AACR,wBAAwB;AACxB,eAAe;AACf,UAAU;AACV;;AAEA;AACA,cAAc;AACd,wBAAwB;AACxB,aAAa;AACb;;AAEA;AACA,YAAY;AACZ,kBAAkB;AAClB,QAAQ;AACR;;AAEA;AACA,MAAM;AACN,eAAe;AACf,cAAc;AACd,WAAW;AACX,cAAc;AACd,kBAAkB;AAClB,sCAAsC;AACtC,gCAAgC;AAChC,UAAU;AACV,YAAY;AACZ;;AAEA;AACA,aAAa;AACb;;AAEA;AACA,WAAW;AACX,cAAc;AACd,WAAW;AACX,kBAAkB;AAClB,kBAAkB;AAClB,UAAU;AACV,eAAe;AACf,cAAc;AACd,cAAc;AACd;;AAEA;AACA,kBAAkB;AAClB,0BAA0B;AAC1B","sourcesContent":[".topbar{\nheight:clamp(64px,5vw,80px);\ndisplay:flex;\nalign-items:center;\njustify-content:space-between;\npadding:0 24px;\nbackground:rgba(18,20,24,.92);\nborder-bottom:1px solid rgba(255,255,255,.08);\nbackdrop-filter:blur(24px);\n-webkit-backdrop-filter:blur(24px);\n}\n\n.topbar h1{\nmargin:0;\nfont-size:var(--font-xl);\nfont-weight:700;\ncolor:#fff;\n}\n\n.topbar p{\nmargin:4px 0 0;\nfont-size:var(--font-sm);\ncolor:#9aa4b2;\n}\n\n.topbar-actions{\ndisplay:flex;\nalign-items:center;\ngap:14px;\n}\n\n.topbar-search{\nflex:1;\nmin-width:180px;\nmax-width:100%;\nheight:44px;\npadding:0 16px;\nborder-radius:14px;\nborder:1px solid rgba(255,255,255,.08);\nbackground:rgba(255,255,255,.04);\ncolor:#fff;\noutline:none;\n}\n\n.topbar-search::placeholder{\ncolor:#7d8795;\n}\n\n.topbar-button{\nheight:44px;\npadding:0 20px;\nborder:none;\nborder-radius:14px;\nbackground:#5ea2ff;\ncolor:#fff;\nfont-weight:600;\ncursor:pointer;\ntransition:.2s;\n}\n\n.topbar-button:hover{\nbackground:#7cb5ff;\ntransform:translateY(-2px);\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 9774
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `*{
-  transition:
-  background var(--transition),
-  color var(--transition),
-  border-color var(--transition),
-  transform var(--transition),
-  opacity var(--transition);
-}
-
-.fade-in{
-  animation:fadeIn .4s ease;
-}
-
-@keyframes fadeIn{
-
-from{
-opacity:0;
-transform:translateY(8px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
-
-}
-
-.scale-hover:hover{
-transform:scale(1.03);
-}
-
-.press:active{
-transform:scale(.98);
-}
-`, "",{"version":3,"sources":["webpack://./src/styles/animation.css"],"names":[],"mappings":"AAAA;EACE;;;;;2BAKyB;AAC3B;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;;AAEA;AACA,SAAS;AACT,yBAAyB;AACzB;;AAEA;AACA,SAAS;AACT,uBAAuB;AACvB;;AAEA;;AAEA;AACA,qBAAqB;AACrB;;AAEA;AACA,oBAAoB;AACpB","sourcesContent":["*{\n  transition:\n  background var(--transition),\n  color var(--transition),\n  border-color var(--transition),\n  transform var(--transition),\n  opacity var(--transition);\n}\n\n.fade-in{\n  animation:fadeIn .4s ease;\n}\n\n@keyframes fadeIn{\n\nfrom{\nopacity:0;\ntransform:translateY(8px);\n}\n\nto{\nopacity:1;\ntransform:translateY(0);\n}\n\n}\n\n.scale-hover:hover{\ntransform:scale(1.03);\n}\n\n.press:active{\ntransform:scale(.98);\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 6806
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `:root{
-
-/* Background */
---bg-primary:#08090b;
---bg-secondary:#111317;
---bg-tertiary:#181b20;
-
-/* Surface */
---surface-1:#121418;
---surface-2:#1a1d22;
---surface-3:#23272f;
-
-/* Glass */
---glass-bg:rgba(255,255,255,.06);
---glass-bg-hover:rgba(255,255,255,.09);
---glass-border:rgba(255,255,255,.10);
---glass-border-strong:rgba(255,255,255,.16);
---glass-shadow:0 12px 40px rgba(0,0,0,.35);
---glass-blur:blur(24px);
-
-/* Accent */
---accent:#5ea2ff;
---accent-hover:#7cb5ff;
---accent-soft:rgba(94,162,255,.15);
-
-/* Status */
---success:#37d67a;
---warning:#ffb547;
---danger:#ff5d73;
-
-/* Text */
---text-primary:#fff;
---text-secondary:#b8bec8;
---text-muted:#7d8795;
-
-/* Divider */
---divider:rgba(255,255,255,.08);
-
-/* Radius */
---radius-sm:clamp(10px,.7vw,12px);
---radius-md:clamp(14px,.9vw,18px);
---radius-lg:clamp(18px,1.2vw,24px);
---radius-xl:clamp(24px,1.8vw,32px);
-
-/* Layout */
---sidebar-width:clamp(76px,6vw,90px);
---right-panel-width:clamp(280px,24vw,400px);
---topbar-height:clamp(64px,5vw,76px);
---statusbar-height:42px;
-
-/* Spacing */
---space-1:clamp(4px,.3vw,8px);
---space-2:clamp(8px,.6vw,12px);
---space-3:clamp(12px,.9vw,18px);
---space-4:clamp(18px,1.2vw,24px);
---space-5:clamp(24px,2vw,36px);
-
-/* Typography */
---font-xs:clamp(11px,.7vw,12px);
---font-sm:clamp(12px,.8vw,14px);
---font-md:clamp(14px,.9vw,16px);
---font-lg:clamp(18px,1.5vw,28px);
---font-xl:clamp(28px,3vw,56px);
-
-/* Animation */
---transition:220ms cubic-bezier(.2,.8,.2,1);
-
-}
-`, "",{"version":3,"sources":["webpack://./src/styles/colors.css"],"names":[],"mappings":"AAAA;;AAEA,eAAe;AACf,oBAAoB;AACpB,sBAAsB;AACtB,qBAAqB;;AAErB,YAAY;AACZ,mBAAmB;AACnB,mBAAmB;AACnB,mBAAmB;;AAEnB,UAAU;AACV,gCAAgC;AAChC,sCAAsC;AACtC,oCAAoC;AACpC,2CAA2C;AAC3C,0CAA0C;AAC1C,uBAAuB;;AAEvB,WAAW;AACX,gBAAgB;AAChB,sBAAsB;AACtB,kCAAkC;;AAElC,WAAW;AACX,iBAAiB;AACjB,iBAAiB;AACjB,gBAAgB;;AAEhB,SAAS;AACT,mBAAmB;AACnB,wBAAwB;AACxB,oBAAoB;;AAEpB,YAAY;AACZ,+BAA+B;;AAE/B,WAAW;AACX,iCAAiC;AACjC,iCAAiC;AACjC,kCAAkC;AAClC,kCAAkC;;AAElC,WAAW;AACX,oCAAoC;AACpC,2CAA2C;AAC3C,oCAAoC;AACpC,uBAAuB;;AAEvB,YAAY;AACZ,6BAA6B;AAC7B,8BAA8B;AAC9B,+BAA+B;AAC/B,gCAAgC;AAChC,8BAA8B;;AAE9B,eAAe;AACf,+BAA+B;AAC/B,+BAA+B;AAC/B,+BAA+B;AAC/B,gCAAgC;AAChC,8BAA8B;;AAE9B,cAAc;AACd,2CAA2C;;AAE3C","sourcesContent":[":root{\n\n/* Background */\n--bg-primary:#08090b;\n--bg-secondary:#111317;\n--bg-tertiary:#181b20;\n\n/* Surface */\n--surface-1:#121418;\n--surface-2:#1a1d22;\n--surface-3:#23272f;\n\n/* Glass */\n--glass-bg:rgba(255,255,255,.06);\n--glass-bg-hover:rgba(255,255,255,.09);\n--glass-border:rgba(255,255,255,.10);\n--glass-border-strong:rgba(255,255,255,.16);\n--glass-shadow:0 12px 40px rgba(0,0,0,.35);\n--glass-blur:blur(24px);\n\n/* Accent */\n--accent:#5ea2ff;\n--accent-hover:#7cb5ff;\n--accent-soft:rgba(94,162,255,.15);\n\n/* Status */\n--success:#37d67a;\n--warning:#ffb547;\n--danger:#ff5d73;\n\n/* Text */\n--text-primary:#fff;\n--text-secondary:#b8bec8;\n--text-muted:#7d8795;\n\n/* Divider */\n--divider:rgba(255,255,255,.08);\n\n/* Radius */\n--radius-sm:clamp(10px,.7vw,12px);\n--radius-md:clamp(14px,.9vw,18px);\n--radius-lg:clamp(18px,1.2vw,24px);\n--radius-xl:clamp(24px,1.8vw,32px);\n\n/* Layout */\n--sidebar-width:clamp(76px,6vw,90px);\n--right-panel-width:clamp(280px,24vw,400px);\n--topbar-height:clamp(64px,5vw,76px);\n--statusbar-height:42px;\n\n/* Spacing */\n--space-1:clamp(4px,.3vw,8px);\n--space-2:clamp(8px,.6vw,12px);\n--space-3:clamp(12px,.9vw,18px);\n--space-4:clamp(18px,1.2vw,24px);\n--space-5:clamp(24px,2vw,36px);\n\n/* Typography */\n--font-xs:clamp(11px,.7vw,12px);\n--font-sm:clamp(12px,.8vw,14px);\n--font-md:clamp(14px,.9vw,16px);\n--font-lg:clamp(18px,1.5vw,28px);\n--font-xl:clamp(28px,3vw,56px);\n\n/* Animation */\n--transition:220ms cubic-bezier(.2,.8,.2,1);\n\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 808
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `.glass {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-
-  border: 1px solid var(--glass-border);
-
-  box-shadow: var(--glass-shadow);
-
-  border-radius: var(--radius-lg);
-
-  transition: var(--transition);
-}
-
-.glass:hover {
-  background: var(--glass-bg-hover);
-  border-color: var(--glass-border-strong);
-}
-
-.glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-
-  border: 1px solid var(--glass-border);
-
-  border-radius: var(--radius-xl);
-
-  box-shadow: var(--glass-shadow);
-}
-
-.glass-card {
-  background: var(--glass-bg);
-
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-
-  border: 1px solid var(--glass-border);
-
-  border-radius: var(--radius-md);
-
-  padding: 20px;
-
-  transition: var(--transition);
-}
-
-.glass-card:hover {
-  transform: translateY(-2px);
-
-  border-color: var(--glass-border-strong);
-
-  background: var(--glass-bg-hover);
-}
-
-.glass-button {
-  background: var(--accent);
-
-  color: white;
-
-  border: none;
-
-  border-radius: 14px;
-
-  padding: 12px 18px;
-
-  cursor: pointer;
-
-  transition: var(--transition);
-}
-
-.glass-button:hover {
-  background: var(--accent-hover);
-
-  transform: scale(1.03);
-}
-`, "",{"version":3,"sources":["webpack://./src/styles/glass.css"],"names":[],"mappings":"AAAA;EACE,2BAA2B;EAC3B,kCAAkC;EAClC,0CAA0C;;EAE1C,qCAAqC;;EAErC,+BAA+B;;EAE/B,+BAA+B;;EAE/B,6BAA6B;AAC/B;;AAEA;EACE,iCAAiC;EACjC,wCAAwC;AAC1C;;AAEA;EACE,2BAA2B;EAC3B,kCAAkC;EAClC,0CAA0C;;EAE1C,qCAAqC;;EAErC,+BAA+B;;EAE/B,+BAA+B;AACjC;;AAEA;EACE,2BAA2B;;EAE3B,kCAAkC;EAClC,0CAA0C;;EAE1C,qCAAqC;;EAErC,+BAA+B;;EAE/B,aAAa;;EAEb,6BAA6B;AAC/B;;AAEA;EACE,2BAA2B;;EAE3B,wCAAwC;;EAExC,iCAAiC;AACnC;;AAEA;EACE,yBAAyB;;EAEzB,YAAY;;EAEZ,YAAY;;EAEZ,mBAAmB;;EAEnB,kBAAkB;;EAElB,eAAe;;EAEf,6BAA6B;AAC/B;;AAEA;EACE,+BAA+B;;EAE/B,sBAAsB;AACxB","sourcesContent":[".glass {\n  background: var(--glass-bg);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n\n  border: 1px solid var(--glass-border);\n\n  box-shadow: var(--glass-shadow);\n\n  border-radius: var(--radius-lg);\n\n  transition: var(--transition);\n}\n\n.glass:hover {\n  background: var(--glass-bg-hover);\n  border-color: var(--glass-border-strong);\n}\n\n.glass-panel {\n  background: var(--glass-bg);\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n\n  border: 1px solid var(--glass-border);\n\n  border-radius: var(--radius-xl);\n\n  box-shadow: var(--glass-shadow);\n}\n\n.glass-card {\n  background: var(--glass-bg);\n\n  backdrop-filter: var(--glass-blur);\n  -webkit-backdrop-filter: var(--glass-blur);\n\n  border: 1px solid var(--glass-border);\n\n  border-radius: var(--radius-md);\n\n  padding: 20px;\n\n  transition: var(--transition);\n}\n\n.glass-card:hover {\n  transform: translateY(-2px);\n\n  border-color: var(--glass-border-strong);\n\n  background: var(--glass-bg-hover);\n}\n\n.glass-button {\n  background: var(--accent);\n\n  color: white;\n\n  border: none;\n\n  border-radius: 14px;\n\n  padding: 12px 18px;\n\n  cursor: pointer;\n\n  transition: var(--transition);\n}\n\n.glass-button:hover {\n  background: var(--accent-hover);\n\n  transform: scale(1.03);\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 5216
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_colors_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6806);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_spacing_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8579);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_typography_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8581);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_glass_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(808);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_animation_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(9774);
-// Imports
-
-
-
-
-
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_colors_css__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .A);
-___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_spacing_css__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .A);
-___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_typography_css__WEBPACK_IMPORTED_MODULE_4__/* ["default"] */ .A);
-___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_glass_css__WEBPACK_IMPORTED_MODULE_5__/* ["default"] */ .A);
-___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_animation_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A);
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-html,
-body,
-#root{
-width:100%;
-height:100%;
-}
-
-body{
-
-font-family:var(--font-family);
-
-background:var(--bg-primary);
-
-color:var(--text-primary);
-
-overflow:hidden;
-
-font-size:var(--font-body);
-
--webkit-font-smoothing:antialiased;
-
--moz-osx-font-smoothing:grayscale;
-
-}
-
-button,
-input,
-textarea{
-font:inherit;
-}
-
-button{
-cursor:pointer;
-}
-
-::-webkit-scrollbar{
-width:8px;
-height:8px;
-}
-
-::-webkit-scrollbar-thumb{
-
-background:rgba(255,255,255,.12);
-
-border-radius:20px;
-
-}
-
-::-webkit-scrollbar-track{
-
-background:transparent;
-
-}
-
-html{
-zoom:var(--ui-scale);
-}
-
-`, "",{"version":3,"sources":["webpack://./src/styles/globals.css"],"names":[],"mappings":"AAMA;AACA,QAAQ;AACR,SAAS;AACT,qBAAqB;AACrB;;AAEA;;;AAGA,UAAU;AACV,WAAW;AACX;;AAEA;;AAEA,8BAA8B;;AAE9B,4BAA4B;;AAE5B,yBAAyB;;AAEzB,eAAe;;AAEf,0BAA0B;;AAE1B,kCAAkC;;AAElC,iCAAiC;;AAEjC;;AAEA;;;AAGA,YAAY;AACZ;;AAEA;AACA,cAAc;AACd;;AAEA;AACA,SAAS;AACT,UAAU;AACV;;AAEA;;AAEA,gCAAgC;;AAEhC,kBAAkB;;AAElB;;AAEA;;AAEA,sBAAsB;;AAEtB;;AAEA;AACA,oBAAoB;AACpB","sourcesContent":["@import \"./colors.css\";\n@import \"./spacing.css\";\n@import \"./typography.css\";\n@import \"./glass.css\";\n@import \"./animation.css\";\n\n*{\nmargin:0;\npadding:0;\nbox-sizing:border-box;\n}\n\nhtml,\nbody,\n#root{\nwidth:100%;\nheight:100%;\n}\n\nbody{\n\nfont-family:var(--font-family);\n\nbackground:var(--bg-primary);\n\ncolor:var(--text-primary);\n\noverflow:hidden;\n\nfont-size:var(--font-body);\n\n-webkit-font-smoothing:antialiased;\n\n-moz-osx-font-smoothing:grayscale;\n\n}\n\nbutton,\ninput,\ntextarea{\nfont:inherit;\n}\n\nbutton{\ncursor:pointer;\n}\n\n::-webkit-scrollbar{\nwidth:8px;\nheight:8px;\n}\n\n::-webkit-scrollbar-thumb{\n\nbackground:rgba(255,255,255,.12);\n\nborder-radius:20px;\n\n}\n\n::-webkit-scrollbar-track{\n\nbackground:transparent;\n\n}\n\nhtml{\nzoom:var(--ui-scale);\n}\n\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 936
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `:root{
-
---space-1:clamp(4px,.25vw,8px);
---space-2:clamp(8px,.5vw,12px);
---space-3:clamp(12px,.8vw,18px);
---space-4:clamp(18px,1vw,24px);
---space-5:clamp(24px,1.5vw,36px);
-
---font-xs:clamp(11px,.6vw,12px);
---font-sm:clamp(12px,.7vw,14px);
---font-md:clamp(14px,.9vw,16px);
---font-lg:clamp(18px,1.4vw,28px);
---font-xl:clamp(28px,2.8vw,58px);
-
---radius:clamp(14px,.8vw,24px);
-
---sidebar-width:clamp(220px,18vw,300px);
---copilot-width:clamp(280px,26vw,420px);
-
-}
-
-:root{
-
---ui-scale:1;
---font-scale:1;
---space-scale:1;
-
-}
-
-`, "",{"version":3,"sources":["webpack://./src/styles/responsive.css"],"names":[],"mappings":"AAAA;;AAEA,8BAA8B;AAC9B,8BAA8B;AAC9B,+BAA+B;AAC/B,8BAA8B;AAC9B,gCAAgC;;AAEhC,+BAA+B;AAC/B,+BAA+B;AAC/B,+BAA+B;AAC/B,gCAAgC;AAChC,gCAAgC;;AAEhC,8BAA8B;;AAE9B,uCAAuC;AACvC,uCAAuC;;AAEvC;;AAEA;;AAEA,YAAY;AACZ,cAAc;AACd,eAAe;;AAEf","sourcesContent":[":root{\n\n--space-1:clamp(4px,.25vw,8px);\n--space-2:clamp(8px,.5vw,12px);\n--space-3:clamp(12px,.8vw,18px);\n--space-4:clamp(18px,1vw,24px);\n--space-5:clamp(24px,1.5vw,36px);\n\n--font-xs:clamp(11px,.6vw,12px);\n--font-sm:clamp(12px,.7vw,14px);\n--font-md:clamp(14px,.9vw,16px);\n--font-lg:clamp(18px,1.4vw,28px);\n--font-xl:clamp(28px,2.8vw,58px);\n\n--radius:clamp(14px,.8vw,24px);\n\n--sidebar-width:clamp(220px,18vw,300px);\n--copilot-width:clamp(280px,26vw,420px);\n\n}\n\n:root{\n\n--ui-scale:1;\n--font-scale:1;\n--space-scale:1;\n\n}\n\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 8579
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `:root{
-
---space-xs:clamp(4px,.3vw,8px);
---space-sm:clamp(8px,.6vw,12px);
---space-md:clamp(12px,.9vw,18px);
---space-lg:clamp(18px,1.2vw,24px);
---space-xl:clamp(24px,2vw,40px);
-
---font-xs:clamp(11px,.65vw,12px);
---font-sm:clamp(12px,.75vw,14px);
---font-md:clamp(14px,.9vw,16px);
---font-lg:clamp(18px,1.2vw,24px);
---font-xl:clamp(28px,2.5vw,54px);
-
-}
-`, "",{"version":3,"sources":["webpack://./src/styles/spacing.css"],"names":[],"mappings":"AAAA;;AAEA,8BAA8B;AAC9B,+BAA+B;AAC/B,gCAAgC;AAChC,iCAAiC;AACjC,+BAA+B;;AAE/B,gCAAgC;AAChC,gCAAgC;AAChC,+BAA+B;AAC/B,gCAAgC;AAChC,gCAAgC;;AAEhC","sourcesContent":[":root{\n\n--space-xs:clamp(4px,.3vw,8px);\n--space-sm:clamp(8px,.6vw,12px);\n--space-md:clamp(12px,.9vw,18px);\n--space-lg:clamp(18px,1.2vw,24px);\n--space-xl:clamp(24px,2vw,40px);\n\n--font-xs:clamp(11px,.65vw,12px);\n--font-sm:clamp(12px,.75vw,14px);\n--font-md:clamp(14px,.9vw,16px);\n--font-lg:clamp(18px,1.2vw,24px);\n--font-xl:clamp(28px,2.5vw,54px);\n\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 8581
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `:root{
-  --font-family:
-  "SF Pro Display",
-  Inter,
-  system-ui,
-  sans-serif;
-
-  --font-title:34px;
-  --font-h1:28px;
-  --font-h2:22px;
-  --font-h3:18px;
-
-  --font-body:15px;
-  --font-small:13px;
-  --font-tiny:11px;
-
-  --weight-regular:400;
-  --weight-medium:500;
-  --weight-semibold:600;
-  --weight-bold:700;
-}
-`, "",{"version":3,"sources":["webpack://./src/styles/typography.css"],"names":[],"mappings":"AAAA;EACE;;;;YAIU;;EAEV,iBAAiB;EACjB,cAAc;EACd,cAAc;EACd,cAAc;;EAEd,gBAAgB;EAChB,iBAAiB;EACjB,gBAAgB;;EAEhB,oBAAoB;EACpB,mBAAmB;EACnB,qBAAqB;EACrB,iBAAiB;AACnB","sourcesContent":[":root{\n  --font-family:\n  \"SF Pro Display\",\n  Inter,\n  system-ui,\n  sans-serif;\n\n  --font-title:34px;\n  --font-h1:28px;\n  --font-h2:22px;\n  --font-h3:18px;\n\n  --font-body:15px;\n  --font-small:13px;\n  --font-tiny:11px;\n\n  --weight-regular:400;\n  --weight-medium:500;\n  --weight-semibold:600;\n  --weight-bold:700;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1451,13 +2449,12 @@ exports.unstable_renderSubtreeIntoContainer=function(a,b,c,d){if(!ol(c))throw Er
 /***/ 5338
 (__unused_webpack_module, exports, __webpack_require__) {
 
-var __webpack_unused_export__;
 
 
 var m = __webpack_require__(961);
 if (true) {
   exports.createRoot = m.createRoot;
-  __webpack_unused_export__ = m.hydrateRoot;
+  exports.hydrateRoot = m.hydrateRoot;
 } else // removed by dead control flow
 { var i; }
 
@@ -1917,356 +2914,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ },
 
-/***/ 6967
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_animation_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(9774);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_animation_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_animation_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_animation_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_animation_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 7749
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_colors_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(6806);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_colors_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_colors_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_colors_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_colors_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 7689
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_glass_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(808);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_glass_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_glass_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_glass_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_glass_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 9149
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_globals_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(5216);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_globals_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_globals_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_globals_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_globals_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 2047
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_responsive_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(936);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_responsive_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_responsive_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_responsive_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_responsive_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 4425
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_spacing_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(8579);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_spacing_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_spacing_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_spacing_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_spacing_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 1978
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_typography_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(8581);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_typography_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_typography_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_typography_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_typography_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
 /***/ 5072
 (module) {
 
@@ -2516,7 +3163,7 @@ module.exports = styleTagTransform;
 
 /***/ },
 
-/***/ 2113
+/***/ 8577
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2527,10 +3174,1229 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = App;
 const jsx_runtime_1 = __webpack_require__(4848);
 const AppShell_1 = __importDefault(__webpack_require__(7664));
-const useResponsiveScale_1 = __importDefault(__webpack_require__(8594));
+const Dashboard_1 = __importDefault(__webpack_require__(9971));
+const TimelineAI_1 = __importDefault(__webpack_require__(9797));
+const WeddingAI_1 = __importDefault(__webpack_require__(5165));
+const AutoEdit_1 = __importDefault(__webpack_require__(8068));
+const FaceAI_1 = __importDefault(__webpack_require__(1573));
+const MusicAI_1 = __importDefault(__webpack_require__(4397));
+const ExportStudio_1 = __importDefault(__webpack_require__(7827));
+const Settings_1 = __importDefault(__webpack_require__(4203));
+const NavigationContext_1 = __webpack_require__(791);
 function App() {
-    (0, useResponsiveScale_1.default)();
-    return (0, jsx_runtime_1.jsx)(AppShell_1.default, {});
+    const { page } = (0, NavigationContext_1.useNavigation)();
+    let content;
+    switch (page) {
+        case "timeline":
+            content = (0, jsx_runtime_1.jsx)(TimelineAI_1.default, {});
+            break;
+        case "wedding":
+            content = (0, jsx_runtime_1.jsx)(WeddingAI_1.default, {});
+            break;
+        case "autoedit":
+            content = (0, jsx_runtime_1.jsx)(AutoEdit_1.default, {});
+            break;
+        case "faceai":
+            content = (0, jsx_runtime_1.jsx)(FaceAI_1.default, {});
+            break;
+        case "musicai":
+            content = (0, jsx_runtime_1.jsx)(MusicAI_1.default, {});
+            break;
+        case "exports":
+            content = (0, jsx_runtime_1.jsx)(ExportStudio_1.default, {});
+            break;
+        case "settings":
+            content = (0, jsx_runtime_1.jsx)(Settings_1.default, {});
+            break;
+        default:
+            content = (0, jsx_runtime_1.jsx)(Dashboard_1.default, {});
+    }
+    return (0, jsx_runtime_1.jsx)(AppShell_1.default, { children: content });
+}
+
+
+/***/ },
+
+/***/ 6241
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.AIConfigManager = void 0;
+const APIKeyStore_1 = __webpack_require__(7698);
+const ProviderSettings_1 = __webpack_require__(4708);
+const AISettings_1 = __webpack_require__(5543);
+class AIConfigManager {
+    static provider() {
+        return ProviderSettings_1.ProviderSettings.getProvider();
+    }
+    static setProvider(provider) {
+        ProviderSettings_1.ProviderSettings.setProvider(provider);
+    }
+    static model() {
+        return AISettings_1.AISettings.getModel();
+    }
+    static setModel(model) {
+        AISettings_1.AISettings.setModel(model);
+    }
+    static apiKey(provider) {
+        return APIKeyStore_1.APIKeyStore.get(provider);
+    }
+    static setApiKey(provider, key) {
+        APIKeyStore_1.APIKeyStore.set(provider, key);
+    }
+    static hasApiKey(provider) {
+        return APIKeyStore_1.APIKeyStore.has(provider);
+    }
+}
+exports.AIConfigManager = AIConfigManager;
+
+
+/***/ },
+
+/***/ 5543
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.AISettings = void 0;
+const ModelRegistry_1 = __webpack_require__(3324);
+class AISettings {
+    static model = ModelRegistry_1.DEFAULT_MODEL;
+    static getModel() {
+        return this.model;
+    }
+    static setModel(model) {
+        this.model = model;
+    }
+}
+exports.AISettings = AISettings;
+
+
+/***/ },
+
+/***/ 7698
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.APIKeyStore = void 0;
+class APIKeyStore {
+    static keys = {};
+    static set(provider, key) {
+        this.keys[provider] = key;
+    }
+    static get(provider) {
+        return this.keys[provider] ?? "";
+    }
+    static has(provider) {
+        return (this.keys[provider] ?? "").length > 0;
+    }
+    static clear(provider) {
+        delete this.keys[provider];
+    }
+    static clearAll() {
+        this.keys = {};
+    }
+}
+exports.APIKeyStore = APIKeyStore;
+
+
+/***/ },
+
+/***/ 4708
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.ProviderSettings = void 0;
+class ProviderSettings {
+    static provider = "gemini";
+    static getProvider() {
+        return this.provider;
+    }
+    static setProvider(provider) {
+        this.provider = provider;
+    }
+}
+exports.ProviderSettings = ProviderSettings;
+
+
+/***/ },
+
+/***/ 3615
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.ContextPromptBuilder = void 0;
+const PromptBuilder_1 = __webpack_require__(5182);
+const PremiereContextManager_1 = __webpack_require__(7198);
+class ContextPromptBuilder {
+    static build(userPrompt) {
+        const ctx = PremiereContextManager_1.PremiereContextManager.get();
+        const context = `
+Premiere Context
+
+Project: ${ctx.projectName}
+Sequence: ${ctx.sequenceName}
+
+FPS: ${ctx.fps}
+
+Playhead: ${ctx.playhead}
+In Point: ${ctx.inPoint}
+Out Point: ${ctx.outPoint}
+
+Video Tracks: ${ctx.videoTracks}
+Audio Tracks: ${ctx.audioTracks}
+
+Selected Clips:
+${ctx.selectedClips.length ? ctx.selectedClips.join("\n") : "None"}
+
+Markers:
+${ctx.markers.length ? ctx.markers.join("\n") : "None"}
+`;
+        return PromptBuilder_1.PromptBuilder.build(`${context}\n\nUser Request:\n${userPrompt}`);
+    }
+}
+exports.ContextPromptBuilder = ContextPromptBuilder;
+
+
+/***/ },
+
+/***/ 6441
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EmptyPremiereContext = void 0;
+exports.EmptyPremiereContext = {
+    projectName: "",
+    sequenceName: "",
+    fps: 25,
+    inPoint: 0,
+    outPoint: 0,
+    playhead: 0,
+    selectedClips: [],
+    videoTracks: 0,
+    audioTracks: 0,
+    markers: []
+};
+
+
+/***/ },
+
+/***/ 7198
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PremiereContextManager = void 0;
+const PremiereContext_1 = __webpack_require__(6441);
+class PremiereContextManager {
+    static context = {
+        ...PremiereContext_1.EmptyPremiereContext
+    };
+    static get() {
+        return this.context;
+    }
+    static update(data) {
+        this.context = {
+            ...this.context,
+            ...data
+        };
+        return this.context;
+    }
+    static reset() {
+        this.context = {
+            ...PremiereContext_1.EmptyPremiereContext
+        };
+    }
+}
+exports.PremiereContextManager = PremiereContextManager;
+
+
+/***/ },
+
+/***/ 9788
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PremiereContextProvider = void 0;
+const PremiereContextManager_1 = __webpack_require__(7198);
+const PremiereReader_1 = __webpack_require__(611);
+class PremiereContextProvider {
+    static reader = new PremiereReader_1.PremiereReader();
+    static async refresh() {
+        const context = await this.reader.readContext();
+        PremiereContextManager_1.PremiereContextManager.update(context);
+    }
+}
+exports.PremiereContextProvider = PremiereContextProvider;
+
+
+/***/ },
+
+/***/ 7523
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(6441), exports);
+__exportStar(__webpack_require__(7198), exports);
+__exportStar(__webpack_require__(9788), exports);
+
+
+/***/ },
+
+/***/ 3324
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+__webpack_unused_export__ = exports.DEFAULT_MODEL = void 0;
+exports.DEFAULT_MODEL = "gemini-3.6-flash";
+__webpack_unused_export__ = [
+    "gemini-3.6-flash",
+    "gpt-5",
+    "claude-sonnet-4",
+    "grok-4",
+    "kimi-k2"
+];
+
+
+/***/ },
+
+/***/ 611
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.PremiereReader = void 0;
+const PremiereAPI_1 = __webpack_require__(868);
+const ClipManager_1 = __webpack_require__(2276);
+class PremiereReader {
+    async readContext() {
+        const sequence = await PremiereAPI_1.premiereAPI.getActiveSequence();
+        const timeline = await PremiereAPI_1.premiereAPI.getTimelineContext();
+        const clips = await ClipManager_1.clipManager.getSelectedClips();
+        const playhead = sequence
+            ? await sequence.getPlayerPosition()
+            : null;
+        const inPoint = sequence
+            ? await sequence.getInPoint()
+            : null;
+        const outPoint = sequence
+            ? await sequence.getOutPoint()
+            : null;
+        return {
+            projectName: timeline?.projectName ?? "No Project",
+            sequenceName: timeline?.sequenceName ?? "No Sequence",
+            fps: 25,
+            playhead: playhead?.seconds ?? 0,
+            inPoint: inPoint?.seconds === -400000
+                ? 0
+                : (inPoint?.seconds ?? 0),
+            outPoint: outPoint?.seconds === -400000
+                ? 0
+                : (outPoint?.seconds ?? 0),
+            videoTracks: timeline?.videoTracks ?? 0,
+            audioTracks: timeline?.audioTracks ?? 0,
+            selectedClips: clips.map(c => c.name),
+            markers: []
+        };
+    }
+}
+exports.PremiereReader = PremiereReader;
+
+
+/***/ },
+
+/***/ 5182
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.PromptBuilder = void 0;
+const SystemPrompt_1 = __webpack_require__(1040);
+class PromptBuilder {
+    static build(userPrompt) {
+        return `${SystemPrompt_1.SYSTEM_PROMPT}
+
+User:
+${userPrompt}`;
+    }
+}
+exports.PromptBuilder = PromptBuilder;
+
+
+/***/ },
+
+/***/ 1040
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.SYSTEM_PROMPT = void 0;
+exports.SYSTEM_PROMPT = `
+You are RK Flow AI.
+
+You are an expert AI assistant built exclusively for Adobe Premiere Pro.
+
+Your purpose is to help editors edit faster.
+
+Never generate ExtendScript or JavaScript unless the user explicitly asks for code.
+
+Your primary responsibility is to decide which editing tools should be executed.
+
+Always think before answering.
+
+When an editing task is requested, reply ONLY in valid JSON.
+
+Example:
+
+{
+  "thought":"Creating a cinematic wedding highlight.",
+  "tools":[
+    {
+      "name":"readTimeline"
+    },
+    {
+      "name":"analyzeMusic"
+    },
+    {
+      "name":"findBride"
+    },
+    {
+      "name":"createHighlight",
+      "arguments":{
+        "duration":60,
+        "style":"cinematic"
+      }
+    }
+  ]
+}
+
+If no tool is needed, answer normally.
+
+Supported tools:
+
+- readTimeline
+- trimClip
+- moveClip
+- splitClip
+- createReel
+- createHighlight
+- createTeaser
+- findBride
+- findGroom
+- detectFaces
+- analyzeMusic
+- beatSync
+- exportInstagram
+- exportYouTube
+
+You specialise in:
+
+Indian Weddings
+
+Haldi
+
+Mehndi
+
+Sangeet
+
+Baraat
+
+Reception
+
+Wedding Film
+
+Cinematic Edit
+
+Instagram Reels
+
+You automatically adapt to the user's language.
+
+Reply in:
+
+English
+
+Hindi
+
+Hinglish
+
+Never invent Premiere APIs.
+
+Never hallucinate tool names.
+
+Always optimise editing workflow.
+`;
+
+
+/***/ },
+
+/***/ 8224
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.BaseProvider = void 0;
+class BaseProvider {
+    apiKey = "";
+    async initialize(apiKey) {
+        this.apiKey = apiKey;
+    }
+    isAvailable() {
+        return this.apiKey.length > 0;
+    }
+}
+exports.BaseProvider = BaseProvider;
+
+
+/***/ },
+
+/***/ 7499
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.ClaudeProvider = void 0;
+const BaseProvider_1 = __webpack_require__(8224);
+class ClaudeProvider extends BaseProvider_1.BaseProvider {
+    id = "claude";
+    name = "Claude";
+    async chat(_request) {
+        throw new Error("Claude provider not implemented yet.");
+    }
+}
+exports.ClaudeProvider = ClaudeProvider;
+
+
+/***/ },
+
+/***/ 3150
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.GeminiProvider = void 0;
+const generative_ai_1 = __webpack_require__(6445);
+const BaseProvider_1 = __webpack_require__(8224);
+const AIConfigManager_1 = __webpack_require__(6241);
+class GeminiProvider extends BaseProvider_1.BaseProvider {
+    id = "gemini";
+    name = "Gemini";
+    client;
+    async initialize(apiKey) {
+        await super.initialize(apiKey);
+        this.client = new generative_ai_1.GoogleGenerativeAI(apiKey);
+    }
+    async chat(request) {
+        if (!this.client) {
+            throw new Error("Gemini not initialized.");
+        }
+        const model = this.client.getGenerativeModel({
+            model: AIConfigManager_1.AIConfigManager.model()
+        });
+        const result = await model.generateContent(request.prompt);
+        return {
+            text: result.response.text(),
+            provider: this.id,
+            usage: {
+                promptTokens: 0,
+                completionTokens: 0,
+                totalTokens: 0
+            }
+        };
+    }
+}
+exports.GeminiProvider = GeminiProvider;
+
+
+/***/ },
+
+/***/ 1734
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.GrokProvider = void 0;
+const BaseProvider_1 = __webpack_require__(8224);
+class GrokProvider extends BaseProvider_1.BaseProvider {
+    id = "grok";
+    name = "Grok";
+    async chat(_request) {
+        throw new Error("Grok provider not implemented yet.");
+    }
+}
+exports.GrokProvider = GrokProvider;
+
+
+/***/ },
+
+/***/ 3115
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.KimiProvider = void 0;
+const BaseProvider_1 = __webpack_require__(8224);
+class KimiProvider extends BaseProvider_1.BaseProvider {
+    id = "kimi";
+    name = "Kimi";
+    async chat(_request) {
+        throw new Error("Kimi provider not implemented yet.");
+    }
+}
+exports.KimiProvider = KimiProvider;
+
+
+/***/ },
+
+/***/ 6879
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.OpenAIProvider = void 0;
+const BaseProvider_1 = __webpack_require__(8224);
+class OpenAIProvider extends BaseProvider_1.BaseProvider {
+    id = "openai";
+    name = "OpenAI";
+    async chat(_request) {
+        throw new Error("OpenAI provider not implemented yet.");
+    }
+}
+exports.OpenAIProvider = OpenAIProvider;
+
+
+/***/ },
+
+/***/ 1103
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.ProviderFactory = void 0;
+const GeminiProvider_1 = __webpack_require__(3150);
+const OpenAIProvider_1 = __webpack_require__(6879);
+const ClaudeProvider_1 = __webpack_require__(7499);
+const GrokProvider_1 = __webpack_require__(1734);
+const KimiProvider_1 = __webpack_require__(3115);
+class ProviderFactory {
+    static create(provider) {
+        switch (provider) {
+            case "gemini":
+                return new GeminiProvider_1.GeminiProvider();
+            case "openai":
+                return new OpenAIProvider_1.OpenAIProvider();
+            case "claude":
+                return new ClaudeProvider_1.ClaudeProvider();
+            case "grok":
+                return new GrokProvider_1.GrokProvider();
+            case "kimi":
+                return new KimiProvider_1.KimiProvider();
+            default:
+                throw new Error(`Unsupported provider: ${provider}`);
+        }
+    }
+    static providers() {
+        return [
+            "gemini",
+            "openai",
+            "claude",
+            "grok",
+            "kimi"
+        ];
+    }
+}
+exports.ProviderFactory = ProviderFactory;
+
+
+/***/ },
+
+/***/ 8026
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.AIRouter = void 0;
+const ProviderFactory_1 = __webpack_require__(1103);
+const AIConfigManager_1 = __webpack_require__(6241);
+class AIRouter {
+    async chat(request) {
+        const providerId = AIConfigManager_1.AIConfigManager.provider();
+        const provider = ProviderFactory_1.ProviderFactory.create(providerId);
+        const apiKey = AIConfigManager_1.AIConfigManager.apiKey(providerId);
+        if (!apiKey) {
+            throw new Error(`Missing API key for ${providerId}.`);
+        }
+        await provider.initialize(apiKey);
+        return provider.chat(request);
+    }
+}
+exports.AIRouter = AIRouter;
+
+
+/***/ },
+
+/***/ 5407
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.AIChatService = void 0;
+const AIRouter_1 = __webpack_require__(8026);
+const ContextPromptBuilder_1 = __webpack_require__(3615);
+const context_1 = __webpack_require__(7523);
+class AIChatService {
+    router = new AIRouter_1.AIRouter();
+    async ask(prompt) {
+        await context_1.PremiereContextProvider.refresh();
+        const request = {
+            prompt: ContextPromptBuilder_1.ContextPromptBuilder.build(prompt)
+        };
+        const response = await this.router.chat(request);
+        return response.text;
+    }
+}
+exports.AIChatService = AIChatService;
+
+
+/***/ },
+
+/***/ 3054
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AIController = void 0;
+const AIChatService_1 = __webpack_require__(5407);
+const AIState_1 = __webpack_require__(9661);
+class AIController {
+    chatService = new AIChatService_1.AIChatService();
+    async ask(prompt) {
+        return this.chatService.ask(prompt);
+    }
+    getProvider() {
+        return AIState_1.AIState.provider();
+    }
+    setProvider(provider) {
+        AIState_1.AIState.setProvider(provider);
+    }
+    getModel() {
+        return AIState_1.AIState.model();
+    }
+    setModel(model) {
+        AIState_1.AIState.setModel(model);
+    }
+    getApiKey() {
+        return AIState_1.AIState.apiKey();
+    }
+    setApiKey(key) {
+        AIState_1.AIState.setApiKey(key);
+    }
+}
+exports.AIController = AIController;
+
+
+/***/ },
+
+/***/ 9661
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AIState = void 0;
+const AIConfigManager_1 = __webpack_require__(6241);
+const DEFAULT_GEMINI_KEY = "AQ.Ab8RN6J5PW823wXcNZzXoZXHCtlB-xbcFK1M5ON2aNEaSUZvOA";
+AIConfigManager_1.AIConfigManager.setProvider("gemini");
+if (!AIConfigManager_1.AIConfigManager.hasApiKey("gemini") && DEFAULT_GEMINI_KEY) {
+    AIConfigManager_1.AIConfigManager.setApiKey("gemini", DEFAULT_GEMINI_KEY);
+}
+class AIState {
+    static provider() {
+        return AIConfigManager_1.AIConfigManager.provider();
+    }
+    static setProvider(provider) {
+        AIConfigManager_1.AIConfigManager.setProvider(provider);
+    }
+    static model() {
+        return AIConfigManager_1.AIConfigManager.model();
+    }
+    static setModel(model) {
+        AIConfigManager_1.AIConfigManager.setModel(model);
+    }
+    static apiKey() {
+        return AIConfigManager_1.AIConfigManager.apiKey(this.provider());
+    }
+    static setApiKey(key) {
+        AIConfigManager_1.AIConfigManager.setApiKey(this.provider(), key);
+    }
+}
+exports.AIState = AIState;
+
+
+/***/ },
+
+/***/ 5710
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(3054), exports);
+__exportStar(__webpack_require__(9661), exports);
+
+
+/***/ },
+
+/***/ 602
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = AIChatPanel;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const ui_1 = __webpack_require__(5710);
+const ai = new ui_1.AIController();
+function AIChatPanel() {
+    const [prompt, setPrompt] = (0, react_1.useState)("");
+    const [loading, setLoading] = (0, react_1.useState)(false);
+    const [messages, setMessages] = (0, react_1.useState)([
+        {
+            role: "assistant",
+            text: "👋 Welcome to RK Flow AI",
+            time: new Date().toLocaleTimeString()
+        }
+    ]);
+    const fileInput = (0, react_1.useRef)(null);
+    const bottomRef = (0, react_1.useRef)(null);
+    const textareaRef = (0, react_1.useRef)(null);
+    (0, react_1.useEffect)(() => {
+        bottomRef.current?.scrollIntoView({
+            behavior: "smooth"
+        });
+    }, [messages, loading]);
+    (0, react_1.useEffect)(() => {
+        textareaRef.current?.focus();
+    }, []);
+    const send = async () => {
+        const text = prompt.trim();
+        if (!text || loading)
+            return;
+        setMessages((m) => [
+            ...m,
+            {
+                role: "user",
+                text,
+                time: new Date().toLocaleTimeString()
+            }
+        ]);
+        setPrompt("");
+        setLoading(true);
+        try {
+            const reply = await ai.ask(text);
+            setMessages((m) => [
+                ...m,
+                {
+                    role: "assistant",
+                    text: reply,
+                    time: new Date().toLocaleTimeString()
+                }
+            ]);
+        }
+        catch (e) {
+            setMessages((m) => [
+                ...m,
+                {
+                    role: "assistant",
+                    text: String(e),
+                    time: new Date().toLocaleTimeString()
+                }
+            ]);
+        }
+        finally {
+            setLoading(false);
+            textareaRef.current?.focus();
+        }
+    };
+    const onKeyDown = (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            void send();
+        }
+    };
+    return ((0, jsx_runtime_1.jsxs)("div", { style: {
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+            gap: 12
+        }, children: [(0, jsx_runtime_1.jsx)("h2", { children: "RK Flow AI" }), (0, jsx_runtime_1.jsxs)("div", { style: {
+                    flex: 1,
+                    overflowY: "auto",
+                    border: "1px solid #333",
+                    borderRadius: 12,
+                    padding: 14
+                }, children: [messages.map((m, i) => ((0, jsx_runtime_1.jsxs)("div", { style: {
+                            marginBottom: 18,
+                            textAlign: m.role === "user" ? "right" : "left"
+                        }, children: [(0, jsx_runtime_1.jsx)("strong", { children: m.role === "user" ? "You" : "RK Flow AI" }), (0, jsx_runtime_1.jsx)("div", { style: {
+                                    opacity: 0.6,
+                                    fontSize: 11
+                                }, children: m.time }), (0, jsx_runtime_1.jsx)("div", { style: {
+                                    marginTop: 6,
+                                    whiteSpace: "pre-wrap"
+                                }, children: m.text })] }, i))), loading && (0, jsx_runtime_1.jsx)("div", { children: "\uD83E\uDD16 Thinking..." }), (0, jsx_runtime_1.jsx)("div", { ref: bottomRef })] }), (0, jsx_runtime_1.jsx)("textarea", { ref: textareaRef, rows: 4, placeholder: "Ask RK Flow AI...", value: prompt, onChange: (e) => setPrompt(e.target.value), onKeyDown: onKeyDown }), (0, jsx_runtime_1.jsxs)("div", { style: {
+                    display: "flex",
+                    gap: 8
+                }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: () => void send(), disabled: loading, children: loading ? "Thinking..." : "Send" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => fileInput.current?.click(), children: "Attach" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => setMessages([
+                            {
+                                role: "assistant",
+                                text: "👋 Chat cleared.",
+                                time: new Date().toLocaleTimeString()
+                            }
+                        ]), children: "Clear" })] }), (0, jsx_runtime_1.jsx)("input", { ref: fileInput, type: "file", hidden: true })] }));
+}
+
+
+/***/ },
+
+/***/ 791
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.NavigationProvider = NavigationProvider;
+exports.useNavigation = useNavigation;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const NavigationContext = (0, react_1.createContext)(undefined);
+function NavigationProvider({ children }) {
+    const [page, setPage] = (0, react_1.useState)("dashboard");
+    return ((0, jsx_runtime_1.jsx)(NavigationContext.Provider, { value: { page, setPage }, children: children }));
+}
+function useNavigation() {
+    const context = (0, react_1.useContext)(NavigationContext);
+    if (!context) {
+        throw new Error("useNavigation must be used inside NavigationProvider");
+    }
+    return context;
+}
+
+
+/***/ },
+
+/***/ 1375
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TransactionManager = void 0;
+class TransactionManager {
+    PPRO;
+    constructor(PPRO) {
+        this.PPRO = PPRO;
+    }
+    async run(callback) {
+        const project = await this.PPRO.Project.getActiveProject();
+        return await project.lockedAccess(async () => {
+            return await callback(project);
+        });
+    }
+    async executeAction(actionBuilder) {
+        return await this.run(async (project) => {
+            const action = await actionBuilder(project);
+            if (!action) {
+                throw new Error("TransactionManager: No action returned.");
+            }
+            return await project.executeTransaction((compoundAction) => {
+                compoundAction.addAction(action);
+            });
+        });
+    }
+}
+exports.TransactionManager = TransactionManager;
+exports["default"] = TransactionManager;
+
+
+/***/ },
+
+/***/ 2318
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const TransactionManager_1 = __importDefault(__webpack_require__(1375));
+class MotionEngine {
+    PPRO;
+    transaction;
+    constructor(PPRO) {
+        this.PPRO = PPRO;
+        this.transaction = new TransactionManager_1.default(PPRO);
+    }
+    async setPosition(x, y, trackIndex = 0, clipIndex = 0) {
+        return await this.transaction.executeAction(async (project) => {
+            const sequence = await project.getActiveSequence();
+            const track = await sequence.getVideoTrack(trackIndex);
+            const clips = await track.getTrackItems(this.PPRO.Constants.TrackItemType.CLIP, false);
+            if (!clips.length) {
+                throw new Error("No clips found.");
+            }
+            const clip = clips[clipIndex];
+            if (!clip) {
+                throw new Error("Invalid clip index.");
+            }
+            const chain = await clip.getComponentChain();
+            const motion = await chain.getComponentAtIndex(1);
+            const position = await motion.getParam(0);
+            const point = new this.PPRO.PointF();
+            point.x = x;
+            point.y = y;
+            const keyframe = position.createKeyframe(point);
+            keyframe.value.value = [x, y];
+            return position.createSetValueAction(keyframe, true);
+        });
+    }
+    async center() {
+        return await this.setPosition(0.5, 0.5);
+    }
+    async left() {
+        return await this.setPosition(0.25, 0.5);
+    }
+    async right() {
+        return await this.setPosition(0.75, 0.5);
+    }
+    async top() {
+        return await this.setPosition(0.5, 0.25);
+    }
+    async bottom() {
+        return await this.setPosition(0.5, 0.75);
+    }
+}
+exports["default"] = MotionEngine;
+
+
+/***/ },
+
+/***/ 9292
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.inspectPremiereAPI = inspectPremiereAPI;
+exports.testMoveAction = testMoveAction;
+function listMethods(obj) {
+    if (!obj)
+        return [];
+    const methods = new Set();
+    let proto = obj;
+    while (proto && proto !== Object.prototype) {
+        for (const name of Object.getOwnPropertyNames(proto)) {
+            if (typeof obj[name] === "function" &&
+                name !== "constructor") {
+                methods.add(name);
+            }
+        }
+        proto = Object.getPrototypeOf(proto);
+    }
+    return [...methods].sort();
+}
+async function inspectPremiereAPI() {
+    console.log("STEP 1");
+    const PPRO = window.PPRO;
+    console.log("PPRO =", PPRO);
+    if (!PPRO) {
+        console.error("PPRO API not found.");
+        return;
+    }
+    console.log("STEP 2");
+    const project = await PPRO.Project.getActiveProject();
+    console.log("PROJECT =", project);
+    if (!project) {
+        console.error("No active project.");
+        return;
+    }
+    console.log("STEP 4");
+    const sequence = await project.getActiveSequence();
+    console.log("SEQUENCE =", sequence);
+    console.group("RK Flow UXP Inspector");
+    console.log("=== Project Methods ===");
+    console.table(listMethods(project));
+    console.log("=== Sequence Methods ===");
+    console.table(listMethods(sequence));
+    console.log("STEP 5");
+    const selection = await sequence.getSelection();
+    console.log("SELECTION =", selection);
+    console.log("=== Selection Methods ===");
+    console.table(listMethods(selection));
+    console.log("STEP 6");
+    const items = await selection.getTrackItems();
+    console.log("ITEMS =", items);
+    if (items.length) {
+        console.log("=== First Selected Clip Methods ===");
+        console.table(listMethods(items[0]));
+    }
+    else {
+        console.warn("No selected clips.");
+    }
+    console.groupEnd();
+}
+async function testMoveAction() {
+    console.log("STEP 1");
+    const PPRO = window.PPRO;
+    console.log("PPRO =", PPRO);
+    console.log("STEP 2");
+    const project = await PPRO.Project.getActiveProject();
+    console.log("PROJECT =", project);
+    console.log("STEP 3");
+    await project.lockedAccess(async () => {
+        console.log("INSIDE LOCK");
+        console.log("STEP 4");
+        const sequence = await project.getActiveSequence();
+        console.log("SEQUENCE =", sequence);
+        console.log("STEP 5");
+        const selection = await sequence.getSelection();
+        console.log("SELECTION =", selection);
+        console.log("STEP 6");
+        const items = await selection.getTrackItems();
+        console.log("ITEMS =", items);
+        if (!items.length) {
+            console.log("No clip selected");
+            return;
+        }
+        const clip = items[0];
+        console.log("===== CLIP =====");
+        console.table(Object.getOwnPropertyNames(Object.getPrototypeOf(clip)));
+        console.log("createMoveAction =", clip.createMoveAction);
+        console.log("createMoveAction.length =", clip.createMoveAction.length);
+        console.log("createMoveAction.toString =", clip.createMoveAction.toString());
+        try {
+            const tick = PPRO.TickTime.createWithSeconds(1);
+            console.log("Tick =", tick);
+            const action = clip.createMoveAction(tick);
+            console.log("===== ACTION =====");
+            console.log(action);
+            console.log("ACTION PROTOTYPE");
+            console.table(Object.getOwnPropertyNames(Object.getPrototypeOf(action)));
+            console.log("ACTION KEYS");
+            console.table(Object.keys(action));
+            console.log("ACTION ALL PROPERTIES");
+            console.log(Reflect.ownKeys(action));
+            return action;
+        }
+        catch (e) {
+            console.error("createMoveAction ERROR:", e);
+        }
+    });
+}
+
+
+/***/ },
+
+/***/ 1742
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = SettingsPage;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const AIConfigManager_1 = __webpack_require__(6241);
+const AIRouter_1 = __webpack_require__(8026);
+const router = new AIRouter_1.AIRouter();
+function SettingsPage() {
+    const provider = AIConfigManager_1.AIConfigManager.provider();
+    const [apiKey, setApiKey] = (0, react_1.useState)(AIConfigManager_1.AIConfigManager.apiKey(provider));
+    const [status, setStatus] = (0, react_1.useState)("");
+    function save() {
+        AIConfigManager_1.AIConfigManager.setApiKey(provider, apiKey);
+        setStatus("✅ API Key Saved");
+    }
+    async function test() {
+        try {
+            setStatus("Testing...");
+            const result = await router.chat({
+                prompt: "Reply with exactly: RK Flow AI Connected"
+            });
+            setStatus("🟢 " + result.text);
+        }
+        catch (e) {
+            setStatus("🔴 " + (e.message || "Connection Failed"));
+        }
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { padding: 20 }, children: [(0, jsx_runtime_1.jsx)("h2", { children: "RK Flow AI Settings" }), (0, jsx_runtime_1.jsx)("input", { type: "password", placeholder: "API Key", value: apiKey, onChange: (e) => setApiKey(e.target.value), style: {
+                    width: "100%",
+                    padding: 10,
+                    marginTop: 10
+                } }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: 15 }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: save, children: "Save API Key" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void test(), style: { marginLeft: 10 }, children: "Test Connection" })] }), (0, jsx_runtime_1.jsx)("p", { style: { marginTop: 20 }, children: status })] }));
+}
+
+
+/***/ },
+
+/***/ 8068
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = AutoEdit;
+const jsx_runtime_1 = __webpack_require__(4848);
+function AutoEdit() {
+    return (0, jsx_runtime_1.jsx)("h1", { style: { color: "#fff" }, children: "Auto Edit" });
 }
 
 
@@ -2540,10 +4406,14 @@ function App() {
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = Dashboard;
 const jsx_runtime_1 = __webpack_require__(4848);
 __webpack_require__(271);
+const AIChatPanel_1 = __importDefault(__webpack_require__(602));
 const stats = [
     { title: "Projects", value: "12" },
     { title: "Wedding Films", value: "36" },
@@ -2564,38 +4434,97 @@ const projects = [
     "Haldi Reel",
 ];
 function Dashboard() {
-    return ((0, jsx_runtime_1.jsxs)("div", { className: "dashboard", children: [(0, jsx_runtime_1.jsxs)("section", { className: "hero", children: [(0, jsx_runtime_1.jsx)("span", { className: "badge", children: "RK FLOW AI" }), (0, jsx_runtime_1.jsx)("h1", { children: "AI Video Editing Workspace" }), (0, jsx_runtime_1.jsx)("p", { children: "Build Wedding Reels, Highlights, Teasers and Cinematic Films using AI-powered workflows." })] }), (0, jsx_runtime_1.jsx)("section", { className: "stats", children: stats.map((item) => ((0, jsx_runtime_1.jsxs)("div", { className: "card stat", children: [(0, jsx_runtime_1.jsx)("span", { children: item.title }), (0, jsx_runtime_1.jsx)("h2", { children: item.value })] }, item.title))) }), (0, jsx_runtime_1.jsxs)("section", { className: "card", children: [(0, jsx_runtime_1.jsx)("h3", { children: "Quick Actions" }), (0, jsx_runtime_1.jsx)("div", { className: "action-grid", children: actions.map((item) => ((0, jsx_runtime_1.jsx)("button", { children: item }, item))) })] }), (0, jsx_runtime_1.jsxs)("section", { className: "card", children: [(0, jsx_runtime_1.jsx)("h3", { children: "Recent Projects" }), (0, jsx_runtime_1.jsx)("div", { className: "project-list", children: projects.map((item) => ((0, jsx_runtime_1.jsx)("div", { className: "project", children: item }, item))) })] })] }));
+    return ((0, jsx_runtime_1.jsxs)("div", { className: "dashboard", children: [(0, jsx_runtime_1.jsxs)("section", { className: "hero", children: [(0, jsx_runtime_1.jsx)("span", { className: "badge", children: "RK FLOW AI" }), (0, jsx_runtime_1.jsx)("h1", { children: "AI Video Editing Workspace" }), (0, jsx_runtime_1.jsx)("p", { children: "Build Wedding Reels, Highlights, Teasers and Cinematic Films using AI-powered workflows." })] }), (0, jsx_runtime_1.jsx)("section", { className: "stats", children: stats.map((item) => ((0, jsx_runtime_1.jsxs)("div", { className: "card stat", children: [(0, jsx_runtime_1.jsx)("span", { children: item.title }), (0, jsx_runtime_1.jsx)("h2", { children: item.value })] }, item.title))) }), (0, jsx_runtime_1.jsxs)("section", { className: "card", children: [(0, jsx_runtime_1.jsx)("h3", { children: "Quick Actions" }), (0, jsx_runtime_1.jsx)("div", { className: "action-grid", children: actions.map((item) => ((0, jsx_runtime_1.jsx)("button", { children: item }, item))) })] }), (0, jsx_runtime_1.jsxs)("section", { className: "card", children: [(0, jsx_runtime_1.jsx)("h3", { children: "Recent Projects" }), (0, jsx_runtime_1.jsx)("div", { className: "project-list", children: projects.map((item) => ((0, jsx_runtime_1.jsx)("div", { className: "project", children: item }, item))) })] }), (0, jsx_runtime_1.jsx)("section", { className: "card", children: (0, jsx_runtime_1.jsx)(AIChatPanel_1.default, {}) })] }));
 }
 
 
 /***/ },
 
-/***/ 8594
+/***/ 7827
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = useResponsiveScale;
-const react_1 = __webpack_require__(6540);
-function useResponsiveScale() {
-    (0, react_1.useEffect)(() => {
-        const root = document.documentElement;
-        const updateScale = () => {
-            const width = window.innerWidth;
-            const scale = Math.max(0.75, Math.min(1.4, width / 1600));
-            root.style.setProperty("--ui-scale", scale.toFixed(3));
-            root.style.setProperty("--font-scale", scale.toFixed(3));
-            root.style.setProperty("--space-scale", scale.toFixed(3));
-        };
-        updateScale();
-        const observer = new ResizeObserver(updateScale);
-        observer.observe(document.body);
-        window.addEventListener("resize", updateScale);
-        return () => {
-            observer.disconnect();
-            window.removeEventListener("resize", updateScale);
-        };
-    }, []);
+exports["default"] = ExportStudio;
+const jsx_runtime_1 = __webpack_require__(4848);
+function ExportStudio() {
+    return (0, jsx_runtime_1.jsx)("h1", { style: { color: "#fff" }, children: "Export Studio" });
+}
+
+
+/***/ },
+
+/***/ 1573
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = FaceAI;
+const jsx_runtime_1 = __webpack_require__(4848);
+function FaceAI() {
+    return (0, jsx_runtime_1.jsx)("h1", { style: { color: "#fff" }, children: "Face AI" });
+}
+
+
+/***/ },
+
+/***/ 4397
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = MusicAI;
+const jsx_runtime_1 = __webpack_require__(4848);
+function MusicAI() {
+    return (0, jsx_runtime_1.jsx)("h1", { style: { color: "#fff" }, children: "Music AI" });
+}
+
+
+/***/ },
+
+/***/ 4203
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = void 0;
+var SettingsPage_1 = __webpack_require__(1742);
+Object.defineProperty(exports, "default", ({ enumerable: true, get: function () { return __importDefault(SettingsPage_1).default; } }));
+
+
+/***/ },
+
+/***/ 9797
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = TimelineAI;
+const jsx_runtime_1 = __webpack_require__(4848);
+const UXPInspector_1 = __webpack_require__(7290);
+function TimelineAI() {
+    return ((0, jsx_runtime_1.jsx)("div", { style: { padding: 20 }, children: (0, jsx_runtime_1.jsx)("button", { onClick: () => UXPInspector_1.inspector.inspectEverything(), style: {
+                padding: "14px 24px",
+                fontSize: 18,
+                cursor: "pointer"
+            }, children: "\uD83D\uDE80 RUN RK UXP INSPECTOR" }) }));
+}
+
+
+/***/ },
+
+/***/ 5165
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = WeddingAI;
+const jsx_runtime_1 = __webpack_require__(4848);
+function WeddingAI() {
+    return (0, jsx_runtime_1.jsx)("h1", { style: { color: "#fff" }, children: "Wedding AI" });
 }
 
 
@@ -2610,17 +4539,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const jsx_runtime_1 = __webpack_require__(4848);
-const client_1 = __webpack_require__(5338);
-const App_1 = __importDefault(__webpack_require__(2113));
-__webpack_require__(7749);
-__webpack_require__(4425);
-__webpack_require__(1978);
-__webpack_require__(9149);
-__webpack_require__(2047);
-__webpack_require__(7689);
-__webpack_require__(6967);
-const root = document.getElementById("root");
-(0, client_1.createRoot)(root).render((0, jsx_runtime_1.jsx)(App_1.default, {}));
+console.log("RK FLOW BUILD: 2026-07-31 CLEAN");
+const react_1 = __importDefault(__webpack_require__(6540));
+const client_1 = __importDefault(__webpack_require__(5338));
+const App_1 = __importDefault(__webpack_require__(8577));
+const NavigationContext_1 = __webpack_require__(791);
+const premiereService_1 = __webpack_require__(3763);
+const UXPInspector_1 = __webpack_require__(7290);
+const PremiereExecutor_1 = __webpack_require__(9292);
+window.premiereService = premiereService_1.premiereService;
+window.runInspector = () => UXPInspector_1.inspector.inspectEverything();
+window.inspectPremiereAPI = PremiereExecutor_1.inspectPremiereAPI;
+window.testMoveAction = PremiereExecutor_1.testMoveAction;
+const root = client_1.default.createRoot(document.getElementById("root"));
+root.render((0, jsx_runtime_1.jsx)(react_1.default.StrictMode, { children: (0, jsx_runtime_1.jsx)(NavigationContext_1.NavigationProvider, { children: (0, jsx_runtime_1.jsx)(App_1.default, {}) }) }));
 
 
 /***/ },
@@ -2640,9 +4572,8 @@ const Sidebar_1 = __importDefault(__webpack_require__(4457));
 const Topbar_1 = __importDefault(__webpack_require__(485));
 const RightPanel_1 = __importDefault(__webpack_require__(3865));
 const StatusBar_1 = __importDefault(__webpack_require__(4908));
-const Dashboard_1 = __importDefault(__webpack_require__(9971));
-function AppShell() {
-    return ((0, jsx_runtime_1.jsxs)("div", { className: "app-shell", children: [(0, jsx_runtime_1.jsx)(Sidebar_1.default, {}), (0, jsx_runtime_1.jsxs)("div", { className: "app-main", children: [(0, jsx_runtime_1.jsx)(Topbar_1.default, {}), (0, jsx_runtime_1.jsxs)("div", { className: "workspace", children: [(0, jsx_runtime_1.jsx)("main", { className: "workspace-main", children: (0, jsx_runtime_1.jsx)(Dashboard_1.default, {}) }), (0, jsx_runtime_1.jsx)("aside", { className: "workspace-ai", children: (0, jsx_runtime_1.jsx)(RightPanel_1.default, {}) })] }), (0, jsx_runtime_1.jsx)(StatusBar_1.default, {})] })] }));
+function AppShell({ children }) {
+    return ((0, jsx_runtime_1.jsxs)("div", { className: "rk-app", children: [(0, jsx_runtime_1.jsx)(Sidebar_1.default, {}), (0, jsx_runtime_1.jsxs)("div", { className: "rk-main", children: [(0, jsx_runtime_1.jsx)(Topbar_1.default, {}), (0, jsx_runtime_1.jsxs)("div", { className: "rk-workspace", children: [(0, jsx_runtime_1.jsx)("main", { className: "rk-content", children: children }), (0, jsx_runtime_1.jsx)(RightPanel_1.default, {})] }), (0, jsx_runtime_1.jsx)(StatusBar_1.default, {})] })] }));
 }
 
 
@@ -2671,8 +4602,20 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = Sidebar;
 const jsx_runtime_1 = __webpack_require__(4848);
 __webpack_require__(9437);
+const NavigationContext_1 = __webpack_require__(791);
+const items = [
+    { id: "dashboard", label: "Dashboard" },
+    { id: "timeline", label: "Timeline AI" },
+    { id: "wedding", label: "Wedding AI" },
+    { id: "autoedit", label: "Auto Edit" },
+    { id: "faceai", label: "Face AI" },
+    { id: "musicai", label: "Music AI" },
+    { id: "exports", label: "Export Studio" },
+    { id: "settings", label: "Settings" },
+];
 function Sidebar() {
-    return ((0, jsx_runtime_1.jsxs)("aside", { className: "sidebar", children: [(0, jsx_runtime_1.jsxs)("div", { className: "sidebar-logo", children: ["RK ", (0, jsx_runtime_1.jsx)("span", { children: "FLOW" })] }), (0, jsx_runtime_1.jsxs)("nav", { className: "sidebar-nav", children: [(0, jsx_runtime_1.jsx)("button", { className: "sidebar-item active", children: "Dashboard" }), (0, jsx_runtime_1.jsx)("button", { className: "sidebar-item", children: "Timeline AI" }), (0, jsx_runtime_1.jsx)("button", { className: "sidebar-item", children: "Wedding AI" }), (0, jsx_runtime_1.jsx)("button", { className: "sidebar-item", children: "Auto Edit" }), (0, jsx_runtime_1.jsx)("button", { className: "sidebar-item", children: "Face AI" }), (0, jsx_runtime_1.jsx)("button", { className: "sidebar-item", children: "Music AI" })] })] }));
+    const { page, setPage } = (0, NavigationContext_1.useNavigation)();
+    return ((0, jsx_runtime_1.jsxs)("aside", { className: "sidebar", children: [(0, jsx_runtime_1.jsxs)("div", { className: "sidebar-logo", children: ["RK ", (0, jsx_runtime_1.jsx)("span", { children: "FLOW" })] }), (0, jsx_runtime_1.jsx)("nav", { className: "sidebar-nav", children: items.map((item) => ((0, jsx_runtime_1.jsx)("button", { className: `sidebar-item ${page === item.id ? "active" : ""}`, onClick: () => setPage(item.id), children: item.label }, item.id))) })] }));
 }
 
 
@@ -2704,6 +4647,227 @@ __webpack_require__(6825);
 function Topbar() {
     return ((0, jsx_runtime_1.jsxs)("header", { className: "topbar", children: [(0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("h1", { children: "Dashboard" }), (0, jsx_runtime_1.jsx)("p", { children: "Welcome back to RK Flow AI Studio" })] }), (0, jsx_runtime_1.jsxs)("div", { className: "topbar-actions", children: [(0, jsx_runtime_1.jsx)("input", { className: "topbar-search", placeholder: "Search anything..." }), (0, jsx_runtime_1.jsx)("button", { className: "topbar-button", children: "AI Copilot" })] })] }));
 }
+
+
+/***/ },
+
+/***/ 868
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.premiereAPI = exports.PremiereAPI = void 0;
+const MotionEngine_1 = __importDefault(__webpack_require__(2318));
+class PremiereAPI {
+    PPRO;
+    motion;
+    constructor() {
+        this.PPRO = window.PPRO;
+        this.motion = new MotionEngine_1.default(this.PPRO);
+    }
+    getPPRO() {
+        return this.PPRO;
+    }
+    async getCurrentProject() {
+        return await this.PPRO.Project.getActiveProject();
+    }
+    async getActiveSequence() {
+        const project = await this.getCurrentProject();
+        return project ? await project.getActiveSequence() : null;
+    }
+    async getTimelineContext() {
+        const project = await this.getCurrentProject();
+        if (!project)
+            return null;
+        const sequence = await this.getActiveSequence();
+        if (!sequence)
+            return null;
+        return {
+            projectName: project.name,
+            sequenceName: sequence.name,
+            videoTracks: await sequence.getVideoTrackCount(),
+            audioTracks: await sequence.getAudioTrackCount(),
+            frameSize: await sequence.getFrameSize(),
+            timebase: await sequence.getTimebase(),
+            selection: await sequence.getSelection()
+        };
+    }
+    async getProjectInfo() {
+        return await this.getTimelineContext();
+    }
+    async center() {
+        return await this.motion.center();
+    }
+    async left() {
+        return await this.motion.left();
+    }
+    async right() {
+        return await this.motion.right();
+    }
+    async top() {
+        return await this.motion.top();
+    }
+    async bottom() {
+        return await this.motion.bottom();
+    }
+    async setPosition(x, y) {
+        return await this.motion.setPosition(x, y);
+    }
+}
+exports.PremiereAPI = PremiereAPI;
+exports.premiereAPI = new PremiereAPI();
+
+
+/***/ },
+
+/***/ 2276
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.clipManager = __webpack_unused_export__ = void 0;
+const PremiereAPI_1 = __webpack_require__(868);
+class ClipManager {
+    async getSelectedClips() {
+        const sequence = await PremiereAPI_1.premiereAPI.getActiveSequence();
+        if (!sequence)
+            return [];
+        const selection = await sequence.getSelection();
+        const items = await selection.getItems();
+        const result = [];
+        for (const clip of items) {
+            const start = await clip.getStartTime();
+            const end = await clip.getEndTime();
+            const duration = await clip.getDuration();
+            result.push({
+                name: await clip.getName(),
+                start: start?.seconds ?? 0,
+                end: end?.seconds ?? 0,
+                duration: duration?.seconds ?? 0,
+                track: await clip.getTrackIndex(),
+                mediaType: await clip.getMediaType(),
+                type: await clip.getType(),
+                projectItem: await clip.getProjectItem(),
+                raw: clip
+            });
+        }
+        return result;
+    }
+    async getSelectedClipNames() {
+        const clips = await this.getSelectedClips();
+        return clips.map(c => c.name);
+    }
+    async hasSelection() {
+        return (await this.getSelectedClips()).length > 0;
+    }
+}
+__webpack_unused_export__ = ClipManager;
+exports.clipManager = new ClipManager();
+
+
+/***/ },
+
+/***/ 3763
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.premiereService = __webpack_unused_export__ = void 0;
+class PremiereService {
+    async getTimelineInfo() {
+        const PPRO = window.PPRO;
+        if (!PPRO?.Project) {
+            return {
+                connected: false,
+                projectName: "",
+                sequenceName: "",
+                videoTracks: 0,
+                audioTracks: 0,
+                frameSize: null,
+                timebase: null,
+            };
+        }
+        try {
+            const project = await PPRO.Project.getActiveProject();
+            if (!project) {
+                return {
+                    connected: true,
+                    projectName: "",
+                    sequenceName: "",
+                    videoTracks: 0,
+                    audioTracks: 0,
+                    frameSize: null,
+                    timebase: null,
+                };
+            }
+            const sequence = await project.getActiveSequence();
+            if (!sequence) {
+                return {
+                    connected: true,
+                    projectName: project.name ?? "",
+                    sequenceName: "",
+                    videoTracks: 0,
+                    audioTracks: 0,
+                    frameSize: null,
+                    timebase: null,
+                };
+            }
+            return {
+                connected: true,
+                projectName: project.name ?? "",
+                sequenceName: sequence.name ?? "",
+                videoTracks: await sequence.getVideoTrackCount(),
+                audioTracks: await sequence.getAudioTrackCount(),
+                frameSize: await sequence.getFrameSize(),
+                timebase: await sequence.getTimebase(),
+            };
+        }
+        catch (e) {
+            console.error(e);
+            return {
+                connected: false,
+                projectName: "",
+                sequenceName: "",
+                videoTracks: 0,
+                audioTracks: 0,
+                frameSize: null,
+                timebase: null,
+            };
+        }
+    }
+}
+__webpack_unused_export__ = PremiereService;
+exports.premiereService = new PremiereService();
+
+
+/***/ },
+
+/***/ 7290
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.inspector = __webpack_unused_export__ = void 0;
+class UXPInspector {
+    async inspectEverything() {
+        console.clear();
+        const PPRO = window.PPRO;
+        const project = await PPRO.Project.getActiveProject();
+        const sequence = await project.getActiveSequence();
+        const editor = PPRO.SequenceEditor.getEditor(sequence);
+        const desc = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(editor), "createAddItemAction");
+        console.log("Descriptor:", desc);
+        console.log("Extensible:", Object.isExtensible(editor));
+    }
+}
+__webpack_unused_export__ = UXPInspector;
+exports.inspector = new UXPInspector();
 
 
 /***/ }

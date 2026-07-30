@@ -1,46 +1,80 @@
+export interface TimelineInfo {
+  connected: boolean;
+  projectName: string;
+  sequenceName: string;
+  videoTracks: number;
+  audioTracks: number;
+  frameSize: { width: number; height: number } | null;
+  timebase: number | null;
+}
+
 export class PremiereService {
-  isConnected(): boolean {
-    return typeof window !== "undefined";
-  }
+  async getTimelineInfo(): Promise<TimelineInfo> {
+    const PPRO = (window as any).PPRO;
 
-  getPPRO() {
-    return (window as any).PPRO ?? null;
-  }
-
-  inspect() {
-    const ppro = this.getPPRO();
-
-    console.clear();
-
-    console.log("========== RK FLOW ==========");
-    console.log("window.PPRO =", ppro);
-
-    if (!ppro) {
-      console.warn("PPRO not found.");
-      return;
+    if (!PPRO?.Project) {
+      return {
+        connected: false,
+        projectName: "",
+        sequenceName: "",
+        videoTracks: 0,
+        audioTracks: 0,
+        frameSize: null,
+        timebase: null,
+      };
     }
 
-    console.log("Keys:", Object.keys(ppro));
+    try {
+      const project = await PPRO.Project.getActiveProject();
 
-    if (ppro.app) {
-      console.log("App:", ppro.app);
-      console.log("App Keys:", Object.keys(ppro.app));
+      if (!project) {
+        return {
+          connected: true,
+          projectName: "",
+          sequenceName: "",
+          videoTracks: 0,
+          audioTracks: 0,
+          frameSize: null,
+          timebase: null,
+        };
+      }
+
+      const sequence = await project.getActiveSequence();
+
+      if (!sequence) {
+        return {
+          connected: true,
+          projectName: project.name ?? "",
+          sequenceName: "",
+          videoTracks: 0,
+          audioTracks: 0,
+          frameSize: null,
+          timebase: null,
+        };
+      }
+
+      return {
+        connected: true,
+        projectName: project.name ?? "",
+        sequenceName: sequence.name ?? "",
+        videoTracks: await sequence.getVideoTrackCount(),
+        audioTracks: await sequence.getAudioTrackCount(),
+        frameSize: await sequence.getFrameSize(),
+        timebase: await sequence.getTimebase(),
+      };
+    } catch (e) {
+      console.error(e);
+
+      return {
+        connected: false,
+        projectName: "",
+        sequenceName: "",
+        videoTracks: 0,
+        audioTracks: 0,
+        frameSize: null,
+        timebase: null,
+      };
     }
-
-    if (ppro.app?.project) {
-      console.log("Project:", ppro.app.project);
-      console.log("Project Keys:", Object.keys(ppro.app.project));
-    }
-
-    if (ppro.app?.project?.activeSequence) {
-      console.log("Sequence:", ppro.app.project.activeSequence);
-      console.log(
-        "Sequence Keys:",
-        Object.keys(ppro.app.project.activeSequence)
-      );
-    }
-
-    console.log("=============================");
   }
 }
 

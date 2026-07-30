@@ -1,15 +1,25 @@
-import { createRoot } from "react-dom/client";
+console.log("RK FLOW BUILD: 2026-07-31 CLEAN");
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-import App from "./app/App";
+import App from "./App";
+import { NavigationProvider } from "./context/NavigationContext";
+import { premiereService } from "./services/premiereService";
+import { inspector } from "./tools/UXPInspector";
+import { inspectPremiereAPI, testMoveAction } from "./executor/PremiereExecutor";
 
-import "./styles/colors.css";
-import "./styles/spacing.css";
-import "./styles/typography.css";
-import "./styles/globals.css";
-import "./styles/responsive.css";
-import "./styles/glass.css";
-import "./styles/animation.css";
+(window as any).premiereService = premiereService;
+(window as any).runInspector = () => inspector.inspectEverything();
+(window as any).inspectPremiereAPI = inspectPremiereAPI;
+(window as any).testMoveAction = testMoveAction;
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
-const root = document.getElementById("root");
-
-createRoot(root!).render(<App />);
+root.render(
+  <React.StrictMode>
+    <NavigationProvider>
+      <App />
+    </NavigationProvider>
+  </React.StrictMode>
+);

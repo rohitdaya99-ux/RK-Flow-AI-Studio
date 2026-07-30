@@ -1,23 +1,38 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { resolveGeminiConfig } from "../../config";
+import { BaseProvider } from "./BaseProvider";
+import { ChatRequest, ChatResponse } from "../models/ChatTypes";
+import { AIConfigManager } from "../config/AIConfigManager";
 
-export class GeminiProvider {
-    private model;
+export class GeminiProvider extends BaseProvider {
+  readonly id = "gemini";
+  readonly name = "Gemini";
 
-    constructor() {
-        const config = resolveGeminiConfig();
+  private client?: GoogleGenerativeAI;
 
-        const genAI = new GoogleGenerativeAI(config.apiKey);
+  override async initialize(apiKey: string): Promise<void> {
+    await super.initialize(apiKey);
+    this.client = new GoogleGenerativeAI(apiKey);
+  }
 
-        this.model = genAI.getGenerativeModel({
-            model: "gemini-3.6-flash"
-        });
+  async chat(request: ChatRequest): Promise<ChatResponse> {
+    if (!this.client) {
+      throw new Error("Gemini not initialized.");
     }
 
-    async generate(prompt: string): Promise<string> {
-        const result = await this.model.generateContent(prompt);
-        return result.response.text();
-    }
+    const model = this.client.getGenerativeModel({
+      model: AIConfigManager.model()
+    });
+
+    const result = await model.generateContent(request.prompt);
+
+    return {
+      text: result.response.text(),
+      provider: this.id,
+      usage: {
+        promptTokens: 0,
+        completionTokens: 0,
+        totalTokens: 0
+      }
+    };
+  }
 }
-
-export const geminiProvider = new GeminiProvider();

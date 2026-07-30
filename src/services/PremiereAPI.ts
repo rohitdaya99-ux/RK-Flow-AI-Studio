@@ -13,64 +13,40 @@ export class PremiereAPI {
     return this.PPRO;
   }
 
+  async getCurrentProject() {
+    return await this.PPRO.Project.getActiveProject();
+  }
+
+  async getActiveSequence() {
+    const project = await this.getCurrentProject();
+    return project ? await project.getActiveSequence() : null;
+  }
+
+  async getTimelineContext() {
+    const project = await this.getCurrentProject();
+
+    if (!project) return null;
+
+    const sequence = await this.getActiveSequence();
+
+    if (!sequence) return null;
+
+    return {
+      projectName: project.name,
+      sequenceName: sequence.name,
+
+      videoTracks: await sequence.getVideoTrackCount(),
+      audioTracks: await sequence.getAudioTrackCount(),
+
+      frameSize: await sequence.getFrameSize(),
+      timebase: await sequence.getTimebase(),
+
+      selection: await sequence.getSelection()
+    };
+  }
+
   async getProjectInfo() {
-    try {
-      const project = await this.PPRO.Project.getActiveProject();
-
-      if (!project) {
-        return {
-          success: false,
-          error: "No active project found.",
-        };
-      }
-
-      const sequence = await project.getActiveSequence();
-
-      console.clear();
-
-      console.log("========== RK FLOW ==========");
-      console.log("Project:", project.name);
-      console.log("Sequence:", sequence?.name);
-
-      console.log(
-        "Video Track Count:",
-        await sequence.getVideoTrackCount()
-      );
-
-      console.log(
-        "Audio Track Count:",
-        await sequence.getAudioTrackCount()
-      );
-
-      console.log(
-        "Frame Size:",
-        await sequence.getFrameSize()
-      );
-
-      console.log(
-        "Timebase:",
-        await sequence.getTimebase()
-      );
-
-      console.log(
-        "Selection:",
-        await sequence.getSelection()
-      );
-
-      return {
-        success: true,
-        projectName: project.name,
-        projectPath: project.path,
-        sequenceName: sequence?.name,
-      };
-    } catch (error) {
-      console.error("RK Flow Error:", error);
-
-      return {
-        success: false,
-        error: String(error),
-      };
-    }
+    return await this.getTimelineContext();
   }
 
   async center() {
