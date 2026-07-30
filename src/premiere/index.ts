@@ -46,3 +46,8 @@ export { default as PremiereConfig } from "./config/PremiereConfig";
 export { default as PremiereStateStore } from "./state/PremiereState";
 export { default as PerformanceMetrics } from "./metrics/PerformanceMetrics";
 export { default as DebugTools } from "./debug/DebugTools";
+export { default as UndoManager } from "./undo/UndoManager";
+export { default as JobQueue } from "./jobs/JobQueue";
+export { default as EventBus } from "./eventsystem/EventBus";
+export { default as Pipeline } from "./pipeline/Pipeline";
+export { default as PremiereBootstrap } from "./bootstrap/PremiereBootstrap";
