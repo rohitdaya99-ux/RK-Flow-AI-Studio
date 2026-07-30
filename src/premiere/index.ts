@@ -36,3 +36,8 @@ export { default as ExportPresets } from "./presets/ExportPresets";
 export { default as RenderQueue } from "./render/RenderQueue";
 export { default as EditReport } from "./reports/EditReport";
 export { default as AssetManager } from "./assets/AssetManager";
+export { default as ProjectAnalysis } from "./analysis/ProjectAnalysis";
+export { default as TimelineOptimizer } from "./optimizer/TimelineOptimizer";
+export { default as QualityAnalyzer } from "./quality/QualityAnalyzer";
+export { default as SessionCache } from "./cache/SessionCache";
+export { default as EditingSession } from "./session/EditingSession";
