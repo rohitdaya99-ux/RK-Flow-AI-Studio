@@ -1,0 +1,350 @@
+==========================================================
+ADOBE PREMIERE PRO UXP API REFERENCE
+(Discovered by Reverse Engineering)
+==========================================================
+
+=========================================
+1. PROJECT
+=========================================
+
+PPRO.Project.getActiveProject()
+
+Methods:
+---------
+getActiveSequence()
+setActiveSequence()
+createSequence()
+createSequenceFromMedia()
+deleteSequence()
+getSequences()
+getSequence()
+openSequence()
+
+importFiles()
+importSequences()
+importAEComps()
+importAllAEComps()
+
+getRootItem()
+getInsertionBin()
+
+getColorSettings()
+
+save()
+saveAs()
+close()
+
+pauseGrowing()
+
+executeTransaction(callback, transactionName)
+lockedAccess(callback)
+
+addEventListener()
+removeEventListener()
+dispatchEvent()
+
+Properties:
+-----------
+guid
+name
+path
+
+
+=========================================
+2. SEQUENCE
+=========================================
+
+getSelection()
+getVideoTrackCount()
+getAudioTrackCount()
+
+getFrameSize()
+getTimebase()
+
+
+
+
+=========================================
+3. TRACK ITEM (VideoClipTrackItem)
+=========================================
+
+Information
+-----------
+
+getName()
+getTrackIndex()
+
+getStartTime()
+getEndTime()
+getDuration()
+
+getInPoint()
+getOutPoint()
+
+getSpeed()
+getMediaType()
+getType()
+
+getProjectItem()
+
+getMatchName()
+
+getIsSelected()
+isDisabled()
+isAdjustmentLayer()
+
+isSpeedReversed()
+
+getComponentChain()
+
+
+
+=========================================
+TrackItem ACTIONS
+=========================================
+
+createMoveAction()
+
+createSetStartAction()
+
+createSetEndAction()
+
+createSetInPointAction()
+
+createSetOutPointAction()
+
+createSetNameAction()
+
+createSetDisabledAction()
+
+createAddVideoTransitionAction()
+
+createRemoveVideoTransitionAction()
+
+
+
+=========================================
+4. SEQUENCE EDITOR
+=========================================
+
+createAddItemAction()
+
+createAddItemsAction()
+
+createRemoveItemsAction()
+
+createInsertProjectItemAction()
+
+createOverwriteItemAction()
+
+createCloneTrackItemAction()
+
+insertMogrtFromPath()
+
+insertMogrtFromLibrary()
+
+
+
+=========================================
+5. COMPOUND ACTION
+=========================================
+
+addAction()
+
+empty()
+
+
+
+=========================================
+6. ACTION
+=========================================
+
+Native object
+
+Prototype:
+
+constructor
+
+(JS methods are NOT exposed)
+
+
+
+=========================================
+7. PROJECT UTILS
+=========================================
+
+getSelection()
+
+getProjectViewIds()
+
+getProjectFromViewId()
+
+getSelectionFromViewId()
+
+
+
+=========================================
+8. SEQUENCE UTILS
+=========================================
+
+performSceneEditDetectionOnSelection()
+
+Constants:
+
+SEQUENCE_OPERATION_APPLYCUT
+
+SEQUENCE_OPERATION_CREATEMARKER
+
+SEQUENCE_OPERATION_CREATESUBCLIP
+
+
+
+=========================================
+9. INTERNAL EXECUTION
+=========================================
+
+project.executeTransaction(
+
+    callback,
+
+    "Edit Project"
+
+)
+
+Internally calls:
+
+Executor.executeUndoableTransaction()
+
+
+
+project.lockedAccess(
+
+    callback
+
+)
+
+Internally calls:
+
+Executor.scopeBackendAccess()
+
+
+
+=========================================
+10. DISCOVERED PREMIERE CLASSES
+=========================================
+
+Action
+
+AddTransitionOptions
+
+Application
+
+AudioClipTrackItem
+
+AudioTrack
+
+CaptionTrack
+
+ClipProjectItem
+
+Component
+
+CompoundAction
+
+EncoderManager
+
+EventManager
+
+Exporter
+
+FolderItem
+
+Keyframe
+
+Marker
+
+Markers
+
+Media
+
+Metadata
+
+Project
+
+ProjectItem
+
+ProjectUtils
+
+Sequence
+
+SequenceEditor
+
+SequenceUtils
+
+SourceMonitor
+
+TrackItemSelection
+
+TransitionFactory
+
+VideoClipTrackItem
+
+VideoTrack
+
+VideoTransition
+
+
+
+=========================================
+11. CONFIRMED WORKING READ APIs
+=========================================
+
+Read selected clips
+
+Read sequence info
+
+Read clip duration
+
+Read clip timing
+
+Read frame size
+
+Read track count
+
+Read timeline metadata
+
+
+
+=========================================
+12. NEXT IMPLEMENTATION TARGETS
+=========================================
+
+Rename Clip
+
+Move Clip
+
+Trim Clip
+
+Disable Clip
+
+Clone Clip
+
+Insert Clip
+
+Overwrite Clip
+
+Add Transition
+
+Scene Edit Detection
+
+Insert MOGRT
+
+AI → JSON
+
+JSON → Premiere Actions
+
+PremiereExecutor
+
+==========================================================
+END OF FILE
+==========================================================

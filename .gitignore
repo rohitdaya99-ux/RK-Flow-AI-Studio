@@ -1,0 +1,11 @@
+premiere-pro-mcp/
+dist/
+node_modules/
+
+archive/
+audit/
+backup/
+backup_v2/
+src_backup/
+exports/
+reverse/

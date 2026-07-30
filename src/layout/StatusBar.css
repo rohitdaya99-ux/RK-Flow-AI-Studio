@@ -1,0 +1,11 @@
+.status-bar{
+height:38px;
+padding:0 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:#11141b;
+border-top:1px solid rgba(255,255,255,.08);
+font-size:12px;
+color:#9aa4b2;
+}
