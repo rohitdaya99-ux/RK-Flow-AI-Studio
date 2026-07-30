@@ -6,3 +6,7 @@ export * from "./prompts/SystemPrompt";
 export * from "./builders/PromptBuilder";
 export * from "./memory/AIMemory";
 export * from "./cache/AICache";
+export * from "./router/ModelRouter";
+export * from "./executor/AIExecutor";
+export * from "./fallback/FallbackProvider";
+export * from "./metrics/AIMetrics";
