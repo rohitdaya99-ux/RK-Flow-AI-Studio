@@ -13,40 +13,28 @@ export default class TaskExecutor {
 
       switch (task.action) {
 
-        case "brideEntry":
-          results.push(await this.tools.wedding.brideEntry());
+        case "detectFaces":
+          results.push(await this.tools.analysis.detectFaces());
           break;
 
-        case "groomEntry":
-          results.push(await this.tools.wedding.groomEntry());
+        case "detectSmile":
+          results.push(await this.tools.analysis.detectSmile());
           break;
 
-        case "haldi":
-          results.push(await this.tools.wedding.haldi());
+        case "detectBlur":
+          results.push(await this.tools.analysis.detectBlur());
           break;
 
-        case "mehndi":
-          results.push(await this.tools.wedding.mehndi());
+        case "detectClosedEyes":
+          results.push(await this.tools.analysis.detectClosedEyes());
           break;
 
-        case "sangeet":
-          results.push(await this.tools.wedding.sangeet());
+        case "detectBestMoments":
+          results.push(await this.tools.analysis.detectBestMoments());
           break;
 
-        case "baraat":
-          results.push(await this.tools.wedding.baraat());
-          break;
-
-        case "varmala":
-          results.push(await this.tools.wedding.varmala());
-          break;
-
-        case "pheras":
-          results.push(await this.tools.wedding.pheras());
-          break;
-
-        case "reception":
-          results.push(await this.tools.wedding.reception());
+        case "detectEmotion":
+          results.push(await this.tools.analysis.detectEmotion());
           break;
 
         default:
