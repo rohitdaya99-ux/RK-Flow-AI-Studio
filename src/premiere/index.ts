@@ -41,3 +41,8 @@ export { default as TimelineOptimizer } from "./optimizer/TimelineOptimizer";
 export { default as QualityAnalyzer } from "./quality/QualityAnalyzer";
 export { default as SessionCache } from "./cache/SessionCache";
 export { default as EditingSession } from "./session/EditingSession";
+export { default as PremiereLogger } from "./logging/PremiereLogger";
+export { default as PremiereConfig } from "./config/PremiereConfig";
+export { default as PremiereStateStore } from "./state/PremiereState";
+export { default as PerformanceMetrics } from "./metrics/PerformanceMetrics";
+export { default as DebugTools } from "./debug/DebugTools";
