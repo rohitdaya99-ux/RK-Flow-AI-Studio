@@ -1,19 +1,21 @@
-export interface ProjectAnalysis{
-  clips:number;
-  duration:number;
-  sequences:number;
+export interface ProjectAnalysisResult {
+  clips: number;
+  duration: number;
+  sequences: number;
 }
 
-export default class ProjectAnalysis{
+class ProjectAnalysis {
 
-  analyze(project:any):ProjectAnalysis{
+  analyze(project: any): ProjectAnalysisResult {
 
-    return{
-      clips:project?.clips?.length ?? 0,
-      duration:project?.duration ?? 0,
-      sequences:project?.sequences?.length ?? 0
+    return {
+      clips: project?.clips?.length ?? 0,
+      duration: project?.duration ?? 0,
+      sequences: project?.sequences?.length ?? 0
     };
 
   }
 
 }
+
+export default ProjectAnalysis;
