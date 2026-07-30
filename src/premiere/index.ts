@@ -31,3 +31,8 @@ export { default as EventClassifier } from "./events/EventClassifier";
 export { default as HighlightSelector } from "./highlights/HighlightSelector";
 export { default as StoryBuilder } from "./story/StoryBuilder";
 export { default as MusicSync } from "./sync/MusicSync";
+export { WeddingTemplates } from "./templates/WeddingTemplates";
+export { default as ExportPresets } from "./presets/ExportPresets";
+export { default as RenderQueue } from "./render/RenderQueue";
+export { default as EditReport } from "./reports/EditReport";
+export { default as AssetManager } from "./assets/AssetManager";
