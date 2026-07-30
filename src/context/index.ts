@@ -9,3 +9,6 @@ export * from "./serializers/ContextSerializer";
 export * from "./adapters/PremiereContextAdapter";
 export * from "./validators/ContextValidator";
 export * from "./utils/ContextFormatter";
+export * from "./interfaces/IContextProvider";
+export * from "./pipeline/ContextPipeline";
+export * from "./snapshots/ContextSnapshot";
