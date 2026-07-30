@@ -13,36 +13,36 @@ export default class TaskExecutor {
 
       switch (task.action) {
 
-        case "autoClipSelection":
-          results.push(await this.tools.ai.autoClipSelection());
+        case "autoSequence":
+          results.push(await this.tools.premiere.autoSequence());
           break;
 
-        case "autoFaceGrouping":
-          results.push(await this.tools.ai.autoFaceGrouping());
+        case "multicamSync":
+          results.push(await this.tools.premiere.multicamSync());
           break;
 
-        case "autoSceneDetection":
-          results.push(await this.tools.ai.autoSceneDetection());
+        case "speechToText":
+          results.push(await this.tools.premiere.speechToText());
           break;
 
-        case "autoColorMatch":
-          results.push(await this.tools.ai.autoColorMatch());
+        case "autoSubtitles":
+          results.push(await this.tools.premiere.autoSubtitles());
           break;
 
-        case "autoAudioCleanup":
-          results.push(await this.tools.ai.autoAudioCleanup());
+        case "smartProxy":
+          results.push(await this.tools.premiere.smartProxy());
           break;
 
-        case "autoCaption":
-          results.push(await this.tools.ai.autoCaption());
+        case "detectDuplicateShots":
+          results.push(await this.tools.premiere.detectDuplicateShots());
           break;
 
-        case "autoBrollSuggestion":
-          results.push(await this.tools.ai.autoBrollSuggestion());
+        case "autoProjectCleanup":
+          results.push(await this.tools.premiere.autoProjectCleanup());
           break;
 
-        case "autoStoryBuilder":
-          results.push(await this.tools.ai.autoStoryBuilder());
+        case "smartRelink":
+          results.push(await this.tools.premiere.smartRelink());
           break;
 
         default:

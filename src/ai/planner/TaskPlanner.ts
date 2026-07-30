@@ -9,29 +9,29 @@ export default class TaskPlanner {
 
     const p = prompt.toLowerCase();
 
-    if (/(best clip|best shot|clip selection)/.test(p))
-      return [{ action: "autoClipSelection", payload: null }];
+    if (/(auto sequence|sequence builder)/.test(p))
+      return [{ action: "autoSequence", payload: null }];
 
-    if (/(face group|group faces)/.test(p))
-      return [{ action: "autoFaceGrouping", payload: null }];
+    if (/(multicam|multi cam)/.test(p))
+      return [{ action: "multicamSync", payload: null }];
 
-    if (/(scene detect|scene detection)/.test(p))
-      return [{ action: "autoSceneDetection", payload: null }];
+    if (/(speech to text|transcribe)/.test(p))
+      return [{ action: "speechToText", payload: null }];
 
-    if (/(color match)/.test(p))
-      return [{ action: "autoColorMatch", payload: null }];
+    if (/(subtitle|captions)/.test(p))
+      return [{ action: "autoSubtitles", payload: null }];
 
-    if (/(audio cleanup|noise)/.test(p))
-      return [{ action: "autoAudioCleanup", payload: null }];
+    if (/(proxy)/.test(p))
+      return [{ action: "smartProxy", payload: null }];
 
-    if (/(caption|subtitle)/.test(p))
-      return [{ action: "autoCaption", payload: null }];
+    if (/(duplicate shot|duplicate clip)/.test(p))
+      return [{ action: "detectDuplicateShots", payload: null }];
 
-    if (/(broll|b-roll)/.test(p))
-      return [{ action: "autoBrollSuggestion", payload: null }];
+    if (/(cleanup project|project cleanup)/.test(p))
+      return [{ action: "autoProjectCleanup", payload: null }];
 
-    if (/(story|storyline)/.test(p))
-      return [{ action: "autoStoryBuilder", payload: null }];
+    if (/(relink|missing media)/.test(p))
+      return [{ action: "smartRelink", payload: null }];
 
     return [{ action: "chat", payload: prompt }];
 

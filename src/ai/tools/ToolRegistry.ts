@@ -9,6 +9,7 @@ import AnalysisActions from "../actions/AnalysisActions";
 import MusicActions from "../actions/MusicActions";
 import WorkflowActions from "../actions/WorkflowActions";
 import AIActions from "../actions/AIActions";
+import PremiereAIActions from "../actions/PremiereAIActions";
 
 export default class ToolRegistry {
 
@@ -33,5 +34,7 @@ export default class ToolRegistry {
   workflow = new WorkflowActions();
 
   ai = new AIActions();
+
+  premiere = new PremiereAIActions();
 
 }
