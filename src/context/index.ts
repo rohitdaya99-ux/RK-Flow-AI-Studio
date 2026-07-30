@@ -18,3 +18,6 @@ export * from "./composers/ContextComposer";
 export * from "./rules/ContextRule";
 export * from "./enrichers/ContextEnricher";
 export * from "./metrics/ContextMetrics";
+export * from "./profile/EditingProfile";
+export * from "./normalizers/ContextNormalizer";
+export * from "./history/ContextHistory";
