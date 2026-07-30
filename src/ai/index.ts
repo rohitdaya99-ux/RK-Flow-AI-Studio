@@ -58,3 +58,13 @@ export * from "./recovery/RecoveryManager";
 export * from "./queue/AIQueue";
 export * from "./telemetry/AITelemetry";
 
+export * from "./providers/BaseProvider";
+export * from "./providers/GeminiProvider";
+export * from "./providers/OpenAIProvider";
+export * from "./providers/ClaudeProvider";
+export * from "./providers/GrokProvider";
+export * from "./providers/KimiProvider";
+export * from "./router/ProviderRouter";
+export * from "./router/ModelRouter";
+export * from "./services/AIService";
+export * from "./services/AIOrchestrator";
