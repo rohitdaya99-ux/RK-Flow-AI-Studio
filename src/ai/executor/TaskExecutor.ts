@@ -25,10 +25,6 @@ export default class TaskExecutor {
           results.push(await this.tools.export.master4K());
           break;
 
-        case "saveProject":
-          results.push(await this.tools.project.save());
-          break;
-
         case "transition":
           results.push(await this.tools.timeline.applyTransition(String(task.payload)));
           break;
@@ -37,8 +33,20 @@ export default class TaskExecutor {
           results.push(await this.tools.timeline.addMarker(String(task.payload)));
           break;
 
+        case "trim":
+          results.push(await this.tools.timeline.trimSelectedClips());
+          break;
+
         case "deleteGap":
           results.push(await this.tools.timeline.deleteGaps());
+          break;
+
+        case "rippleDelete":
+          results.push(await this.tools.timeline.rippleDelete());
+          break;
+
+        case "saveProject":
+          results.push(await this.tools.project.save());
           break;
 
         default:
