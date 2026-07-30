@@ -1,9 +1,9 @@
-import { TimelineReader } from "../readers/TimelineReader";
+import TimelineReader from "../readers/TimelineReader";
 
 export class PremiereContext {
-  private reader = new TimelineReader();
+  private readonly reader = new TimelineReader();
 
   async build() {
-    return this.reader.read();
+    return await this.reader.read();
   }
 }

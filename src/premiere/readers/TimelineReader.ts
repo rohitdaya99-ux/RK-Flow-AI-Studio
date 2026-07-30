@@ -1,6 +1,6 @@
 import SequenceReader from "./SequenceReader";
-import TrackReader from "./TrackReader";
-import ClipReader from "./ClipReader";
+import { TrackReader } from "./TrackReader";
+import { ClipReader } from "./ClipReader";
 
 export default class TimelineReader {
   private readonly sequence = new SequenceReader();
