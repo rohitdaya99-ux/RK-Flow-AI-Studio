@@ -1,24 +1,36 @@
-export interface Message {
-  role: "system" | "user" | "assistant";
+export interface ChatMessage {
+  role: "user" | "assistant";
   content: string;
 }
 
 export class ConversationMemory {
-  private messages: Message[] = [];
+  private messages: ChatMessage[] = [];
 
-  add(role: Message["role"], content: string): void {
-    this.messages.push({ role, content });
+  addUser(content: string) {
+    this.messages.push({ role: "user", content });
   }
 
-  clear(): void {
+  addAssistant(content: string) {
+    this.messages.push({ role: "assistant", content });
+  }
+
+  clear() {
     this.messages = [];
   }
 
-  all(): Message[] {
+  getHistory(): ChatMessage[] {
     return [...this.messages];
   }
 
-  last(count = 10): Message[] {
-    return this.messages.slice(-count);
+  buildPrompt(prompt: string): string {
+    const history = this.messages
+      .map(m => `${m.role.toUpperCase()}: ${m.content}`)
+      .join("\n\n");
+
+    return history
+      ? `${history}\n\nUSER: ${prompt}\nASSISTANT:`
+      : prompt;
   }
 }
+
+export default ConversationMemory;
