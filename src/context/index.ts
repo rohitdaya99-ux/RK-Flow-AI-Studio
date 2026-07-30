@@ -15,3 +15,6 @@ export * from "./snapshots/ContextSnapshot";
 export * from "./constants/ContextConstants";
 export * from "./strategies/ContextStrategy";
 export * from "./composers/ContextComposer";
+export * from "./rules/ContextRule";
+export * from "./enrichers/ContextEnricher";
+export * from "./metrics/ContextMetrics";
