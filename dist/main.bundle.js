@@ -4049,6 +4049,18 @@ class CommandExecutor {
             case "ADD_TRANSITIONS":
                 await this.actions.top();
                 break;
+            case "READ_PROJECT":
+                await this.actions.getProject();
+                break;
+            case "READ_SEQUENCE":
+                await this.actions.getSequence();
+                break;
+            case "READ_SELECTION":
+                await this.actions.getSelection();
+                break;
+            case "READ_TIMELINE":
+                await this.actions.getTimeline();
+                break;
             case "EXPORT":
                 await this.actions.bottom();
                 break;
@@ -4141,6 +4153,18 @@ class CommandParser {
                 intent: "SYNC_MUSIC",
                 musicSync: true
             };
+        }
+        if (text.includes("timeline")) {
+            return { intent: "READ_TIMELINE" };
+        }
+        if (text.includes("selection")) {
+            return { intent: "READ_SELECTION" };
+        }
+        if (text.includes("sequence")) {
+            return { intent: "READ_SEQUENCE" };
+        }
+        if (text.includes("project")) {
+            return { intent: "READ_PROJECT" };
         }
         if (text.includes("export")) {
             return {
@@ -4820,9 +4844,32 @@ function Topbar() {
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const PremiereAPI_1 = __webpack_require__(868);
+const ProjectReader_1 = __importDefault(__webpack_require__(9815));
+const SequenceReader_1 = __importDefault(__webpack_require__(8223));
+const SelectionReader_1 = __importDefault(__webpack_require__(2736));
+const TimelineReader_1 = __importDefault(__webpack_require__(5413));
 class PremiereActions {
+    project = new ProjectReader_1.default();
+    sequence = new SequenceReader_1.default();
+    selection = new SelectionReader_1.default();
+    timeline = new TimelineReader_1.default();
+    async getProject() {
+        return this.project.read();
+    }
+    async getSequence() {
+        return this.sequence.read();
+    }
+    async getSelection() {
+        return this.selection.read();
+    }
+    async getTimeline() {
+        return this.timeline.read();
+    }
     async center() {
         return PremiereAPI_1.premiereAPI.center();
     }
@@ -4843,6 +4890,71 @@ class PremiereActions {
     }
 }
 exports["default"] = PremiereActions;
+
+
+/***/ },
+
+/***/ 9815
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const PremiereAPI_1 = __webpack_require__(868);
+class ProjectReader {
+    async read() {
+        return await PremiereAPI_1.premiereAPI.getProjectInfo();
+    }
+}
+exports["default"] = ProjectReader;
+
+
+/***/ },
+
+/***/ 2736
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const PremiereAPI_1 = __webpack_require__(868);
+class SelectionReader {
+    async read() {
+        const ctx = await PremiereAPI_1.premiereAPI.getTimelineContext();
+        return ctx?.selection ?? [];
+    }
+}
+exports["default"] = SelectionReader;
+
+
+/***/ },
+
+/***/ 8223
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const PremiereAPI_1 = __webpack_require__(868);
+class SequenceReader {
+    async read() {
+        return await PremiereAPI_1.premiereAPI.getActiveSequence();
+    }
+}
+exports["default"] = SequenceReader;
+
+
+/***/ },
+
+/***/ 5413
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const PremiereAPI_1 = __webpack_require__(868);
+class TimelineReader {
+    async read() {
+        return await PremiereAPI_1.premiereAPI.getTimelineContext();
+    }
+}
+exports["default"] = TimelineReader;
 
 
 /***/ },

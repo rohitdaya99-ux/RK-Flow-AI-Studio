@@ -39,6 +39,22 @@ export class CommandExecutor {
         await this.actions.top();
         break;
 
+      case "READ_PROJECT":
+        await this.actions.getProject();
+        break;
+
+      case "READ_SEQUENCE":
+        await this.actions.getSequence();
+        break;
+
+      case "READ_SELECTION":
+        await this.actions.getSelection();
+        break;
+
+      case "READ_TIMELINE":
+        await this.actions.getTimeline();
+        break;
+
       case "EXPORT":
         await this.actions.bottom();
         break;

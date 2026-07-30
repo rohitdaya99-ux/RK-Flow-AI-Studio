@@ -45,6 +45,14 @@ export class CommandParser {
       };
     }
 
+    if (text.includes("timeline")) { return { intent: "READ_TIMELINE" }; }
+
+    if (text.includes("selection")) { return { intent: "READ_SELECTION" }; }
+
+    if (text.includes("sequence")) { return { intent: "READ_SEQUENCE" }; }
+
+    if (text.includes("project")) { return { intent: "READ_PROJECT" }; }
+
     if (text.includes("export")) {
       return {
         intent: "EXPORT"

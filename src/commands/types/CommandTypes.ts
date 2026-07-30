@@ -6,6 +6,10 @@ export type CommandIntent =
   | "SYNC_MUSIC"
   | "ADD_TRANSITIONS"
   | "EXPORT"
+  | "READ_PROJECT"
+  | "READ_SEQUENCE"
+  | "READ_SELECTION"
+  | "READ_TIMELINE"
   | "UNKNOWN";
 
 export interface CommandRequest {
