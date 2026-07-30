@@ -1,15 +1,19 @@
+import TimelineActions from "../actions/TimelineActions";
+import SequenceActions from "../actions/SequenceActions";
+import ProjectActions from "../actions/ProjectActions";
+import MediaActions from "../actions/MediaActions";
+import ExportActions from "../actions/ExportActions";
+
 export default class ToolRegistry {
-  private tools = new Map<string, unknown>();
 
-  register(name: string, tool: unknown) {
-    this.tools.set(name, tool);
-  }
+  timeline = new TimelineActions();
 
-  get(name: string) {
-    return this.tools.get(name);
-  }
+  sequence = new SequenceActions();
 
-  list() {
-    return [...this.tools.keys()];
-  }
+  project = new ProjectActions();
+
+  media = new MediaActions();
+
+  export = new ExportActions();
+
 }
