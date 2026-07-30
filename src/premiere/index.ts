@@ -16,3 +16,8 @@ export { default as EditPlanner } from "./planner/EditPlanner";
 export { default as PremiereExecutor } from "./execution/PremiereExecutor";
 export { default as PremiereValidator } from "./validation/PremiereValidator";
 export { default as PremiereHistory } from "./history/PremiereHistory";
+export { default as BeatAnalyzer } from "./music/BeatAnalyzer";
+export { default as ReelPlanner } from "./reels/ReelPlanner";
+export { default as ExportPlanner } from "./export/ExportPlanner";
+export { default as WeddingWorkflow } from "./workflows/WeddingWorkflow";
+export { default as PremiereAI } from "./ai/PremiereAI";
