@@ -45,6 +45,8 @@ export class CommandParser {
       };
     }
 
+    if (text.includes("sdk timeline")) { return { intent: "READ_SDK_TIMELINE" }; }
+
     if (text.includes("timeline")) { return { intent: "READ_TIMELINE" }; }
 
     if (text.includes("selection")) { return { intent: "READ_SELECTION" }; }

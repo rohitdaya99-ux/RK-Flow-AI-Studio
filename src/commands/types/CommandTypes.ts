@@ -14,6 +14,7 @@ export type CommandIntent =
   | "RAZOR"
   | "RIPPLE_DELETE"
   | "ADD_AUDIO_FADE"
+  | "READ_SDK_TIMELINE"
   | "UNKNOWN";
 
 export interface CommandRequest {

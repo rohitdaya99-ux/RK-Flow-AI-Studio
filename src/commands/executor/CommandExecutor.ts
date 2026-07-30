@@ -2,12 +2,14 @@ import { CommandRequest, CommandResult } from "../types/CommandTypes";
 import { CommandValidator } from "../validator/CommandValidator";
 import PremiereActions from "../../premiere/actions/PremiereActions";
 import EditActions from "../../premiere/actions/EditActions";
+import TimelineActions from "../../premiere/actions/TimelineActions";
 
 export class CommandExecutor {
 
   private validator = new CommandValidator();
   private actions = new PremiereActions();
   private edit = new EditActions();
+  private timeline = new TimelineActions();
 
   async execute(command: CommandRequest): Promise<CommandResult> {
 
@@ -55,6 +57,10 @@ export class CommandExecutor {
 
       case "READ_TIMELINE":
         await this.actions.getTimeline();
+        break;
+
+      case "READ_SDK_TIMELINE":
+        await this.timeline.readTimeline();
         break;
 
       case "TRIM_SELECTED":
