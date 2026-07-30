@@ -20,7 +20,11 @@ User Request:
 ${prompt}
 `;
 
-    return this.ai.ask(fullPrompt);
+    const timeline = await import("./RKTimelineService");
+
+    const summary = await new timeline.default().summarize();
+
+    return this.ai.ask(fullPrompt + "\n\nTimeline Summary:\n" + JSON.stringify(summary,null,2));
 
   }
 
