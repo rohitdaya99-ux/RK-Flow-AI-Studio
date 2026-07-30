@@ -9,26 +9,20 @@ export default class TaskPlanner {
 
     const p = prompt.toLowerCase();
 
-    if (/\bundo\b/.test(p))
-      return [{ action: "undo", payload: null }];
+    if (/(think|analyze)/.test(p))
+      return [{ action: "think", payload: prompt }];
 
-    if (/\bredo\b/.test(p))
-      return [{ action: "redo", payload: null }];
+    if (/(plan)/.test(p))
+      return [{ action: "plan", payload: prompt }];
 
-    if (/save as/.test(p))
-      return [{ action: "saveAs", payload: null }];
+    if (/(execute|run)/.test(p))
+      return [{ action: "execute", payload: prompt }];
 
-    if (/\bsave\b/.test(p))
-      return [{ action: "save", payload: null }];
+    if (/(summary|summarize)/.test(p))
+      return [{ action: "summarize", payload: null }];
 
-    if (/close project/.test(p))
-      return [{ action: "closeProject", payload: null }];
-
-    if (/render/.test(p))
-      return [{ action: "renderInToOut", payload: null }];
-
-    if (/export/.test(p))
-      return [{ action: "exportMedia", payload: null }];
+    if (/(explain|why)/.test(p))
+      return [{ action: "explain", payload: null }];
 
     return [{ action: "chat", payload: prompt }];
 

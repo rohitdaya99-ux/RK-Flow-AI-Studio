@@ -13,38 +13,31 @@ export default class TaskExecutor {
 
       switch (task.action) {
 
-        case "undo":
-          results.push(await this.tools.command.undo());
+        case "think":
+          results.push(await this.tools.agent.think(String(task.payload)));
           break;
 
-        case "redo":
-          results.push(await this.tools.command.redo());
+        case "plan":
+          results.push(await this.tools.agent.plan(String(task.payload)));
           break;
 
-        case "save":
-          results.push(await this.tools.command.save());
+        case "execute":
+          results.push(await this.tools.agent.execute(String(task.payload)));
           break;
 
-        case "saveAs":
-          results.push(await this.tools.command.saveAs());
+        case "summarize":
+          results.push(await this.tools.agent.summarize());
           break;
 
-        case "closeProject":
-          results.push(await this.tools.command.closeProject());
-          break;
-
-        case "renderInToOut":
-          results.push(await this.tools.command.renderInToOut());
-          break;
-
-        case "exportMedia":
-          results.push(await this.tools.command.exportMedia());
+        case "explain":
+          results.push(await this.tools.agent.explain());
           break;
 
         default:
           results.push({
             success: true,
-            action: task.action
+            action: task.action,
+            payload: task.payload
           });
 
       }
