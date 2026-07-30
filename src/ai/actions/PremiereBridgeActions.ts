@@ -1,25 +1,26 @@
-import { PremiereAPI } from "../../services/PremiereAPI";
+import { premiereAPI } from "../../services/PremiereAPI";
 
 export default class PremiereBridgeActions {
 
   async getProject() {
-    return await PremiereAPI.getProjectInfo();
+    return await premiereAPI.getProjectInfo();
   }
 
   async getActiveSequence() {
-    return await PremiereAPI.getActiveSequence();
+    return await premiereAPI.getActiveSequence();
   }
 
   async getSelectedClips() {
-    return await PremiereAPI.getSelectedClips();
+    const ctx = await premiereAPI.getTimelineContext();
+    return ctx?.selection ?? [];
   }
 
   async getTimeline() {
-    return await PremiereAPI.getTimeline();
+    return await premiereAPI.getTimelineContext();
   }
 
   async getPlayhead() {
-    return await PremiereAPI.getPlayheadPosition();
+    return null;
   }
 
 }
