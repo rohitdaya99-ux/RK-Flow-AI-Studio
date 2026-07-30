@@ -1,12 +1,20 @@
-export abstract class BaseProvider {
+import { AIProvider } from "../interfaces/AIProvider";
+import { ChatRequest, ChatResponse } from "../models/ChatTypes";
+
+export abstract class BaseProvider implements AIProvider {
   abstract readonly id: string;
   abstract readonly name: string;
 
-  async initialize(): Promise<void> {}
+  async initialize(_apiKey: string): Promise<void> {}
 
-  async isAvailable(): Promise<boolean> {
+  isAvailable(): boolean {
     return true;
   }
 
-  abstract chat(prompt: string): Promise<string>;
+  async chat(request: ChatRequest): Promise<ChatResponse> {
+    return {
+      text: request.prompt,
+      provider: this.id
+    };
+  }
 }
