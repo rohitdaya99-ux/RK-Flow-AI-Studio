@@ -21,3 +21,7 @@ export * from "./chains/ExecutionChain";
 export * from "./tools/AITool";
 export * from "./registry/ToolRegistry";
 export * from "./events/AIEventBus";
+export * from "./agents/AIAgent";
+export * from "./tasks/AITask";
+export * from "./state/AIState";
+export * from "./logging/AILogger";
