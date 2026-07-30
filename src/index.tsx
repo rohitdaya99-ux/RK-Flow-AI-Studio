@@ -23,3 +23,12 @@ root.render(
     </NavigationProvider>
   </React.StrictMode>
 );
+
+(window as any).testCommandEngine = async () => {
+  const { CommandDispatcher } = await import("./commands");
+  const dispatcher = new CommandDispatcher();
+
+  console.log(dispatcher.dispatch("Create cinematic wedding reel"));
+  console.log(dispatcher.dispatch("Trim silence"));
+  console.log(dispatcher.dispatch("Export Instagram Reel"));
+};
