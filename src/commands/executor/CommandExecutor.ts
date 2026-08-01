@@ -40,7 +40,7 @@ export class CommandExecutor {
         break;
 
       case "ADD_TRANSITIONS":
-        await this.actions.top();
+        await this.edit.addTransition();
         break;
 
       case "READ_PROJECT":

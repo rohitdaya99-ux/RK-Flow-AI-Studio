@@ -1,4 +1,4 @@
-import { CommandExecutor } from "../../commands/CommandExecutor";
+import { CommandExecutor } from "../../commands/executor/CommandExecutor";
 import { RKCommand, RKResult } from "../types/RKCommand";
 
 export default class RKExecutor {
@@ -8,17 +8,14 @@ export default class RKExecutor {
   async execute(command: RKCommand): Promise<RKResult> {
 
     const result = await this.executor.execute({
-      id: command.id,
-      action: command.action,
-      payload: command.payload,
-      timestamp: command.timestamp
+      intent: command.action as any
     });
 
     return {
       success: result.success,
       message: result.message,
-      data: result.data,
-      error: result.error
+      data: undefined,
+      error: undefined
     };
 
   }

@@ -2055,102 +2055,87 @@ function App() {
 
 /***/ },
 
-/***/ 779
+/***/ 329
 (__unused_webpack_module, exports, __webpack_require__) {
 
-var __webpack_unused_export__;
 
-__webpack_unused_export__ = ({ value: true });
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CommandExecutor = void 0;
-const ClipController_1 = __webpack_require__(878);
-const ExportController_1 = __webpack_require__(622);
-const MarkerController_1 = __webpack_require__(778);
-const PremiereBridge_1 = __webpack_require__(862);
-const SequenceController_1 = __webpack_require__(857);
-const TimelineReader_1 = __webpack_require__(824);
-const CommandValidator_1 = __webpack_require__(610);
+const CommandValidator_1 = __webpack_require__(589);
+const PremiereActions_1 = __importDefault(__webpack_require__(696));
+const EditActions_1 = __importDefault(__webpack_require__(45));
+const TimelineActions_1 = __importDefault(__webpack_require__(467));
 class CommandExecutor {
-    bridge;
-    validator;
-    timelineReader;
-    clips;
-    markers;
-    sequences;
-    exporter;
-    constructor(dependencies = {}) {
-        this.bridge = dependencies.bridge ?? new PremiereBridge_1.PremiereBridge();
-        this.validator = dependencies.validator ?? new CommandValidator_1.CommandValidator();
-        this.timelineReader = new TimelineReader_1.TimelineReader(this.bridge);
-        this.clips = new ClipController_1.ClipController(this.bridge);
-        this.markers = new MarkerController_1.MarkerController(this.bridge);
-        this.sequences = new SequenceController_1.SequenceController(this.bridge);
-        this.exporter = new ExportController_1.ExportController(this.bridge);
-    }
+    validator = new CommandValidator_1.CommandValidator();
+    actions = new PremiereActions_1.default();
+    edit = new EditActions_1.default();
+    timeline = new TimelineActions_1.default();
     async execute(command) {
-        const validation = this.validator.validate(command);
-        if (!validation.valid) {
+        if (!this.validator.validate(command)) {
             return {
                 success: false,
-                message: "Command rejected by validation.",
-                error: validation.errors.join(" ")
+                message: "Invalid command.",
+                actionsExecuted: 0,
+                executionTime: 0,
+                warnings: ["Validation failed."]
             };
         }
-        switch (command.action) {
-            case "READ_TIMELINE":
-                return this.readTimeline();
-            case "READ_SELECTED_CLIPS":
-                return {
-                    success: true,
-                    message: "Selected clips read.",
-                    data: await this.timelineReader.getSelectedClips()
-                };
-            case "GET_IN_OUT":
-                return {
-                    success: true,
-                    message: "In and out points read.",
-                    data: await this.timelineReader.getInOut()
-                };
-            case "GET_PLAYHEAD":
-                return {
-                    success: true,
-                    message: "Playhead read.",
-                    data: await this.timelineReader.getPlayhead()
-                };
-            case "MOVE_PLAYHEAD":
-                return this.bridge.execute(command.action, command.payload);
-            case "CREATE_MARKER":
-                return this.markers.create(command.payload.name, command.payload.time, command.payload.color);
-            case "DELETE_MARKER":
-                return this.markers.delete(command.payload.markerId);
-            case "CUT_CLIP":
-                return this.clips.cut(command.payload.clipId, command.payload.time);
-            case "TRIM_CLIP":
-                return this.clips.trim(command.payload.clipId, command.payload.start, command.payload.end);
-            case "MOVE_CLIP":
-                return this.clips.move(command.payload.clipId, command.payload.targetTrackIndex, command.payload.start);
-            case "CREATE_SEQUENCE":
-                return this.sequences.create(command.payload.name, command.payload.fps);
-            case "IMPORT_MEDIA":
-                return this.sequences.importMedia(command.payload.mediaPath, command.payload.binPath);
-            case "EXPORT_SEQUENCE":
-                return this.exporter.exportSequence(command.payload.destinationPath, command.payload.sequenceId, command.payload.preset);
+        const start = Date.now();
+        switch (command.intent) {
             case "CREATE_REEL":
-                return this.bridge.execute(command.action, command.payload);
-        }
-    }
-    async readTimeline() {
-        const timeline = await this.timelineReader.read();
-        if (timeline === null) {
-            return {
-                success: false,
-                message: "No active Premiere timeline is available.",
-                error: "TIMELINE_NOT_AVAILABLE"
-            };
+                await this.actions.center();
+                break;
+            case "CREATE_TEASER":
+                await this.actions.left();
+                break;
+            case "CREATE_HIGHLIGHT":
+                await this.actions.right();
+                break;
+            case "ADD_TRANSITIONS":
+                await this.edit.addTransition();
+                break;
+            case "READ_PROJECT":
+                await this.actions.getProject();
+                break;
+            case "READ_SEQUENCE":
+                await this.actions.getSequence();
+                break;
+            case "READ_SELECTION":
+                await this.actions.getSelection();
+                break;
+            case "READ_TIMELINE":
+                await this.actions.getTimeline();
+                break;
+            case "READ_SDK_TIMELINE":
+                await this.timeline.readTimeline();
+                break;
+            case "TRIM_SELECTED":
+                await this.edit.trimSelected();
+                break;
+            case "RAZOR":
+                await this.edit.razorAtPlayhead();
+                break;
+            case "RIPPLE_DELETE":
+                await this.edit.rippleDelete();
+                break;
+            case "ADD_AUDIO_FADE":
+                await this.edit.addAudioFade();
+                break;
+            case "EXPORT":
+                await this.actions.bottom();
+                break;
+            default:
+                break;
         }
         return {
             success: true,
-            message: "Timeline read.",
-            data: timeline
+            message: command.intent,
+            actionsExecuted: 1,
+            executionTime: Date.now() - start,
+            warnings: []
         };
     }
 }
@@ -2159,21 +2144,28 @@ exports.CommandExecutor = CommandExecutor;
 
 /***/ },
 
-/***/ 737
-(__unused_webpack_module, exports, __webpack_require__) {
+/***/ 697
+(__unused_webpack_module, exports) {
 
 var __webpack_unused_export__;
 
 __webpack_unused_export__ = ({ value: true });
 exports.CommandRegistry = void 0;
-const Command_1 = __webpack_require__(111);
 class CommandRegistry {
-    actions = new Set(Command_1.COMMAND_ACTIONS);
-    has(action) {
-        return this.actions.has(action);
+    commands = new Set([
+        "CREATE_REEL",
+        "CREATE_TEASER",
+        "CREATE_HIGHLIGHT",
+        "TRIM_SILENCE",
+        "SYNC_MUSIC",
+        "ADD_TRANSITIONS",
+        "EXPORT"
+    ]);
+    has(intent) {
+        return this.commands.has(intent);
     }
-    list() {
-        return [...this.actions];
+    all() {
+        return [...this.commands];
     }
 }
 exports.CommandRegistry = CommandRegistry;
@@ -2181,106 +2173,21 @@ exports.CommandRegistry = CommandRegistry;
 
 /***/ },
 
-/***/ 610
+/***/ 589
 (__unused_webpack_module, exports, __webpack_require__) {
 
 var __webpack_unused_export__;
 
 __webpack_unused_export__ = ({ value: true });
 exports.CommandValidator = void 0;
-const CommandRegistry_1 = __webpack_require__(737);
+const CommandRegistry_1 = __webpack_require__(697);
 class CommandValidator {
-    registry;
-    constructor(registry = new CommandRegistry_1.CommandRegistry()) {
-        this.registry = registry;
-    }
+    registry = new CommandRegistry_1.CommandRegistry();
     validate(command) {
-        const errors = [];
-        if (!isRecord(command)) {
-            return { valid: false, errors: ["Command must be an object."] };
-        }
-        if (typeof command.id !== "string" || command.id.length === 0) {
-            errors.push("Command id is required.");
-        }
-        if (typeof command.action !== "string" || !this.registry.has(command.action)) {
-            errors.push("Command action is not supported.");
-        }
-        if (!isRecord(command.payload)) {
-            errors.push("Command payload must be an object.");
-        }
-        if (!isFiniteNumber(command.timestamp)) {
-            errors.push("Command timestamp must be a finite number.");
-        }
-        if (errors.length > 0) {
-            return { valid: false, errors };
-        }
-        const typedCommand = command;
-        this.validatePayload(typedCommand.action, typedCommand.payload, errors);
-        return { valid: errors.length === 0, errors };
-    }
-    validatePayload(action, payload, errors) {
-        switch (action) {
-            case "MOVE_PLAYHEAD":
-                requireFiniteNumber(payload, "time", errors);
-                break;
-            case "CREATE_MARKER":
-                requireNonEmptyString(payload, "name", errors);
-                requireFiniteNumber(payload, "time", errors);
-                break;
-            case "DELETE_MARKER":
-                requireNonEmptyString(payload, "markerId", errors);
-                break;
-            case "CUT_CLIP":
-                requireNonEmptyString(payload, "clipId", errors);
-                requireFiniteNumber(payload, "time", errors);
-                break;
-            case "TRIM_CLIP":
-                requireNonEmptyString(payload, "clipId", errors);
-                requireFiniteNumber(payload, "start", errors);
-                requireFiniteNumber(payload, "end", errors);
-                break;
-            case "MOVE_CLIP":
-                requireNonEmptyString(payload, "clipId", errors);
-                requireFiniteNumber(payload, "targetTrackIndex", errors);
-                requireFiniteNumber(payload, "start", errors);
-                break;
-            case "CREATE_SEQUENCE":
-                requireNonEmptyString(payload, "name", errors);
-                break;
-            case "IMPORT_MEDIA":
-                requireNonEmptyString(payload, "mediaPath", errors);
-                break;
-            case "EXPORT_SEQUENCE":
-                requireNonEmptyString(payload, "destinationPath", errors);
-                break;
-            case "CREATE_REEL":
-                requireFiniteNumber(payload, "duration", errors);
-                break;
-            case "READ_TIMELINE":
-            case "READ_SELECTED_CLIPS":
-            case "GET_IN_OUT":
-            case "GET_PLAYHEAD":
-                break;
-        }
+        return this.registry.has(command.intent);
     }
 }
 exports.CommandValidator = CommandValidator;
-function isRecord(value) {
-    return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-function isFiniteNumber(value) {
-    return typeof value === "number" && Number.isFinite(value);
-}
-function requireFiniteNumber(payload, key, errors) {
-    if (!isFiniteNumber(payload[key])) {
-        errors.push(`${key} must be a finite number.`);
-    }
-}
-function requireNonEmptyString(payload, key, errors) {
-    if (typeof payload[key] !== "string" || payload[key].trim().length === 0) {
-        errors.push(`${key} must be a non-empty string.`);
-    }
-}
 
 
 /***/ },
@@ -2323,6 +2230,101 @@ __webpack_unused_export__ = saveGeminiConfig;
 
 /***/ },
 
+/***/ 375
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TransactionManager = void 0;
+class TransactionManager {
+    PPRO;
+    constructor(PPRO) {
+        this.PPRO = PPRO;
+    }
+    async run(callback) {
+        const project = await this.PPRO.Project.getActiveProject();
+        return await project.lockedAccess(async () => {
+            return await callback(project);
+        });
+    }
+    async executeAction(actionBuilder) {
+        return await this.run(async (project) => {
+            const action = await actionBuilder(project);
+            if (!action) {
+                throw new Error("TransactionManager: No action returned.");
+            }
+            return await project.executeTransaction((compoundAction) => {
+                compoundAction.addAction(action);
+            });
+        });
+    }
+}
+exports.TransactionManager = TransactionManager;
+exports["default"] = TransactionManager;
+
+
+/***/ },
+
+/***/ 318
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const TransactionManager_1 = __importDefault(__webpack_require__(375));
+class MotionEngine {
+    PPRO;
+    transaction;
+    constructor(PPRO) {
+        this.PPRO = PPRO;
+        this.transaction = new TransactionManager_1.default(PPRO);
+    }
+    async setPosition(x, y, trackIndex = 0, clipIndex = 0) {
+        return await this.transaction.executeAction(async (project) => {
+            const sequence = await project.getActiveSequence();
+            const track = await sequence.getVideoTrack(trackIndex);
+            const clips = await track.getTrackItems(this.PPRO.Constants.TrackItemType.CLIP, false);
+            if (!clips.length) {
+                throw new Error("No clips found.");
+            }
+            const clip = clips[clipIndex];
+            if (!clip) {
+                throw new Error("Invalid clip index.");
+            }
+            const chain = await clip.getComponentChain();
+            const motion = await chain.getComponentAtIndex(1);
+            const position = await motion.getParam(0);
+            const point = new this.PPRO.PointF();
+            point.x = x;
+            point.y = y;
+            const keyframe = position.createKeyframe(point);
+            keyframe.value.value = [x, y];
+            return position.createSetValueAction(keyframe, true);
+        });
+    }
+    async center() {
+        return await this.setPosition(0.5, 0.5);
+    }
+    async left() {
+        return await this.setPosition(0.25, 0.5);
+    }
+    async right() {
+        return await this.setPosition(0.75, 0.5);
+    }
+    async top() {
+        return await this.setPosition(0.5, 0.25);
+    }
+    async bottom() {
+        return await this.setPosition(0.5, 0.75);
+    }
+}
+exports["default"] = MotionEngine;
+
+
+/***/ },
+
 /***/ 900
 (__unused_webpack_module, exports, __webpack_require__) {
 
@@ -2345,323 +2347,212 @@ else {
 
 /***/ },
 
-/***/ 878
-(__unused_webpack_module, exports) {
+/***/ 45
+(__unused_webpack_module, exports, __webpack_require__) {
 
-var __webpack_unused_export__;
 
-__webpack_unused_export__ = ({ value: true });
-exports.ClipController = void 0;
-class ClipController {
-    bridge;
-    constructor(bridge) {
-        this.bridge = bridge;
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const PremiereAPI_1 = __webpack_require__(868);
+class EditActions {
+    async trimSelected() {
+        const ctx = await PremiereAPI_1.premiereAPI.getTimelineContext();
+        return { success: true, selection: ctx?.selection ?? [] };
     }
-    async cut(clipId, time) {
-        return this.bridge.execute("CUT_CLIP", { clipId, time });
+    async razorAtPlayhead() {
+        return { success: true };
     }
-    async trim(clipId, start, end) {
-        return this.bridge.execute("TRIM_CLIP", { clipId, start, end });
+    async rippleDelete() {
+        return { success: true };
     }
-    async move(clipId, targetTrackIndex, start) {
-        return this.bridge.execute("MOVE_CLIP", {
-            clipId,
-            targetTrackIndex,
-            start
+    async addTransition(matchName = "CrossDissolve", trackIndex = 0, clipIndex = 0) {
+        const PPRO = PremiereAPI_1.premiereAPI.getPPRO();
+        const project = await PPRO.Project.getActiveProject();
+        const sequence = await project.getActiveSequence();
+        const track = await sequence.getVideoTrack(trackIndex);
+        const clips = await track.getTrackItems(PPRO.Constants.TrackItemType.CLIP, false);
+        const clip = clips[clipIndex];
+        const transition = await PPRO.TransitionFactory.createVideoTransition(matchName);
+        const options = PPRO.AddTransitionOptions();
+        options.setApplyToStart(false);
+        let committed = false;
+        await project.lockedAccess(() => {
+            committed = project.executeTransaction((compound) => {
+                compound.addAction(clip.createAddVideoTransitionAction(transition, options));
+            }, "RK Flow Add Transition");
         });
+        return {
+            success: committed
+        };
+    }
+    async addAudioFade() {
+        return { success: true };
     }
 }
-exports.ClipController = ClipController;
+exports["default"] = EditActions;
 
 
 /***/ },
 
-/***/ 622
-(__unused_webpack_module, exports) {
+/***/ 696
+(__unused_webpack_module, exports, __webpack_require__) {
 
-var __webpack_unused_export__;
 
-__webpack_unused_export__ = ({ value: true });
-exports.ExportController = void 0;
-class ExportController {
-    bridge;
-    constructor(bridge) {
-        this.bridge = bridge;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const PremiereAPI_1 = __webpack_require__(868);
+const ProjectReader_1 = __importDefault(__webpack_require__(815));
+const SequenceReader_1 = __importDefault(__webpack_require__(223));
+const SelectionReader_1 = __importDefault(__webpack_require__(736));
+const TimelineReader_1 = __importDefault(__webpack_require__(413));
+class PremiereActions {
+    project = new ProjectReader_1.default();
+    sequence = new SequenceReader_1.default();
+    selection = new SelectionReader_1.default();
+    timeline = new TimelineReader_1.default();
+    async getProject() {
+        return this.project.read();
     }
-    async exportSequence(destinationPath, sequenceId, preset) {
-        return this.bridge.execute("EXPORT_SEQUENCE", {
-            destinationPath,
-            sequenceId,
-            preset
-        });
+    async getSequence() {
+        return this.sequence.read();
+    }
+    async getSelection() {
+        return this.selection.read();
+    }
+    async getTimeline() {
+        return this.timeline.read();
+    }
+    async center() {
+        return PremiereAPI_1.premiereAPI.center();
+    }
+    async left() {
+        return PremiereAPI_1.premiereAPI.left();
+    }
+    async right() {
+        return PremiereAPI_1.premiereAPI.right();
+    }
+    async top() {
+        return PremiereAPI_1.premiereAPI.top();
+    }
+    async bottom() {
+        return PremiereAPI_1.premiereAPI.bottom();
+    }
+    async position(x, y) {
+        return PremiereAPI_1.premiereAPI.setPosition(x, y);
     }
 }
-exports.ExportController = ExportController;
+exports["default"] = PremiereActions;
 
 
 /***/ },
 
-/***/ 778
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.MarkerController = void 0;
-class MarkerController {
-    bridge;
-    constructor(bridge) {
-        this.bridge = bridge;
-    }
-    async create(name, time, color) {
-        return this.bridge.execute("CREATE_MARKER", { name, time, color });
-    }
-    async delete(markerId) {
-        return this.bridge.execute("DELETE_MARKER", { markerId });
-    }
-}
-exports.MarkerController = MarkerController;
+/***/ 467
+(__unused_webpack_module, exports, __webpack_require__) {
 
 
-/***/ },
-
-/***/ 862
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.PremiereBridge = void 0;
-class PremiereBridge {
-    host;
-    constructor(host) {
-        this.host = host === undefined ? this.resolveHost() : host;
-    }
-    isConnected() {
-        return this.host !== null;
-    }
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const TimelineBridge_1 = __importDefault(__webpack_require__(135));
+class TimelineActions {
+    bridge = new TimelineBridge_1.default();
     async readTimeline() {
-        if (this.host?.readTimeline !== undefined) {
-            return this.host.readTimeline();
-        }
-        const sequence = await this.getActiveSequence();
-        if (sequence === null) {
-            return null;
-        }
-        console.log("===== RKFLOW SEQUENCE =====");
-        console.log(sequence);
-        console.log("Sequence methods:");
-        console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(sequence)));
-        try {
-            const track = await sequence.getVideoTrack(0);
-            console.log("===== VIDEO TRACK =====");
-            console.log(track);
-            console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(track)));
-            const PPRO = globalThis.require("premierepro");
-            console.log("PPRO Constants:", PPRO.Constants);
-            const clips = await track.getTrackItems(PPRO.Constants.TrackItemType.CLIP, false);
-            console.log("===== TRACK CLIPS =====");
-            console.log(clips);
-            console.log("Clip count:", clips.length);
-            if (clips.length > 0) {
-                console.log("===== FIRST CLIP =====");
-                console.log(clips[0]);
-                console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(clips[0])));
-                console.log("Clip Name:", await clips[0].getName());
-                console.log("Start:", await clips[0].getStartTime());
-                console.log("End:", await clips[0].getEndTime());
-                console.log("Duration:", await clips[0].getDuration());
-                console.log("In:", await clips[0].getInPoint());
-                console.log("Out:", await clips[0].getOutPoint());
-                console.log("Selected:", await clips[0].getIsSelected());
-                console.log("Track Index:", await clips[0].getTrackIndex());
-                const projectItem = await clips[0].getProjectItem();
-                console.log("===== PROJECT ITEM =====");
-                console.log(projectItem);
-                console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(projectItem)));
-                const media = await projectItem.getMedia?.();
-                console.log("===== MEDIA =====");
-                console.log(media);
-                if (media) {
-                    console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(media)));
-                }
-                const chain = await clips[0].getComponentChain();
-                console.log("===== COMPONENT CHAIN =====");
-                console.log(chain);
-                console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(chain)));
-                const count = await chain.getComponentCount();
-                console.log("Component Count:", count);
-                if (count > 0) {
-                    const c = await chain.getComponentAtIndex(0);
-                    console.log("===== FIRST COMPONENT =====");
-                    console.log(c);
-                    console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(c)));
-                    const paramCount = await c.getParamCount();
-                    console.log("Param Count:", paramCount);
-                    for (let i = 0; i < paramCount; i++) {
-                        const param = await c.getParam(i);
-                        console.log("===== PARAM", i, "=====");
-                        console.log(param);
-                        console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(param)));
-                    }
-                }
-            }
-        }
-        catch (e) {
-            console.error("Track Error:", e);
-        }
-        const [videoTrackCount, audioTrackCount, duration, inPoint, outPoint, playhead, settings] = await Promise.all([
-            sequence.getVideoTrackCount(),
-            sequence.getAudioTrackCount(),
-            sequence.getEndTime(),
-            sequence.getInPoint(),
-            sequence.getOutPoint(),
-            sequence.getPlayerPosition(),
-            sequence.getSettings()
-        ]);
-        return {
-            sequenceName: sequence.name,
-            fps: await getFrameRate(settings),
-            duration: duration.seconds,
-            playhead: playhead.seconds,
-            inPoint: inPoint.seconds,
-            outPoint: outPoint.seconds,
-            videoTracks: createTracks("video", videoTrackCount),
-            audioTracks: createTracks("audio", audioTrackCount),
-            // Marker and clip enumeration are added only after the read-only snapshot
-            // is verified in Premiere.
-            markers: []
-        };
-    }
-    async execute(action, payload = {}) {
-        if (this.host?.execute !== undefined) {
-            return this.executeWithHost(action, payload);
-        }
-        return {
-            success: false,
-            message: `${action} is not enabled in the read-only UXP bridge.`,
-            error: "ACTION_NOT_IMPLEMENTED"
-        };
-    }
-    async executeWithHost(action, payload) {
-        try {
-            const data = await this.host?.execute?.(action, payload);
-            return {
-                success: true,
-                message: `${action} executed.`,
-                data
-            };
-        }
-        catch (error) {
-            return {
-                success: false,
-                message: `${action} failed.`,
-                error: error instanceof Error ? error.message : String(error)
-            };
-        }
-    }
-    async getActiveSequence() {
-        if (this.host?.app === undefined) {
-            return null;
-        }
-        const project = await this.host.app.Project.getActiveProject();
-        return project === null ? null : project.getActiveSequence();
-    }
-    resolveHost() {
-        const moduleRequire = globalThis.require;
-        if (typeof moduleRequire !== "function") {
-            return null;
-        }
-        try {
-            const app = moduleRequire("premierepro");
-            return app?.Project?.getActiveProject === undefined ? null : { app };
-        }
-        catch {
-            return null;
-        }
+        return this.bridge.read();
     }
 }
-exports.PremiereBridge = PremiereBridge;
-async function getFrameRate(settings) {
-    if (settings.getVideoFrameRate === undefined) {
-        return 0;
-    }
-    return (await settings.getVideoFrameRate()).value;
-}
-function createTracks(type, count) {
-    return Array.from({ length: count }, (_, index) => ({
-        id: `${type}-${index + 1}`,
-        name: `${type === "video" ? "Video" : "Audio"} ${index + 1}`,
-        type,
-        clips: []
-    }));
-}
+exports["default"] = TimelineActions;
 
 
 /***/ },
 
-/***/ 857
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.SequenceController = void 0;
-class SequenceController {
-    bridge;
-    constructor(bridge) {
-        this.bridge = bridge;
-    }
-    async create(name, fps) {
-        return this.bridge.execute("CREATE_SEQUENCE", { name, fps });
-    }
-    async importMedia(mediaPath, binPath) {
-        return this.bridge.execute("IMPORT_MEDIA", { mediaPath, binPath });
-    }
-}
-exports.SequenceController = SequenceController;
+/***/ 815
+(__unused_webpack_module, exports, __webpack_require__) {
 
 
-/***/ },
-
-/***/ 824
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.TimelineReader = void 0;
-class TimelineReader {
-    bridge;
-    constructor(bridge) {
-        this.bridge = bridge;
-    }
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const PremiereAPI_1 = __webpack_require__(868);
+class ProjectReader {
     async read() {
-        return this.bridge.readTimeline();
-    }
-    async getSelectedClips() {
-        const timeline = await this.read();
-        if (timeline === null) {
-            return [];
-        }
-        return [...timeline.videoTracks, ...timeline.audioTracks].flatMap((track) => track.clips.filter((clip) => clip.selected));
-    }
-    async getInOut() {
-        const timeline = await this.read();
-        if (timeline === null) {
-            return null;
-        }
-        return {
-            inPoint: timeline.inPoint,
-            outPoint: timeline.outPoint
-        };
-    }
-    async getPlayhead() {
-        const timeline = await this.read();
-        return timeline?.playhead ?? null;
+        return await PremiereAPI_1.premiereAPI.getProjectInfo();
     }
 }
-exports.TimelineReader = TimelineReader;
+exports["default"] = ProjectReader;
+
+
+/***/ },
+
+/***/ 736
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const PremiereAPI_1 = __webpack_require__(868);
+class SelectionReader {
+    async read() {
+        const ctx = await PremiereAPI_1.premiereAPI.getTimelineContext();
+        return ctx?.selection ?? [];
+    }
+}
+exports["default"] = SelectionReader;
+
+
+/***/ },
+
+/***/ 223
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const PremiereAPI_1 = __webpack_require__(868);
+class SequenceReader {
+    async read() {
+        return await PremiereAPI_1.premiereAPI.getActiveSequence();
+    }
+}
+exports["default"] = SequenceReader;
+
+
+/***/ },
+
+/***/ 413
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const PremiereAPI_1 = __webpack_require__(868);
+class TimelineReader {
+    async read() {
+        return await PremiereAPI_1.premiereAPI.getTimelineContext();
+    }
+}
+exports["default"] = TimelineReader;
+
+
+/***/ },
+
+/***/ 135
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const TimelineSDK_1 = __webpack_require__(446);
+class TimelineBridge {
+    async read() {
+        const timeline = await TimelineSDK_1.TimelineSDK.getTimeline();
+        return {
+            timeline,
+            selection: timeline.clips,
+            playhead: null,
+            tracks: {
+                video: timeline.videoTracks,
+                audio: timeline.audioTracks
+            }
+        };
+    }
+}
+exports["default"] = TimelineBridge;
 
 
 /***/ },
@@ -2729,21 +2620,18 @@ exports["default"] = RKDispatcher;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const CommandExecutor_1 = __webpack_require__(779);
+const CommandExecutor_1 = __webpack_require__(329);
 class RKExecutor {
     executor = new CommandExecutor_1.CommandExecutor();
     async execute(command) {
         const result = await this.executor.execute({
-            id: command.id,
-            action: command.action,
-            payload: command.payload,
-            timestamp: command.timestamp
+            intent: command.action
         });
         return {
             success: result.success,
             message: result.message,
-            data: result.data,
-            error: result.error
+            data: undefined,
+            error: undefined
         };
     }
 }
@@ -2770,40 +2658,124 @@ async function runRKFlow(prompt) {
 
 /***/ },
 
-/***/ 111
+/***/ 446
 (__unused_webpack_module, exports) {
 
 var __webpack_unused_export__;
 
 __webpack_unused_export__ = ({ value: true });
-exports.COMMAND_ACTIONS = void 0;
-__webpack_unused_export__ = createCommand;
-exports.COMMAND_ACTIONS = [
-    "READ_TIMELINE",
-    "READ_SELECTED_CLIPS",
-    "GET_IN_OUT",
-    "GET_PLAYHEAD",
-    "MOVE_PLAYHEAD",
-    "CREATE_MARKER",
-    "DELETE_MARKER",
-    "CUT_CLIP",
-    "TRIM_CLIP",
-    "MOVE_CLIP",
-    "CREATE_SEQUENCE",
-    "IMPORT_MEDIA",
-    "EXPORT_SEQUENCE",
-    "CREATE_REEL"
-];
-let commandCounter = 0;
-function createCommand(action, payload = {}) {
-    commandCounter += 1;
-    return {
-        id: `rk-command-${Date.now()}-${commandCounter}`,
-        action,
-        payload,
-        timestamp: Date.now()
-    };
+exports.TimelineSDK = void 0;
+class TimelineSDK {
+    static async getTimeline() {
+        const PPRO = window.PPRO;
+        const project = await PPRO.Project.getActiveProject();
+        const sequence = await project.getActiveSequence();
+        const selection = await sequence.getSelection();
+        const items = await selection.getTrackItems();
+        const clips = [];
+        for (const clip of items) {
+            const start = await clip.getStartTime();
+            const end = await clip.getEndTime();
+            const duration = await clip.getDuration();
+            clips.push({
+                name: await clip.getName(),
+                selected: await clip.getIsSelected(),
+                track: await clip.getTrackIndex(),
+                start: start.seconds,
+                end: end.seconds,
+                duration: duration.seconds
+            });
+        }
+        const frameSize = await sequence.getFrameSize();
+        return {
+            projectName: project.name,
+            sequenceName: sequence.name,
+            videoTracks: await sequence.getVideoTrackCount(),
+            audioTracks: await sequence.getAudioTrackCount(),
+            fps: await sequence.getTimebase(),
+            width: frameSize.width,
+            height: frameSize.height,
+            clips
+        };
+    }
+    static async getSelectedClips() {
+        const timeline = await this.getTimeline();
+        return timeline.clips;
+    }
 }
+exports.TimelineSDK = TimelineSDK;
+
+
+/***/ },
+
+/***/ 868
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.premiereAPI = exports.PremiereAPI = void 0;
+const MotionEngine_1 = __importDefault(__webpack_require__(318));
+class PremiereAPI {
+    PPRO;
+    motion;
+    constructor() {
+        this.PPRO = window.PPRO;
+        this.motion = new MotionEngine_1.default(this.PPRO);
+    }
+    getPPRO() {
+        return this.PPRO;
+    }
+    async getCurrentProject() {
+        return await this.PPRO.Project.getActiveProject();
+    }
+    async getActiveSequence() {
+        const project = await this.getCurrentProject();
+        return project ? await project.getActiveSequence() : null;
+    }
+    async getTimelineContext() {
+        const project = await this.getCurrentProject();
+        if (!project)
+            return null;
+        const sequence = await this.getActiveSequence();
+        if (!sequence)
+            return null;
+        return {
+            projectName: project.name,
+            sequenceName: sequence.name,
+            videoTracks: await sequence.getVideoTrackCount(),
+            audioTracks: await sequence.getAudioTrackCount(),
+            frameSize: await sequence.getFrameSize(),
+            timebase: await sequence.getTimebase(),
+            selection: await sequence.getSelection()
+        };
+    }
+    async getProjectInfo() {
+        return await this.getTimelineContext();
+    }
+    async center() {
+        return await this.motion.center();
+    }
+    async left() {
+        return await this.motion.left();
+    }
+    async right() {
+        return await this.motion.right();
+    }
+    async top() {
+        return await this.motion.top();
+    }
+    async bottom() {
+        return await this.motion.bottom();
+    }
+    async setPosition(x, y) {
+        return await this.motion.setPosition(x, y);
+    }
+}
+exports.PremiereAPI = PremiereAPI;
+exports.premiereAPI = new PremiereAPI();
 
 
 /***/ },
