@@ -1,0 +1,123 @@
+import {
+  CommandAction,
+  CommandPayload,
+  CommandResult
+} from "../types/Command";
+
+export class PremiereBridge {
+
+  isConnected\(\){
+    return !!\(\(window as any\)\.PPRO\?\.Project\);
+  }
+
+
+  isConnected\(\){
+    return !!\(\(window as any\)\.PPRO\?\.Project\);
+  }
+
+
+  async readTimeline() {
+
+    const PPRO = (window as any).PPRO;
+
+    if (!PPRO?.Project)
+      return null;
+
+    const project = await PPRO.Project.getActiveProject();
+    if (!project) return null;
+
+    const sequence = await project.getActiveSequence();
+    if (!sequence) return null;
+
+    return {
+      sequenceName: sequence.name,
+      fps: await sequence.getTimebase(),
+      duration: (await sequence.getEndTime()).seconds,
+      playhead: (await sequence.getPlayerPosition()).seconds,
+      inPoint: (await sequence.getInPoint()).seconds,
+      outPoint: (await sequence.getOutPoint()).seconds,
+      videoTracks: Array.from(
+        { length: await sequence.getVideoTrackCount() },
+        (_, i) => ({
+          id:`video-${i+1}`,
+          name:`Video ${i+1}`,
+          type: "video" as const,
+          clips:[]
+        })
+      ),
+      audioTracks: Array.from(
+        { length: await sequence.getAudioTrackCount() },
+        (_, i) => ({
+          id:`audio-${i+1}`,
+          name:`Audio ${i+1}`,
+          type: "audio" as const,
+          clips:[]
+        })
+      ),
+      markers:[]
+    };
+
+  }
+
+  async execute(
+    action:CommandAction,
+    payload:CommandPayload={}
+  ):Promise<CommandResult>{
+
+    const PPRO=(window as any).PPRO;
+
+    if(!PPRO?.Project){
+      return{
+        success:false,
+        message:"PPRO unavailable"
+      };
+    }
+
+    const project=await PPRO.Project.getActiveProject();
+    const seq=await project.getActiveSequence();
+
+    switch(action){
+
+      case "MOVE_PLAYHEAD":{
+
+        const ticks=Math.round(
+          Number(payload.time)*254016000000
+        ).toString();
+
+        seq.setPlayerPosition(ticks);
+
+        return{
+          success:true,
+          message:"Playhead moved."
+        };
+      }
+
+      case "CREATE_MARKER":{
+
+        const marker=seq.markers.createMarker(
+          Number(payload.time)
+        );
+
+        marker.name=String(payload.name||"Marker");
+
+        if(payload.color!=null)
+          marker.setColorByIndex(Number(payload.color));
+
+        return{
+          success:true,
+          message:"Marker created."
+        };
+      }
+
+      default:
+
+        return{
+          success:false,
+          message:action+" not implemented."
+        };
+
+    }
+
+  }
+
+}
