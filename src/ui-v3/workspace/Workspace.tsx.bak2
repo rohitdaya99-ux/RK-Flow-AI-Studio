@@ -1,0 +1,67 @@
+import Header from "../header/Header";
+import WorkspaceTopBar from "./WorkspaceTopBar";
+import HeroBanner from "../components/HeroBanner";
+import ProjectStats from "../components/ProjectStats";
+import ProjectInfo from "../components/ProjectInfo";
+import GlassCard from "../components/GlassCard";
+
+type Props = {
+  activeFeature: string;
+  onAction: (action: string) => void;
+};
+
+export default function Workspace({ activeFeature, onAction }: Props) {
+  return (
+    <div
+      style={{
+        padding: 24,
+        display: "flex",
+        flexDirection: "column",
+        gap: 24,
+        height: "100%",
+        overflow: "auto",
+        background: "#0B0D10"
+      }}
+    >
+      <Header />
+
+      <WorkspaceTopBar onAction={onAction} />
+
+      <HeroBanner onAction={onAction} />
+
+      <ProjectStats />
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1.4fr 1fr",
+          gap: 22
+        }}
+      >
+        <ProjectInfo />
+
+        <GlassCard
+          title="AI Copilot"
+          subtitle={activeFeature === "Dashboard" ? "Ready for Timeline Analysis" : `${activeFeature} selected`}
+          height={340}
+        >
+          <div
+            style={{
+              color:"#AAB4C5",
+              lineHeight:1.9,
+              fontSize:15
+            }}
+          >
+            • Timeline Analysis<br/>
+            • Wedding AI<br/>
+            • Beat Detection<br/>
+            • Face Search<br/>
+            • Export Assistant
+          </div>
+        </GlassCard>
+
+      </div>
+
+    </div>
+  );
+}
