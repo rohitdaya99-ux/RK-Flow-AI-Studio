@@ -1,0 +1,86 @@
+import Header from "../header/Header";
+import WorkspaceTopBar from "./WorkspaceTopBar";
+import GlassCard from "../components/GlassCard";
+import MetricCard from "../components/MetricCard";
+
+export default function Workspace() {
+  return (
+    <div
+      style={{
+        padding: 24,
+        display: "flex",
+        flexDirection: "column",
+        gap: 24,
+        height: "100%",
+        overflow: "auto",
+        background: "#0B0D10"
+      }}
+    >
+      <Header />
+
+      <WorkspaceTopBar />
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(4,1fr)",
+          gap: 18
+        }}
+      >
+        <MetricCard title="Timeline" value="124" />
+        <MetricCard title="Assets" value="846" color="#22C55E" />
+        <MetricCard title="AI Tasks" value="18" color="#F59E0B" />
+        <MetricCard title="Exports" value="07" color="#EC4899" />
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "2fr 1fr",
+          gap: 22
+        }}
+      >
+        <GlassCard
+          title="RK Flow AI Studio"
+          subtitle="Professional AI Wedding Editing Workspace"
+          height={340}
+        >
+          <div
+            style={{
+              marginTop: 18,
+              color: "#AAB4C5",
+              fontSize: 15,
+              lineHeight: 1.8
+            }}
+          >
+            • AI Timeline Analysis<br/>
+            • Wedding Reel Generator<br/>
+            • Highlight Builder<br/>
+            • Music Beat Detection<br/>
+            • Export Queue
+          </div>
+        </GlassCard>
+
+        <GlassCard
+          title="Today's Progress"
+          subtitle="Current Project Status"
+          height={340}
+        >
+          <div
+            style={{
+              marginTop: 20,
+              display: "flex",
+              flexDirection: "column",
+              gap: 14
+            }}
+          >
+            <div style={{color:"#7DD3FC"}}>✓ Timeline Ready</div>
+            <div style={{color:"#4ADE80"}}>✓ AI Connected</div>
+            <div style={{color:"#FACC15"}}>• Export Pending</div>
+            <div style={{color:"#F87171"}}>• Review Required</div>
+          </div>
+        </GlassCard>
+      </div>
+    </div>
+  );
+}

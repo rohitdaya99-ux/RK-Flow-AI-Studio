@@ -1,3 +1,5 @@
+import { PremiereBridge } from "../premiere/PremiereBridge";
+
 export interface TimelineInfo {
   connected: boolean;
   projectName: string;
@@ -6,76 +8,63 @@ export interface TimelineInfo {
   audioTracks: number;
   frameSize: { width: number; height: number } | null;
   timebase: number | null;
+  duration: string;
 }
 
 export class PremiereService {
-  async getTimelineInfo(): Promise<TimelineInfo> {
-    const PPRO = (window as any).PPRO;
+  private readonly bridge = new PremiereBridge();
 
-    if (!PPRO?.Project) {
-      return {
-        connected: false,
-        projectName: "",
-        sequenceName: "",
-        videoTracks: 0,
-        audioTracks: 0,
-        frameSize: null,
-        timebase: null,
-      };
+  public async getTimelineInfo(): Promise<TimelineInfo> {
+    if (!this.bridge.isConnected()) {
+      return emptyTimelineInfo(false);
     }
 
     try {
-      const project = await PPRO.Project.getActiveProject();
+      const timeline = await this.bridge.readTimeline();
 
-      if (!project) {
-        return {
-          connected: true,
-          projectName: "",
-          sequenceName: "",
-          videoTracks: 0,
-          audioTracks: 0,
-          frameSize: null,
-          timebase: null,
-        };
-      }
-
-      const sequence = await project.getActiveSequence();
-
-      if (!sequence) {
-        return {
-          connected: true,
-          projectName: project.name ?? "",
-          sequenceName: "",
-          videoTracks: 0,
-          audioTracks: 0,
-          frameSize: null,
-          timebase: null,
-        };
+      if (timeline === null) {
+        return emptyTimelineInfo(true);
       }
 
       return {
         connected: true,
-        projectName: project.name ?? "",
-        sequenceName: sequence.name ?? "",
-        videoTracks: await sequence.getVideoTrackCount(),
-        audioTracks: await sequence.getAudioTrackCount(),
-        frameSize: await sequence.getFrameSize(),
-        timebase: await sequence.getTimebase(),
-      };
-    } catch (e) {
-      console.error(e);
-
-      return {
-        connected: false,
         projectName: "",
-        sequenceName: "",
-        videoTracks: 0,
-        audioTracks: 0,
+        sequenceName: timeline.sequenceName,
+        videoTracks: timeline.videoTracks.length,
+        audioTracks: timeline.audioTracks.length,
         frameSize: null,
-        timebase: null,
+        timebase: timeline.fps || null,
+        duration: formatDuration(timeline.duration)
       };
+    } catch (error: unknown) {
+      console.error("[RK Flow] Could not read the active Premiere timeline.", error);
+      return emptyTimelineInfo(false);
     }
   }
+}
+
+function emptyTimelineInfo(connected: boolean): TimelineInfo {
+  return {
+    connected,
+    projectName: "",
+    sequenceName: "",
+    videoTracks: 0,
+    audioTracks: 0,
+    frameSize: null,
+    timebase: null,
+    duration: "--"
+  };
+}
+
+function formatDuration(totalSeconds: number): string {
+  const seconds = Math.max(0, Math.floor(totalSeconds));
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+
+  return [hours, minutes, remainingSeconds]
+    .map((value) => String(value).padStart(2, "0"))
+    .join(":");
 }
 
 export const premiereService = new PremiereService();

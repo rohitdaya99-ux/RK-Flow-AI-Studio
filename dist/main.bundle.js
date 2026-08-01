@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 6445
+/***/ 445
 (__unused_webpack_module, exports) {
 
 var __webpack_unused_export__;
@@ -1540,584 +1540,7 @@ __webpack_unused_export__ = POSSIBLE_ROLES;
 
 /***/ },
 
-/***/ 6830
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `.dashboard{
-width:100%;
-max-width:none;
-display:flex;
-flex-direction:column;
-gap:var(--space-4);
-padding-bottom:var(--space-4);
-}
-
-.hero,
-.card{
-width:100%;
-box-sizing:border-box;
-}
-
-.hero{
-padding:var(--space-5);
-border-radius:var(--space-4);
-background:linear-gradient(135deg,#1b2436,#12161d);
-border:1px solid rgba(255,255,255,.08);
-}
-
-.badge{
-display:inline-flex;
-padding:6px var(--space-2);
-border-radius:999px;
-background:rgba(94,162,255,.15);
-color:#5ea2ff;
-font-size:12px;
-font-weight:600;
-margin-bottom:var(--font-md);
-}
-
-.hero h1{
-margin:0;
-font-size:var(--font-xl);
-line-height:1.1;
-color:#fff;
-}
-
-.hero p{
-margin-top:var(--font-md);
-max-width:100%;
-font-size:var(--font-md);
-line-height:1.8;
-color:#9aa4b2;
-}
-
-.stats{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:var(--font-md);
-width:100%;
-}
-
-.card{
-padding:var(--space-4);
-background:#171b22;
-border:1px solid rgba(255,255,255,.08);
-border-radius:20px;
-}
-
-.stat{
-min-height:clamp(120px,20vh,220px);
-}
-
-.stat span{
-display:block;
-margin-bottom:10px;
-color:#9aa4b2;
-font-size:var(--font-sm);
-}
-
-.stat h2{
-margin:0;
-font-size:var(--font-lg);
-color:#fff;
-}
-
-.action-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:var(--font-md);
-margin-top:var(--font-md);
-}
-
-.action-grid button{
-min-height:56px;
-border:none;
-border-radius:var(--space-2);
-background:#222935;
-color:#fff;
-font-weight:600;
-cursor:pointer;
-}
-
-.project-list{
-display:flex;
-flex-direction:column;
-gap:var(--space-2);
-margin-top:var(--font-md);
-}
-
-.project{
-padding:var(--font-md);
-background:#202734;
-border-radius:var(--space-2);
-color:#fff;
-}
-`, "",{"version":3,"sources":["webpack://./src/features/dashboard/Dashboard.css"],"names":[],"mappings":"AAAA;AACA,UAAU;AACV,cAAc;AACd,YAAY;AACZ,qBAAqB;AACrB,kBAAkB;AAClB,6BAA6B;AAC7B;;AAEA;;AAEA,UAAU;AACV,qBAAqB;AACrB;;AAEA;AACA,sBAAsB;AACtB,4BAA4B;AAC5B,kDAAkD;AAClD,sCAAsC;AACtC;;AAEA;AACA,mBAAmB;AACnB,0BAA0B;AAC1B,mBAAmB;AACnB,+BAA+B;AAC/B,aAAa;AACb,cAAc;AACd,eAAe;AACf,4BAA4B;AAC5B;;AAEA;AACA,QAAQ;AACR,wBAAwB;AACxB,eAAe;AACf,UAAU;AACV;;AAEA;AACA,yBAAyB;AACzB,cAAc;AACd,wBAAwB;AACxB,eAAe;AACf,aAAa;AACb;;AAEA;AACA,YAAY;AACZ,wDAAwD;AACxD,kBAAkB;AAClB,UAAU;AACV;;AAEA;AACA,sBAAsB;AACtB,kBAAkB;AAClB,sCAAsC;AACtC,kBAAkB;AAClB;;AAEA;AACA,kCAAkC;AAClC;;AAEA;AACA,aAAa;AACb,kBAAkB;AAClB,aAAa;AACb,wBAAwB;AACxB;;AAEA;AACA,QAAQ;AACR,wBAAwB;AACxB,UAAU;AACV;;AAEA;AACA,YAAY;AACZ,wDAAwD;AACxD,kBAAkB;AAClB,yBAAyB;AACzB;;AAEA;AACA,eAAe;AACf,WAAW;AACX,4BAA4B;AAC5B,kBAAkB;AAClB,UAAU;AACV,eAAe;AACf,cAAc;AACd;;AAEA;AACA,YAAY;AACZ,qBAAqB;AACrB,kBAAkB;AAClB,yBAAyB;AACzB;;AAEA;AACA,sBAAsB;AACtB,kBAAkB;AAClB,4BAA4B;AAC5B,UAAU;AACV","sourcesContent":[".dashboard{\nwidth:100%;\nmax-width:none;\ndisplay:flex;\nflex-direction:column;\ngap:var(--space-4);\npadding-bottom:var(--space-4);\n}\n\n.hero,\n.card{\nwidth:100%;\nbox-sizing:border-box;\n}\n\n.hero{\npadding:var(--space-5);\nborder-radius:var(--space-4);\nbackground:linear-gradient(135deg,#1b2436,#12161d);\nborder:1px solid rgba(255,255,255,.08);\n}\n\n.badge{\ndisplay:inline-flex;\npadding:6px var(--space-2);\nborder-radius:999px;\nbackground:rgba(94,162,255,.15);\ncolor:#5ea2ff;\nfont-size:12px;\nfont-weight:600;\nmargin-bottom:var(--font-md);\n}\n\n.hero h1{\nmargin:0;\nfont-size:var(--font-xl);\nline-height:1.1;\ncolor:#fff;\n}\n\n.hero p{\nmargin-top:var(--font-md);\nmax-width:100%;\nfont-size:var(--font-md);\nline-height:1.8;\ncolor:#9aa4b2;\n}\n\n.stats{\ndisplay:grid;\ngrid-template-columns:repeat(auto-fit,minmax(180px,1fr));\ngap:var(--font-md);\nwidth:100%;\n}\n\n.card{\npadding:var(--space-4);\nbackground:#171b22;\nborder:1px solid rgba(255,255,255,.08);\nborder-radius:20px;\n}\n\n.stat{\nmin-height:clamp(120px,20vh,220px);\n}\n\n.stat span{\ndisplay:block;\nmargin-bottom:10px;\ncolor:#9aa4b2;\nfont-size:var(--font-sm);\n}\n\n.stat h2{\nmargin:0;\nfont-size:var(--font-lg);\ncolor:#fff;\n}\n\n.action-grid{\ndisplay:grid;\ngrid-template-columns:repeat(auto-fit,minmax(220px,1fr));\ngap:var(--font-md);\nmargin-top:var(--font-md);\n}\n\n.action-grid button{\nmin-height:56px;\nborder:none;\nborder-radius:var(--space-2);\nbackground:#222935;\ncolor:#fff;\nfont-weight:600;\ncursor:pointer;\n}\n\n.project-list{\ndisplay:flex;\nflex-direction:column;\ngap:var(--space-2);\nmargin-top:var(--font-md);\n}\n\n.project{\npadding:var(--font-md);\nbackground:#202734;\nborder-radius:var(--space-2);\ncolor:#fff;\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 3127
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `.rk-app{
-display:flex;
-height:100vh;
-background:var(--bg);
-overflow:hidden;
-}
-
-.rk-main{
-flex:1;
-display:flex;
-flex-direction:column;
-overflow:hidden;
-}
-
-.rk-workspace{
-flex:1;
-display:flex;
-overflow:hidden;
-}
-
-.rk-content{
-flex:1;
-padding:24px;
-overflow:auto;
-}
-`, "",{"version":3,"sources":["webpack://./src/layout/AppShell.css"],"names":[],"mappings":"AAAA;AACA,YAAY;AACZ,YAAY;AACZ,oBAAoB;AACpB,eAAe;AACf;;AAEA;AACA,MAAM;AACN,YAAY;AACZ,qBAAqB;AACrB,eAAe;AACf;;AAEA;AACA,MAAM;AACN,YAAY;AACZ,eAAe;AACf;;AAEA;AACA,MAAM;AACN,YAAY;AACZ,aAAa;AACb","sourcesContent":[".rk-app{\ndisplay:flex;\nheight:100vh;\nbackground:var(--bg);\noverflow:hidden;\n}\n\n.rk-main{\nflex:1;\ndisplay:flex;\nflex-direction:column;\noverflow:hidden;\n}\n\n.rk-workspace{\nflex:1;\ndisplay:flex;\noverflow:hidden;\n}\n\n.rk-content{\nflex:1;\npadding:24px;\noverflow:auto;\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 1686
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `.right-panel{
-width:100%;
-max-width:420px;
-min-width:280px;
-padding:20px;
-border-left:1px solid rgba(255,255,255,.08);
-background:rgba(18,20,24,.92);
-backdrop-filter:blur(24px);
--webkit-backdrop-filter:blur(24px);
-flex-shrink:0;
-overflow:auto;
-}
-
-.copilot-card{
-display:flex;
-flex-direction:column;
-height:100%;
-padding:20px;
-border-radius:22px;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.08);
-}
-
-.copilot-card h3{
-margin:0 0 20px;
-font-size:22px;
-font-weight:700;
-color:#fff;
-}
-
-.copilot-card button{
-height:44px;
-margin-bottom:10px;
-border:none;
-border-radius:14px;
-background:rgba(255,255,255,.05);
-color:#fff;
-font-weight:500;
-transition:.2s;
-cursor:pointer;
-}
-
-.copilot-card button:hover{
-background:#5ea2ff;
-}
-
-.copilot-card textarea{
-margin-top:auto;
-min-height:160px;
-padding:14px;
-border-radius:14px;
-border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.03);
-color:#fff;
-resize:none;
-outline:none;
-}
-
-.copilot-card textarea::placeholder{
-color:#7d8795;
-}
-`, "",{"version":3,"sources":["webpack://./src/layout/RightPanel.css"],"names":[],"mappings":"AAAA;AACA,UAAU;AACV,eAAe;AACf,eAAe;AACf,YAAY;AACZ,2CAA2C;AAC3C,6BAA6B;AAC7B,0BAA0B;AAC1B,kCAAkC;AAClC,aAAa;AACb,aAAa;AACb;;AAEA;AACA,YAAY;AACZ,qBAAqB;AACrB,WAAW;AACX,YAAY;AACZ,kBAAkB;AAClB,gCAAgC;AAChC,sCAAsC;AACtC;;AAEA;AACA,eAAe;AACf,cAAc;AACd,eAAe;AACf,UAAU;AACV;;AAEA;AACA,WAAW;AACX,kBAAkB;AAClB,WAAW;AACX,kBAAkB;AAClB,gCAAgC;AAChC,UAAU;AACV,eAAe;AACf,cAAc;AACd,cAAc;AACd;;AAEA;AACA,kBAAkB;AAClB;;AAEA;AACA,eAAe;AACf,gBAAgB;AAChB,YAAY;AACZ,kBAAkB;AAClB,sCAAsC;AACtC,gCAAgC;AAChC,UAAU;AACV,WAAW;AACX,YAAY;AACZ;;AAEA;AACA,aAAa;AACb","sourcesContent":[".right-panel{\nwidth:100%;\nmax-width:420px;\nmin-width:280px;\npadding:20px;\nborder-left:1px solid rgba(255,255,255,.08);\nbackground:rgba(18,20,24,.92);\nbackdrop-filter:blur(24px);\n-webkit-backdrop-filter:blur(24px);\nflex-shrink:0;\noverflow:auto;\n}\n\n.copilot-card{\ndisplay:flex;\nflex-direction:column;\nheight:100%;\npadding:20px;\nborder-radius:22px;\nbackground:rgba(255,255,255,.04);\nborder:1px solid rgba(255,255,255,.08);\n}\n\n.copilot-card h3{\nmargin:0 0 20px;\nfont-size:22px;\nfont-weight:700;\ncolor:#fff;\n}\n\n.copilot-card button{\nheight:44px;\nmargin-bottom:10px;\nborder:none;\nborder-radius:14px;\nbackground:rgba(255,255,255,.05);\ncolor:#fff;\nfont-weight:500;\ntransition:.2s;\ncursor:pointer;\n}\n\n.copilot-card button:hover{\nbackground:#5ea2ff;\n}\n\n.copilot-card textarea{\nmargin-top:auto;\nmin-height:160px;\npadding:14px;\nborder-radius:14px;\nborder:1px solid rgba(255,255,255,.08);\nbackground:rgba(255,255,255,.03);\ncolor:#fff;\nresize:none;\noutline:none;\n}\n\n.copilot-card textarea::placeholder{\ncolor:#7d8795;\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 4160
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `.sidebar{
-width:var(--sidebar-width);
-height:100vh;
-display:flex;
-flex-direction:column;
-padding:24px;
-background:rgba(18,20,24,.92);
-border-right:1px solid rgba(255,255,255,.08);
-backdrop-filter:blur(24px);
--webkit-backdrop-filter:blur(24px);
-flex-shrink:0;
-}
-
-.sidebar-logo{
-font-size:var(--font-xl);
-font-weight:700;
-letter-spacing:.08em;
-margin-bottom:40px;
-color:#fff;
-}
-
-.sidebar-logo span{
-color:#5ea2ff;
-}
-
-.sidebar-nav{
-display:flex;
-flex-direction:column;
-gap:8px;
-}
-
-.sidebar-item{
-height:46px;
-display:flex;
-align-items:center;
-padding:0 16px;
-border:none;
-border-radius:14px;
-background:transparent;
-color:#b8bec8;
-font-size:var(--font-md);
-font-weight:500;
-transition:.2s;
-cursor:pointer;
-}
-
-.sidebar-item:hover{
-background:rgba(255,255,255,.06);
-color:#fff;
-}
-
-.sidebar-item.active{
-background:#5ea2ff;
-color:#fff;
-box-shadow:0 8px 20px rgba(94,162,255,.25);
-}
-`, "",{"version":3,"sources":["webpack://./src/layout/Sidebar.css"],"names":[],"mappings":"AAAA;AACA,0BAA0B;AAC1B,YAAY;AACZ,YAAY;AACZ,qBAAqB;AACrB,YAAY;AACZ,6BAA6B;AAC7B,4CAA4C;AAC5C,0BAA0B;AAC1B,kCAAkC;AAClC,aAAa;AACb;;AAEA;AACA,wBAAwB;AACxB,eAAe;AACf,oBAAoB;AACpB,kBAAkB;AAClB,UAAU;AACV;;AAEA;AACA,aAAa;AACb;;AAEA;AACA,YAAY;AACZ,qBAAqB;AACrB,OAAO;AACP;;AAEA;AACA,WAAW;AACX,YAAY;AACZ,kBAAkB;AAClB,cAAc;AACd,WAAW;AACX,kBAAkB;AAClB,sBAAsB;AACtB,aAAa;AACb,wBAAwB;AACxB,eAAe;AACf,cAAc;AACd,cAAc;AACd;;AAEA;AACA,gCAAgC;AAChC,UAAU;AACV;;AAEA;AACA,kBAAkB;AAClB,UAAU;AACV,0CAA0C;AAC1C","sourcesContent":[".sidebar{\nwidth:var(--sidebar-width);\nheight:100vh;\ndisplay:flex;\nflex-direction:column;\npadding:24px;\nbackground:rgba(18,20,24,.92);\nborder-right:1px solid rgba(255,255,255,.08);\nbackdrop-filter:blur(24px);\n-webkit-backdrop-filter:blur(24px);\nflex-shrink:0;\n}\n\n.sidebar-logo{\nfont-size:var(--font-xl);\nfont-weight:700;\nletter-spacing:.08em;\nmargin-bottom:40px;\ncolor:#fff;\n}\n\n.sidebar-logo span{\ncolor:#5ea2ff;\n}\n\n.sidebar-nav{\ndisplay:flex;\nflex-direction:column;\ngap:8px;\n}\n\n.sidebar-item{\nheight:46px;\ndisplay:flex;\nalign-items:center;\npadding:0 16px;\nborder:none;\nborder-radius:14px;\nbackground:transparent;\ncolor:#b8bec8;\nfont-size:var(--font-md);\nfont-weight:500;\ntransition:.2s;\ncursor:pointer;\n}\n\n.sidebar-item:hover{\nbackground:rgba(255,255,255,.06);\ncolor:#fff;\n}\n\n.sidebar-item.active{\nbackground:#5ea2ff;\ncolor:#fff;\nbox-shadow:0 8px 20px rgba(94,162,255,.25);\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 6661
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `.status-bar{
-height:38px;
-padding:0 20px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-background:#11141b;
-border-top:1px solid rgba(255,255,255,.08);
-font-size:12px;
-color:#9aa4b2;
-}
-`, "",{"version":3,"sources":["webpack://./src/layout/StatusBar.css"],"names":[],"mappings":"AAAA;AACA,WAAW;AACX,cAAc;AACd,YAAY;AACZ,kBAAkB;AAClB,6BAA6B;AAC7B,kBAAkB;AAClB,0CAA0C;AAC1C,cAAc;AACd,aAAa;AACb","sourcesContent":[".status-bar{\nheight:38px;\npadding:0 20px;\ndisplay:flex;\nalign-items:center;\njustify-content:space-between;\nbackground:#11141b;\nborder-top:1px solid rgba(255,255,255,.08);\nfont-size:12px;\ncolor:#9aa4b2;\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 2154
-(module, __webpack_exports__, __webpack_require__) {
-
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1354);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6314);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, `.topbar{
-height:clamp(64px,5vw,80px);
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 24px;
-background:rgba(18,20,24,.92);
-border-bottom:1px solid rgba(255,255,255,.08);
-backdrop-filter:blur(24px);
--webkit-backdrop-filter:blur(24px);
-}
-
-.topbar h1{
-margin:0;
-font-size:var(--font-xl);
-font-weight:700;
-color:#fff;
-}
-
-.topbar p{
-margin:4px 0 0;
-font-size:var(--font-sm);
-color:#9aa4b2;
-}
-
-.topbar-actions{
-display:flex;
-align-items:center;
-gap:14px;
-}
-
-.topbar-search{
-flex:1;
-min-width:180px;
-max-width:100%;
-height:44px;
-padding:0 16px;
-border-radius:14px;
-border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.04);
-color:#fff;
-outline:none;
-}
-
-.topbar-search::placeholder{
-color:#7d8795;
-}
-
-.topbar-button{
-height:44px;
-padding:0 20px;
-border:none;
-border-radius:14px;
-background:#5ea2ff;
-color:#fff;
-font-weight:600;
-cursor:pointer;
-transition:.2s;
-}
-
-.topbar-button:hover{
-background:#7cb5ff;
-transform:translateY(-2px);
-}
-`, "",{"version":3,"sources":["webpack://./src/layout/Topbar.css"],"names":[],"mappings":"AAAA;AACA,2BAA2B;AAC3B,YAAY;AACZ,kBAAkB;AAClB,6BAA6B;AAC7B,cAAc;AACd,6BAA6B;AAC7B,6CAA6C;AAC7C,0BAA0B;AAC1B,kCAAkC;AAClC;;AAEA;AACA,QAAQ;AACR,wBAAwB;AACxB,eAAe;AACf,UAAU;AACV;;AAEA;AACA,cAAc;AACd,wBAAwB;AACxB,aAAa;AACb;;AAEA;AACA,YAAY;AACZ,kBAAkB;AAClB,QAAQ;AACR;;AAEA;AACA,MAAM;AACN,eAAe;AACf,cAAc;AACd,WAAW;AACX,cAAc;AACd,kBAAkB;AAClB,sCAAsC;AACtC,gCAAgC;AAChC,UAAU;AACV,YAAY;AACZ;;AAEA;AACA,aAAa;AACb;;AAEA;AACA,WAAW;AACX,cAAc;AACd,WAAW;AACX,kBAAkB;AAClB,kBAAkB;AAClB,UAAU;AACV,eAAe;AACf,cAAc;AACd,cAAc;AACd;;AAEA;AACA,kBAAkB;AAClB,0BAA0B;AAC1B","sourcesContent":[".topbar{\nheight:clamp(64px,5vw,80px);\ndisplay:flex;\nalign-items:center;\njustify-content:space-between;\npadding:0 24px;\nbackground:rgba(18,20,24,.92);\nborder-bottom:1px solid rgba(255,255,255,.08);\nbackdrop-filter:blur(24px);\n-webkit-backdrop-filter:blur(24px);\n}\n\n.topbar h1{\nmargin:0;\nfont-size:var(--font-xl);\nfont-weight:700;\ncolor:#fff;\n}\n\n.topbar p{\nmargin:4px 0 0;\nfont-size:var(--font-sm);\ncolor:#9aa4b2;\n}\n\n.topbar-actions{\ndisplay:flex;\nalign-items:center;\ngap:14px;\n}\n\n.topbar-search{\nflex:1;\nmin-width:180px;\nmax-width:100%;\nheight:44px;\npadding:0 16px;\nborder-radius:14px;\nborder:1px solid rgba(255,255,255,.08);\nbackground:rgba(255,255,255,.04);\ncolor:#fff;\noutline:none;\n}\n\n.topbar-search::placeholder{\ncolor:#7d8795;\n}\n\n.topbar-button{\nheight:44px;\npadding:0 20px;\nborder:none;\nborder-radius:14px;\nbackground:#5ea2ff;\ncolor:#fff;\nfont-weight:600;\ncursor:pointer;\ntransition:.2s;\n}\n\n.topbar-button:hover{\nbackground:#7cb5ff;\ntransform:translateY(-2px);\n}\n"],"sourceRoot":""}]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "A", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 6314
-(module) {
-
-
-
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-*/
-module.exports = function (cssWithMappingToString) {
-  var list = [];
-
-  // return the list of modules as css string
-  list.toString = function toString() {
-    return this.map(function (item) {
-      var content = "";
-      var needLayer = typeof item[5] !== "undefined";
-      if (item[4]) {
-        content += "@supports (".concat(item[4], ") {");
-      }
-      if (item[2]) {
-        content += "@media ".concat(item[2], " {");
-      }
-      if (needLayer) {
-        content += "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {");
-      }
-      content += cssWithMappingToString(item);
-      if (needLayer) {
-        content += "}";
-      }
-      if (item[2]) {
-        content += "}";
-      }
-      if (item[4]) {
-        content += "}";
-      }
-      return content;
-    }).join("");
-  };
-
-  // import a list of modules into the list
-  list.i = function i(modules, media, dedupe, supports, layer) {
-    if (typeof modules === "string") {
-      modules = [[null, modules, undefined]];
-    }
-    var alreadyImportedModules = {};
-    if (dedupe) {
-      for (var k = 0; k < this.length; k++) {
-        var id = this[k][0];
-        if (id != null) {
-          alreadyImportedModules[id] = true;
-        }
-      }
-    }
-    for (var _k = 0; _k < modules.length; _k++) {
-      var item = [].concat(modules[_k]);
-      if (dedupe && alreadyImportedModules[item[0]]) {
-        continue;
-      }
-      if (typeof layer !== "undefined") {
-        if (typeof item[5] === "undefined") {
-          item[5] = layer;
-        } else {
-          item[1] = "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {").concat(item[1], "}");
-          item[5] = layer;
-        }
-      }
-      if (media) {
-        if (!item[2]) {
-          item[2] = media;
-        } else {
-          item[1] = "@media ".concat(item[2], " {").concat(item[1], "}");
-          item[2] = media;
-        }
-      }
-      if (supports) {
-        if (!item[4]) {
-          item[4] = "".concat(supports);
-        } else {
-          item[1] = "@supports (".concat(item[4], ") {").concat(item[1], "}");
-          item[4] = supports;
-        }
-      }
-      list.push(item);
-    }
-  };
-  return list;
-};
-
-/***/ },
-
-/***/ 1354
-(module) {
-
-
-
-module.exports = function (item) {
-  var content = item[1];
-  var cssMapping = item[3];
-  if (!cssMapping) {
-    return content;
-  }
-  if (typeof btoa === "function") {
-    var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(cssMapping))));
-    var data = "sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(base64);
-    var sourceMapping = "/*# ".concat(data, " */");
-    return [content].concat([sourceMapping]).join("\n");
-  }
-  return [content].join("\n");
-};
-
-/***/ },
-
-/***/ 2551
+/***/ 551
 (__unused_webpack_module, exports, __webpack_require__) {
 
 /**
@@ -2132,7 +1555,7 @@ module.exports = function (item) {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(6540),ca=__webpack_require__(9982);function p(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}var da=new Set,ea={};function fa(a,b){ha(a,b);ha(a+"Capture",b)}
+var aa=__webpack_require__(540),ca=__webpack_require__(982);function p(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}var da=new Set,ea={};function fa(a,b){ha(a,b);ha(a+"Capture",b)}
 function ha(a,b){ea[a]=b;for(a=0;a<b.length;a++)da.add(b[a])}
 var ia=!("undefined"===typeof window||"undefined"===typeof window.document||"undefined"===typeof window.document.createElement),ja=Object.prototype.hasOwnProperty,ka=/^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,la=
 {},ma={};function oa(a){if(ja.call(ma,a))return!0;if(ja.call(la,a))return!1;if(ka.test(a))return ma[a]=!0;la[a]=!0;return!1}function pa(a,b,c,d){if(null!==c&&0===c.type)return!1;switch(typeof b){case "function":case "symbol":return!0;case "boolean":if(d)return!1;if(null!==c)return!c.acceptsBooleans;a=a.toLowerCase().slice(0,5);return"data-"!==a&&"aria-"!==a;default:return!1}}
@@ -2446,7 +1869,7 @@ exports.unstable_renderSubtreeIntoContainer=function(a,b,c,d){if(!ol(c))throw Er
 
 /***/ },
 
-/***/ 5338
+/***/ 338
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2490,14 +1913,14 @@ if (true) {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(2551);
+  module.exports = __webpack_require__(551);
 } else // removed by dead control flow
 {}
 
 
 /***/ },
 
-/***/ 1020
+/***/ 20
 (__unused_webpack_module, exports, __webpack_require__) {
 
 var __webpack_unused_export__;
@@ -2510,13 +1933,13 @@ var __webpack_unused_export__;
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var f=__webpack_require__(6540),k=Symbol.for("react.element"),l=Symbol.for("react.fragment"),m=Object.prototype.hasOwnProperty,n=f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,p={key:!0,ref:!0,__self:!0,__source:!0};
+var f=__webpack_require__(540),k=Symbol.for("react.element"),l=Symbol.for("react.fragment"),m=Object.prototype.hasOwnProperty,n=f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,p={key:!0,ref:!0,__self:!0,__source:!0};
 function q(c,a,g){var b,d={},e=null,h=null;void 0!==g&&(e=""+g);void 0!==a.key&&(e=""+a.key);void 0!==a.ref&&(h=a.ref);for(b in a)m.call(a,b)&&!p.hasOwnProperty(b)&&(d[b]=a[b]);if(c&&c.defaultProps)for(b in a=c.defaultProps,a)void 0===d[b]&&(d[b]=a[b]);return{$$typeof:k,type:c,key:e,ref:h,props:d,_owner:n.current}}__webpack_unused_export__=l;exports.jsx=q;exports.jsxs=q;
 
 
 /***/ },
 
-/***/ 5287
+/***/ 287
 (__unused_webpack_module, exports) {
 
 /**
@@ -2549,33 +1972,33 @@ exports.useMemo=function(a,b){return U.current.useMemo(a,b)};exports.useReducer=
 
 /***/ },
 
-/***/ 6540
+/***/ 540
 (module, __unused_webpack_exports, __webpack_require__) {
 
 
 
 if (true) {
-  module.exports = __webpack_require__(5287);
+  module.exports = __webpack_require__(287);
 } else // removed by dead control flow
 {}
 
 
 /***/ },
 
-/***/ 4848
+/***/ 848
 (module, __unused_webpack_exports, __webpack_require__) {
 
 
 
 if (true) {
-  module.exports = __webpack_require__(1020);
+  module.exports = __webpack_require__(20);
 } else // removed by dead control flow
 {}
 
 
 /***/ },
 
-/***/ 7463
+/***/ 463
 (__unused_webpack_module, exports) {
 
 /**
@@ -2601,569 +2024,20 @@ exports.unstable_shouldYield=M;exports.unstable_wrapCallback=function(a){var b=y
 
 /***/ },
 
-/***/ 9982
+/***/ 982
 (module, __unused_webpack_exports, __webpack_require__) {
 
 
 
 if (true) {
-  module.exports = __webpack_require__(7463);
+  module.exports = __webpack_require__(463);
 } else // removed by dead control flow
 {}
 
 
 /***/ },
 
-/***/ 271
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_Dashboard_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(6830);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_Dashboard_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_Dashboard_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_Dashboard_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_Dashboard_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 7852
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_AppShell_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(3127);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_AppShell_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_AppShell_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_AppShell_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_AppShell_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 4813
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_RightPanel_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(1686);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_RightPanel_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_RightPanel_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_RightPanel_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_RightPanel_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 9437
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_Sidebar_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(4160);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_Sidebar_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_Sidebar_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_Sidebar_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_Sidebar_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 5656
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_StatusBar_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(6661);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_StatusBar_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_StatusBar_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_StatusBar_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_StatusBar_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 6825
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5072);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7825);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7659);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5056);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(540);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1113);
-/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_Topbar_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(2154);
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
-options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
-options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
-options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
-options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_Topbar_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A, options);
-
-
-
-
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_Topbar_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A && _node_modules_css_loader_dist_cjs_js_Topbar_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals ? _node_modules_css_loader_dist_cjs_js_Topbar_css__WEBPACK_IMPORTED_MODULE_6__/* ["default"] */ .A.locals : undefined);
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, [
-/* harmony export */   "default", 0, /* export default binding */ __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ ]);
-
-
-/***/ },
-
-/***/ 5072
-(module) {
-
-
-
-var stylesInDOM = [];
-function getIndexByIdentifier(identifier) {
-  var result = -1;
-  for (var i = 0; i < stylesInDOM.length; i++) {
-    if (stylesInDOM[i].identifier === identifier) {
-      result = i;
-      break;
-    }
-  }
-  return result;
-}
-function modulesToDom(list, options) {
-  var idCountMap = {};
-  var identifiers = [];
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i];
-    var id = options.base ? item[0] + options.base : item[0];
-    var count = idCountMap[id] || 0;
-    var identifier = "".concat(id, " ").concat(count);
-    idCountMap[id] = count + 1;
-    var indexByIdentifier = getIndexByIdentifier(identifier);
-    var obj = {
-      css: item[1],
-      media: item[2],
-      sourceMap: item[3],
-      supports: item[4],
-      layer: item[5]
-    };
-    if (indexByIdentifier !== -1) {
-      stylesInDOM[indexByIdentifier].references++;
-      stylesInDOM[indexByIdentifier].updater(obj);
-    } else {
-      var updater = addElementStyle(obj, options);
-      options.byIndex = i;
-      stylesInDOM.splice(i, 0, {
-        identifier: identifier,
-        updater: updater,
-        references: 1
-      });
-    }
-    identifiers.push(identifier);
-  }
-  return identifiers;
-}
-function addElementStyle(obj, options) {
-  var api = options.domAPI(options);
-  api.update(obj);
-  var updater = function updater(newObj) {
-    if (newObj) {
-      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap && newObj.supports === obj.supports && newObj.layer === obj.layer) {
-        return;
-      }
-      api.update(obj = newObj);
-    } else {
-      api.remove();
-    }
-  };
-  return updater;
-}
-module.exports = function (list, options) {
-  options = options || {};
-  list = list || [];
-  var lastIdentifiers = modulesToDom(list, options);
-  return function update(newList) {
-    newList = newList || [];
-    for (var i = 0; i < lastIdentifiers.length; i++) {
-      var identifier = lastIdentifiers[i];
-      var index = getIndexByIdentifier(identifier);
-      stylesInDOM[index].references--;
-    }
-    var newLastIdentifiers = modulesToDom(newList, options);
-    for (var _i = 0; _i < lastIdentifiers.length; _i++) {
-      var _identifier = lastIdentifiers[_i];
-      var _index = getIndexByIdentifier(_identifier);
-      if (stylesInDOM[_index].references === 0) {
-        stylesInDOM[_index].updater();
-        stylesInDOM.splice(_index, 1);
-      }
-    }
-    lastIdentifiers = newLastIdentifiers;
-  };
-};
-
-/***/ },
-
-/***/ 7659
-(module) {
-
-
-
-var memo = {};
-
-/* istanbul ignore next  */
-function getTarget(target) {
-  if (typeof memo[target] === "undefined") {
-    var styleTarget = document.querySelector(target);
-
-    // Special case to return head of iframe instead of iframe itself
-    if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
-      try {
-        // This will throw an exception if access to iframe is blocked
-        // due to cross-origin restrictions
-        styleTarget = styleTarget.contentDocument.head;
-      } catch (e) {
-        // istanbul ignore next
-        styleTarget = null;
-      }
-    }
-    memo[target] = styleTarget;
-  }
-  return memo[target];
-}
-
-/* istanbul ignore next  */
-function insertBySelector(insert, style) {
-  var target = getTarget(insert);
-  if (!target) {
-    throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
-  }
-  target.appendChild(style);
-}
-module.exports = insertBySelector;
-
-/***/ },
-
-/***/ 540
-(module) {
-
-
-
-/* istanbul ignore next  */
-function insertStyleElement(options) {
-  var element = document.createElement("style");
-  options.setAttributes(element, options.attributes);
-  options.insert(element, options.options);
-  return element;
-}
-module.exports = insertStyleElement;
-
-/***/ },
-
-/***/ 5056
-(module, __unused_webpack_exports, __webpack_require__) {
-
-
-
-/* istanbul ignore next  */
-function setAttributesWithoutAttributes(styleElement) {
-  var nonce =  true ? __webpack_require__.nc : 0;
-  if (nonce) {
-    styleElement.setAttribute("nonce", nonce);
-  }
-}
-module.exports = setAttributesWithoutAttributes;
-
-/***/ },
-
-/***/ 7825
-(module) {
-
-
-
-/* istanbul ignore next  */
-function apply(styleElement, options, obj) {
-  var css = "";
-  if (obj.supports) {
-    css += "@supports (".concat(obj.supports, ") {");
-  }
-  if (obj.media) {
-    css += "@media ".concat(obj.media, " {");
-  }
-  var needLayer = typeof obj.layer !== "undefined";
-  if (needLayer) {
-    css += "@layer".concat(obj.layer.length > 0 ? " ".concat(obj.layer) : "", " {");
-  }
-  css += obj.css;
-  if (needLayer) {
-    css += "}";
-  }
-  if (obj.media) {
-    css += "}";
-  }
-  if (obj.supports) {
-    css += "}";
-  }
-  var sourceMap = obj.sourceMap;
-  if (sourceMap && typeof btoa !== "undefined") {
-    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
-  }
-
-  // For old IE
-  /* istanbul ignore if  */
-  options.styleTagTransform(css, styleElement, options.options);
-}
-function removeStyleElement(styleElement) {
-  // istanbul ignore if
-  if (styleElement.parentNode === null) {
-    return false;
-  }
-  styleElement.parentNode.removeChild(styleElement);
-}
-
-/* istanbul ignore next  */
-function domAPI(options) {
-  if (typeof document === "undefined") {
-    return {
-      update: function update() {},
-      remove: function remove() {}
-    };
-  }
-  var styleElement = options.insertStyleElement(options);
-  return {
-    update: function update(obj) {
-      apply(styleElement, options, obj);
-    },
-    remove: function remove() {
-      removeStyleElement(styleElement);
-    }
-  };
-}
-module.exports = domAPI;
-
-/***/ },
-
-/***/ 1113
-(module) {
-
-
-
-/* istanbul ignore next  */
-function styleTagTransform(css, styleElement) {
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css;
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild);
-    }
-    styleElement.appendChild(document.createTextNode(css));
-  }
-}
-module.exports = styleTagTransform;
-
-/***/ },
-
-/***/ 8577
+/***/ 577
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -3172,921 +2046,111 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = App;
-const jsx_runtime_1 = __webpack_require__(4848);
-const AppShell_1 = __importDefault(__webpack_require__(7664));
-const Dashboard_1 = __importDefault(__webpack_require__(9971));
-const TimelineAI_1 = __importDefault(__webpack_require__(9797));
-const WeddingAI_1 = __importDefault(__webpack_require__(5165));
-const AutoEdit_1 = __importDefault(__webpack_require__(8068));
-const FaceAI_1 = __importDefault(__webpack_require__(1573));
-const MusicAI_1 = __importDefault(__webpack_require__(4397));
-const ExportStudio_1 = __importDefault(__webpack_require__(7827));
-const Settings_1 = __importDefault(__webpack_require__(4203));
-const NavigationContext_1 = __webpack_require__(791);
+const jsx_runtime_1 = __webpack_require__(848);
+const App_1 = __importDefault(__webpack_require__(750));
 function App() {
-    const { page } = (0, NavigationContext_1.useNavigation)();
-    let content;
-    switch (page) {
-        case "timeline":
-            content = (0, jsx_runtime_1.jsx)(TimelineAI_1.default, {});
-            break;
-        case "wedding":
-            content = (0, jsx_runtime_1.jsx)(WeddingAI_1.default, {});
-            break;
-        case "autoedit":
-            content = (0, jsx_runtime_1.jsx)(AutoEdit_1.default, {});
-            break;
-        case "faceai":
-            content = (0, jsx_runtime_1.jsx)(FaceAI_1.default, {});
-            break;
-        case "musicai":
-            content = (0, jsx_runtime_1.jsx)(MusicAI_1.default, {});
-            break;
-        case "exports":
-            content = (0, jsx_runtime_1.jsx)(ExportStudio_1.default, {});
-            break;
-        case "settings":
-            content = (0, jsx_runtime_1.jsx)(Settings_1.default, {});
-            break;
-        default:
-            content = (0, jsx_runtime_1.jsx)(Dashboard_1.default, {});
-    }
-    return (0, jsx_runtime_1.jsx)(AppShell_1.default, { children: content });
+    return (0, jsx_runtime_1.jsx)(App_1.default, {});
 }
 
 
 /***/ },
 
-/***/ 6241
+/***/ 779
 (__unused_webpack_module, exports, __webpack_require__) {
 
 var __webpack_unused_export__;
 
 __webpack_unused_export__ = ({ value: true });
-exports.AIConfigManager = void 0;
-const APIKeyStore_1 = __webpack_require__(7698);
-const ProviderSettings_1 = __webpack_require__(4708);
-const AISettings_1 = __webpack_require__(5543);
-class AIConfigManager {
-    static provider() {
-        return ProviderSettings_1.ProviderSettings.getProvider();
-    }
-    static setProvider(provider) {
-        ProviderSettings_1.ProviderSettings.setProvider(provider);
-    }
-    static model() {
-        return AISettings_1.AISettings.getModel();
-    }
-    static setModel(model) {
-        AISettings_1.AISettings.setModel(model);
-    }
-    static apiKey(provider) {
-        return APIKeyStore_1.APIKeyStore.get(provider);
-    }
-    static setApiKey(provider, key) {
-        APIKeyStore_1.APIKeyStore.set(provider, key);
-    }
-    static hasApiKey(provider) {
-        return APIKeyStore_1.APIKeyStore.has(provider);
-    }
-}
-exports.AIConfigManager = AIConfigManager;
-
-
-/***/ },
-
-/***/ 5543
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.AISettings = void 0;
-const ModelRegistry_1 = __webpack_require__(3324);
-class AISettings {
-    static model = ModelRegistry_1.DEFAULT_MODEL;
-    static getModel() {
-        return this.model;
-    }
-    static setModel(model) {
-        this.model = model;
-    }
-}
-exports.AISettings = AISettings;
-
-
-/***/ },
-
-/***/ 7698
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.APIKeyStore = void 0;
-class APIKeyStore {
-    static keys = {};
-    static set(provider, key) {
-        this.keys[provider] = key;
-    }
-    static get(provider) {
-        return this.keys[provider] ?? "";
-    }
-    static has(provider) {
-        return (this.keys[provider] ?? "").length > 0;
-    }
-    static clear(provider) {
-        delete this.keys[provider];
-    }
-    static clearAll() {
-        this.keys = {};
-    }
-}
-exports.APIKeyStore = APIKeyStore;
-
-
-/***/ },
-
-/***/ 3181
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.GEMINI_CONFIG = void 0;
-exports.GEMINI_CONFIG = {
-    MODEL: "gemini-3.6-flash",
-    API_KEY: ""
-};
-
-
-/***/ },
-
-/***/ 4708
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.ProviderSettings = void 0;
-class ProviderSettings {
-    static provider = "gemini";
-    static getProvider() {
-        return this.provider;
-    }
-    static setProvider(provider) {
-        this.provider = provider;
-    }
-}
-exports.ProviderSettings = ProviderSettings;
-
-
-/***/ },
-
-/***/ 3615
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.ContextPromptBuilder = void 0;
-const PromptBuilder_1 = __webpack_require__(5182);
-const PremiereContextManager_1 = __webpack_require__(7198);
-class ContextPromptBuilder {
-    static build(userPrompt) {
-        const ctx = PremiereContextManager_1.PremiereContextManager.get();
-        const context = `
-Premiere Context
-
-Project: ${ctx.projectName}
-Sequence: ${ctx.sequenceName}
-
-FPS: ${ctx.fps}
-
-Playhead: ${ctx.playhead}
-In Point: ${ctx.inPoint}
-Out Point: ${ctx.outPoint}
-
-Video Tracks: ${ctx.videoTracks}
-Audio Tracks: ${ctx.audioTracks}
-
-Selected Clips:
-${ctx.selectedClips.length ? ctx.selectedClips.join("\n") : "None"}
-
-Markers:
-${ctx.markers.length ? ctx.markers.join("\n") : "None"}
-`;
-        return PromptBuilder_1.PromptBuilder.build(`${context}\n\nUser Request:\n${userPrompt}`);
-    }
-}
-exports.ContextPromptBuilder = ContextPromptBuilder;
-
-
-/***/ },
-
-/***/ 6441
-(__unused_webpack_module, exports) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.EmptyPremiereContext = void 0;
-exports.EmptyPremiereContext = {
-    projectName: "",
-    sequenceName: "",
-    fps: 25,
-    inPoint: 0,
-    outPoint: 0,
-    playhead: 0,
-    selectedClips: [],
-    videoTracks: 0,
-    audioTracks: 0,
-    markers: []
-};
-
-
-/***/ },
-
-/***/ 7198
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PremiereContextManager = void 0;
-const PremiereContext_1 = __webpack_require__(6441);
-class PremiereContextManager {
-    static context = {
-        ...PremiereContext_1.EmptyPremiereContext
-    };
-    static get() {
-        return this.context;
-    }
-    static update(data) {
-        this.context = {
-            ...this.context,
-            ...data
-        };
-        return this.context;
-    }
-    static reset() {
-        this.context = {
-            ...PremiereContext_1.EmptyPremiereContext
-        };
-    }
-}
-exports.PremiereContextManager = PremiereContextManager;
-
-
-/***/ },
-
-/***/ 9788
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PremiereContextProvider = void 0;
-const PremiereContextManager_1 = __webpack_require__(7198);
-const PremiereReader_1 = __webpack_require__(611);
-class PremiereContextProvider {
-    static reader = new PremiereReader_1.PremiereReader();
-    static async refresh() {
-        const context = await this.reader.readContext();
-        PremiereContextManager_1.PremiereContextManager.update(context);
-    }
-}
-exports.PremiereContextProvider = PremiereContextProvider;
-
-
-/***/ },
-
-/***/ 7523
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(6441), exports);
-__exportStar(__webpack_require__(7198), exports);
-__exportStar(__webpack_require__(9788), exports);
-
-
-/***/ },
-
-/***/ 3324
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-__webpack_unused_export__ = exports.DEFAULT_MODEL = void 0;
-exports.DEFAULT_MODEL = "gemini-3.6-flash";
-__webpack_unused_export__ = [
-    "gemini-3.6-flash",
-    "gpt-5",
-    "claude-sonnet-4",
-    "grok-4",
-    "kimi-k2"
-];
-
-
-/***/ },
-
-/***/ 611
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.PremiereReader = void 0;
-const PremiereAPI_1 = __webpack_require__(868);
-const ClipManager_1 = __webpack_require__(2276);
-class PremiereReader {
-    async readContext() {
-        const sequence = await PremiereAPI_1.premiereAPI.getActiveSequence();
-        const timeline = await PremiereAPI_1.premiereAPI.getTimelineContext();
-        const clips = await ClipManager_1.clipManager.getSelectedClips();
-        const playhead = sequence
-            ? await sequence.getPlayerPosition()
-            : null;
-        const inPoint = sequence
-            ? await sequence.getInPoint()
-            : null;
-        const outPoint = sequence
-            ? await sequence.getOutPoint()
-            : null;
-        return {
-            projectName: timeline?.projectName ?? "No Project",
-            sequenceName: timeline?.sequenceName ?? "No Sequence",
-            fps: 25,
-            playhead: playhead?.seconds ?? 0,
-            inPoint: inPoint?.seconds === -400000
-                ? 0
-                : (inPoint?.seconds ?? 0),
-            outPoint: outPoint?.seconds === -400000
-                ? 0
-                : (outPoint?.seconds ?? 0),
-            videoTracks: timeline?.videoTracks ?? 0,
-            audioTracks: timeline?.audioTracks ?? 0,
-            selectedClips: clips.map(c => c.name),
-            markers: []
-        };
-    }
-}
-exports.PremiereReader = PremiereReader;
-
-
-/***/ },
-
-/***/ 5182
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.PromptBuilder = void 0;
-const SystemPrompt_1 = __webpack_require__(1040);
-class PromptBuilder {
-    static build(userPrompt) {
-        return `${SystemPrompt_1.SYSTEM_PROMPT}
-
-User:
-${userPrompt}`;
-    }
-}
-exports.PromptBuilder = PromptBuilder;
-
-
-/***/ },
-
-/***/ 1040
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.SYSTEM_PROMPT = void 0;
-exports.SYSTEM_PROMPT = `
-You are RK Flow AI.
-
-You are an AI assistant built specifically for professional Indian Wedding Editors using Adobe Premiere Pro.
-
-Rules:
-
-- Always answer like a professional editor.
-- Understand Hinglish.
-- Help with Premiere Pro editing.
-- Help create Wedding Reels.
-- Help create Teasers.
-- Help create Highlights.
-- Help create Shorts.
-- Help create Instagram Reels.
-- Help with Music Sync.
-- Help with Beat Cut.
-- Help with Face Detection.
-- Help with Storytelling.
-- Help with Color Grading.
-- Help with Camera Selection.
-- Help with Timeline Optimization.
-- Always behave as RK Flow AI.
-- Keep responses practical.
-- Keep responses short unless asked.
-`;
-__webpack_unused_export__ = exports.SYSTEM_PROMPT;
-
-
-/***/ },
-
-/***/ 8224
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.BaseProvider = void 0;
-class BaseProvider {
-    async initialize(_apiKey) { }
-    isAvailable() {
-        return true;
-    }
-    async chat(request) {
-        return {
-            text: request.prompt,
-            provider: this.id
-        };
-    }
-}
-exports.BaseProvider = BaseProvider;
-
-
-/***/ },
-
-/***/ 7499
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.ClaudeProvider = void 0;
-const BaseProvider_1 = __webpack_require__(8224);
-class ClaudeProvider extends BaseProvider_1.BaseProvider {
-    id = "claude";
-    name = "Claude";
-}
-exports.ClaudeProvider = ClaudeProvider;
-__webpack_unused_export__ = ClaudeProvider;
-
-
-/***/ },
-
-/***/ 3150
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.GeminiProvider = void 0;
-const generative_ai_1 = __webpack_require__(6445);
-const BaseProvider_1 = __webpack_require__(8224);
-const GeminiConfig_1 = __webpack_require__(3181);
-const retry_1 = __webpack_require__(6539);
-class GeminiProvider extends BaseProvider_1.BaseProvider {
-    id = "gemini";
-    name = "Gemini";
-    client;
-    async initialize(apiKey) {
-        const key = apiKey || GeminiConfig_1.GEMINI_CONFIG.API_KEY;
-        if (!key) {
-            throw new Error("Gemini API key missing.");
-        }
-        this.client = new generative_ai_1.GoogleGenerativeAI(key);
-    }
-    async chat(request) {
-        if (!this.client) {
-            await this.initialize("");
-        }
-        return (0, retry_1.retry)(async () => {
-            const model = this.client.getGenerativeModel({
-                model: GeminiConfig_1.GEMINI_CONFIG.MODEL
-            });
-            const result = await model.generateContent(request.prompt);
-            const response = await result.response;
-            return {
-                text: response.text(),
-                provider: this.id,
-                usage: {
-                    promptTokens: 0,
-                    completionTokens: 0,
-                    totalTokens: 0
-                }
-            };
-        });
-    }
-}
-exports.GeminiProvider = GeminiProvider;
-__webpack_unused_export__ = GeminiProvider;
-
-
-/***/ },
-
-/***/ 1734
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.GrokProvider = void 0;
-const BaseProvider_1 = __webpack_require__(8224);
-class GrokProvider extends BaseProvider_1.BaseProvider {
-    id = "grok";
-    name = "Grok";
-}
-exports.GrokProvider = GrokProvider;
-__webpack_unused_export__ = GrokProvider;
-
-
-/***/ },
-
-/***/ 3115
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.KimiProvider = void 0;
-const BaseProvider_1 = __webpack_require__(8224);
-class KimiProvider extends BaseProvider_1.BaseProvider {
-    id = "kimi";
-    name = "Kimi";
-}
-exports.KimiProvider = KimiProvider;
-__webpack_unused_export__ = KimiProvider;
-
-
-/***/ },
-
-/***/ 6879
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.OpenAIProvider = void 0;
-const BaseProvider_1 = __webpack_require__(8224);
-class OpenAIProvider extends BaseProvider_1.BaseProvider {
-    id = "openai";
-    name = "OpenAI";
-}
-exports.OpenAIProvider = OpenAIProvider;
-__webpack_unused_export__ = OpenAIProvider;
-
-
-/***/ },
-
-/***/ 1103
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.ProviderFactory = void 0;
-const GeminiProvider_1 = __webpack_require__(3150);
-const OpenAIProvider_1 = __webpack_require__(6879);
-const ClaudeProvider_1 = __webpack_require__(7499);
-const GrokProvider_1 = __webpack_require__(1734);
-const KimiProvider_1 = __webpack_require__(3115);
-class ProviderFactory {
-    static create(provider) {
-        switch (provider) {
-            case "gemini":
-                return new GeminiProvider_1.GeminiProvider();
-            case "openai":
-                return new OpenAIProvider_1.OpenAIProvider();
-            case "claude":
-                return new ClaudeProvider_1.ClaudeProvider();
-            case "grok":
-                return new GrokProvider_1.GrokProvider();
-            case "kimi":
-                return new KimiProvider_1.KimiProvider();
-            default:
-                throw new Error(`Unsupported provider: ${provider}`);
-        }
-    }
-    static providers() {
-        return [
-            "gemini",
-            "openai",
-            "claude",
-            "grok",
-            "kimi"
-        ];
-    }
-}
-exports.ProviderFactory = ProviderFactory;
-
-
-/***/ },
-
-/***/ 8026
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.AIRouter = void 0;
-const ProviderFactory_1 = __webpack_require__(1103);
-const AIConfigManager_1 = __webpack_require__(6241);
-class AIRouter {
-    async chat(request) {
-        const providerId = AIConfigManager_1.AIConfigManager.provider();
-        const provider = ProviderFactory_1.ProviderFactory.create(providerId);
-        const apiKey = AIConfigManager_1.AIConfigManager.apiKey(providerId);
-        if (!apiKey) {
-            throw new Error(`Missing API key for ${providerId}.`);
-        }
-        await provider.initialize(apiKey);
-        return provider.chat(request);
-    }
-}
-exports.AIRouter = AIRouter;
-
-
-/***/ },
-
-/***/ 5407
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.AIChatService = void 0;
-const AIRouter_1 = __webpack_require__(8026);
-const ContextPromptBuilder_1 = __webpack_require__(3615);
-const context_1 = __webpack_require__(7523);
-class AIChatService {
-    router = new AIRouter_1.AIRouter();
-    async ask(prompt) {
-        await context_1.PremiereContextProvider.refresh();
-        const request = {
-            prompt: ContextPromptBuilder_1.ContextPromptBuilder.build(prompt)
-        };
-        const response = await this.router.chat(request);
-        return response.text;
-    }
-}
-exports.AIChatService = AIChatService;
-
-
-/***/ },
-
-/***/ 3054
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.AIController = void 0;
-const AIChatService_1 = __webpack_require__(5407);
-const AIState_1 = __webpack_require__(9661);
-class AIController {
-    chatService = new AIChatService_1.AIChatService();
-    async ask(prompt) {
-        return this.chatService.ask(prompt);
-    }
-    getProvider() {
-        return AIState_1.AIState.provider();
-    }
-    setProvider(provider) {
-        AIState_1.AIState.setProvider(provider);
-    }
-    getModel() {
-        return AIState_1.AIState.model();
-    }
-    setModel(model) {
-        AIState_1.AIState.setModel(model);
-    }
-    getApiKey() {
-        return AIState_1.AIState.apiKey();
-    }
-    setApiKey(key) {
-        AIState_1.AIState.setApiKey(key);
-    }
-}
-exports.AIController = AIController;
-
-
-/***/ },
-
-/***/ 9661
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.AIState = void 0;
-const AIConfigManager_1 = __webpack_require__(6241);
-const DEFAULT_GEMINI_KEY = "AQ.Ab8RN6J5PW823wXcNZzXoZXHCtlB-xbcFK1M5ON2aNEaSUZvOA";
-AIConfigManager_1.AIConfigManager.setProvider("gemini");
-if (!AIConfigManager_1.AIConfigManager.hasApiKey("gemini") && DEFAULT_GEMINI_KEY) {
-    AIConfigManager_1.AIConfigManager.setApiKey("gemini", DEFAULT_GEMINI_KEY);
-}
-class AIState {
-    static provider() {
-        return AIConfigManager_1.AIConfigManager.provider();
-    }
-    static setProvider(provider) {
-        AIConfigManager_1.AIConfigManager.setProvider(provider);
-    }
-    static model() {
-        return AIConfigManager_1.AIConfigManager.model();
-    }
-    static setModel(model) {
-        AIConfigManager_1.AIConfigManager.setModel(model);
-    }
-    static apiKey() {
-        return AIConfigManager_1.AIConfigManager.apiKey(this.provider());
-    }
-    static setApiKey(key) {
-        AIConfigManager_1.AIConfigManager.setApiKey(this.provider(), key);
-    }
-}
-exports.AIState = AIState;
-
-
-/***/ },
-
-/***/ 5710
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(3054), exports);
-__exportStar(__webpack_require__(9661), exports);
-
-
-/***/ },
-
-/***/ 6539
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.retry = retry;
-async function retry(fn, retries = 5, delay = 1000) {
-    let lastError;
-    for (let i = 0; i < retries; i++) {
-        try {
-            return await fn();
-        }
-        catch (error) {
-            lastError = error;
-            const message = String(error?.message || "");
-            if (!message.includes("503") &&
-                !message.includes("429") &&
-                !message.toLowerCase().includes("unavailable")) {
-                throw error;
-            }
-            await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
-        }
-    }
-    throw lastError;
-}
-
-
-/***/ },
-
-/***/ 8141
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.CommandDispatcher = void 0;
-const CommandParser_1 = __webpack_require__(4213);
-const CommandValidator_1 = __webpack_require__(4589);
-const PremiereExecutor_1 = __webpack_require__(9292);
-class CommandDispatcher {
-    parser = new CommandParser_1.CommandParser();
-    validator = new CommandValidator_1.CommandValidator();
-    executor = new PremiereExecutor_1.PremiereExecutor();
-    async dispatch(prompt) {
-        const command = this.parser.parse(prompt);
-        if (!this.validator.validate(command)) {
-            return {
-                success: false,
-                message: "Unknown command.",
-                actionsExecuted: 0,
-                executionTime: 0,
-                warnings: ["Unsupported intent"]
-            };
-        }
-        return await this.executor.run(command);
-    }
-}
-exports.CommandDispatcher = CommandDispatcher;
-
-
-/***/ },
-
-/***/ 2329
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CommandExecutor = void 0;
-const CommandValidator_1 = __webpack_require__(4589);
-const PremiereActions_1 = __importDefault(__webpack_require__(9696));
-const EditActions_1 = __importDefault(__webpack_require__(45));
+const ClipController_1 = __webpack_require__(878);
+const ExportController_1 = __webpack_require__(622);
+const MarkerController_1 = __webpack_require__(778);
+const PremiereBridge_1 = __webpack_require__(862);
+const SequenceController_1 = __webpack_require__(857);
+const TimelineReader_1 = __webpack_require__(824);
+const CommandValidator_1 = __webpack_require__(610);
 class CommandExecutor {
-    validator = new CommandValidator_1.CommandValidator();
-    actions = new PremiereActions_1.default();
-    edit = new EditActions_1.default();
+    bridge;
+    validator;
+    timelineReader;
+    clips;
+    markers;
+    sequences;
+    exporter;
+    constructor(dependencies = {}) {
+        this.bridge = dependencies.bridge ?? new PremiereBridge_1.PremiereBridge();
+        this.validator = dependencies.validator ?? new CommandValidator_1.CommandValidator();
+        this.timelineReader = new TimelineReader_1.TimelineReader(this.bridge);
+        this.clips = new ClipController_1.ClipController(this.bridge);
+        this.markers = new MarkerController_1.MarkerController(this.bridge);
+        this.sequences = new SequenceController_1.SequenceController(this.bridge);
+        this.exporter = new ExportController_1.ExportController(this.bridge);
+    }
     async execute(command) {
-        if (!this.validator.validate(command)) {
+        const validation = this.validator.validate(command);
+        if (!validation.valid) {
             return {
                 success: false,
-                message: "Invalid command.",
-                actionsExecuted: 0,
-                executionTime: 0,
-                warnings: ["Validation failed."]
+                message: "Command rejected by validation.",
+                error: validation.errors.join(" ")
             };
         }
-        const start = Date.now();
-        switch (command.intent) {
-            case "CREATE_REEL":
-                await this.actions.center();
-                break;
-            case "CREATE_TEASER":
-                await this.actions.left();
-                break;
-            case "CREATE_HIGHLIGHT":
-                await this.actions.right();
-                break;
-            case "ADD_TRANSITIONS":
-                await this.actions.top();
-                break;
-            case "READ_PROJECT":
-                await this.actions.getProject();
-                break;
-            case "READ_SEQUENCE":
-                await this.actions.getSequence();
-                break;
-            case "READ_SELECTION":
-                await this.actions.getSelection();
-                break;
+        switch (command.action) {
             case "READ_TIMELINE":
-                await this.actions.getTimeline();
-                break;
-            case "TRIM_SELECTED":
-                await this.edit.trimSelected();
-                break;
-            case "RAZOR":
-                await this.edit.razorAtPlayhead();
-                break;
-            case "RIPPLE_DELETE":
-                await this.edit.rippleDelete();
-                break;
-            case "ADD_AUDIO_FADE":
-                await this.edit.addAudioFade();
-                break;
-            case "EXPORT":
-                await this.actions.bottom();
-                break;
-            default:
-                break;
+                return this.readTimeline();
+            case "READ_SELECTED_CLIPS":
+                return {
+                    success: true,
+                    message: "Selected clips read.",
+                    data: await this.timelineReader.getSelectedClips()
+                };
+            case "GET_IN_OUT":
+                return {
+                    success: true,
+                    message: "In and out points read.",
+                    data: await this.timelineReader.getInOut()
+                };
+            case "GET_PLAYHEAD":
+                return {
+                    success: true,
+                    message: "Playhead read.",
+                    data: await this.timelineReader.getPlayhead()
+                };
+            case "MOVE_PLAYHEAD":
+                return this.bridge.execute(command.action, command.payload);
+            case "CREATE_MARKER":
+                return this.markers.create(command.payload.name, command.payload.time, command.payload.color);
+            case "DELETE_MARKER":
+                return this.markers.delete(command.payload.markerId);
+            case "CUT_CLIP":
+                return this.clips.cut(command.payload.clipId, command.payload.time);
+            case "TRIM_CLIP":
+                return this.clips.trim(command.payload.clipId, command.payload.start, command.payload.end);
+            case "MOVE_CLIP":
+                return this.clips.move(command.payload.clipId, command.payload.targetTrackIndex, command.payload.start);
+            case "CREATE_SEQUENCE":
+                return this.sequences.create(command.payload.name, command.payload.fps);
+            case "IMPORT_MEDIA":
+                return this.sequences.importMedia(command.payload.mediaPath, command.payload.binPath);
+            case "EXPORT_SEQUENCE":
+                return this.exporter.exportSequence(command.payload.destinationPath, command.payload.sequenceId, command.payload.preset);
+            case "CREATE_REEL":
+                return this.bridge.execute(command.action, command.payload);
+        }
+    }
+    async readTimeline() {
+        const timeline = await this.timelineReader.read();
+        if (timeline === null) {
+            return {
+                success: false,
+                message: "No active Premiere timeline is available.",
+                error: "TIMELINE_NOT_AVAILABLE"
+            };
         }
         return {
             success: true,
-            message: command.intent,
-            actionsExecuted: 1,
-            executionTime: Date.now() - start,
-            warnings: []
+            message: "Timeline read.",
+            data: timeline
         };
     }
 }
@@ -4095,139 +2159,21 @@ exports.CommandExecutor = CommandExecutor;
 
 /***/ },
 
-/***/ 5059
+/***/ 737
 (__unused_webpack_module, exports, __webpack_require__) {
 
+var __webpack_unused_export__;
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(6511), exports);
-__exportStar(__webpack_require__(4213), exports);
-__exportStar(__webpack_require__(4589), exports);
-__exportStar(__webpack_require__(2329), exports);
-__exportStar(__webpack_require__(2697), exports);
-__exportStar(__webpack_require__(8141), exports);
-
-
-/***/ },
-
-/***/ 4213
-(__unused_webpack_module, exports) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.CommandParser = void 0;
-class CommandParser {
-    parse(input) {
-        const text = input.toLowerCase().trim();
-        if (text.includes("reel")) {
-            return {
-                intent: "CREATE_REEL",
-                source: "selected_clips",
-                style: text.includes("cinematic") ? "cinematic" : "default"
-            };
-        }
-        if (text.includes("teaser")) {
-            return {
-                intent: "CREATE_TEASER",
-                source: "selected_clips"
-            };
-        }
-        if (text.includes("highlight")) {
-            return {
-                intent: "CREATE_HIGHLIGHT",
-                source: "selected_clips"
-            };
-        }
-        if (text.includes("trim") && text.includes("silence")) {
-            return {
-                intent: "TRIM_SILENCE"
-            };
-        }
-        if (text.includes("transition")) {
-            return {
-                intent: "ADD_TRANSITIONS"
-            };
-        }
-        if (text.includes("music") || text.includes("beat")) {
-            return {
-                intent: "SYNC_MUSIC",
-                musicSync: true
-            };
-        }
-        if (text.includes("timeline")) {
-            return { intent: "READ_TIMELINE" };
-        }
-        if (text.includes("selection")) {
-            return { intent: "READ_SELECTION" };
-        }
-        if (text.includes("sequence")) {
-            return { intent: "READ_SEQUENCE" };
-        }
-        if (text.includes("project")) {
-            return { intent: "READ_PROJECT" };
-        }
-        if (text.includes("trim")) {
-            return { intent: "TRIM_SELECTED" };
-        }
-        if (text.includes("razor")) {
-            return { intent: "RAZOR" };
-        }
-        if (text.includes("ripple")) {
-            return { intent: "RIPPLE_DELETE" };
-        }
-        if (text.includes("audio fade")) {
-            return { intent: "ADD_AUDIO_FADE" };
-        }
-        if (text.includes("export")) {
-            return {
-                intent: "EXPORT"
-            };
-        }
-        return {
-            intent: "UNKNOWN"
-        };
-    }
-}
-exports.CommandParser = CommandParser;
-
-
-/***/ },
-
-/***/ 2697
-(__unused_webpack_module, exports) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
+__webpack_unused_export__ = ({ value: true });
 exports.CommandRegistry = void 0;
+const Command_1 = __webpack_require__(111);
 class CommandRegistry {
-    commands = new Set([
-        "CREATE_REEL",
-        "CREATE_TEASER",
-        "CREATE_HIGHLIGHT",
-        "TRIM_SILENCE",
-        "SYNC_MUSIC",
-        "ADD_TRANSITIONS",
-        "EXPORT"
-    ]);
-    has(intent) {
-        return this.commands.has(intent);
+    actions = new Set(Command_1.COMMAND_ACTIONS);
+    has(action) {
+        return this.actions.has(action);
     }
-    all() {
-        return [...this.commands];
+    list() {
+        return [...this.actions];
     }
 }
 exports.CommandRegistry = CommandRegistry;
@@ -4235,207 +2181,149 @@ exports.CommandRegistry = CommandRegistry;
 
 /***/ },
 
-/***/ 6511
-(__unused_webpack_module, exports) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-
-
-/***/ },
-
-/***/ 4589
+/***/ 610
 (__unused_webpack_module, exports, __webpack_require__) {
 
+var __webpack_unused_export__;
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
+__webpack_unused_export__ = ({ value: true });
 exports.CommandValidator = void 0;
-const CommandRegistry_1 = __webpack_require__(2697);
+const CommandRegistry_1 = __webpack_require__(737);
 class CommandValidator {
-    registry = new CommandRegistry_1.CommandRegistry();
+    registry;
+    constructor(registry = new CommandRegistry_1.CommandRegistry()) {
+        this.registry = registry;
+    }
     validate(command) {
-        return this.registry.has(command.intent);
+        const errors = [];
+        if (!isRecord(command)) {
+            return { valid: false, errors: ["Command must be an object."] };
+        }
+        if (typeof command.id !== "string" || command.id.length === 0) {
+            errors.push("Command id is required.");
+        }
+        if (typeof command.action !== "string" || !this.registry.has(command.action)) {
+            errors.push("Command action is not supported.");
+        }
+        if (!isRecord(command.payload)) {
+            errors.push("Command payload must be an object.");
+        }
+        if (!isFiniteNumber(command.timestamp)) {
+            errors.push("Command timestamp must be a finite number.");
+        }
+        if (errors.length > 0) {
+            return { valid: false, errors };
+        }
+        const typedCommand = command;
+        this.validatePayload(typedCommand.action, typedCommand.payload, errors);
+        return { valid: errors.length === 0, errors };
+    }
+    validatePayload(action, payload, errors) {
+        switch (action) {
+            case "MOVE_PLAYHEAD":
+                requireFiniteNumber(payload, "time", errors);
+                break;
+            case "CREATE_MARKER":
+                requireNonEmptyString(payload, "name", errors);
+                requireFiniteNumber(payload, "time", errors);
+                break;
+            case "DELETE_MARKER":
+                requireNonEmptyString(payload, "markerId", errors);
+                break;
+            case "CUT_CLIP":
+                requireNonEmptyString(payload, "clipId", errors);
+                requireFiniteNumber(payload, "time", errors);
+                break;
+            case "TRIM_CLIP":
+                requireNonEmptyString(payload, "clipId", errors);
+                requireFiniteNumber(payload, "start", errors);
+                requireFiniteNumber(payload, "end", errors);
+                break;
+            case "MOVE_CLIP":
+                requireNonEmptyString(payload, "clipId", errors);
+                requireFiniteNumber(payload, "targetTrackIndex", errors);
+                requireFiniteNumber(payload, "start", errors);
+                break;
+            case "CREATE_SEQUENCE":
+                requireNonEmptyString(payload, "name", errors);
+                break;
+            case "IMPORT_MEDIA":
+                requireNonEmptyString(payload, "mediaPath", errors);
+                break;
+            case "EXPORT_SEQUENCE":
+                requireNonEmptyString(payload, "destinationPath", errors);
+                break;
+            case "CREATE_REEL":
+                requireFiniteNumber(payload, "duration", errors);
+                break;
+            case "READ_TIMELINE":
+            case "READ_SELECTED_CLIPS":
+            case "GET_IN_OUT":
+            case "GET_PLAYHEAD":
+                break;
+        }
     }
 }
 exports.CommandValidator = CommandValidator;
-
-
-/***/ },
-
-/***/ 602
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = AIChatPanel;
-const jsx_runtime_1 = __webpack_require__(4848);
-const react_1 = __webpack_require__(6540);
-const ui_1 = __webpack_require__(5710);
-const ai = new ui_1.AIController();
-function AIChatPanel() {
-    const [prompt, setPrompt] = (0, react_1.useState)("");
-    const [loading, setLoading] = (0, react_1.useState)(false);
-    const [messages, setMessages] = (0, react_1.useState)([
-        {
-            role: "assistant",
-            text: "👋 Welcome to RK Flow AI",
-            time: new Date().toLocaleTimeString()
-        }
-    ]);
-    const fileInput = (0, react_1.useRef)(null);
-    const bottomRef = (0, react_1.useRef)(null);
-    const textareaRef = (0, react_1.useRef)(null);
-    (0, react_1.useEffect)(() => {
-        bottomRef.current?.scrollIntoView({
-            behavior: "smooth"
-        });
-    }, [messages, loading]);
-    (0, react_1.useEffect)(() => {
-        textareaRef.current?.focus();
-    }, []);
-    const send = async () => {
-        const text = prompt.trim();
-        if (!text || loading)
-            return;
-        setMessages((m) => [
-            ...m,
-            {
-                role: "user",
-                text,
-                time: new Date().toLocaleTimeString()
-            }
-        ]);
-        setPrompt("");
-        setLoading(true);
-        try {
-            const reply = await ai.ask(text);
-            setMessages((m) => [
-                ...m,
-                {
-                    role: "assistant",
-                    text: reply,
-                    time: new Date().toLocaleTimeString()
-                }
-            ]);
-        }
-        catch (e) {
-            setMessages((m) => [
-                ...m,
-                {
-                    role: "assistant",
-                    text: String(e),
-                    time: new Date().toLocaleTimeString()
-                }
-            ]);
-        }
-        finally {
-            setLoading(false);
-            textareaRef.current?.focus();
-        }
-    };
-    const onKeyDown = (e) => {
-        if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            void send();
-        }
-    };
-    return ((0, jsx_runtime_1.jsxs)("div", { style: {
-            display: "flex",
-            flexDirection: "column",
-            height: "100%",
-            gap: 12
-        }, children: [(0, jsx_runtime_1.jsx)("h2", { children: "RK Flow AI" }), (0, jsx_runtime_1.jsxs)("div", { style: {
-                    flex: 1,
-                    overflowY: "auto",
-                    border: "1px solid #333",
-                    borderRadius: 12,
-                    padding: 14
-                }, children: [messages.map((m, i) => ((0, jsx_runtime_1.jsxs)("div", { style: {
-                            marginBottom: 18,
-                            textAlign: m.role === "user" ? "right" : "left"
-                        }, children: [(0, jsx_runtime_1.jsx)("strong", { children: m.role === "user" ? "You" : "RK Flow AI" }), (0, jsx_runtime_1.jsx)("div", { style: {
-                                    opacity: 0.6,
-                                    fontSize: 11
-                                }, children: m.time }), (0, jsx_runtime_1.jsx)("div", { style: {
-                                    marginTop: 6,
-                                    whiteSpace: "pre-wrap"
-                                }, children: m.text })] }, i))), loading && (0, jsx_runtime_1.jsx)("div", { children: "\uD83E\uDD16 Thinking..." }), (0, jsx_runtime_1.jsx)("div", { ref: bottomRef })] }), (0, jsx_runtime_1.jsx)("textarea", { ref: textareaRef, rows: 4, placeholder: "Ask RK Flow AI...", value: prompt, onChange: (e) => setPrompt(e.target.value), onKeyDown: onKeyDown }), (0, jsx_runtime_1.jsxs)("div", { style: {
-                    display: "flex",
-                    gap: 8
-                }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: () => void send(), disabled: loading, children: loading ? "Thinking..." : "Send" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => fileInput.current?.click(), children: "Attach" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => setMessages([
-                            {
-                                role: "assistant",
-                                text: "👋 Chat cleared.",
-                                time: new Date().toLocaleTimeString()
-                            }
-                        ]), children: "Clear" })] }), (0, jsx_runtime_1.jsx)("input", { ref: fileInput, type: "file", hidden: true })] }));
+function isRecord(value) {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
 }
-
-
-/***/ },
-
-/***/ 791
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.NavigationProvider = NavigationProvider;
-exports.useNavigation = useNavigation;
-const jsx_runtime_1 = __webpack_require__(4848);
-const react_1 = __webpack_require__(6540);
-const NavigationContext = (0, react_1.createContext)(undefined);
-function NavigationProvider({ children }) {
-    const [page, setPage] = (0, react_1.useState)("dashboard");
-    return ((0, jsx_runtime_1.jsx)(NavigationContext.Provider, { value: { page, setPage }, children: children }));
+function isFiniteNumber(value) {
+    return typeof value === "number" && Number.isFinite(value);
 }
-function useNavigation() {
-    const context = (0, react_1.useContext)(NavigationContext);
-    if (!context) {
-        throw new Error("useNavigation must be used inside NavigationProvider");
+function requireFiniteNumber(payload, key, errors) {
+    if (!isFiniteNumber(payload[key])) {
+        errors.push(`${key} must be a finite number.`);
     }
-    return context;
+}
+function requireNonEmptyString(payload, key, errors) {
+    if (typeof payload[key] !== "string" || payload[key].trim().length === 0) {
+        errors.push(`${key} must be a non-empty string.`);
+    }
 }
 
 
 /***/ },
 
-/***/ 1375
+/***/ 28
 (__unused_webpack_module, exports) {
 
+var __webpack_unused_export__;
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.TransactionManager = void 0;
-class TransactionManager {
-    PPRO;
-    constructor(PPRO) {
-        this.PPRO = PPRO;
+__webpack_unused_export__ = ({ value: true });
+__webpack_unused_export__ = exports.resolveGeminiConfig = void 0;
+const DEFAULT_GEMINI_API_KEY = 'AQ.Ab8RN6J6SWp_IBif-ZeWmzZz01KK63ioURzR-KRXjonlxjUeKQ';
+const DEFAULT_GEMINI_ACCOUNT_EMAIL = 'rohitdaya99@gmail.com';
+const resolveGeminiConfig = () => {
+    if (typeof window === 'undefined') {
+        return {
+            apiKey: DEFAULT_GEMINI_API_KEY,
+            accountEmail: DEFAULT_GEMINI_ACCOUNT_EMAIL,
+        };
     }
-    async run(callback) {
-        const project = await this.PPRO.Project.getActiveProject();
-        return await project.lockedAccess(async () => {
-            return await callback(project);
-        });
+    const apiKey = window.__RKFLOW_GEMINI_API_KEY__ || localStorage.getItem('rkflow.gemini.apiKey') || DEFAULT_GEMINI_API_KEY;
+    const accountEmail = window.__RKFLOW_GEMINI_ACCOUNT__ || localStorage.getItem('rkflow.gemini.accountEmail') || DEFAULT_GEMINI_ACCOUNT_EMAIL;
+    return {
+        apiKey,
+        accountEmail,
+    };
+};
+exports.resolveGeminiConfig = resolveGeminiConfig;
+const saveGeminiConfig = (config) => {
+    if (typeof window === 'undefined') {
+        return;
     }
-    async executeAction(actionBuilder) {
-        return await this.run(async (project) => {
-            const action = await actionBuilder(project);
-            if (!action) {
-                throw new Error("TransactionManager: No action returned.");
-            }
-            return await project.executeTransaction((compoundAction) => {
-                compoundAction.addAction(action);
-            });
-        });
-    }
-}
-exports.TransactionManager = TransactionManager;
-exports["default"] = TransactionManager;
+    localStorage.setItem('rkflow.gemini.apiKey', config.apiKey);
+    localStorage.setItem('rkflow.gemini.accountEmail', config.accountEmail);
+    window.__RKFLOW_GEMINI_API_KEY__ = config.apiKey;
+    window.__RKFLOW_GEMINI_ACCOUNT__ = config.accountEmail;
+};
+__webpack_unused_export__ = saveGeminiConfig;
 
 
 /***/ },
 
-/***/ 2318
+/***/ 900
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -4443,336 +2331,562 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const TransactionManager_1 = __importDefault(__webpack_require__(1375));
-class MotionEngine {
-    PPRO;
-    transaction;
-    constructor(PPRO) {
-        this.PPRO = PPRO;
-        this.transaction = new TransactionManager_1.default(PPRO);
-    }
-    async setPosition(x, y, trackIndex = 0, clipIndex = 0) {
-        return await this.transaction.executeAction(async (project) => {
-            const sequence = await project.getActiveSequence();
-            const track = await sequence.getVideoTrack(trackIndex);
-            const clips = await track.getTrackItems(this.PPRO.Constants.TrackItemType.CLIP, false);
-            if (!clips.length) {
-                throw new Error("No clips found.");
-            }
-            const clip = clips[clipIndex];
-            if (!clip) {
-                throw new Error("Invalid clip index.");
-            }
-            const chain = await clip.getComponentChain();
-            const motion = await chain.getComponentAtIndex(1);
-            const position = await motion.getParam(0);
-            const point = new this.PPRO.PointF();
-            point.x = x;
-            point.y = y;
-            const keyframe = position.createKeyframe(point);
-            keyframe.value.value = [x, y];
-            return position.createSetValueAction(keyframe, true);
-        });
-    }
-    async center() {
-        return await this.setPosition(0.5, 0.5);
-    }
-    async left() {
-        return await this.setPosition(0.25, 0.5);
-    }
-    async right() {
-        return await this.setPosition(0.75, 0.5);
-    }
-    async top() {
-        return await this.setPosition(0.5, 0.25);
-    }
-    async bottom() {
-        return await this.setPosition(0.5, 0.75);
-    }
+const jsx_runtime_1 = __webpack_require__(848);
+const client_1 = __importDefault(__webpack_require__(338));
+const App_1 = __importDefault(__webpack_require__(577));
+const root = document.getElementById("root");
+if (!root) {
+    document.body.innerHTML = "<h1 style='color:red'>ROOT NOT FOUND</h1>";
 }
-exports["default"] = MotionEngine;
+else {
+    client_1.default.createRoot(root).render((0, jsx_runtime_1.jsx)(App_1.default, {}));
+}
 
 
 /***/ },
 
-/***/ 9292
-(__unused_webpack_module, exports, __webpack_require__) {
+/***/ 878
+(__unused_webpack_module, exports) {
 
 var __webpack_unused_export__;
 
 __webpack_unused_export__ = ({ value: true });
-exports.PremiereExecutor = void 0;
-exports.inspectPremiereAPI = inspectPremiereAPI;
-exports.testMoveAction = testMoveAction;
-const CommandExecutor_1 = __webpack_require__(2329);
-class PremiereExecutor {
-    executor = new CommandExecutor_1.CommandExecutor();
-    async run(command) {
-        return this.executor.execute(command);
+exports.ClipController = void 0;
+class ClipController {
+    bridge;
+    constructor(bridge) {
+        this.bridge = bridge;
+    }
+    async cut(clipId, time) {
+        return this.bridge.execute("CUT_CLIP", { clipId, time });
+    }
+    async trim(clipId, start, end) {
+        return this.bridge.execute("TRIM_CLIP", { clipId, start, end });
+    }
+    async move(clipId, targetTrackIndex, start) {
+        return this.bridge.execute("MOVE_CLIP", {
+            clipId,
+            targetTrackIndex,
+            start
+        });
     }
 }
-exports.PremiereExecutor = PremiereExecutor;
-function inspectPremiereAPI() {
-    console.log("[RK Flow] inspectPremiereAPI()");
-}
-function testMoveAction() {
-    console.log("[RK Flow] testMoveAction()");
-}
+exports.ClipController = ClipController;
 
 
 /***/ },
 
-/***/ 1742
-(__unused_webpack_module, exports, __webpack_require__) {
+/***/ 622
+(__unused_webpack_module, exports) {
 
+var __webpack_unused_export__;
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = SettingsPage;
-const jsx_runtime_1 = __webpack_require__(4848);
-const react_1 = __webpack_require__(6540);
-const AIConfigManager_1 = __webpack_require__(6241);
-const AIRouter_1 = __webpack_require__(8026);
-const router = new AIRouter_1.AIRouter();
-function SettingsPage() {
-    const provider = AIConfigManager_1.AIConfigManager.provider();
-    const [apiKey, setApiKey] = (0, react_1.useState)(AIConfigManager_1.AIConfigManager.apiKey(provider));
-    const [status, setStatus] = (0, react_1.useState)("");
-    function save() {
-        AIConfigManager_1.AIConfigManager.setApiKey(provider, apiKey);
-        setStatus("✅ API Key Saved");
+__webpack_unused_export__ = ({ value: true });
+exports.ExportController = void 0;
+class ExportController {
+    bridge;
+    constructor(bridge) {
+        this.bridge = bridge;
     }
-    async function test() {
+    async exportSequence(destinationPath, sequenceId, preset) {
+        return this.bridge.execute("EXPORT_SEQUENCE", {
+            destinationPath,
+            sequenceId,
+            preset
+        });
+    }
+}
+exports.ExportController = ExportController;
+
+
+/***/ },
+
+/***/ 778
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.MarkerController = void 0;
+class MarkerController {
+    bridge;
+    constructor(bridge) {
+        this.bridge = bridge;
+    }
+    async create(name, time, color) {
+        return this.bridge.execute("CREATE_MARKER", { name, time, color });
+    }
+    async delete(markerId) {
+        return this.bridge.execute("DELETE_MARKER", { markerId });
+    }
+}
+exports.MarkerController = MarkerController;
+
+
+/***/ },
+
+/***/ 862
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.PremiereBridge = void 0;
+class PremiereBridge {
+    host;
+    constructor(host) {
+        this.host = host === undefined ? this.resolveHost() : host;
+    }
+    isConnected() {
+        return this.host !== null;
+    }
+    async readTimeline() {
+        if (this.host?.readTimeline !== undefined) {
+            return this.host.readTimeline();
+        }
+        const sequence = await this.getActiveSequence();
+        if (sequence === null) {
+            return null;
+        }
+        console.log("===== RKFLOW SEQUENCE =====");
+        console.log(sequence);
+        console.log("Sequence methods:");
+        console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(sequence)));
         try {
-            setStatus("Testing...");
-            const result = await router.chat({
-                prompt: "Reply with exactly: RK Flow AI Connected"
-            });
-            setStatus("🟢 " + result.text);
+            const track = await sequence.getVideoTrack(0);
+            console.log("===== VIDEO TRACK =====");
+            console.log(track);
+            console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(track)));
+            const PPRO = globalThis.require("premierepro");
+            console.log("PPRO Constants:", PPRO.Constants);
+            const clips = await track.getTrackItems(PPRO.Constants.TrackItemType.CLIP, false);
+            console.log("===== TRACK CLIPS =====");
+            console.log(clips);
+            console.log("Clip count:", clips.length);
+            if (clips.length > 0) {
+                console.log("===== FIRST CLIP =====");
+                console.log(clips[0]);
+                console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(clips[0])));
+                console.log("Clip Name:", await clips[0].getName());
+                console.log("Start:", await clips[0].getStartTime());
+                console.log("End:", await clips[0].getEndTime());
+                console.log("Duration:", await clips[0].getDuration());
+                console.log("In:", await clips[0].getInPoint());
+                console.log("Out:", await clips[0].getOutPoint());
+                console.log("Selected:", await clips[0].getIsSelected());
+                console.log("Track Index:", await clips[0].getTrackIndex());
+                const projectItem = await clips[0].getProjectItem();
+                console.log("===== PROJECT ITEM =====");
+                console.log(projectItem);
+                console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(projectItem)));
+                const media = await projectItem.getMedia?.();
+                console.log("===== MEDIA =====");
+                console.log(media);
+                if (media) {
+                    console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(media)));
+                }
+                const chain = await clips[0].getComponentChain();
+                console.log("===== COMPONENT CHAIN =====");
+                console.log(chain);
+                console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(chain)));
+                const count = await chain.getComponentCount();
+                console.log("Component Count:", count);
+                if (count > 0) {
+                    const c = await chain.getComponentAtIndex(0);
+                    console.log("===== FIRST COMPONENT =====");
+                    console.log(c);
+                    console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(c)));
+                    const paramCount = await c.getParamCount();
+                    console.log("Param Count:", paramCount);
+                    for (let i = 0; i < paramCount; i++) {
+                        const param = await c.getParam(i);
+                        console.log("===== PARAM", i, "=====");
+                        console.log(param);
+                        console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(param)));
+                    }
+                }
+            }
         }
         catch (e) {
-            setStatus("🔴 " + (e.message || "Connection Failed"));
+            console.error("Track Error:", e);
+        }
+        const [videoTrackCount, audioTrackCount, duration, inPoint, outPoint, playhead, settings] = await Promise.all([
+            sequence.getVideoTrackCount(),
+            sequence.getAudioTrackCount(),
+            sequence.getEndTime(),
+            sequence.getInPoint(),
+            sequence.getOutPoint(),
+            sequence.getPlayerPosition(),
+            sequence.getSettings()
+        ]);
+        return {
+            sequenceName: sequence.name,
+            fps: await getFrameRate(settings),
+            duration: duration.seconds,
+            playhead: playhead.seconds,
+            inPoint: inPoint.seconds,
+            outPoint: outPoint.seconds,
+            videoTracks: createTracks("video", videoTrackCount),
+            audioTracks: createTracks("audio", audioTrackCount),
+            // Marker and clip enumeration are added only after the read-only snapshot
+            // is verified in Premiere.
+            markers: []
+        };
+    }
+    async execute(action, payload = {}) {
+        if (this.host?.execute !== undefined) {
+            return this.executeWithHost(action, payload);
+        }
+        return {
+            success: false,
+            message: `${action} is not enabled in the read-only UXP bridge.`,
+            error: "ACTION_NOT_IMPLEMENTED"
+        };
+    }
+    async executeWithHost(action, payload) {
+        try {
+            const data = await this.host?.execute?.(action, payload);
+            return {
+                success: true,
+                message: `${action} executed.`,
+                data
+            };
+        }
+        catch (error) {
+            return {
+                success: false,
+                message: `${action} failed.`,
+                error: error instanceof Error ? error.message : String(error)
+            };
         }
     }
-    return ((0, jsx_runtime_1.jsxs)("div", { style: { padding: 20 }, children: [(0, jsx_runtime_1.jsx)("h2", { children: "RK Flow AI Settings" }), (0, jsx_runtime_1.jsx)("input", { type: "password", placeholder: "API Key", value: apiKey, onChange: (e) => setApiKey(e.target.value), style: {
-                    width: "100%",
-                    padding: 10,
-                    marginTop: 10
-                } }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: 15 }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: save, children: "Save API Key" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void test(), style: { marginLeft: 10 }, children: "Test Connection" })] }), (0, jsx_runtime_1.jsx)("p", { style: { marginTop: 20 }, children: status })] }));
-}
-
-
-/***/ },
-
-/***/ 8068
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = AutoEdit;
-const jsx_runtime_1 = __webpack_require__(4848);
-function AutoEdit() {
-    return (0, jsx_runtime_1.jsx)("h1", { style: { color: "#fff" }, children: "Auto Edit" });
-}
-
-
-/***/ },
-
-/***/ 9971
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = Dashboard;
-const jsx_runtime_1 = __webpack_require__(4848);
-__webpack_require__(271);
-const AIChatPanel_1 = __importDefault(__webpack_require__(602));
-const stats = [
-    { title: "Projects", value: "12" },
-    { title: "Wedding Films", value: "36" },
-    { title: "AI Jobs", value: "156" },
-    { title: "Storage", value: "78%" },
-];
-const actions = [
-    "Create Reel",
-    "Create Highlight",
-    "Create Teaser",
-    "Find Bride",
-    "Music Sync",
-    "Export Instagram",
-];
-const projects = [
-    "Baby Shower Highlight",
-    "Wedding Teaser",
-    "Haldi Reel",
-];
-function Dashboard() {
-    return ((0, jsx_runtime_1.jsxs)("div", { className: "dashboard", children: [(0, jsx_runtime_1.jsxs)("section", { className: "hero", children: [(0, jsx_runtime_1.jsx)("span", { className: "badge", children: "RK FLOW AI" }), (0, jsx_runtime_1.jsx)("h1", { children: "AI Video Editing Workspace" }), (0, jsx_runtime_1.jsx)("p", { children: "Build Wedding Reels, Highlights, Teasers and Cinematic Films using AI-powered workflows." })] }), (0, jsx_runtime_1.jsx)("section", { className: "stats", children: stats.map((item) => ((0, jsx_runtime_1.jsxs)("div", { className: "card stat", children: [(0, jsx_runtime_1.jsx)("span", { children: item.title }), (0, jsx_runtime_1.jsx)("h2", { children: item.value })] }, item.title))) }), (0, jsx_runtime_1.jsxs)("section", { className: "card", children: [(0, jsx_runtime_1.jsx)("h3", { children: "Quick Actions" }), (0, jsx_runtime_1.jsx)("div", { className: "action-grid", children: actions.map((item) => ((0, jsx_runtime_1.jsx)("button", { children: item }, item))) })] }), (0, jsx_runtime_1.jsxs)("section", { className: "card", children: [(0, jsx_runtime_1.jsx)("h3", { children: "Recent Projects" }), (0, jsx_runtime_1.jsx)("div", { className: "project-list", children: projects.map((item) => ((0, jsx_runtime_1.jsx)("div", { className: "project", children: item }, item))) })] }), (0, jsx_runtime_1.jsx)("section", { className: "card", children: (0, jsx_runtime_1.jsx)(AIChatPanel_1.default, {}) })] }));
-}
-
-
-/***/ },
-
-/***/ 7827
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = ExportStudio;
-const jsx_runtime_1 = __webpack_require__(4848);
-function ExportStudio() {
-    return (0, jsx_runtime_1.jsx)("h1", { style: { color: "#fff" }, children: "Export Studio" });
-}
-
-
-/***/ },
-
-/***/ 1573
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = FaceAI;
-const jsx_runtime_1 = __webpack_require__(4848);
-function FaceAI() {
-    return (0, jsx_runtime_1.jsx)("h1", { style: { color: "#fff" }, children: "Face AI" });
-}
-
-
-/***/ },
-
-/***/ 4397
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = MusicAI;
-const jsx_runtime_1 = __webpack_require__(4848);
-function MusicAI() {
-    return (0, jsx_runtime_1.jsx)("h1", { style: { color: "#fff" }, children: "Music AI" });
-}
-
-
-/***/ },
-
-/***/ 4203
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = void 0;
-var SettingsPage_1 = __webpack_require__(1742);
-Object.defineProperty(exports, "default", ({ enumerable: true, get: function () { return __importDefault(SettingsPage_1).default; } }));
-
-
-/***/ },
-
-/***/ 9797
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = TimelineAI;
-const jsx_runtime_1 = __webpack_require__(4848);
-const UXPInspector_1 = __webpack_require__(7290);
-function TimelineAI() {
-    return ((0, jsx_runtime_1.jsx)("div", { style: { padding: 20 }, children: (0, jsx_runtime_1.jsx)("button", { onClick: () => UXPInspector_1.inspector.inspectEverything(), style: {
-                padding: "14px 24px",
-                fontSize: 18,
-                cursor: "pointer"
-            }, children: "\uD83D\uDE80 RUN RK UXP INSPECTOR" }) }));
-}
-
-
-/***/ },
-
-/***/ 5165
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = WeddingAI;
-const jsx_runtime_1 = __webpack_require__(4848);
-function WeddingAI() {
-    return (0, jsx_runtime_1.jsx)("h1", { style: { color: "#fff" }, children: "Wedding AI" });
-}
-
-
-/***/ },
-
-/***/ 3900
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
+    async getActiveSequence() {
+        if (this.host?.app === undefined) {
+            return null;
+        }
+        const project = await this.host.app.Project.getActiveProject();
+        return project === null ? null : project.getActiveSequence();
     }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const jsx_runtime_1 = __webpack_require__(4848);
-console.log("RK FLOW BUILD: 2026-07-31 CLEAN");
-const react_1 = __importDefault(__webpack_require__(6540));
-const client_1 = __importDefault(__webpack_require__(5338));
-const App_1 = __importDefault(__webpack_require__(8577));
-const NavigationContext_1 = __webpack_require__(791);
-const premiereService_1 = __webpack_require__(3763);
-const UXPInspector_1 = __webpack_require__(7290);
-const PremiereExecutor_1 = __webpack_require__(9292);
-window.premiereService = premiereService_1.premiereService;
-window.runInspector = () => UXPInspector_1.inspector.inspectEverything();
-window.inspectPremiereAPI = PremiereExecutor_1.inspectPremiereAPI;
-window.testMoveAction = PremiereExecutor_1.testMoveAction;
-const root = client_1.default.createRoot(document.getElementById("root"));
-root.render((0, jsx_runtime_1.jsx)(react_1.default.StrictMode, { children: (0, jsx_runtime_1.jsx)(NavigationContext_1.NavigationProvider, { children: (0, jsx_runtime_1.jsx)(App_1.default, {}) }) }));
-window.testCommandEngine = async () => {
-    const { CommandDispatcher } = await Promise.resolve().then(() => __importStar(__webpack_require__(5059)));
-    const dispatcher = new CommandDispatcher();
-    console.log(dispatcher.dispatch("Create cinematic wedding reel"));
-    console.log(dispatcher.dispatch("Trim silence"));
-    console.log(dispatcher.dispatch("Export Instagram Reel"));
-};
+    resolveHost() {
+        const moduleRequire = globalThis.require;
+        if (typeof moduleRequire !== "function") {
+            return null;
+        }
+        try {
+            const app = moduleRequire("premierepro");
+            return app?.Project?.getActiveProject === undefined ? null : { app };
+        }
+        catch {
+            return null;
+        }
+    }
+}
+exports.PremiereBridge = PremiereBridge;
+async function getFrameRate(settings) {
+    if (settings.getVideoFrameRate === undefined) {
+        return 0;
+    }
+    return (await settings.getVideoFrameRate()).value;
+}
+function createTracks(type, count) {
+    return Array.from({ length: count }, (_, index) => ({
+        id: `${type}-${index + 1}`,
+        name: `${type === "video" ? "Video" : "Audio"} ${index + 1}`,
+        type,
+        clips: []
+    }));
+}
 
 
 /***/ },
 
-/***/ 7664
+/***/ 857
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.SequenceController = void 0;
+class SequenceController {
+    bridge;
+    constructor(bridge) {
+        this.bridge = bridge;
+    }
+    async create(name, fps) {
+        return this.bridge.execute("CREATE_SEQUENCE", { name, fps });
+    }
+    async importMedia(mediaPath, binPath) {
+        return this.bridge.execute("IMPORT_MEDIA", { mediaPath, binPath });
+    }
+}
+exports.SequenceController = SequenceController;
+
+
+/***/ },
+
+/***/ 824
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.TimelineReader = void 0;
+class TimelineReader {
+    bridge;
+    constructor(bridge) {
+        this.bridge = bridge;
+    }
+    async read() {
+        return this.bridge.readTimeline();
+    }
+    async getSelectedClips() {
+        const timeline = await this.read();
+        if (timeline === null) {
+            return [];
+        }
+        return [...timeline.videoTracks, ...timeline.audioTracks].flatMap((track) => track.clips.filter((clip) => clip.selected));
+    }
+    async getInOut() {
+        const timeline = await this.read();
+        if (timeline === null) {
+            return null;
+        }
+        return {
+            inPoint: timeline.inPoint,
+            outPoint: timeline.outPoint
+        };
+    }
+    async getPlayhead() {
+        const timeline = await this.read();
+        return timeline?.playhead ?? null;
+    }
+}
+exports.TimelineReader = TimelineReader;
+
+
+/***/ },
+
+/***/ 373
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const generative_ai_1 = __webpack_require__(445);
+const config_1 = __webpack_require__(28);
+class RKPlanner {
+    model;
+    constructor() {
+        const ai = new generative_ai_1.GoogleGenerativeAI((0, config_1.resolveGeminiConfig)().apiKey);
+        this.model = ai.getGenerativeModel({
+            model: "gemini-3.6-flash"
+        });
+    }
+    async create(prompt) {
+        return {
+            id: "rk-test",
+            action: "READ_TIMELINE",
+            payload: {},
+            timestamp: Date.now()
+        };
+        // removed by dead control flow
+
+        // removed by dead control flow
+
+        // removed by dead control flow
+
+    }
+}
+exports["default"] = RKPlanner;
+
+
+/***/ },
+
+/***/ 284
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const RKPlanner_1 = __importDefault(__webpack_require__(373));
+const RKExecutor_1 = __importDefault(__webpack_require__(597));
+class RKDispatcher {
+    planner = new RKPlanner_1.default();
+    executor = new RKExecutor_1.default();
+    async dispatch(prompt) {
+        const command = await this.planner.create(prompt);
+        return await this.executor.execute(command);
+    }
+}
+exports["default"] = RKDispatcher;
+
+
+/***/ },
+
+/***/ 597
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const CommandExecutor_1 = __webpack_require__(779);
+class RKExecutor {
+    executor = new CommandExecutor_1.CommandExecutor();
+    async execute(command) {
+        const result = await this.executor.execute({
+            id: command.id,
+            action: command.action,
+            payload: command.payload,
+            timestamp: command.timestamp
+        });
+        return {
+            success: result.success,
+            message: result.message,
+            data: result.data,
+            error: result.error
+        };
+    }
+}
+exports["default"] = RKExecutor;
+
+
+/***/ },
+
+/***/ 477
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.runRKFlow = runRKFlow;
+const RKDispatcher_1 = __importDefault(__webpack_require__(284));
+const dispatcher = new RKDispatcher_1.default();
+async function runRKFlow(prompt) {
+    return await dispatcher.dispatch(prompt);
+}
+
+
+/***/ },
+
+/***/ 111
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.COMMAND_ACTIONS = void 0;
+__webpack_unused_export__ = createCommand;
+exports.COMMAND_ACTIONS = [
+    "READ_TIMELINE",
+    "READ_SELECTED_CLIPS",
+    "GET_IN_OUT",
+    "GET_PLAYHEAD",
+    "MOVE_PLAYHEAD",
+    "CREATE_MARKER",
+    "DELETE_MARKER",
+    "CUT_CLIP",
+    "TRIM_CLIP",
+    "MOVE_CLIP",
+    "CREATE_SEQUENCE",
+    "IMPORT_MEDIA",
+    "EXPORT_SEQUENCE",
+    "CREATE_REEL"
+];
+let commandCounter = 0;
+function createCommand(action, payload = {}) {
+    commandCounter += 1;
+    return {
+        id: `rk-command-${Date.now()}-${commandCounter}`,
+        action,
+        payload,
+        timestamp: Date.now()
+    };
+}
+
+
+/***/ },
+
+/***/ 750
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = App;
+const jsx_runtime_1 = __webpack_require__(848);
+const AppShell_1 = __importDefault(__webpack_require__(559));
+function App() {
+    return (0, jsx_runtime_1.jsx)(AppShell_1.default, {});
+}
+
+
+/***/ },
+
+/***/ 988
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = AICommandConsole;
+const jsx_runtime_1 = __webpack_require__(848);
+const react_1 = __webpack_require__(540);
+const rkflow_v2_1 = __webpack_require__(477);
+function AICommandConsole() {
+    const [prompt, setPrompt] = (0, react_1.useState)("");
+    const [output, setOutput] = (0, react_1.useState)("");
+    async function run() {
+        try {
+            setOutput("Running...");
+            const result = await (0, rkflow_v2_1.runRKFlow)(prompt);
+            setOutput(JSON.stringify(result, null, 2));
+        }
+        catch (err) {
+            console.error(err);
+            setOutput(err?.stack ||
+                err?.message ||
+                JSON.stringify(err, null, 2));
+        }
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("textarea", { value: prompt, onChange: (e) => setPrompt(e.target.value), placeholder: "Type command here...", style: {
+                    width: "100%",
+                    height: 220,
+                    backgroundColor: "#11161D",
+                    color: "#FFFFFF",
+                    border: "2px solid #333",
+                    borderRadius: 12,
+                    padding: 16,
+                    fontSize: 16,
+                    resize: "none",
+                    outline: "none",
+                    appearance: "none",
+                    WebkitAppearance: "none"
+                } }), (0, jsx_runtime_1.jsx)("button", { onClick: run, style: {
+                    width: "100%",
+                    marginTop: 16,
+                    height: 52,
+                    background: "#2563EB",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: 12,
+                    fontWeight: 700
+                }, children: "Run RK Flow" }), (0, jsx_runtime_1.jsx)("pre", { style: {
+                    marginTop: 20,
+                    minHeight: 300,
+                    background: "#111",
+                    color: "#7DD3FC",
+                    padding: 16,
+                    overflow: "auto"
+                }, children: output })] }));
+}
+
+
+/***/ },
+
+/***/ 559
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -4781,121 +2895,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = AppShell;
-const jsx_runtime_1 = __webpack_require__(4848);
-__webpack_require__(7852);
-const Sidebar_1 = __importDefault(__webpack_require__(4457));
-const Topbar_1 = __importDefault(__webpack_require__(485));
-const RightPanel_1 = __importDefault(__webpack_require__(3865));
-const StatusBar_1 = __importDefault(__webpack_require__(4908));
-function AppShell({ children }) {
-    return ((0, jsx_runtime_1.jsxs)("div", { className: "rk-app", children: [(0, jsx_runtime_1.jsx)(Sidebar_1.default, {}), (0, jsx_runtime_1.jsxs)("div", { className: "rk-main", children: [(0, jsx_runtime_1.jsx)(Topbar_1.default, {}), (0, jsx_runtime_1.jsxs)("div", { className: "rk-workspace", children: [(0, jsx_runtime_1.jsx)("main", { className: "rk-content", children: children }), (0, jsx_runtime_1.jsx)(RightPanel_1.default, {})] }), (0, jsx_runtime_1.jsx)(StatusBar_1.default, {})] })] }));
+const jsx_runtime_1 = __webpack_require__(848);
+const Workspace_1 = __importDefault(__webpack_require__(614));
+function AppShell() {
+    return (0, jsx_runtime_1.jsx)(Workspace_1.default, {});
 }
 
 
 /***/ },
 
-/***/ 3865
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = RightPanel;
-const jsx_runtime_1 = __webpack_require__(4848);
-__webpack_require__(4813);
-function RightPanel() {
-    return ((0, jsx_runtime_1.jsx)("aside", { className: "right-panel", children: (0, jsx_runtime_1.jsxs)("div", { className: "copilot-card", children: [(0, jsx_runtime_1.jsx)("h3", { children: "AI Copilot" }), (0, jsx_runtime_1.jsx)("button", { children: "Create Highlight" }), (0, jsx_runtime_1.jsx)("button", { children: "Create Reel" }), (0, jsx_runtime_1.jsx)("button", { children: "Find Bride" }), (0, jsx_runtime_1.jsx)("button", { children: "Sync Music" }), (0, jsx_runtime_1.jsx)("textarea", { placeholder: "Ask RK AI anything..." })] }) }));
-}
-
-
-/***/ },
-
-/***/ 4457
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = Sidebar;
-const jsx_runtime_1 = __webpack_require__(4848);
-__webpack_require__(9437);
-const NavigationContext_1 = __webpack_require__(791);
-const items = [
-    { id: "dashboard", label: "Dashboard" },
-    { id: "timeline", label: "Timeline AI" },
-    { id: "wedding", label: "Wedding AI" },
-    { id: "autoedit", label: "Auto Edit" },
-    { id: "faceai", label: "Face AI" },
-    { id: "musicai", label: "Music AI" },
-    { id: "exports", label: "Export Studio" },
-    { id: "settings", label: "Settings" },
-];
-function Sidebar() {
-    const { page, setPage } = (0, NavigationContext_1.useNavigation)();
-    return ((0, jsx_runtime_1.jsxs)("aside", { className: "sidebar", children: [(0, jsx_runtime_1.jsxs)("div", { className: "sidebar-logo", children: ["RK ", (0, jsx_runtime_1.jsx)("span", { children: "FLOW" })] }), (0, jsx_runtime_1.jsx)("nav", { className: "sidebar-nav", children: items.map((item) => ((0, jsx_runtime_1.jsx)("button", { className: `sidebar-item ${page === item.id ? "active" : ""}`, onClick: () => setPage(item.id), children: item.label }, item.id))) })] }));
-}
-
-
-/***/ },
-
-/***/ 4908
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = StatusBar;
-const jsx_runtime_1 = __webpack_require__(4848);
-__webpack_require__(5656);
-function StatusBar() {
-    return ((0, jsx_runtime_1.jsxs)("footer", { className: "status-bar", children: [(0, jsx_runtime_1.jsx)("span", { children: "RK Flow AI Studio" }), (0, jsx_runtime_1.jsx)("span", { children: "Premiere Connected" }), (0, jsx_runtime_1.jsx)("span", { children: "Gemini Ready" })] }));
-}
-
-
-/***/ },
-
-/***/ 485
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = Topbar;
-const jsx_runtime_1 = __webpack_require__(4848);
-__webpack_require__(6825);
-function Topbar() {
-    return ((0, jsx_runtime_1.jsxs)("header", { className: "topbar", children: [(0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("h1", { children: "Dashboard" }), (0, jsx_runtime_1.jsx)("p", { children: "Welcome back to RK Flow AI Studio" })] }), (0, jsx_runtime_1.jsxs)("div", { className: "topbar-actions", children: [(0, jsx_runtime_1.jsx)("input", { className: "topbar-search", placeholder: "Search anything..." }), (0, jsx_runtime_1.jsx)("button", { className: "topbar-button", children: "AI Copilot" })] })] }));
-}
-
-
-/***/ },
-
-/***/ 45
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const PremiereAPI_1 = __webpack_require__(868);
-class EditActions {
-    async trimSelected() {
-        const ctx = await PremiereAPI_1.premiereAPI.getTimelineContext();
-        return { success: true, selection: ctx?.selection ?? [] };
-    }
-    async razorAtPlayhead() {
-        return { success: true };
-    }
-    async rippleDelete() {
-        return { success: true };
-    }
-    async addTransition(type = "Cross Dissolve") {
-        return { success: true, type };
-    }
-    async addAudioFade() {
-        return { success: true };
-    }
-}
-exports["default"] = EditActions;
-
-
-/***/ },
-
-/***/ 9696
+/***/ 614
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -4903,334 +2912,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const PremiereAPI_1 = __webpack_require__(868);
-const ProjectReader_1 = __importDefault(__webpack_require__(9815));
-const SequenceReader_1 = __importDefault(__webpack_require__(8223));
-const SelectionReader_1 = __importDefault(__webpack_require__(2736));
-const TimelineReader_1 = __importDefault(__webpack_require__(5413));
-class PremiereActions {
-    project = new ProjectReader_1.default();
-    sequence = new SequenceReader_1.default();
-    selection = new SelectionReader_1.default();
-    timeline = new TimelineReader_1.default();
-    async getProject() {
-        return this.project.read();
-    }
-    async getSequence() {
-        return this.sequence.read();
-    }
-    async getSelection() {
-        return this.selection.read();
-    }
-    async getTimeline() {
-        return this.timeline.read();
-    }
-    async center() {
-        return PremiereAPI_1.premiereAPI.center();
-    }
-    async left() {
-        return PremiereAPI_1.premiereAPI.left();
-    }
-    async right() {
-        return PremiereAPI_1.premiereAPI.right();
-    }
-    async top() {
-        return PremiereAPI_1.premiereAPI.top();
-    }
-    async bottom() {
-        return PremiereAPI_1.premiereAPI.bottom();
-    }
-    async position(x, y) {
-        return PremiereAPI_1.premiereAPI.setPosition(x, y);
-    }
+exports["default"] = Workspace;
+const jsx_runtime_1 = __webpack_require__(848);
+const AICommandConsole_1 = __importDefault(__webpack_require__(988));
+function Workspace() {
+    return ((0, jsx_runtime_1.jsx)("div", { style: { padding: 20 }, children: (0, jsx_runtime_1.jsx)("div", { style: { width: 700 }, children: (0, jsx_runtime_1.jsx)(AICommandConsole_1.default, {}) }) }));
 }
-exports["default"] = PremiereActions;
-
-
-/***/ },
-
-/***/ 9815
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const PremiereAPI_1 = __webpack_require__(868);
-class ProjectReader {
-    async read() {
-        return await PremiereAPI_1.premiereAPI.getProjectInfo();
-    }
-}
-exports["default"] = ProjectReader;
-
-
-/***/ },
-
-/***/ 2736
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const PremiereAPI_1 = __webpack_require__(868);
-class SelectionReader {
-    async read() {
-        const ctx = await PremiereAPI_1.premiereAPI.getTimelineContext();
-        return ctx?.selection ?? [];
-    }
-}
-exports["default"] = SelectionReader;
-
-
-/***/ },
-
-/***/ 8223
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const PremiereAPI_1 = __webpack_require__(868);
-class SequenceReader {
-    async read() {
-        return await PremiereAPI_1.premiereAPI.getActiveSequence();
-    }
-}
-exports["default"] = SequenceReader;
-
-
-/***/ },
-
-/***/ 5413
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const PremiereAPI_1 = __webpack_require__(868);
-class TimelineReader {
-    async read() {
-        return await PremiereAPI_1.premiereAPI.getTimelineContext();
-    }
-}
-exports["default"] = TimelineReader;
-
-
-/***/ },
-
-/***/ 868
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.premiereAPI = exports.PremiereAPI = void 0;
-const MotionEngine_1 = __importDefault(__webpack_require__(2318));
-class PremiereAPI {
-    PPRO;
-    motion;
-    constructor() {
-        this.PPRO = window.PPRO;
-        this.motion = new MotionEngine_1.default(this.PPRO);
-    }
-    getPPRO() {
-        return this.PPRO;
-    }
-    async getCurrentProject() {
-        return await this.PPRO.Project.getActiveProject();
-    }
-    async getActiveSequence() {
-        const project = await this.getCurrentProject();
-        return project ? await project.getActiveSequence() : null;
-    }
-    async getTimelineContext() {
-        const project = await this.getCurrentProject();
-        if (!project)
-            return null;
-        const sequence = await this.getActiveSequence();
-        if (!sequence)
-            return null;
-        return {
-            projectName: project.name,
-            sequenceName: sequence.name,
-            videoTracks: await sequence.getVideoTrackCount(),
-            audioTracks: await sequence.getAudioTrackCount(),
-            frameSize: await sequence.getFrameSize(),
-            timebase: await sequence.getTimebase(),
-            selection: await sequence.getSelection()
-        };
-    }
-    async getProjectInfo() {
-        return await this.getTimelineContext();
-    }
-    async center() {
-        return await this.motion.center();
-    }
-    async left() {
-        return await this.motion.left();
-    }
-    async right() {
-        return await this.motion.right();
-    }
-    async top() {
-        return await this.motion.top();
-    }
-    async bottom() {
-        return await this.motion.bottom();
-    }
-    async setPosition(x, y) {
-        return await this.motion.setPosition(x, y);
-    }
-}
-exports.PremiereAPI = PremiereAPI;
-exports.premiereAPI = new PremiereAPI();
-
-
-/***/ },
-
-/***/ 2276
-(__unused_webpack_module, exports, __webpack_require__) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.clipManager = __webpack_unused_export__ = void 0;
-const PremiereAPI_1 = __webpack_require__(868);
-class ClipManager {
-    async getSelectedClips() {
-        const sequence = await PremiereAPI_1.premiereAPI.getActiveSequence();
-        if (!sequence)
-            return [];
-        const selection = await sequence.getSelection();
-        const items = await selection.getItems();
-        const result = [];
-        for (const clip of items) {
-            const start = await clip.getStartTime();
-            const end = await clip.getEndTime();
-            const duration = await clip.getDuration();
-            result.push({
-                name: await clip.getName(),
-                start: start?.seconds ?? 0,
-                end: end?.seconds ?? 0,
-                duration: duration?.seconds ?? 0,
-                track: await clip.getTrackIndex(),
-                mediaType: await clip.getMediaType(),
-                type: await clip.getType(),
-                projectItem: await clip.getProjectItem(),
-                raw: clip
-            });
-        }
-        return result;
-    }
-    async getSelectedClipNames() {
-        const clips = await this.getSelectedClips();
-        return clips.map(c => c.name);
-    }
-    async hasSelection() {
-        return (await this.getSelectedClips()).length > 0;
-    }
-}
-__webpack_unused_export__ = ClipManager;
-exports.clipManager = new ClipManager();
-
-
-/***/ },
-
-/***/ 3763
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.premiereService = __webpack_unused_export__ = void 0;
-class PremiereService {
-    async getTimelineInfo() {
-        const PPRO = window.PPRO;
-        if (!PPRO?.Project) {
-            return {
-                connected: false,
-                projectName: "",
-                sequenceName: "",
-                videoTracks: 0,
-                audioTracks: 0,
-                frameSize: null,
-                timebase: null,
-            };
-        }
-        try {
-            const project = await PPRO.Project.getActiveProject();
-            if (!project) {
-                return {
-                    connected: true,
-                    projectName: "",
-                    sequenceName: "",
-                    videoTracks: 0,
-                    audioTracks: 0,
-                    frameSize: null,
-                    timebase: null,
-                };
-            }
-            const sequence = await project.getActiveSequence();
-            if (!sequence) {
-                return {
-                    connected: true,
-                    projectName: project.name ?? "",
-                    sequenceName: "",
-                    videoTracks: 0,
-                    audioTracks: 0,
-                    frameSize: null,
-                    timebase: null,
-                };
-            }
-            return {
-                connected: true,
-                projectName: project.name ?? "",
-                sequenceName: sequence.name ?? "",
-                videoTracks: await sequence.getVideoTrackCount(),
-                audioTracks: await sequence.getAudioTrackCount(),
-                frameSize: await sequence.getFrameSize(),
-                timebase: await sequence.getTimebase(),
-            };
-        }
-        catch (e) {
-            console.error(e);
-            return {
-                connected: false,
-                projectName: "",
-                sequenceName: "",
-                videoTracks: 0,
-                audioTracks: 0,
-                frameSize: null,
-                timebase: null,
-            };
-        }
-    }
-}
-__webpack_unused_export__ = PremiereService;
-exports.premiereService = new PremiereService();
-
-
-/***/ },
-
-/***/ 7290
-(__unused_webpack_module, exports) {
-
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-exports.inspector = __webpack_unused_export__ = void 0;
-class UXPInspector {
-    async inspectEverything() {
-        console.clear();
-        const PPRO = window.PPRO;
-        const project = await PPRO.Project.getActiveProject();
-        const sequence = await project.getActiveSequence();
-        const editor = PPRO.SequenceEditor.getEditor(sequence);
-        const desc = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(editor), "createAddItemAction");
-        console.log("Descriptor:", desc);
-        console.log("Extensible:", Object.isExtensible(editor));
-    }
-}
-__webpack_unused_export__ = UXPInspector;
-exports.inspector = new UXPInspector();
 
 
 /***/ }
@@ -5249,7 +2936,7 @@ exports.inspector = new UXPInspector();
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		const module = __webpack_module_cache__[moduleId] = {
-/******/ 			id: moduleId,
+/******/ 			// no module.id needed
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
@@ -5262,72 +2949,11 @@ exports.inspector = new UXPInspector();
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			const getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter/value functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			if(Array.isArray(definition)) {
-/******/ 				var i = 0;
-/******/ 				while(i < definition.length) {
-/******/ 					var key = definition[i++];
-/******/ 					var binding = definition[i++];
-/******/ 					if(!__webpack_require__.o(exports, key)) {
-/******/ 						if(binding === 0) {
-/******/ 							Object.defineProperty(exports, key, { enumerable: true, value: definition[i++] });
-/******/ 						} else {
-/******/ 							Object.defineProperty(exports, key, { enumerable: true, get: binding });
-/******/ 						}
-/******/ 					} else if(binding === 0) { i++; }
-/******/ 				}
-/******/ 			} else {
-/******/ 				for(var key in definition) {
-/******/ 					if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 						Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 					}
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/nonce */
-/******/ 	(() => {
-/******/ 		__webpack_require__.nc = undefined;
-/******/ 	})();
-/******/ 	
-/************************************************************************/
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	let __webpack_exports__ = __webpack_require__(3900);
+/******/ 	let __webpack_exports__ = __webpack_require__(900);
 /******/ 	
 /******/ })()
 ;

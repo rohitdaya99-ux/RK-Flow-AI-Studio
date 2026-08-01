@@ -1,0 +1,17 @@
+{
+  "actions": [
+    {
+      "type": "create_sequence",
+      "parameters": {
+        "sequence_name": "Wedding Teaser"
+      }
+    },
+    {
+      "type": "import_bin_clips_to_sequence",
+      "parameters": {
+        "bin_name": "Baby Shower",
+        "target_sequence": "Wedding Teaser"
+      }
+    }
+  ]
+}

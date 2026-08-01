@@ -1,55 +1,52 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { SYSTEM_PROMPT } from "../ai/prompts/SystemPrompt";
+import { buildWeddingPrompt } from "./promptBuilder";
 
-const GEMINI_API_KEY = "AQ.Ab8RN6JXg6ceuewVMR6D3PzEnOPfU8CBnGkL0jsvwMJTAhqZ2g";
+const API_KEY =
+(window as any).__RKFLOW_GEMINI_API_KEY__ ||
+localStorage.getItem("rkflow.gemini.apiKey") ||
+"";
 
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(API_KEY);
 
-const model = genAI.getGenerativeModel({
-  model: "gemini-3.6-flash"
-});
+export async function generateWeddingPlan(userPrompt = "") {
 
-export interface AIChatRequest {
-  prompt: string;
-  context?: string;
-}
-
-export interface AIChatResponse {
-  success: boolean;
-  text: string;
-  error?: string;
-}
-
-export async function chatWithGemini(
-  request: AIChatRequest
-): Promise<AIChatResponse> {
-
-  try {
-
-    const prompt = [
-      SYSTEM_PROMPT,
-      request.context ?? "",
-      request.prompt
-    ]
-      .filter(Boolean)
-      .join("\n\n");
-
-    const result = await model.generateContent(prompt);
-
+  if (!API_KEY) {
     return {
-      success: true,
-      text: result.response.text()
+      success:false,
+      message:"Gemini API Key Missing"
+    };
+  }
+
+  const model = genAI.getGenerativeModel({
+    model:"gemini-3.6-flash"
+  });
+
+  const prompt =
+    await buildWeddingPrompt() +
+    "\n\nUSER REQUEST:\n" +
+    userPrompt;
+
+  try{
+
+    const response =
+      await model.generateContent(prompt);
+
+    return{
+
+      success:true,
+
+      text:response.response.text()
+
     };
 
-  } catch (error) {
+  }catch(e:any){
 
-    return {
-      success: false,
-      text: "",
-      error:
-        error instanceof Error
-          ? error.message
-          : String(error)
+    return{
+
+      success:false,
+
+      message:e.message
+
     };
 
   }

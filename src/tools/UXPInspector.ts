@@ -1,29 +1,36 @@
 export class UXPInspector {
 
-  async inspectEverything() {
+    async inspectEverything() {
+        return this.inspectSequenceEditor();
+    }
 
-    console.clear();
+    async inspectSequenceEditor() {
+        const PPRO = (window as any).PPRO;
+        const p = PPRO.SequenceEditor.prototype;
 
-    const PPRO = (window as any).PPRO;
+        const methods = [
+            "createAddItemAction",
+            "createAddItemsAction",
+            "createInsertProjectItemAction",
+            "createOverwriteItemAction",
+            "createCloneTrackItemAction",
+            "createRemoveItemsAction"
+        ];
 
-    const project = await PPRO.Project.getActiveProject();
-    const sequence = await project.getActiveSequence();
-    const editor = PPRO.SequenceEditor.getEditor(sequence);
+        for (const m of methods) {
+            console.log("\n======================");
+            console.log(m);
 
-    const desc = Object.getOwnPropertyDescriptor(
-      Object.getPrototypeOf(editor),
-      "createAddItemAction"
-    );
-
-    console.log("Descriptor:", desc);
-
-    console.log(
-      "Extensible:",
-      Object.isExtensible(editor)
-    );
-
-  }
-
+            try {
+                console.log(p[m].toString());
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    }
 }
 
 export const inspector = new UXPInspector();
+
+(window as any).inspectSequenceEditor = () => inspector.inspectSequenceEditor();
+(window as any).inspectEverything = () => inspector.inspectEverything();
