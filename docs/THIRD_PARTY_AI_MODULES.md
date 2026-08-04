@@ -15,14 +15,14 @@ weights, redistribution terms, and notices are recorded here.
 
 | Module | Version/commit | Code license | Model/weight license | Commercial status | Delivery | Attribution/fallback |
 | --- | --- | --- | --- | --- | --- | --- |
-| FastAPI | Not selected | MIT | N/A | Permissive | Python sidecar dependency | Include MIT notice; fallback is no sidecar/metadata-only analysis. |
-| Pydantic | Not selected | MIT | N/A | Permissive | Python sidecar dependency | Include MIT notice; fallback is manual JSON validation disabled. |
-| Uvicorn | Not selected | BSD-3-Clause | N/A | Permissive | Python sidecar dependency | Include BSD notice; fallback is no sidecar server. |
+| FastAPI | `0.115.0` | MIT | N/A | Permissive | Python sidecar dependency | Include MIT notice; fallback is no sidecar/metadata-only extraction. |
+| Pydantic | `2.9.2` | MIT | N/A | Permissive | Python sidecar dependency | Include MIT notice; fallback is manual JSON validation disabled. |
+| Uvicorn | `0.30.6` | BSD-3-Clause | N/A | Permissive | Python sidecar dependency | Include BSD notice; fallback is no sidecar server. |
 | NumPy | Not selected | BSD-3-Clause | N/A | Permissive | Python sidecar dependency | Include BSD notice; fallback is reduced pure-Python metrics. |
 | OpenCV | Not selected | Apache-2.0 | N/A | Permissive code license | Python sidecar dependency | Include Apache notice; use measured OpenCV signals only. |
 | MediaPipe Tasks | Not selected | Apache-2.0 | Verify task-model package before pinning | Conditional pending model review | Runtime model download or bundled model, decision pending | Include notices and user consent for its telemetry; fallback is face detection unavailable. |
 | librosa | Not selected | ISC | N/A | Permissive | Python sidecar dependency | Include ISC notice; fallback is no local music analysis. |
-| FFmpeg/ffprobe | User-installed initially | LGPL/GPL depends on build configuration | N/A | Conditional | External executable, not bundled initially | Do not distribute until codec/build license review. Fallback is no media extraction. |
+| FFmpeg/ffprobe | User-installed initially | LGPL/GPL depends on build configuration | N/A | Conditional | External executables, not bundled in this repository | Do not distribute until codec/build license review. Fallback is no frame/audio extraction. |
 
 ## Explicitly Blocked Candidates
 
@@ -37,11 +37,15 @@ weights, redistribution terms, and notices are recorded here.
 ## Policy Requirements
 
 - Sidecar binds to localhost only and requires a random per-session token.
+- The current implementation binds specifically to `127.0.0.1` and rejects non-localhost health states.
 - No cloud frame/audio upload without an explicit user opt-in per project.
+- Phase 4 extraction accepts only user-approved local filesystem roots collected from verified Premiere media paths or explicit local-song paths. Remote URLs and social links remain unavailable/reference-only.
+- The Phase 4 sidecar uses a dedicated RK Flow cache root under the local temp directory unless `RKFLOW_CACHE_ROOT` is set, tracks cache size, applies TTL cleanup, and refuses deletion outside that cache root.
 - Face references and embeddings remain local, are deletable, and require user
   confirmation before bride/groom labels are used.
 - Social links are metadata/style references only. RK Flow must not download
   copyrighted Instagram or YouTube media/audio.
+- FFmpeg/ffprobe are invoked only as local subprocesses. This repository does not bundle binaries and does not download media from cloud/social platforms on the user's behalf.
 - Every installed module must be updated with its exact version or commit, source
   URL, notice text, model download source, cache location, and commercial-use
   determination before installation.

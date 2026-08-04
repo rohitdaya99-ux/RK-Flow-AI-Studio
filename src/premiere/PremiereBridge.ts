@@ -4,7 +4,10 @@ import {
   CommandResult
 } from "../types/Command";
 import {
+  TimelineCapabilityNote,
   TimelineClip,
+  TimelineClipMediaType,
+  TimelineFrameSize,
   TimelineState,
   TimelineTrack,
   TimelineTrackType
@@ -24,11 +27,13 @@ interface PremiereSequence {
   getAudioTrackCount: () => Promise<number>;
   getAudioTrack?: (index: number) => Promise<any>;
   getEndTime: () => Promise<TickTime>;
+  getFrameSize?: () => Promise<{ width?: number; height?: number } | null>;
   getInPoint: () => Promise<TickTime>;
   getOutPoint: () => Promise<TickTime>;
   getPlayerPosition: () => Promise<TickTime>;
   getSelection?: () => Promise<any>;
   getSettings: () => Promise<SequenceSettings>;
+  getTimebase?: () => Promise<number>;
   getVideoTrackCount: () => Promise<number>;
   getVideoTrack?: (index: number) => Promise<any>;
 }
@@ -96,6 +101,7 @@ export class PremiereBridge {
       return null;
     }
 
+    const capabilityNotes: TimelineCapabilityNote[] = [];
     const [
       videoTrackCount,
       audioTrackCount,
@@ -104,6 +110,8 @@ export class PremiereBridge {
       outPoint,
       playhead,
       settings,
+      rawTimebase,
+      frameSize,
       videoTracks,
       audioTracks
     ] = await Promise.all([
@@ -114,20 +122,43 @@ export class PremiereBridge {
       sequence.getOutPoint(),
       sequence.getPlayerPosition(),
       sequence.getSettings(),
+      tryPremiereValue(() => sequence.getTimebase?.(), null as number | null),
+      readFrameSize(sequence),
       this.readTracks(sequence, "video"),
       this.readTracks(sequence, "audio")
     ]);
 
+    const timebase = typeof rawTimebase === "number" && Number.isFinite(rawTimebase) ? rawTimebase : null;
+
+    if (timebase === null) {
+      capabilityNotes.push({
+        field: "timebase",
+        source: "unavailable",
+        reason: "Sequence.getTimebase() was not exposed by this Premiere host session."
+      });
+    }
+
+    if (frameSize === null) {
+      capabilityNotes.push({
+        field: "frameSize",
+        source: "unavailable",
+        reason: "Sequence.getFrameSize() was not exposed by this Premiere host session."
+      });
+    }
+
     return {
       sequenceName: normalizeTextValue(sequence.name, ""),
       fps: await getFrameRate(settings),
+      timebase,
+      frameSize,
       duration: duration.seconds,
       playhead: playhead.seconds,
       inPoint: inPoint.seconds,
       outPoint: outPoint.seconds,
       videoTracks: videoTracks.length > 0 ? videoTracks : createTracks("video", videoTrackCount),
       audioTracks: audioTracks.length > 0 ? audioTracks : createTracks("audio", audioTrackCount),
-      markers: []
+      markers: [],
+      capabilityNotes
     };
   }
 
@@ -531,11 +562,19 @@ export class PremiereBridge {
       }
 
       const track = await trackReader(index);
-      const clips = await this.readTrackClips(track);
+      const clips = await this.readTrackClips(track, type);
       tracks.push({
         id: `${type}-${index + 1}`,
         name: `${type === "video" ? "Video" : "Audio"} ${index + 1}`,
         type,
+        locked: null,
+        capabilityNotes: [
+          {
+            field: "locked",
+            source: "unavailable",
+            reason: "The active Premiere runtime does not expose a verified track locked-state reader in this workspace."
+          }
+        ],
         clips
       });
     }
@@ -543,7 +582,7 @@ export class PremiereBridge {
     return tracks;
   }
 
-  private async readTrackClips(track: any): Promise<TimelineClip[]> {
+  private async readTrackClips(track: any, trackType: TimelineTrackType): Promise<TimelineClip[]> {
     if (track?.getTrackItems === undefined) {
       return [];
     }
@@ -554,23 +593,117 @@ export class PremiereBridge {
     return Promise.all(
       (items ?? []).map(async (clip: any, index: number) => {
         const projectItem = await tryPremiereValue(() => clip.getProjectItem?.(), null);
+        const mediaPath = await this.readMediaPath(clip);
+        const projectItemId = (await getProjectItemId(projectItem)) ?? null;
+        const projectItemNodeId = getProjectItemNodeId(projectItem);
+        const rawItemType = await tryPremiereValue(() => clip.getType?.(), null);
+        const itemType = normalizeOptionalText(rawItemType);
+        const rawMediaType = normalizeOptionalText(await tryPremiereValue(() => clip.getMediaType?.(), null));
+        const sourceIn = readTickSeconds(await tryPremiereValue(() => clip.getInPoint?.(), null));
+        const sourceOut = readTickSeconds(await tryPremiereValue(() => clip.getOutPoint?.(), null));
+        const speed = await tryPremiereValue(() => clip.getSpeed?.(), null as number | null);
+        const disabled = await tryPremiereValue(() => clip.isDisabled?.(), null as boolean | null);
+        const sourceFrameSize = await readFrameSize(projectItem);
+        const mediaTypeResolution = resolveClipMediaType(trackType, rawMediaType, itemType, mediaPath);
+        const capabilityNotes: TimelineCapabilityNote[] = [...mediaTypeResolution.notes];
+
+        if (projectItemId === null) {
+          capabilityNotes.push({
+            field: "projectItemId",
+            source: "unavailable",
+            reason: "TrackItem.getProjectItem().getId() did not return a stable project-item identifier."
+          });
+        }
+
+        if (mediaPath === null) {
+          capabilityNotes.push({
+            field: "mediaPath",
+            source: "unavailable",
+            reason: "This track item did not expose a media file path through getMediaFilePath()."
+          });
+        }
+
+        if (sourceIn === null || sourceOut === null) {
+          capabilityNotes.push({
+            field: "sourceInOut",
+            source: "unavailable",
+            reason: "TrackItem.getInPoint()/getOutPoint() were not both available for this clip."
+          });
+        }
+
+        if (speed === null) {
+          capabilityNotes.push({
+            field: "speed",
+            source: "unavailable",
+            reason: "TrackItem.getSpeed() did not return a readable value in this host session."
+          });
+        }
+
+        if (disabled === null) {
+          capabilityNotes.push({
+            field: "disabled",
+            source: "unavailable",
+            reason: "TrackItem.isDisabled() did not return a readable value in this host session."
+          });
+        }
+
+        if (sourceFrameSize === null) {
+          capabilityNotes.push({
+            field: "sourceFrameSize",
+            source: "unavailable",
+            reason: "The source project item did not expose a frame size in this host session."
+          });
+        }
+
+        capabilityNotes.push({
+          field: "linkedClipIds",
+          source: "unavailable",
+          reason: "No verified linked audio/video relationship reader is exposed by the active Premiere runtime in this workspace."
+        });
+        capabilityNotes.push({
+          field: "proxyState",
+          source: "unavailable",
+          reason: "No verified proxy-state reader is exposed by the active Premiere runtime in this workspace."
+        });
 
         return {
-          id: await tryPremiereValue(() => clip.getName?.(), `clip-${index}`),
+          id: buildStableTimelineClipId({
+            name: await tryPremiereValue(() => clip.getName?.(), `clip-${index}`),
+            trackType,
+            trackIndex: await tryPremiereValue(() => clip.getTrackIndex?.(), 0),
+            start: (await tryPremiereValue(() => clip.getStartTime?.(), { seconds: 0 })).seconds ?? 0,
+            end: (await tryPremiereValue(() => clip.getEndTime?.(), { seconds: 0 })).seconds ?? 0,
+            sourceIn,
+            sourceOut,
+            projectItemId,
+            projectItemNodeId,
+            mediaPath
+          }),
           name: await tryPremiereValue(() => clip.getName?.(), `Clip ${index + 1}`),
           start: (await tryPremiereValue(() => clip.getStartTime?.(), { seconds: 0 })).seconds ?? 0,
           end: (await tryPremiereValue(() => clip.getEndTime?.(), { seconds: 0 })).seconds ?? 0,
           duration: (await tryPremiereValue(() => clip.getDuration?.(), { seconds: 0 })).seconds ?? 0,
           trackIndex: await tryPremiereValue(() => clip.getTrackIndex?.(), 0),
           selected: await tryPremiereValue(() => clip.getIsSelected?.(), false),
-          mediaPath: await this.readMediaPath(clip),
-          projectItemId: await getProjectItemId(projectItem)
+          mediaPath,
+          projectItemId,
+          projectItemNodeId,
+          mediaType: mediaTypeResolution.mediaType,
+          itemType,
+          sourceIn,
+          sourceOut,
+          speed,
+          disabled,
+          linkedClipIds: null,
+          proxyState: null,
+          sourceFrameSize,
+          capabilityNotes
         };
       })
     );
   }
 
-  private async readMediaPath(clip: any): Promise<string | undefined> {
+  private async readMediaPath(clip: any): Promise<string | null> {
     const projectItem = await tryPremiereValue(() => clip.getProjectItem?.(), null);
     const media = await tryPremiereValue(() => projectItem?.getMedia?.(), null);
 
@@ -582,7 +715,7 @@ export class PremiereBridge {
       return projectItem.getMediaFilePath();
     }
 
-    return undefined;
+    return null;
   }
 
   private async findClipById(clipId: string): Promise<any | null> {
@@ -995,6 +1128,14 @@ function createTracks(type: TimelineTrackType, count: number): TimelineTrack[] {
     id: `${type}-${index + 1}`,
     name: `${type === "video" ? "Video" : "Audio"} ${index + 1}`,
     type,
+    locked: null,
+    capabilityNotes: [
+      {
+        field: "locked",
+        source: "unavailable",
+        reason: "The active Premiere runtime does not expose a verified track locked-state reader in this workspace."
+      }
+    ],
     clips: []
   }));
 }
@@ -1097,4 +1238,127 @@ function projectHint(available: boolean): string {
   return available
     ? "Premiere transaction APIs are available, but this action requires a confirmed writable transaction contract."
     : "No active writable Premiere project/transaction runtime is attached.";
+}
+
+function normalizeOptionalText(value: unknown): string | null {
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  return null;
+}
+
+function readTickSeconds(value: unknown): number | null {
+  if (typeof value === "object" && value !== null && typeof (value as TickTime).seconds === "number") {
+    return (value as TickTime).seconds;
+  }
+
+  return null;
+}
+
+async function readFrameSize(source: { getFrameSize?: () => Promise<{ width?: number; height?: number } | null> } | null): Promise<TimelineFrameSize | null> {
+  if (!source?.getFrameSize) {
+    return null;
+  }
+
+  try {
+    const value = await source.getFrameSize();
+    const width = typeof value?.width === "number" && Number.isFinite(value.width) ? value.width : null;
+    const height = typeof value?.height === "number" && Number.isFinite(value.height) ? value.height : null;
+    return width !== null && height !== null ? { width, height } : null;
+  } catch {
+    return null;
+  }
+}
+
+function resolveClipMediaType(
+  trackType: TimelineTrackType,
+  rawMediaType: string | null,
+  itemType: string | null,
+  mediaPath: string | null
+): {
+  mediaType: TimelineClipMediaType;
+  notes: TimelineCapabilityNote[];
+} {
+  const notes: TimelineCapabilityNote[] = [];
+  const mediaTypeText = rawMediaType?.toLowerCase() ?? "";
+  const itemTypeText = itemType?.toLowerCase() ?? "";
+
+  if (trackType === "audio" || /audio/.test(mediaTypeText)) {
+    return { mediaType: "audio", notes };
+  }
+
+  if (/(still|image|photo)/.test(itemTypeText)) {
+    return { mediaType: "still", notes };
+  }
+
+  if (isStillMediaPath(mediaPath)) {
+    notes.push({
+      field: "mediaType",
+      source: "metadata-fallback",
+      reason: "Still-image detection used the media file extension because no verified host item-type flag was exposed."
+    });
+    return { mediaType: "still", notes };
+  }
+
+  if (trackType === "video" || /video/.test(mediaTypeText)) {
+    return { mediaType: "video", notes };
+  }
+
+  notes.push({
+    field: "mediaType",
+    source: "unavailable",
+    reason: "The active Premiere runtime did not expose a readable clip media type for this track item."
+  });
+  return { mediaType: "unknown", notes };
+}
+
+function isStillMediaPath(mediaPath: string | null): boolean {
+  return mediaPath !== null && /\.(jpg|jpeg|png|gif|bmp|tif|tiff|webp|heic)$/i.test(mediaPath);
+}
+
+function getProjectItemNodeId(item: any): string | null {
+  const nodeId = item?.nodeId;
+  if (typeof nodeId === "string" && nodeId.length > 0) {
+    return nodeId;
+  }
+  if (typeof nodeId === "number" && Number.isFinite(nodeId)) {
+    return String(nodeId);
+  }
+  return null;
+}
+
+function buildStableTimelineClipId(input: {
+  name: string;
+  trackType: TimelineTrackType;
+  trackIndex: number;
+  start: number;
+  end: number;
+  sourceIn: number | null;
+  sourceOut: number | null;
+  projectItemId: string | null;
+  projectItemNodeId: string | null;
+  mediaPath: string | null;
+}): string {
+  return [
+    input.trackType,
+    input.trackIndex,
+    formatStableNumber(input.start),
+    formatStableNumber(input.end),
+    formatStableNumber(input.sourceIn),
+    formatStableNumber(input.sourceOut),
+    input.projectItemId ?? "project-item:unknown",
+    input.projectItemNodeId ?? "node:unknown",
+    input.mediaPath ?? "path:unknown",
+    input.name
+  ].join("::");
+}
+
+function formatStableNumber(value: number | null): string {
+  return typeof value === "number" && Number.isFinite(value) ? value.toFixed(3) : "unknown";
 }

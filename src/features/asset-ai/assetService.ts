@@ -69,34 +69,45 @@ async function readProjectAssets(): Promise<AssetRecord[]> {
 async function readSelectedClipAssets(): Promise<AssetRecord[]> {
   const clips = await clipManager.getSelectedClips();
 
-  return clips.map((clip, index) => ({
-    id: assetId(clip.projectItem?.nodeId ?? clip.mediaType ?? clip.name, clip.projectItem?.getMediaPath ? null : `${index}`),
-    name: clip.name,
-    type: clip.mediaType || clip.type || "clip",
-    mediaPath: null,
-    source: "selection",
-    clipId: `${clip.name}::${clip.track}::${clip.start.toFixed(3)}::${index}`,
-    tags: [],
-    duplicateGroup: null,
-    metadata: {
-      resolution: null,
-      codec: null,
-      durationSeconds: clip.duration,
-      frameRate: null
-    }
+  return Promise.all(clips.map(async (clip, index) => {
+    const projectItemId = await readString(() => clip.projectItem?.getId?.());
+    const nodeId = readNodeId(clip.projectItem);
+    return {
+      id: assetId(projectItemId ?? nodeId ?? clip.mediaType ?? clip.name, `${index}`),
+      projectItemId,
+      nodeId,
+      parentId: null,
+      ancestorIds: [],
+      name: clip.name,
+      type: clip.mediaType || clip.type || "clip",
+      mediaPath: await readString(() => clip.projectItem?.getMediaPath?.()),
+      source: "selection" as const,
+      clipId: `${clip.name}::${clip.track}::${clip.start.toFixed(3)}::${index}`,
+      tags: [],
+      duplicateGroup: null,
+      metadata: {
+        resolution: null,
+        codec: null,
+        durationSeconds: clip.duration,
+        frameRate: null
+      }
+    };
   }));
 }
 
-async function collectProjectItems(rootItem: any): Promise<AssetRecord[]> {
+async function collectProjectItems(
+  rootItem: any,
+  parentId: string | null = null,
+  ancestorIds: string[] = []
+): Promise<AssetRecord[]> {
   if (!rootItem) {
     return [];
   }
 
   const items: AssetRecord[] = [];
-  const children = rootItem.children;
-  const count = typeof children?.numItems === "number" ? children.numItems : 0;
+  const children = await readProjectChildren(rootItem);
 
-  for (let index = 0; index < count; index += 1) {
+  for (let index = 0; index < children.length; index += 1) {
     const item = children[index];
     if (!item) {
       continue;
@@ -104,13 +115,19 @@ async function collectProjectItems(rootItem: any): Promise<AssetRecord[]> {
 
     const type = await readItemType(item);
     const mediaPath = await readString(() => item.getMediaPath?.());
+    const projectItemId = await readString(() => item.getId?.());
     const nodeId = readPlain(item.nodeId);
     const name = String(readPlain(item.name) ?? `Item ${index + 1}`);
     const metadata = await readMetadata(item);
+    const assetKey = assetId(projectItemId ?? nodeId ?? name, mediaPath);
 
     if (type !== "bin" && type !== "root") {
       items.push({
-        id: assetId(nodeId || name, mediaPath),
+        id: assetKey,
+        projectItemId,
+        nodeId: typeof nodeId === "string" ? nodeId : typeof nodeId === "number" ? String(nodeId) : null,
+        parentId,
+        ancestorIds,
         name,
         type,
         mediaPath,
@@ -122,8 +139,23 @@ async function collectProjectItems(rootItem: any): Promise<AssetRecord[]> {
       });
     }
 
-    if (item.children || item.type === 2) {
-      items.push(...(await collectProjectItems(item)));
+    if (type === "bin" || type === "root" || typeof item?.getItems === "function" || item?.children) {
+      items.push({
+        id: assetKey,
+        projectItemId,
+        nodeId: typeof nodeId === "string" ? nodeId : typeof nodeId === "number" ? String(nodeId) : null,
+        parentId,
+        ancestorIds,
+        name,
+        type,
+        mediaPath,
+        source: "project",
+        clipId: null,
+        tags: [],
+        duplicateGroup: null,
+        metadata
+      });
+      items.push(...(await collectProjectItems(item, assetKey, [...ancestorIds, assetKey])));
     }
   }
 
@@ -298,6 +330,26 @@ function assetId(primary: unknown, secondary: unknown) {
   return String(primary ?? secondary ?? `asset-${Math.random().toString(16).slice(2)}`);
 }
 
+async function readProjectChildren(item: any): Promise<any[]> {
+  const getItems = item?.getItems;
+  if (typeof getItems === "function") {
+    try {
+      const values = await getItems.call(item);
+      return Array.isArray(values) ? values : [];
+    } catch {
+      return [];
+    }
+  }
+
+  const children = item?.children;
+  const count = typeof children?.numItems === "number" ? children.numItems : 0;
+  const values: any[] = [];
+  for (let index = 0; index < count; index += 1) {
+    values.push(children[index]);
+  }
+  return values;
+}
+
 async function readItemType(item: any) {
   const type = readPlain(item.type);
 
@@ -310,6 +362,11 @@ async function readItemType(item: any) {
 
 function readPlain(value: unknown) {
   return typeof value === "string" || typeof value === "number" ? value : null;
+}
+
+function readNodeId(item: any): string | null {
+  const value = readPlain(item?.nodeId);
+  return value === null ? null : String(value);
 }
 
 async function readPlainAsync(method?: (() => Promise<unknown>) | (() => unknown)) {

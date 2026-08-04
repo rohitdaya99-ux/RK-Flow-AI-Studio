@@ -7,6 +7,10 @@ export interface AssetMetadata {
 
 export interface AssetRecord {
   id: string;
+  projectItemId: string | null;
+  nodeId: string | null;
+  parentId: string | null;
+  ancestorIds: string[];
   name: string;
   type: string;
   mediaPath: string | null;

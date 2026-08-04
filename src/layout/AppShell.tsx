@@ -7,6 +7,7 @@ import MotionAIComponent from "../components/MotionAIComponent";
 import AudioAIComponent from "../components/AudioAIComponent";
 import CaptionAIComponent from "../components/CaptionAIComponent";
 import { MemoryEngine } from "../core/brain";
+import AutoReelScreen from "../features/auto-reel";
 import AIDirectorScreen from "../features/ai-director";
 import AnalyticsScreen from "../features/analytics";
 import AssetAIScreen from "../features/asset-ai";
@@ -60,6 +61,14 @@ import Sparkles from "lucide-react/dist/esm/icons/sparkles.mjs";
 import TimerReset from "lucide-react/dist/esm/icons/timer-reset.mjs";
 import Users from "lucide-react/dist/esm/icons/users.mjs";
 import Waves from "lucide-react/dist/esm/icons/waves-horizontal.mjs";
+import {
+  formatModuleNavLabel,
+  NAV_BADGE_ROW_STYLE,
+  NAV_LABEL_STACK_STYLE,
+  NAV_TITLE_STYLE,
+  WORKSPACE_CONTENT_COLUMN_STYLE,
+  WORKSPACE_SCROLL_REGION_STYLE
+} from "./appShellLayout";
 
 type ModulePhase = 1 | 2 | 3 | 4;
 type ModuleId =
@@ -72,6 +81,7 @@ type ModuleId =
   | "music-ai"
   | "timeline-ai"
   | "auto-edit"
+  | "auto-reel"
   | "prompt-reel"
   | "ai-director"
   | "reference-ai"
@@ -114,6 +124,7 @@ const MODULE_GROUPS: ModuleGroup[] = [
     items: [
       { id: "timeline-ai", title: "Timeline AI", phase: 2, icon: <Clapperboard size={16} />, description: "Timeline health, cleanup, and execution." },
       { id: "auto-edit", title: "Auto Edit", phase: 3, icon: <Scissors size={16} />, description: "One-click reels, highlights, and teasers." },
+      { id: "auto-reel", title: "Auto Reel", phase: 2, icon: <TimerReset size={16} />, description: "Project-to-plan setup workflow for flagship reel generation." },
       { id: "prompt-reel", title: "Prompt Reel", phase: 3, icon: <Sparkles size={16} />, description: "Free-text reel generation from Premiere clips." },
       { id: "voice-chat", title: "Voice / Chat", phase: 3, icon: <Mic2 size={16} />, description: "Natural-language edit commands." }
     ]
@@ -246,6 +257,7 @@ export default function AppShell() {
       "clip-intelligence": ["Sort by AI rating", "Show duplicate clips", "Explain low scores"],
       "music-ai": ["Show me the chorus sections", "Estimate BPM", "Overlay beat markers"],
       "timeline-ai": ["Score timeline health", "Find gaps", "Suggest cleanup report"],
+      "auto-reel": ["Prepare a 60-second wedding highlight", "Scan selected clips", "Attach a reference reel URL"],
       settings: ["Test Gemini connection", "Explain model setup", "Show active provider"]
     };
 
@@ -308,7 +320,7 @@ export default function AppShell() {
               minHeight: 0
             }}
           >
-            <div style={{ flex: "1 1 auto", minWidth: 0, minHeight: 0, display: "flex", flexDirection: "column", gap: spacing.lg }}>
+            <div style={WORKSPACE_CONTENT_COLUMN_STYLE}>
               <Card style={{ background: colors.panel, boxShadow: shadows.raised }}>
                 <div style={{ display: "flex", justifyContent: "space-between", gap: spacing.md, flexWrap: "wrap", alignItems: "center" }}>
                   <div>
@@ -330,7 +342,7 @@ export default function AppShell() {
                 </div>
               </Card>
 
-              <ScrollArea style={{ minHeight: 0 }}>
+              <ScrollArea style={WORKSPACE_SCROLL_REGION_STYLE}>
                 <ErrorBoundary resetKey={activeModule}>
                   <WorkspacePanel moduleId={activeModule} timelineInfo={timelineInfo} />
                 </ErrorBoundary>
@@ -463,13 +475,15 @@ const LeftNav = memo(function LeftNav({
               )}
               {group.items.map((item) => {
                 const active = item.id === activeModule;
+                const navLabel = formatModuleNavLabel(item.title, item.phase);
 
                 return (
                   <Button
                     key={item.id}
                     variant={active ? "secondary" : "ghost"}
                     onClick={() => onSelectModule(item.id)}
-                    title={item.title}
+                    title={navLabel}
+                    aria-label={navLabel}
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -502,9 +516,9 @@ const LeftNav = memo(function LeftNav({
                       {item.icon}
                     </span>
                     {!navCollapsed && (
-                      <span style={{ textAlign: "left", minWidth: 0, display: "flex", flexDirection: "column", gap: spacing.xs }}>
-                        <span style={{ display: "block", fontWeight: 700 }}>{item.title}</span>
-                        <span style={{ display: "inline-flex" }}>
+                      <span style={NAV_LABEL_STACK_STYLE}>
+                        <span style={NAV_TITLE_STYLE}>{item.title}</span>
+                        <span style={NAV_BADGE_ROW_STYLE}>
                           <StatusChip label={`Phase ${item.phase}`} tone={active ? "warning" : "neutral"} />
                         </span>
                       </span>
@@ -577,6 +591,10 @@ function WorkspacePanel({
 
   if (moduleId === "auto-edit") {
     return <AutoEditComponent />;
+  }
+
+  if (moduleId === "auto-reel") {
+    return <AutoReelScreen />;
   }
 
   if (moduleId === "prompt-reel") {

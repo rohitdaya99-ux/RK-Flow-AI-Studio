@@ -274,7 +274,7 @@ function normalizeClip(clip: AutoEditSourceClip): AutoEditSourceClip {
 function normalizeTimelineClip(clip: TimelineClip): AutoEditSourceClip {
   return {
     id: clip.id,
-    path: clip.mediaPath,
+    path: clip.mediaPath ?? undefined,
     start: clip.start,
     end: clip.end,
     duration: clip.duration,

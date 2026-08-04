@@ -5673,43 +5673,56 @@ async function readProjectAssets() {
 }
 async function readSelectedClipAssets() {
     const clips = await ClipManager_1.clipManager.getSelectedClips();
-    return clips.map((clip, index) => ({
-        id: assetId(clip.projectItem?.nodeId ?? clip.mediaType ?? clip.name, clip.projectItem?.getMediaPath ? null : `${index}`),
-        name: clip.name,
-        type: clip.mediaType || clip.type || "clip",
-        mediaPath: null,
-        source: "selection",
-        clipId: `${clip.name}::${clip.track}::${clip.start.toFixed(3)}::${index}`,
-        tags: [],
-        duplicateGroup: null,
-        metadata: {
-            resolution: null,
-            codec: null,
-            durationSeconds: clip.duration,
-            frameRate: null
-        }
+    return Promise.all(clips.map(async (clip, index) => {
+        const projectItemId = await readString(() => clip.projectItem?.getId?.());
+        const nodeId = readNodeId(clip.projectItem);
+        return {
+            id: assetId(projectItemId ?? nodeId ?? clip.mediaType ?? clip.name, `${index}`),
+            projectItemId,
+            nodeId,
+            parentId: null,
+            ancestorIds: [],
+            name: clip.name,
+            type: clip.mediaType || clip.type || "clip",
+            mediaPath: await readString(() => clip.projectItem?.getMediaPath?.()),
+            source: "selection",
+            clipId: `${clip.name}::${clip.track}::${clip.start.toFixed(3)}::${index}`,
+            tags: [],
+            duplicateGroup: null,
+            metadata: {
+                resolution: null,
+                codec: null,
+                durationSeconds: clip.duration,
+                frameRate: null
+            }
+        };
     }));
 }
-async function collectProjectItems(rootItem) {
+async function collectProjectItems(rootItem, parentId = null, ancestorIds = []) {
     if (!rootItem) {
         return [];
     }
     const items = [];
-    const children = rootItem.children;
-    const count = typeof children?.numItems === "number" ? children.numItems : 0;
-    for (let index = 0; index < count; index += 1) {
+    const children = await readProjectChildren(rootItem);
+    for (let index = 0; index < children.length; index += 1) {
         const item = children[index];
         if (!item) {
             continue;
         }
         const type = await readItemType(item);
         const mediaPath = await readString(() => item.getMediaPath?.());
+        const projectItemId = await readString(() => item.getId?.());
         const nodeId = readPlain(item.nodeId);
         const name = String(readPlain(item.name) ?? `Item ${index + 1}`);
         const metadata = await readMetadata(item);
+        const assetKey = assetId(projectItemId ?? nodeId ?? name, mediaPath);
         if (type !== "bin" && type !== "root") {
             items.push({
-                id: assetId(nodeId || name, mediaPath),
+                id: assetKey,
+                projectItemId,
+                nodeId: typeof nodeId === "string" ? nodeId : typeof nodeId === "number" ? String(nodeId) : null,
+                parentId,
+                ancestorIds,
                 name,
                 type,
                 mediaPath,
@@ -5720,8 +5733,23 @@ async function collectProjectItems(rootItem) {
                 metadata
             });
         }
-        if (item.children || item.type === 2) {
-            items.push(...(await collectProjectItems(item)));
+        if (type === "bin" || type === "root" || typeof item?.getItems === "function" || item?.children) {
+            items.push({
+                id: assetKey,
+                projectItemId,
+                nodeId: typeof nodeId === "string" ? nodeId : typeof nodeId === "number" ? String(nodeId) : null,
+                parentId,
+                ancestorIds,
+                name,
+                type,
+                mediaPath,
+                source: "project",
+                clipId: null,
+                tags: [],
+                duplicateGroup: null,
+                metadata
+            });
+            items.push(...(await collectProjectItems(item, assetKey, [...ancestorIds, assetKey])));
         }
     }
     return items;
@@ -5855,6 +5883,25 @@ function dedupeAssets(items) {
 function assetId(primary, secondary) {
     return String(primary ?? secondary ?? `asset-${Math.random().toString(16).slice(2)}`);
 }
+async function readProjectChildren(item) {
+    const getItems = item?.getItems;
+    if (typeof getItems === "function") {
+        try {
+            const values = await getItems.call(item);
+            return Array.isArray(values) ? values : [];
+        }
+        catch {
+            return [];
+        }
+    }
+    const children = item?.children;
+    const count = typeof children?.numItems === "number" ? children.numItems : 0;
+    const values = [];
+    for (let index = 0; index < count; index += 1) {
+        values.push(children[index]);
+    }
+    return values;
+}
 async function readItemType(item) {
     const type = readPlain(item.type);
     if (type === 2)
@@ -5867,6 +5914,10 @@ async function readItemType(item) {
 }
 function readPlain(value) {
     return typeof value === "string" || typeof value === "number" ? value : null;
+}
+function readNodeId(item) {
+    const value = readPlain(item?.nodeId);
+    return value === null ? null : String(value);
 }
 async function readPlainAsync(method) {
     if (!method) {
@@ -6255,7 +6306,7 @@ function normalizeClip(clip) {
 function normalizeTimelineClip(clip) {
     return {
         id: clip.id,
-        path: clip.mediaPath,
+        path: clip.mediaPath ?? undefined,
         start: clip.start,
         end: clip.end,
         duration: clip.duration,
@@ -6385,6 +6436,3224 @@ function parseDurationSeconds(value) {
     const minutes = Number(match[1] ?? 0);
     const seconds = Number(match[2] ?? 0);
     return minutes * 60 + seconds;
+}
+
+
+/***/ },
+
+/***/ 8542
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AutoReelJobMemory = void 0;
+const MemoryEngine_1 = __webpack_require__(1700);
+const models_1 = __webpack_require__(5225);
+const validation_1 = __webpack_require__(3492);
+const JOB_SCOPE = "auto-reel:jobs";
+const JOB_INDEX_KEY = "index";
+class AutoReelJobMemory {
+    memory;
+    constructor(memory = new MemoryEngine_1.MemoryEngine()) {
+        this.memory = memory;
+    }
+    save(job) {
+        const validation = (0, validation_1.validatePersistedAutoReelJob)(job);
+        if (!validation.valid || !validation.value) {
+            throw new Error(`Refusing to persist invalid Auto Reel job: ${validation.issues.map((issue) => issue.path).join(", ")}`);
+        }
+        this.memory.setAnalysis(JOB_SCOPE, job.id, validation.value);
+        const ids = this.listIds().filter((id) => id !== job.id);
+        this.memory.setAnalysis(JOB_SCOPE, JOB_INDEX_KEY, [job.id, ...ids].slice(0, 25));
+    }
+    get(jobId) {
+        const stored = this.memory.getAnalysis(JOB_SCOPE, jobId);
+        const validation = (0, validation_1.validatePersistedAutoReelJob)(stored);
+        return validation.valid && validation.value ? validation.value : null;
+    }
+    list() {
+        return this.listIds()
+            .map((jobId) => this.get(jobId))
+            .filter((job) => job !== null);
+    }
+    transition(jobId, nextState, reason) {
+        const job = this.get(jobId);
+        if (!job) {
+            throw new Error(`Auto Reel job not found: ${jobId}`);
+        }
+        const updated = (0, models_1.transitionAutoReelJob)(job, nextState, { reason });
+        this.save(updated);
+        return updated;
+    }
+    listIds() {
+        const stored = this.memory.getAnalysis(JOB_SCOPE, JOB_INDEX_KEY);
+        return Array.isArray(stored) && stored.every((value) => typeof value === "string")
+            ? stored
+            : [];
+    }
+}
+exports.AutoReelJobMemory = AutoReelJobMemory;
+
+
+/***/ },
+
+/***/ 8904
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = AutoReelScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const autoReelExtractionService_1 = __webpack_require__(578);
+const autoReelScanner_1 = __webpack_require__(9652);
+const autoReelSetupConfig_1 = __webpack_require__(8489);
+const autoReelSetupService_1 = __webpack_require__(1676);
+const AutoReelSections_1 = __webpack_require__(716);
+const AutoReelUi_1 = __webpack_require__(2390);
+function AutoReelScreen() {
+    const rootRef = (0, react_1.useRef)(null);
+    const runAbortRef = (0, react_1.useRef)(null);
+    const [context, setContext] = (0, react_1.useState)(null);
+    const [projectId, setProjectId] = (0, react_1.useState)("");
+    const [sequenceId, setSequenceId] = (0, react_1.useState)("");
+    const [state, setState] = (0, react_1.useState)(() => (0, autoReelSetupConfig_1.createDefaultAutoReelSetupState)());
+    const [job, setJob] = (0, react_1.useState)(null);
+    const [requestPreview, setRequestPreview] = (0, react_1.useState)("");
+    const [planningText, setPlanningText] = (0, react_1.useState)("Idle. Configure Auto Reel setup to serialize a request for Phase 4 extraction.");
+    const [log, setLog] = (0, react_1.useState)(["Waiting for Premiere context..."]);
+    const [loading, setLoading] = (0, react_1.useState)(true);
+    const [running, setRunning] = (0, react_1.useState)(false);
+    const [error, setError] = (0, react_1.useState)("");
+    const [panelWidth, setPanelWidth] = (0, react_1.useState)(null);
+    (0, react_1.useEffect)(() => {
+        void refreshContext();
+    }, []);
+    (0, react_1.useEffect)(() => {
+        const node = rootRef.current;
+        if (!node) {
+            return;
+        }
+        const syncWidth = () => {
+            const nextWidth = Math.round(node.getBoundingClientRect().width);
+            if (nextWidth > 0) {
+                setPanelWidth((current) => (current === nextWidth ? current : nextWidth));
+            }
+        };
+        syncWidth();
+        if (typeof ResizeObserver === "undefined") {
+            window.addEventListener("resize", syncWidth);
+            return () => window.removeEventListener("resize", syncWidth);
+        }
+        const resizeObserver = new ResizeObserver(() => syncWidth());
+        resizeObserver.observe(node);
+        return () => resizeObserver.disconnect();
+    }, []);
+    const workspaceWidth = (0, react_1.useMemo)(() => (0, autoReelSetupConfig_1.getAutoReelEffectiveWidth)(panelWidth, window.innerWidth), [panelWidth]);
+    const layoutMode = (0, react_1.useMemo)(() => (0, autoReelSetupConfig_1.getAutoReelLayoutMode)(workspaceWidth), [workspaceWidth]);
+    const fieldBasis = (0, autoReelSetupConfig_1.fieldFlex)(layoutMode);
+    const errors = (0, react_1.useMemo)(() => (0, autoReelSetupConfig_1.validateAutoReelSetupState)(state, {
+        availableClipCount: context?.clipCount ?? 0,
+        selectedClipCount: context?.selectedClipCount ?? 0,
+        availableProjectItemIds: context?.projectItemOptions.map((item) => item.id) ?? [],
+        availableManualClipIds: context?.manualClipOptions.map((clip) => clip.id) ?? []
+    }), [context, state]);
+    async function refreshContext() {
+        setLoading(true);
+        setError("");
+        try {
+            const nextContext = await (0, autoReelSetupService_1.loadAutoReelSetupContext)();
+            const draft = (0, autoReelSetupService_1.loadAutoReelSetupDraft)();
+            const nextState = (0, autoReelSetupService_1.createSetupStateFromDraft)(draft, nextContext);
+            setContext(nextContext);
+            setProjectId(draft?.projectId || nextContext.activeProjectId);
+            setSequenceId(draft?.sequenceId || nextContext.activeSequenceId);
+            setState(nextState);
+            setPlanningText(buildPlanningText(nextState, nextContext, "idle"));
+            setLog([`Loaded Premiere context for ${nextContext.projectName || "Unknown Project"} / ${nextContext.sequenceName || "No active sequence"}.`]);
+            setRequestPreview(JSON.stringify((0, autoReelSetupConfig_1.serializeAutoReelSetupIntoRequest)(nextState, buildRequestBase(nextState, nextContext)), null, 2));
+        }
+        catch (cause) {
+            setError(cause instanceof Error ? cause.message : "Could not read Premiere context.");
+            setLog(["Could not load Premiere context."]);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+    function patchState(patch) {
+        setState((current) => {
+            const next = { ...current, ...patch };
+            if (context) {
+                setPlanningText(buildPlanningText(next, context, running ? "loading" : "idle"));
+                setRequestPreview(JSON.stringify((0, autoReelSetupConfig_1.serializeAutoReelSetupIntoRequest)(next, buildRequestBase(next, context)), null, 2));
+            }
+            return next;
+        });
+    }
+    function toggleListValue(key, value) {
+        setState((current) => {
+            const list = current[key];
+            const nextList = list.includes(value) ? list.filter((entry) => entry !== value) : [...list, value];
+            const next = { ...current, [key]: nextList };
+            if (context) {
+                setPlanningText(buildPlanningText(next, context, running ? "loading" : "idle"));
+                setRequestPreview(JSON.stringify((0, autoReelSetupConfig_1.serializeAutoReelSetupIntoRequest)(next, buildRequestBase(next, context)), null, 2));
+            }
+            return next;
+        });
+    }
+    function updateReference(referenceId, update) {
+        setState((current) => {
+            const next = {
+                ...current,
+                references: current.references.map((reference) => reference.id === referenceId ? { ...reference, ...update } : reference)
+            };
+            if (context) {
+                setPlanningText(buildPlanningText(next, context, running ? "loading" : "idle"));
+                setRequestPreview(JSON.stringify((0, autoReelSetupConfig_1.serializeAutoReelSetupIntoRequest)(next, buildRequestBase(next, context)), null, 2));
+            }
+            return next;
+        });
+    }
+    function addCustomReference() {
+        setState((current) => ({
+            ...current,
+            references: [
+                ...current.references,
+                {
+                    id: `custom-reference-${Date.now()}`,
+                    role: "custom",
+                    label: `Custom Person ${current.references.filter((reference) => reference.role === "custom").length + 1}`
+                }
+            ]
+        }));
+    }
+    function removeReference(referenceId) {
+        setState((current) => ({
+            ...current,
+            references: current.references.filter((reference) => reference.id !== referenceId)
+        }));
+    }
+    async function handleRunSetup() {
+        if (!context) {
+            setError("Premiere context is not ready yet.");
+            return;
+        }
+        if (errors.general.length > 0 || Object.keys(errors.fields).length > 0) {
+            setError("Fix the inline setup errors before starting Auto Reel.");
+            setPlanningText(buildPlanningText(state, context, "error"));
+            return;
+        }
+        setRunning(true);
+        setError("");
+        setPlanningText("Preparing Phase 4 real timeline/media scan and extraction.");
+        setLog(["Starting real timeline/media scan..."]);
+        const controller = new AbortController();
+        runAbortRef.current = controller;
+        try {
+            const result = await (0, autoReelSetupService_1.runAutoReelSetup)({
+                projectId,
+                sequenceId,
+                state,
+                signal: controller.signal,
+                onProgress: (update) => {
+                    setJob(update.job);
+                    setLog(update.log);
+                    setPlanningText(update.planningText);
+                    setRequestPreview(JSON.stringify(update.job.request, null, 2));
+                }
+            });
+            setContext(result.context);
+            setJob(result.job);
+            setLog(result.log);
+            setRequestPreview(JSON.stringify(result.request, null, 2));
+            setPlanningText(result.planningText);
+        }
+        catch (cause) {
+            if ((0, autoReelScanner_1.isAutoReelScanCancelledError)(cause) || (0, autoReelExtractionService_1.isAutoReelExtractionCancelledError)(cause)) {
+                setError("");
+                setPlanningText("Auto Reel extraction cancelled before later analysis phases.");
+            }
+            else {
+                const message = cause instanceof Error ? cause.message : "Auto Reel setup failed.";
+                setError(message);
+                setLog((current) => [...current, message]);
+                setPlanningText(buildPlanningText(state, context, "error"));
+            }
+        }
+        finally {
+            runAbortRef.current = null;
+            setRunning(false);
+        }
+    }
+    function handleCancelRun() {
+        runAbortRef.current?.abort();
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { ref: rootRef, style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.lg, minWidth: 0, width: "100%" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Auto Reel", subtitle: "Phase 4 frame/audio extraction inside the existing workstation. This screen reads truthful host metadata, runs local-only extraction when approved paths exist, and stops before Vision AI, Music AI, planning, or execution.", style: AutoReelUi_1.glassCardStyle, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: loading ? "Loading context" : context?.connected ? "Premiere connected" : "Premiere not ready", tone: loading ? "warning" : context?.connected ? "success" : "danger" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: context?.projectName || "No active project", tone: context?.projectName ? "neutral" : "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: context?.sequenceName || "No active sequence", tone: context?.sequenceName ? "neutral" : "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Layout ${layoutMode}`, tone: "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job ? `Setup ${job.state}` : "Setup idle", tone: job ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job?.extraction?.sidecar.status === "available" ? "Sidecar available" : "Sidecar unavailable", tone: job?.extraction?.sidecar.status === "available" ? "success" : "danger" })] }) }), (0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelSourceSection, { context: context, projectId: projectId, sequenceId: sequenceId, state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onProjectId: setProjectId, onSequenceId: setSequenceId, onPatchState: patchState, onToggleListValue: toggleListValue }) }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelConfigurationSection, { state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.MusicSourcePicker, { context: context, state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.PersonReferenceManager, { state: state, layoutMode: layoutMode, loading: loading, running: running, onUpdateReference: updateReference, onAddCustomReference: addCustomReference, onRemoveReference: removeReference }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.ReferenceReelInput, { state: state, fieldBasis: fieldBasis, loading: loading, running: running, error: errors.fields.referenceReel, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelPlanningPanel, { planningText: planningText, phases: buildPhaseRows(job, running, error), error: error }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelRequestPreview, { job: job, panelWidth: workspaceWidth, requestPreview: requestPreview, log: log }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void handleRunSetup(), disabled: loading || running || !context?.connected, children: running ? "Running Extraction..." : "Start Auto Reel Extraction" }), running && ((0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: handleCancelRun, children: "Cancel Extraction" })), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void refreshContext(), disabled: loading || running, children: "Refresh Premiere Context" })] })] }));
+}
+function buildRequestBase(state, context) {
+    return {
+        id: "preview-request",
+        prompt: `Prepare ${state.reelType} setup for ${context.sequenceName || "Auto Reel"}.`,
+        mediaSelection: {
+            mode: state.sourceMode,
+            projectId: context.activeProjectId,
+            sequenceId: context.activeSequenceId,
+            sequenceName: context.sequenceName,
+            clipIds: [],
+            projectItemIds: state.selectedProjectItemIds,
+            inPointSeconds: context.inPointSeconds,
+            outPointSeconds: context.outPointSeconds,
+            usedFallback: false,
+            sequenceResolution: context.frameSize,
+            fps: context.fps || null,
+            timebase: context.timebase,
+            playheadSeconds: context.timeline?.playhead ?? null,
+            selectedClipCount: context.selectedClipCount,
+            scannedClipCount: 0,
+            mediaFingerprint: "preview-request",
+            cacheKey: "preview-request",
+            capabilityNotes: []
+        },
+        targetDurationSeconds: state.targetDurationSeconds,
+        outputSequenceName: state.outputSequenceName.trim() || "Auto Reel",
+        styleHints: [state.style, state.storyMode, state.energy],
+        preferredEvents: [],
+        excludedClipIds: [],
+        submittedAt: new Date("2026-08-04T00:00:00.000Z").toISOString()
+    };
+}
+function buildPlanningText(state, context, status) {
+    const base = [
+        `${(0, AutoReelUi_1.titleCase)(state.reelType)} scanner for ${context.sequenceName || "no active sequence"}.`,
+        `Source mode: ${state.sourceMode.replaceAll("-", " ")}.`,
+        `Target duration: ${state.targetDurationSeconds}s at ${state.aspectRatio}.`,
+        `Style: ${state.style}. Story mode: ${state.storyMode}. Energy: ${state.energy}.`,
+        `Music mode: ${state.musicSourceMode}. Clip audio extraction: ${state.extractClipAudio ? "requested" : "disabled"}. Output sequence: ${state.outputSequenceName || "Auto Reel"}.`
+    ].join(" ");
+    if (status === "loading") {
+        return `${base} Real timeline/media scanning and approved-path extraction are running with truthful host metadata only.`;
+    }
+    if (status === "success") {
+        return `${base} Real scanning and extraction completed successfully. Vision AI, Music AI, and planning are still pending approval and have not run yet.`;
+    }
+    if (status === "error") {
+        return `${base} Scanning or extraction is blocked by validation or runtime errors. No later analysis results were generated.`;
+    }
+    return `${base} No real scan has run yet. This panel prepares the Phase 4 extraction request and setup state.`;
+}
+function buildPhaseRows(job, running, error) {
+    const state = job?.state ?? "idle";
+    return [
+        phaseRow("Setup Validation", running || state !== "idle" ? (error ? "error" : state === "idle" ? "idle" : "success") : "idle", "Validates durations, URLs, clip-count rules, and source choices."),
+        phaseRow("Timeline Scan", state === "scanning" ? "loading" : state === "extracting" || state === "awaiting_review" ? "success" : "idle", "Reads selected clips, sequence clips, In/Out overlaps, and project-item matches from the active Premiere host."),
+        phaseRow("Descriptor Capture", state === "extracting" || state === "awaiting_review" ? "success" : running ? "loading" : "idle", "Serializes truthful ClipDescriptor and MediaSelection output with capability notes and cache keys."),
+        phaseRow("Frame / Audio Extraction", state === "extracting" ? "loading" : state === "awaiting_review" ? "success" : "idle", "Extracts sampled frames and audio proxies only from approved verified local paths, with truthful cache and fallback reporting."),
+        phaseRow("Reference Capture", job ? "success" : "idle", "Stores music, people, and reference-reel metadata only. No face, emotion, wedding, music, scoring, or planning analysis runs yet."),
+        phaseRow("Phase 5+ Analysis", state === "awaiting_review" ? "idle" : "idle", "Not started in this phase.")
+    ];
+}
+function phaseRow(title, status, detail) {
+    return {
+        title,
+        status,
+        detail,
+        tone: status === "success"
+            ? "success"
+            : status === "loading"
+                ? "warning"
+                : status === "error"
+                    ? "danger"
+                    : "neutral"
+    };
+}
+
+
+/***/ },
+
+/***/ 716
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.zc = exports.bC = exports.A6 = exports.F2 = exports.K6 = exports.mQ = exports.FC = exports.dp = exports.ui = exports.U$ = exports.bK = void 0;
+exports.AutoReelSourceSection = AutoReelSourceSection;
+exports.AutoReelConfigurationSection = AutoReelConfigurationSection;
+exports.MusicSourcePicker = MusicSourcePicker;
+exports.PersonReferenceManager = PersonReferenceManager;
+exports.ReferenceReelInput = ReferenceReelInput;
+exports.AutoReelPlanningPanel = AutoReelPlanningPanel;
+exports.AutoReelRequestPreview = AutoReelRequestPreview;
+const jsx_runtime_1 = __webpack_require__(4848);
+const primitives_1 = __webpack_require__(5613);
+const autoReelSetupConfig_1 = __webpack_require__(8489);
+const AutoReelUi_1 = __webpack_require__(2390);
+const theme_1 = __webpack_require__(3877);
+exports.bK = [
+    { value: "wedding-highlight", label: "Wedding Highlight" },
+    { value: "cinematic-reel", label: "Cinematic Reel" },
+    { value: "emotional-reel", label: "Emotional Reel" },
+    { value: "couple-reel", label: "Couple Reel" },
+    { value: "dance-reel", label: "Dance Reel" },
+    { value: "reception-reel", label: "Reception Reel" }
+];
+exports.U$ = [15, 30, 45, 60, 75, 90, 120, 180];
+exports.ui = ["9:16", "16:9", "1:1", "4:5"];
+exports.dp = ["signature", "luxury", "documentary", "viral", "classic"];
+exports.FC = ["story", "emotion", "music", "viral", "documentary", "cinematic"];
+exports.mQ = ["low", "balanced", "high"];
+exports.K6 = ["calm", "balanced", "high"];
+exports.F2 = ["sparse", "balanced", "rapid"];
+exports.A6 = ["bride", "groom", "family", "balanced"];
+exports.bC = [
+    { value: "selected-clips", label: "Selected timeline clips" },
+    { value: "active-sequence", label: "Active sequence" },
+    { value: "in-out-range", label: "Sequence In / Out" },
+    { value: "project-items", label: "Selected Project panel items / bin" },
+    { value: "manual-selection", label: "Manual selection" }
+];
+exports.zc = [
+    { value: "none", label: "No-music planning mode" },
+    { value: "local-file", label: "Local audio file" },
+    { value: "project-item", label: "Premiere project item" },
+    { value: "authorized-direct-url", label: "Authorized direct URL" },
+    { value: "social-reference", label: "Social link reference-only" }
+];
+function AutoReelSourceSection({ context, projectId, sequenceId, state, fieldBasis, loading, running, errors, onProjectId, onSequenceId, onPatchState, onToggleListValue }) {
+    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Media Source Controls", subtitle: "Choose the Premiere source set and clip-range rules. Phase 4 scanning applies these filters to real timeline metadata.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: [(0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.formRowStyle, children: [(0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Project selection", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: projectId, onChange: (event) => onProjectId(event.target.value), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: context?.projectOptions.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option.id, children: option.name }, option.id))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Sequence selection", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: sequenceId, onChange: (event) => onSequenceId(event.target.value), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: context?.sequenceOptions.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option.id, children: option.name }, option.id))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Source mode", flex: fieldBasis, error: errors.fields.sourceMode, children: (0, jsx_runtime_1.jsx)("select", { value: state.sourceMode, onChange: (event) => onPatchState({ sourceMode: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.bC.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option.value, children: option.label }, option.value))) }) }), (0, jsx_runtime_1.jsxs)(AutoReelUi_1.Field, { label: "Include locked tracks", flex: fieldBasis, children: [(0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: state.includeLockedTracks, onChange: (event) => onPatchState({ includeLockedTracks: event.target.checked }), disabled: loading || running }), (0, jsx_runtime_1.jsx)("span", { children: "Record locked-track preference" })] }), (0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.helperTextStyle, children: "Current Premiere runtime does not expose locked-track state, so this remains a serialized preference only." })] }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Include disabled clips", flex: fieldBasis, children: (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: state.includeDisabledClips, onChange: (event) => onPatchState({ includeDisabledClips: event.target.checked }), disabled: loading || running }), (0, jsx_runtime_1.jsx)("span", { children: "Keep disabled track items in the scan result" })] }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Include audio-only items", flex: fieldBasis, children: (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: state.includeAudioOnlyItems, onChange: (event) => onPatchState({ includeAudioOnlyItems: event.target.checked }), disabled: loading || running }), (0, jsx_runtime_1.jsx)("span", { children: "Keep audio-only clips when the host exposes them" })] }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Include still items", flex: fieldBasis, children: (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: state.includeStillItems, onChange: (event) => onPatchState({ includeStillItems: event.target.checked }), disabled: loading || running }), (0, jsx_runtime_1.jsx)("span", { children: "Keep still-image items when identifiable" })] }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Minimum clip count", flex: fieldBasis, error: errors.fields.clipCountRange, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { type: "number", min: 1, value: state.minimumClipCount, onChange: (event) => onPatchState({ minimumClipCount: Number(event.target.value) || 0 }), disabled: loading || running }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Maximum clip count", flex: fieldBasis, error: errors.fields.clipCountRange, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { type: "number", min: 1, value: state.maximumClipCount, onChange: (event) => onPatchState({ maximumClipCount: Number(event.target.value) || 0 }), disabled: loading || running }) })] }), state.sourceMode === "project-items" && ((0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md }, children: (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Project panel items / bin selection", error: errors.fields.selectedProjectItemIds, children: (0, jsx_runtime_1.jsx)(AutoReelUi_1.SelectionGrid, { children: context?.projectItemOptions.map((item) => ((0, jsx_runtime_1.jsx)(AutoReelUi_1.SelectableChip, { active: state.selectedProjectItemIds.includes(item.id), onClick: () => onToggleListValue("selectedProjectItemIds", item.id), label: `${item.label} (${item.type})` }, item.id))) }) }) })), state.sourceMode === "manual-selection" && ((0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md }, children: (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Manual clip selection", error: errors.fields.manualClipIds, children: (0, jsx_runtime_1.jsx)(AutoReelUi_1.SelectionGrid, { children: context?.manualClipOptions.map((clip) => ((0, jsx_runtime_1.jsx)(AutoReelUi_1.SelectableChip, { active: state.manualClipIds.includes(clip.id), onClick: () => onToggleListValue("manualClipIds", clip.id), label: clip.label }, clip.id))) }) }) }))] }) }));
+}
+function AutoReelConfigurationSection({ state, fieldBasis, loading, running, errors, onPatchState }) {
+    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Reel Configuration", subtitle: "Set the structure, pacing, priorities, and new-sequence output metadata.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.formRowStyle, children: [(0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Reel type / mode", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.reelType, onChange: (event) => onPatchState({ reelType: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.bK.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option.value, children: option.label }, option.value))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Target duration", flex: fieldBasis, error: errors.fields.targetDurationSeconds, children: (0, jsx_runtime_1.jsx)("select", { value: String(state.targetDurationSeconds), onChange: (event) => onPatchState({ targetDurationSeconds: Number(event.target.value) }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.U$.map((seconds) => ((0, jsx_runtime_1.jsxs)("option", { value: seconds, children: [seconds, " seconds"] }, seconds))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Aspect ratio", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.aspectRatio, onChange: (event) => onPatchState({ aspectRatio: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.ui.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: option }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Style", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.style, onChange: (event) => onPatchState({ style: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.dp.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Story mode", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.storyMode, onChange: (event) => onPatchState({ storyMode: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.FC.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Emotion priority", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.emotionPriority, onChange: (event) => onPatchState({ emotionPriority: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.mQ.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Bride / groom / family balance", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.balanceTarget, onChange: (event) => onPatchState({ balanceTarget: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.A6.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Energy", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.energy, onChange: (event) => onPatchState({ energy: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.K6.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Cut density", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.cutDensity, onChange: (event) => onPatchState({ cutDensity: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.F2.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Transition intensity", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.transitionIntensity, onChange: (event) => onPatchState({ transitionIntensity: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.mQ.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Motion intensity", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.motionIntensity, onChange: (event) => onPatchState({ motionIntensity: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.mQ.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "SFX intensity", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.sfxIntensity, onChange: (event) => onPatchState({ sfxIntensity: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.mQ.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Color intensity", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.colorIntensity, onChange: (event) => onPatchState({ colorIntensity: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.mQ.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Output sequence name", flex: fieldBasis, error: errors.fields.outputSequenceName, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.outputSequenceName, onChange: (event) => onPatchState({ outputSequenceName: event.target.value }), disabled: loading || running }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Create new sequence", flex: fieldBasis, children: (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: true, readOnly: true }), (0, jsx_runtime_1.jsx)("span", { children: "Enabled by default and required" })] }) })] }) }) }));
+}
+function MusicSourcePicker({ context, state, fieldBasis, loading, running, errors, onPatchState }) {
+    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "MusicSourcePicker", subtitle: "Configure a music input or reference mode. No copyrighted media is downloaded from social links.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: [(0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.formRowStyle, children: [(0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Music source", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsx)("select", { value: state.musicSourceMode, onChange: (event) => onPatchState({ musicSourceMode: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.zc.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option.value, children: option.label }, option.value))) }) }), state.musicSourceMode === "local-file" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Local audio file", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.uploadLabelStyle, children: [(0, jsx_runtime_1.jsx)("span", { children: state.musicLocalFileName || "Choose local audio file" }), (0, jsx_runtime_1.jsx)("input", { type: "file", accept: "audio/*", style: { display: "none" }, onChange: (event) => {
+                                            const file = event.target.files?.[0];
+                                            onPatchState({
+                                                musicLocalFileName: file?.name ?? "",
+                                                musicLocalFilePath: file?.path ?? ""
+                                            });
+                                        }, disabled: loading || running })] }) })), state.musicSourceMode === "project-item" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Premiere project item", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsxs)("select", { value: state.musicProjectItemId, onChange: (event) => onPatchState({ musicProjectItemId: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: [(0, jsx_runtime_1.jsx)("option", { value: "", children: "Select audio project item" }), context?.musicOptions.filter((option) => option.source === "project-item").map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option.id, children: option.label }, option.id)))] }) })), state.musicSourceMode === "authorized-direct-url" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Authorized direct URL", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.musicDirectUrl, onChange: (event) => onPatchState({ musicDirectUrl: event.target.value }), placeholder: "https://example.com/music-track.mp3", disabled: loading || running }) })), state.musicSourceMode === "social-reference" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Social link reference-only", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.musicSocialReferenceUrl, onChange: (event) => onPatchState({ musicSocialReferenceUrl: event.target.value }), placeholder: "https://instagram.com/reel/... or https://youtube.com/shorts/...", disabled: loading || running }) }))] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", flexWrap: "wrap", gap: theme_1.spacing.sm, alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: state.extractClipAudio, onChange: (event) => onPatchState({ extractClipAudio: event.target.checked }), disabled: loading || running }), (0, jsx_runtime_1.jsx)("span", { children: "Also extract clip audio proxies for selected clips." })] }), (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: state.copyrightNoticeAccepted, onChange: (event) => onPatchState({ copyrightNoticeAccepted: event.target.checked }), disabled: loading || running }), (0, jsx_runtime_1.jsx)("span", { children: "I confirm that any uploaded or linked music is licensed or reference-only." })] })] }), (0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.helperTextStyle, children: "Direct URLs must point to authorized media files. Social links are stored as reference-only and are never treated as a licensed source track by this Phase 4 workflow. Clip-audio extraction runs only when explicitly requested." })] }) }));
+}
+function PersonReferenceManager({ state, layoutMode, loading, running, onUpdateReference, onAddCustomReference, onRemoveReference }) {
+    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "PersonReferenceManager", subtitle: "Select bride, groom, family, or custom reference images. No face processing is performed in Phase 4.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [state.references.map((reference) => ((0, jsx_runtime_1.jsxs)("div", { style: (0, AutoReelUi_1.referenceCardStyle)(layoutMode === "wide"), children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.xs, minWidth: 0 }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: "#4A1621", fontWeight: 700 }, children: reference.label }), (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.helperTextStyle, children: [(0, AutoReelUi_1.titleCase)(reference.role), " reference"] })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.uploadLabelStyle, children: [(0, jsx_runtime_1.jsx)("span", { children: reference.fileName || "Select image" }), (0, jsx_runtime_1.jsx)("input", { type: "file", accept: "image/*", style: { display: "none" }, onChange: (event) => {
+                                                            const file = event.target.files?.[0];
+                                                            onUpdateReference(reference.id, {
+                                                                fileName: file?.name ?? "",
+                                                                previewUrl: file ? URL.createObjectURL(file) : undefined
+                                                            });
+                                                        }, disabled: loading || running })] }), reference.role === "custom" && ((0, jsx_runtime_1.jsx)("button", { type: "button", onClick: () => onRemoveReference(reference.id), disabled: loading || running, children: "Remove" }))] })] }), reference.previewUrl ? ((0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.sm, display: "flex", gap: theme_1.spacing.md, alignItems: "center", flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)("img", { src: reference.previewUrl, alt: `${reference.label} preview`, style: AutoReelUi_1.previewImageStyle }), (0, jsx_runtime_1.jsx)("button", { type: "button", onClick: () => onUpdateReference(reference.id, { fileName: "", previewUrl: undefined }), disabled: loading || running, children: "Clear" })] })) : null] }, reference.id))), (0, jsx_runtime_1.jsx)("div", { children: (0, jsx_runtime_1.jsx)("button", { type: "button", onClick: onAddCustomReference, disabled: loading || running, children: "Add Family / Custom Person" }) })] }) }) }));
+}
+function ReferenceReelInput({ state, fieldBasis, loading, running, error, onPatchState }) {
+    const status = !state.referenceReelUrl.trim() && !state.referenceReelLocalFileName.trim()
+        ? "idle"
+        : !state.referenceReelUrl.trim() || (0, autoReelSetupConfig_1.isReferenceUrl)(state.referenceReelUrl)
+            ? "valid"
+            : "invalid";
+    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "ReferenceReelInput", subtitle: "Attach a reference reel URL or local file. Both remain reference-only in Phase 4.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.formRowStyle, children: [(0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Instagram / YouTube URL", flex: fieldBasis, error: error, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.referenceReelUrl, onChange: (event) => onPatchState({ referenceReelUrl: event.target.value }), placeholder: "https://instagram.com/reel/... or https://youtube.com/shorts/...", disabled: loading || running }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Authorized local reference file", flex: fieldBasis, children: (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.uploadLabelStyle, children: [(0, jsx_runtime_1.jsx)("span", { children: state.referenceReelLocalFileName || "Choose local reference reel" }), (0, jsx_runtime_1.jsx)("input", { type: "file", accept: "video/*", style: { display: "none" }, onChange: (event) => onPatchState({ referenceReelLocalFileName: event.target.files?.[0]?.name ?? "" }), disabled: loading || running })] }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Validation state", flex: fieldBasis, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: status, tone: status === "valid" ? "success" : status === "invalid" ? "danger" : "neutral" }), (0, jsx_runtime_1.jsx)("span", { style: AutoReelUi_1.helperTextStyle, children: "Reference-only. No media download or style cloning happens in Phase 4." })] }) })] }) }) }));
+}
+function AutoReelPlanningPanel({ planningText, phases, error }) {
+    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Planning Visibility", subtitle: "Readable request summary and structured setup phases. No fake analysis results are shown here.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.planningTextPanelStyle, children: planningText }), (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: phases.map((phase) => ((0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.phaseRowStyle, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: "#4A1621", fontWeight: 700 }, children: phase.title }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: phase.status, tone: phase.tone })] }), (0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.helperTextStyle, children: phase.detail })] }, phase.title))) }), error ? (0, jsx_runtime_1.jsx)("div", { style: { color: "#A23A35" }, children: error }) : null] }) }) }));
+}
+function AutoReelRequestPreview({ job, panelWidth, requestPreview, log }) {
+    const progressPercent = !job || job.progress.total <= 0 ? 0 : Math.round((job.progress.current / job.progress.total) * 100);
+    const extraction = job?.extraction;
+    const currentClip = extraction?.progress.currentClipName || extraction?.progress.currentClipId || "None";
+    const remainingClips = extraction?.progress.remainingClips ?? 0;
+    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Progress Panel", subtitle: "Real extraction progress, live log, warnings, and serialized AutoReelRequest preview.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.xs }, children: [(0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.helperTextStyle, children: job?.progress.message || "Setup has not started yet." }), (0, jsx_runtime_1.jsx)("div", { style: { height: 10, borderRadius: 999, overflow: "hidden", background: "#EFE4D2" }, children: (0, jsx_runtime_1.jsx)("div", { style: { width: `${progressPercent}%`, height: "100%", background: "linear-gradient(90deg, #B28A4A, #6C2230)" } }) })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job ? `${job.progress.current}/${job.progress.total} steps` : "0/0 steps", tone: job ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job?.state || "idle", tone: job ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Current clip ${currentClip}`, tone: extraction?.progress.currentClipName ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction ? `${extraction.progress.completedClips}/${Math.max(1, extraction.progress.totalClips)} clips complete` : "0/0 clips", tone: extraction ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction ? `${remainingClips} clips remaining` : "0 remaining", tone: "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction ? `${extraction.progress.cacheHits} cache hits` : "0 cache hits", tone: extraction?.progress.cacheHits ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction ? `${extraction.progress.cacheMisses} cache misses` : "0 cache misses", tone: extraction?.progress.cacheMisses ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction?.sidecar.status === "available" ? "Sidecar available" : "Sidecar unavailable", tone: extraction?.sidecar.status === "available" ? "success" : "danger" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Panel width ${panelWidth}px`, tone: "neutral" })] }), job?.warnings.length ? ((0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Warnings / Errors", subtitle: "Truthful extraction blockers and fallback reasons.", style: AutoReelUi_1.nestedCardStyle, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [job.warnings.slice(0, 8).map((entry, index) => ((0, jsx_runtime_1.jsx)("div", { style: (0, AutoReelUi_1.logEntryStyle)(index !== Math.min(job.warnings.length, 8) - 1), children: entry }, `${index}-${entry}`))), job.warnings.length > 8 ? (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.helperTextStyle, children: [job.warnings.length - 8, " more warnings are retained in the job state."] }) : null] }) })) : null, (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "stretch" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Live Planning Log", subtitle: "Readable progress and fallback notes only.", style: { ...AutoReelUi_1.nestedCardStyle, flex: "1 1 22rem", minWidth: 0 }, children: (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: { minWidth: 0 }, children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: log.map((entry, index) => ((0, jsx_runtime_1.jsx)("div", { style: (0, AutoReelUi_1.logEntryStyle)(index !== log.length - 1), children: entry }, `${index}-${entry}`))) }) }) }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Serialized AutoReelRequest", subtitle: "Phase 4 request preview before later AI analysis phases.", style: { ...AutoReelUi_1.nestedCardStyle, flex: "1 1 22rem", minWidth: 0 }, children: (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: { minWidth: 0 }, children: (0, jsx_runtime_1.jsx)("pre", { style: AutoReelUi_1.codeBlockStyle, children: requestPreview }) }) })] })] }) }) }));
+}
+
+
+/***/ },
+
+/***/ 2390
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.kT = exports.logEntryStyle = exports.referenceCardStyle = exports.codeBlockStyle = exports.phaseRowStyle = exports.planningTextPanelStyle = exports.previewImageStyle = exports.uploadLabelStyle = exports.nestedCardStyle = exports.glassCardStyle = exports.helperTextStyle = exports.checkboxRowStyle = exports.fieldStyle = exports.formRowStyle = exports.sectionWrapStyle = void 0;
+exports.Field = Field;
+exports.SelectionGrid = SelectionGrid;
+exports.SelectableChip = SelectableChip;
+exports.titleCase = titleCase;
+const jsx_runtime_1 = __webpack_require__(4848);
+const theme_1 = __webpack_require__(3877);
+function Field({ label, children, flex, error }) {
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.xs, flex: flex ?? "1 1 100%", minWidth: 0 }, children: [(0, jsx_runtime_1.jsx)("label", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700, fontSize: theme_1.typography.sizes.sm }, children: label }), children, error ? (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.danger, fontSize: theme_1.typography.sizes.xs }, children: error }) : null] }));
+}
+function SelectionGrid({ children }) {
+    return (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexWrap: "wrap", gap: theme_1.spacing.sm, minWidth: 0 }, children: children });
+}
+function SelectableChip({ active, label, onClick }) {
+    return ((0, jsx_runtime_1.jsx)("button", { type: "button", onClick: onClick, style: (0, exports.kT)(active), children: label }));
+}
+function titleCase(value) {
+    return value.replaceAll("-", " ").replace(/\b\w/g, (char) => char.toUpperCase());
+}
+exports.sectionWrapStyle = {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: theme_1.spacing.lg,
+    alignItems: "stretch",
+    minWidth: 0
+};
+exports.formRowStyle = {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: theme_1.spacing.md,
+    minWidth: 0
+};
+exports.fieldStyle = {
+    width: "100%",
+    minWidth: 0,
+    boxSizing: "border-box",
+    borderRadius: 10,
+    border: `1px solid ${theme_1.colors.border}`,
+    background: "rgba(255,255,255,0.78)",
+    color: theme_1.colors.ink,
+    padding: `${theme_1.spacing.sm}px ${theme_1.spacing.md}px`,
+    fontSize: theme_1.typography.sizes.sm,
+    backdropFilter: "blur(8px)"
+};
+exports.checkboxRowStyle = {
+    display: "flex",
+    gap: theme_1.spacing.sm,
+    alignItems: "center",
+    color: theme_1.colors.ink,
+    lineHeight: 1.5
+};
+exports.helperTextStyle = {
+    color: theme_1.colors.inkMuted,
+    fontSize: theme_1.typography.sizes.xs,
+    lineHeight: 1.5
+};
+exports.glassCardStyle = {
+    background: "linear-gradient(180deg, rgba(255,249,242,0.92), rgba(255,249,242,0.84))",
+    boxShadow: theme_1.shadows.raised,
+    backdropFilter: "blur(14px)",
+    transition: "box-shadow 160ms ease, transform 160ms ease"
+};
+exports.nestedCardStyle = {
+    background: "rgba(255,255,255,0.64)",
+    boxShadow: `0 10px 24px ${theme_1.colors.shadow}`,
+    backdropFilter: "blur(12px)"
+};
+exports.uploadLabelStyle = {
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    minWidth: 0,
+    boxSizing: "border-box",
+    borderRadius: 10,
+    border: `1px solid ${theme_1.colors.border}`,
+    background: "rgba(255,255,255,0.78)",
+    color: theme_1.colors.ink,
+    padding: `${theme_1.spacing.sm}px ${theme_1.spacing.md}px`,
+    cursor: "pointer",
+    backdropFilter: "blur(8px)"
+};
+exports.previewImageStyle = {
+    width: "100%",
+    maxWidth: 140,
+    aspectRatio: "1 / 1",
+    objectFit: "cover",
+    borderRadius: 10,
+    border: `1px solid ${theme_1.colors.border}`,
+    boxShadow: `0 10px 18px ${theme_1.colors.shadow}`
+};
+exports.planningTextPanelStyle = {
+    padding: theme_1.spacing.md,
+    borderRadius: 12,
+    background: "linear-gradient(135deg, rgba(239,228,210,0.58), rgba(255,255,255,0.72))",
+    color: theme_1.colors.ink,
+    lineHeight: 1.7,
+    boxShadow: `inset 0 1px 0 rgba(255,255,255,0.7), 0 12px 24px ${theme_1.colors.shadow}`
+};
+exports.phaseRowStyle = {
+    display: "flex",
+    flexDirection: "column",
+    gap: theme_1.spacing.xs,
+    padding: theme_1.spacing.md,
+    borderRadius: 12,
+    background: "rgba(255,255,255,0.64)",
+    boxShadow: `0 8px 18px ${theme_1.colors.shadow}`
+};
+exports.codeBlockStyle = {
+    margin: 0,
+    whiteSpace: "pre-wrap",
+    wordBreak: "break-word",
+    fontSize: theme_1.typography.sizes.xs,
+    lineHeight: 1.5,
+    color: theme_1.colors.ink
+};
+const referenceCardStyle = (wide) => ({
+    padding: theme_1.spacing.md,
+    borderRadius: 12,
+    background: "rgba(255,255,255,0.58)",
+    boxShadow: `0 8px 18px ${theme_1.colors.shadow}`,
+    minWidth: 0,
+    transition: "transform 160ms ease, box-shadow 160ms ease",
+    transform: wide ? "translateY(0)" : "none"
+});
+exports.referenceCardStyle = referenceCardStyle;
+const logEntryStyle = (withDivider) => ({
+    paddingBottom: theme_1.spacing.sm,
+    borderBottom: withDivider ? `1px solid ${theme_1.colors.cream}` : "none",
+    color: theme_1.colors.ink,
+    lineHeight: 1.6
+});
+exports.logEntryStyle = logEntryStyle;
+const selectableChipStyle = (active) => ({
+    borderRadius: 999,
+    border: `1px solid ${active ? theme_1.colors.maroon : theme_1.colors.border}`,
+    background: active ? theme_1.colors.maroon : "rgba(255,255,255,0.7)",
+    color: active ? theme_1.colors.white : theme_1.colors.ink,
+    padding: `${theme_1.spacing.xs}px ${theme_1.spacing.md}px`,
+    cursor: "pointer",
+    transition: "background 160ms ease, color 160ms ease, box-shadow 160ms ease",
+    boxShadow: active ? `0 8px 18px ${theme_1.colors.shadow}` : "none",
+    minWidth: 0,
+    textAlign: "left"
+});
+exports.kT = selectableChipStyle;
+
+
+/***/ },
+
+/***/ 578
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+__webpack_unused_export__ = void 0;
+exports.runAutoReelExtractionStage = runAutoReelExtractionStage;
+__webpack_unused_export__ = buildAutoReelExtractionRequest;
+exports.buildExtractionProgressMessage = buildExtractionProgressMessage;
+exports.isAutoReelExtractionCancelledError = isAutoReelExtractionCancelledError;
+const autoReelSidecarClient_1 = __webpack_require__(7950);
+const autoReelExtractionUtils_1 = __webpack_require__(6988);
+const EXTRACTION_VERSION = "phase-4-extraction-v1";
+const CACHE_TTL_SECONDS = 60 * 60 * 24 * 7;
+const CACHE_MAX_BYTES = 1024 * 1024 * 1024;
+const EXTRACTION_CONCURRENCY = 2;
+const EXTRACTION_RETRY_LIMIT = 2;
+class AutoReelExtractionCancelledError extends Error {
+    constructor(message = "Auto Reel extraction was cancelled.") {
+        super(message);
+        this.name = "AutoReelExtractionCancelledError";
+    }
+}
+__webpack_unused_export__ = AutoReelExtractionCancelledError;
+async function runAutoReelExtractionStage(args) {
+    const preflight = buildAutoReelExtractionRequest({
+        job: args.job,
+        request: args.request,
+        clips: args.clips,
+        context: args.context
+    });
+    const client = args.client ?? new autoReelSidecarClient_1.AutoReelSidecarClient();
+    if (preflight.request.frameTasks.length === 0 && preflight.request.audioTasks.length === 0) {
+        const fallback = buildImmediateExtractionResult(preflight, args.job, args.request, "completed", "No eligible verified local media paths were available for extraction.");
+        args.onProgress?.(fallback);
+        return toStageResult(fallback);
+    }
+    try {
+        const result = await client.runExtractionJob(preflight.request, {
+            signal: args.signal,
+            onProgress: (payload) => args.onProgress?.(mergeExtractionResult(preflight, payload))
+        });
+        return toStageResult(mergeExtractionResult(preflight, result));
+    }
+    catch (error) {
+        if (error instanceof autoReelSidecarClient_1.AutoReelSidecarCancelledError || args.signal?.aborted) {
+            throw new AutoReelExtractionCancelledError();
+        }
+        if (error instanceof autoReelSidecarClient_1.AutoReelSidecarUnavailableError) {
+            const fallback = buildImmediateExtractionResult(preflight, args.job, args.request, "sidecar-unavailable", error.message);
+            args.onProgress?.(fallback);
+            return toStageResult(fallback);
+        }
+        throw error;
+    }
+}
+function buildAutoReelExtractionRequest(args) {
+    const approvedRoots = new Set();
+    const frameTasks = [];
+    const audioTasks = [];
+    const preflightFrameSamples = [];
+    const preflightAudioExtractions = [];
+    const preflightFailures = [];
+    const preflightClipResults = [];
+    const warnings = [];
+    for (const clip of args.clips) {
+        if (clip.mediaType !== "video") {
+            preflightClipResults.push({
+                clipId: clip.id,
+                clipName: clip.name,
+                frameSampleIds: [],
+                status: "unavailable",
+                cacheHits: 0,
+                cacheMisses: 0,
+                attempts: 0,
+                error: `Clip "${clip.name}" is ${clip.mediaType} media and is not eligible for frame extraction.`
+            });
+            continue;
+        }
+        const baseSamples = (0, autoReelExtractionUtils_1.buildFrameSamplePlan)(clip);
+        if (!clip.mediaPath) {
+            const message = `Clip "${clip.name}" does not expose a verified source media path in this host session.`;
+            warnings.push(message);
+            preflightFrameSamples.push(...baseSamples.map((sample) => unavailableFrameSample(sample, message)));
+            preflightFailures.push({
+                taskId: `frames:${clip.id}`,
+                clipId: clip.id,
+                targetKind: "frames",
+                status: "unavailable",
+                message,
+                attempts: 0,
+                recordedAt: new Date().toISOString()
+            });
+            preflightClipResults.push({
+                clipId: clip.id,
+                clipName: clip.name,
+                frameSampleIds: baseSamples.map((sample) => sample.id),
+                status: "unavailable",
+                cacheHits: 0,
+                cacheMisses: 0,
+                attempts: 0,
+                error: message
+            });
+            continue;
+        }
+        if (typeof clip.sourceInSeconds !== "number" || typeof clip.sourceOutSeconds !== "number") {
+            const message = `Clip "${clip.name}" is missing verified source in/out timing for extraction.`;
+            warnings.push(message);
+            preflightFrameSamples.push(...baseSamples.map((sample) => unavailableFrameSample(sample, message)));
+            preflightFailures.push({
+                taskId: `frames:${clip.id}`,
+                clipId: clip.id,
+                targetKind: "frames",
+                status: "unavailable",
+                message,
+                attempts: 0,
+                recordedAt: new Date().toISOString()
+            });
+            preflightClipResults.push({
+                clipId: clip.id,
+                clipName: clip.name,
+                frameSampleIds: baseSamples.map((sample) => sample.id),
+                status: "unavailable",
+                cacheHits: 0,
+                cacheMisses: 0,
+                attempts: 0,
+                error: message
+            });
+            continue;
+        }
+        approvedRoots.add(directoryOfPath(clip.mediaPath));
+        frameTasks.push({
+            clipId: clip.id,
+            clipName: clip.name,
+            mediaPath: clip.mediaPath,
+            mediaFingerprint: clip.mediaFingerprint,
+            cacheKey: (0, autoReelExtractionUtils_1.buildExtractionCacheKey)({
+                category: "clip-frames",
+                mediaFingerprint: clip.mediaFingerprint,
+                version: EXTRACTION_VERSION,
+                parameters: {
+                    clipId: clip.id,
+                    sourceInSeconds: clip.sourceInSeconds,
+                    sourceOutSeconds: clip.sourceOutSeconds,
+                    samplePlan: baseSamples.map((sample) => ({
+                        sourceTimeSeconds: sample.sourceTimeSeconds,
+                        sampleKind: sample.sampleKind
+                    }))
+                }
+            }),
+            sourceInSeconds: clip.sourceInSeconds,
+            sourceOutSeconds: clip.sourceOutSeconds,
+            samplePlan: baseSamples.map((sample) => ({
+                id: sample.id,
+                sourceTimeSeconds: sample.sourceTimeSeconds,
+                sampleKind: sample.sampleKind
+            }))
+        });
+    }
+    const selectedSong = resolveSelectedSongAudioTask(args.request, args.context);
+    if (selectedSong) {
+        if (selectedSong.mediaPath) {
+            approvedRoots.add(directoryOfPath(selectedSong.mediaPath));
+            audioTasks.push(selectedSong);
+        }
+        else {
+            preflightAudioExtractions.push(unavailableAudioExtraction(selectedSong, selectedSong.label));
+        }
+    }
+    if (args.request.setup?.musicSource.extractClipAudio) {
+        for (const frameTask of frameTasks) {
+            audioTasks.push({
+                id: (0, autoReelExtractionUtils_1.buildExtractionCacheKey)({
+                    category: "clip-audio",
+                    mediaFingerprint: frameTask.mediaFingerprint,
+                    version: EXTRACTION_VERSION,
+                    parameters: { clipId: frameTask.clipId, sourceKind: "clip-audio" }
+                }),
+                sourceKind: "clip-audio",
+                clipId: frameTask.clipId,
+                label: `${frameTask.clipName} audio`,
+                mediaPath: frameTask.mediaPath,
+                mediaFingerprint: frameTask.mediaFingerprint,
+                cacheKey: (0, autoReelExtractionUtils_1.buildExtractionCacheKey)({
+                    category: "audio-proxy",
+                    mediaFingerprint: frameTask.mediaFingerprint,
+                    version: EXTRACTION_VERSION,
+                    parameters: { clipId: frameTask.clipId, sourceKind: "clip-audio" }
+                })
+            });
+        }
+    }
+    return {
+        request: {
+            schemaVersion: 1,
+            jobId: args.job.id,
+            requestId: args.request.id,
+            requestedAt: new Date().toISOString(),
+            approvedRoots: Array.from(approvedRoots).filter((value) => value.length > 0).sort(),
+            frameTasks,
+            audioTasks,
+            cache: {
+                rootName: "rkflow-cache",
+                extractorVersion: EXTRACTION_VERSION,
+                ttlSeconds: CACHE_TTL_SECONDS,
+                maxBytes: CACHE_MAX_BYTES
+            },
+            limits: {
+                concurrency: EXTRACTION_CONCURRENCY,
+                retryLimit: EXTRACTION_RETRY_LIMIT
+            }
+        },
+        preflightFrameSamples,
+        preflightAudioExtractions,
+        preflightFailures,
+        preflightClipResults,
+        warnings
+    };
+}
+function buildExtractionProgressMessage(result) {
+    const clipLabel = result.progress.currentClipName ? ` ${result.progress.currentClipName}` : "";
+    const clipProgress = `${result.progress.completedClips}/${Math.max(1, result.progress.totalClips)} clips`;
+    const audioProgress = `${result.progress.completedAudioTasks}/${Math.max(1, result.progress.totalAudioTasks)} audio`;
+    return `Extracting${clipLabel}. ${clipProgress}, ${audioProgress}, cache ${result.progress.cacheHits} hit / ${result.progress.cacheMisses} miss.`;
+}
+function isAutoReelExtractionCancelledError(error) {
+    return error instanceof AutoReelExtractionCancelledError;
+}
+function mergeExtractionResult(preflight, result) {
+    return {
+        ...result,
+        clipResults: [...preflight.preflightClipResults, ...result.clipResults],
+        frameSamples: [...preflight.preflightFrameSamples, ...result.frameSamples],
+        audioExtractions: [...preflight.preflightAudioExtractions, ...result.audioExtractions],
+        failures: [...preflight.preflightFailures, ...result.failures],
+        warnings: [...preflight.warnings, ...result.warnings]
+    };
+}
+function buildImmediateExtractionResult(preflight, job, request, status, reason) {
+    const frameSamples = [
+        ...preflight.preflightFrameSamples,
+        ...preflight.request.frameTasks.flatMap((task) => task.samplePlan.map((sample) => unavailableFrameSample({
+            ...sample,
+            clipId: task.clipId
+        }, reason, task.cacheKey)))
+    ];
+    const audioExtractions = [
+        ...preflight.preflightAudioExtractions,
+        ...preflight.request.audioTasks.map((task) => unavailableAudioExtraction(task, reason))
+    ];
+    const failures = [
+        ...preflight.preflightFailures,
+        ...preflight.request.frameTasks.map((task) => ({
+            taskId: `frames:${task.clipId}`,
+            clipId: task.clipId,
+            targetKind: "frames",
+            status: status === "cancelled" ? "cancelled" : "failed",
+            message: reason,
+            attempts: 0,
+            recordedAt: new Date().toISOString()
+        })),
+        ...preflight.request.audioTasks.map((task) => ({
+            taskId: task.id,
+            clipId: task.clipId,
+            audioTaskId: task.id,
+            targetKind: "audio",
+            status: status === "cancelled" ? "cancelled" : "failed",
+            message: reason,
+            attempts: 0,
+            recordedAt: new Date().toISOString()
+        }))
+    ];
+    return {
+        schemaVersion: 1,
+        jobId: job.id,
+        requestId: request.id,
+        status,
+        sidecar: {
+            status: "unavailable",
+            reason
+        },
+        progress: {
+            completedClips: preflight.request.frameTasks.length,
+            remainingClips: 0,
+            totalClips: preflight.request.frameTasks.length,
+            completedAudioTasks: preflight.request.audioTasks.length,
+            totalAudioTasks: preflight.request.audioTasks.length,
+            cacheHits: 0,
+            cacheMisses: preflight.request.frameTasks.length + preflight.request.audioTasks.length
+        },
+        clipResults: [
+            ...preflight.preflightClipResults,
+            ...preflight.request.frameTasks.map((task) => ({
+                clipId: task.clipId,
+                clipName: task.clipName,
+                frameSampleIds: task.samplePlan.map((sample) => sample.id),
+                status: "failed",
+                cacheHits: 0,
+                cacheMisses: task.samplePlan.length,
+                attempts: 0,
+                error: reason
+            }))
+        ],
+        frameSamples,
+        audioExtractions,
+        failures,
+        warnings: [...preflight.warnings, reason],
+        startedAt: new Date().toISOString(),
+        completedAt: new Date().toISOString()
+    };
+}
+function toStageResult(extraction) {
+    return {
+        extraction,
+        frameSamples: extraction.frameSamples,
+        audioExtractions: extraction.audioExtractions,
+        failures: extraction.failures,
+        warnings: extraction.warnings,
+        planningText: extraction.status === "sidecar-unavailable"
+            ? "Frame/audio extraction could not run because the local analysis sidecar is unavailable."
+            : "Frame/audio extraction completed. Vision AI, Music AI, scoring, story building, and planning are still not started."
+    };
+}
+function unavailableFrameSample(sample, reason, cacheKey) {
+    return {
+        id: sample.id,
+        clipId: sample.clipId,
+        sourceTimeSeconds: sample.sourceTimeSeconds,
+        sampleKind: sample.sampleKind,
+        cacheKey,
+        cacheStatus: "unavailable",
+        extractionStatus: "unavailable",
+        capabilityReason: reason,
+        error: reason,
+        capturedAt: new Date().toISOString()
+    };
+}
+function unavailableAudioExtraction(task, reason) {
+    return {
+        id: task.id,
+        taskId: task.id,
+        sourceKind: task.sourceKind,
+        clipId: task.clipId,
+        cacheKey: task.cacheKey,
+        cacheStatus: "unavailable",
+        extractionStatus: "unavailable",
+        waveform: [],
+        extractedAt: new Date().toISOString(),
+        capabilityReason: reason,
+        error: reason
+    };
+}
+function resolveSelectedSongAudioTask(request, context) {
+    const musicSource = request.setup?.musicSource;
+    if (!musicSource || musicSource.mode === "none") {
+        return null;
+    }
+    if (musicSource.mode === "local-file") {
+        if (!musicSource.filePath) {
+            return {
+                id: (0, autoReelExtractionUtils_1.buildExtractionCacheKey)({
+                    category: "selected-song",
+                    mediaFingerprint: request.mediaSelection.mediaFingerprint,
+                    version: EXTRACTION_VERSION,
+                    parameters: { requestId: request.id, mode: musicSource.mode }
+                }),
+                sourceKind: "selected-song",
+                label: "Selected song is missing a verified local filesystem path.",
+                mediaPath: "",
+                mediaFingerprint: request.mediaSelection.mediaFingerprint,
+                cacheKey: (0, autoReelExtractionUtils_1.buildExtractionCacheKey)({
+                    category: "audio-proxy",
+                    mediaFingerprint: request.mediaSelection.mediaFingerprint,
+                    version: EXTRACTION_VERSION,
+                    parameters: { requestId: request.id, mode: musicSource.mode }
+                })
+            };
+        }
+        return {
+            id: (0, autoReelExtractionUtils_1.buildExtractionCacheKey)({
+                category: "selected-song",
+                mediaFingerprint: request.mediaSelection.mediaFingerprint,
+                version: EXTRACTION_VERSION,
+                parameters: { requestId: request.id, mode: musicSource.mode, filePath: musicSource.filePath }
+            }),
+            sourceKind: "selected-song",
+            label: musicSource.fileName || "Selected song",
+            mediaPath: musicSource.filePath,
+            mediaFingerprint: request.mediaSelection.mediaFingerprint,
+            cacheKey: (0, autoReelExtractionUtils_1.buildExtractionCacheKey)({
+                category: "audio-proxy",
+                mediaFingerprint: request.mediaSelection.mediaFingerprint,
+                version: EXTRACTION_VERSION,
+                parameters: { requestId: request.id, sourcePath: musicSource.filePath }
+            })
+        };
+    }
+    if (musicSource.mode === "project-item") {
+        const projectItem = context.projectItemOptions.find((item) => item.id === musicSource.projectItemId);
+        const mediaPath = projectItem?.mediaPath || "";
+        return {
+            id: (0, autoReelExtractionUtils_1.buildExtractionCacheKey)({
+                category: "selected-song",
+                mediaFingerprint: request.mediaSelection.mediaFingerprint,
+                version: EXTRACTION_VERSION,
+                parameters: { requestId: request.id, mode: musicSource.mode, projectItemId: musicSource.projectItemId }
+            }),
+            sourceKind: "selected-song",
+            label: projectItem?.label || "Selected song project item",
+            mediaPath,
+            mediaFingerprint: request.mediaSelection.mediaFingerprint,
+            cacheKey: (0, autoReelExtractionUtils_1.buildExtractionCacheKey)({
+                category: "audio-proxy",
+                mediaFingerprint: request.mediaSelection.mediaFingerprint,
+                version: EXTRACTION_VERSION,
+                parameters: { requestId: request.id, projectItemId: musicSource.projectItemId }
+            })
+        };
+    }
+    return {
+        id: (0, autoReelExtractionUtils_1.buildExtractionCacheKey)({
+            category: "selected-song",
+            mediaFingerprint: request.mediaSelection.mediaFingerprint,
+            version: EXTRACTION_VERSION,
+            parameters: { requestId: request.id, mode: musicSource.mode }
+        }),
+        sourceKind: "selected-song",
+        label: musicSource.mode === "social-reference"
+            ? "Social reference links are metadata-only and are not downloaded for extraction."
+            : "Direct URLs are not extracted by the local-only sidecar. Use a local file or Premiere project item.",
+        mediaPath: "",
+        mediaFingerprint: request.mediaSelection.mediaFingerprint,
+        cacheKey: (0, autoReelExtractionUtils_1.buildExtractionCacheKey)({
+            category: "audio-proxy",
+            mediaFingerprint: request.mediaSelection.mediaFingerprint,
+            version: EXTRACTION_VERSION,
+            parameters: { requestId: request.id, mode: musicSource.mode }
+        })
+    };
+}
+function directoryOfPath(value) {
+    const normalized = value.replaceAll("\\", "/");
+    const index = normalized.lastIndexOf("/");
+    return index <= 0 ? normalized : normalized.slice(0, index);
+}
+
+
+/***/ },
+
+/***/ 6988
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.hashStableText = hashStableText;
+exports.buildExtractionCacheKey = buildExtractionCacheKey;
+exports.buildFrameSamplePlan = buildFrameSamplePlan;
+function hashStableText(value) {
+    let hash = 2166136261;
+    for (let index = 0; index < value.length; index += 1) {
+        hash ^= value.charCodeAt(index);
+        hash = Math.imul(hash, 16777619);
+    }
+    return `rk${(hash >>> 0).toString(16)}`;
+}
+function buildExtractionCacheKey(input) {
+    return hashStableText([
+        input.category,
+        input.mediaFingerprint,
+        input.version,
+        stableSerialize(input.parameters)
+    ].join("::"));
+}
+function buildFrameSamplePlan(clip, adaptiveHookSeconds = []) {
+    const rangeStart = typeof clip.sourceInSeconds === "number" ? clip.sourceInSeconds : 0;
+    const rangeEndCandidate = typeof clip.sourceOutSeconds === "number" ? clip.sourceOutSeconds : rangeStart;
+    const rangeEnd = rangeEndCandidate >= rangeStart ? rangeEndCandidate : rangeStart;
+    const middle = rangeStart + (rangeEnd - rangeStart) / 2;
+    const baseSamples = [
+        createPlannedFrameSample(clip.id, clip.cacheKey, "start", rangeStart),
+        createPlannedFrameSample(clip.id, clip.cacheKey, "middle", middle),
+        createPlannedFrameSample(clip.id, clip.cacheKey, "end", rangeEnd)
+    ];
+    const adaptiveSamples = adaptiveHookSeconds
+        .filter((value) => Number.isFinite(value))
+        .map((value) => clampNumber(value, rangeStart, rangeEnd))
+        .filter((value, index, values) => values.indexOf(value) === index)
+        .sort((left, right) => left - right)
+        .map((value) => createPlannedFrameSample(clip.id, clip.cacheKey, "custom", value));
+    return [...baseSamples, ...adaptiveSamples];
+}
+function createPlannedFrameSample(clipId, clipCacheKey, sampleKind, sourceTimeSeconds) {
+    const normalizedTime = Number(sourceTimeSeconds.toFixed(3));
+    return {
+        id: buildExtractionCacheKey({
+            category: "frame-sample",
+            mediaFingerprint: clipCacheKey,
+            version: "phase-4-frame-sample-v1",
+            parameters: {
+                clipId,
+                sampleKind,
+                sourceTimeSeconds: normalizedTime
+            }
+        }),
+        clipId,
+        sampleKind,
+        sourceTimeSeconds: normalizedTime
+    };
+}
+function clampNumber(value, minimum, maximum) {
+    return Math.min(Math.max(value, minimum), maximum);
+}
+function stableSerialize(value) {
+    if (Array.isArray(value)) {
+        return `[${value.map((item) => stableSerialize(item)).join(",")}]`;
+    }
+    if (value && typeof value === "object") {
+        return `{${Object.keys(value)
+            .sort()
+            .map((key) => `${JSON.stringify(key)}:${stableSerialize(value[key])}`)
+            .join(",")}}`;
+    }
+    return JSON.stringify(value);
+}
+
+
+/***/ },
+
+/***/ 9652
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+__webpack_unused_export__ = void 0;
+exports.scanAutoReelTimeline = scanAutoReelTimeline;
+exports.isAutoReelScanCancelledError = isAutoReelScanCancelledError;
+const autoReelExtractionUtils_1 = __webpack_require__(6988);
+class AutoReelScanCancelledError extends Error {
+    constructor(message = "Auto Reel scan cancelled.") {
+        super(message);
+        this.name = "AutoReelScanCancelledError";
+    }
+}
+__webpack_unused_export__ = AutoReelScanCancelledError;
+const SCAN_CACHE_VERSION = "phase-3-scan-v1";
+async function scanAutoReelTimeline(input) {
+    throwIfCancelled(input.signal);
+    const timelineCandidates = flattenTimelineCandidates(input.timeline);
+    const sourceCandidates = resolveSourceCandidates(timelineCandidates, input.state, input.projectItemOptions, input.timeline);
+    const sortedCandidates = sortCandidates(sourceCandidates);
+    const exclusions = createExclusionCounts();
+    const keptCandidates = [];
+    input.onProgress?.({
+        phase: "resolving-source",
+        current: 0,
+        total: Math.max(1, sortedCandidates.length),
+        percent: sortedCandidates.length === 0 ? 100 : 0,
+        message: buildResolveMessage(input.state.sourceMode, sortedCandidates.length),
+        included: 0,
+        excluded: 0
+    });
+    for (let index = 0; index < sortedCandidates.length; index += 1) {
+        throwIfCancelled(input.signal);
+        const candidate = sortedCandidates[index];
+        const shouldInclude = shouldIncludeClip(candidate.clip, input.state, exclusions);
+        if (shouldInclude) {
+            keptCandidates.push(candidate);
+        }
+        input.onProgress?.({
+            phase: "scanning-clips",
+            current: index + 1,
+            total: sortedCandidates.length,
+            percent: Math.round(((index + 1) / Math.max(1, sortedCandidates.length)) * 100),
+            message: `Scanning ${index + 1}/${sortedCandidates.length}: ${candidate.clip.name}`,
+            clipName: candidate.clip.name,
+            included: keptCandidates.length,
+            excluded: exclusions.disabled +
+                exclusions.audio +
+                exclusions.still +
+                exclusions.overMax +
+                exclusions.sourceMismatch
+        });
+    }
+    const limitedCandidates = keptCandidates.slice(0, Math.max(1, input.state.maximumClipCount));
+    exclusions.overMax = Math.max(0, keptCandidates.length - limitedCandidates.length);
+    const selectionCapabilityNotes = buildSelectionCapabilityNotes(input.timeline, input.state);
+    const selectionFingerprint = (0, autoReelExtractionUtils_1.hashStableText)(limitedCandidates.map((candidate) => buildClipFingerprint(candidate.clip)).join("|"));
+    const selectionCacheKey = (0, autoReelExtractionUtils_1.hashStableText)([
+        SCAN_CACHE_VERSION,
+        input.projectId,
+        input.sequenceId,
+        input.state.sourceMode,
+        selectionFingerprint,
+        String(input.state.includeDisabledClips),
+        String(input.state.includeAudioOnlyItems),
+        String(input.state.includeStillItems),
+        String(input.state.minimumClipCount),
+        String(input.state.maximumClipCount)
+    ].join("::"));
+    const descriptors = limitedCandidates.map((candidate) => toClipDescriptor(candidate, input.timeline, selectionCacheKey));
+    const warnings = buildWarnings(input.state, exclusions, sortedCandidates.length, descriptors.length);
+    const selection = {
+        mode: input.state.sourceMode,
+        projectId: input.projectId,
+        sequenceId: input.sequenceId,
+        sequenceName: input.sequenceName,
+        clipIds: descriptors.map((descriptor) => descriptor.id),
+        projectItemIds: descriptors
+            .map((descriptor) => descriptor.projectItemId)
+            .filter((value) => typeof value === "string" && value.length > 0),
+        inPointSeconds: input.timeline.inPoint,
+        outPointSeconds: input.timeline.outPoint,
+        usedFallback: input.state.sourceMode === "project-items" && sortedCandidates.length === 0,
+        sequenceResolution: input.timeline.frameSize,
+        fps: input.timeline.fps || null,
+        timebase: input.timeline.timebase,
+        playheadSeconds: input.timeline.playhead,
+        selectedClipCount: timelineCandidates.filter((candidate) => candidate.clip.selected).length,
+        scannedClipCount: descriptors.length,
+        mediaFingerprint: selectionFingerprint,
+        cacheKey: selectionCacheKey,
+        capabilityNotes: selectionCapabilityNotes
+    };
+    const log = buildLog(input.state.sourceMode, exclusions, sortedCandidates.length, descriptors.length, input.timeline);
+    const planningText = buildPlanningText(input.state.sourceMode, descriptors.length, sortedCandidates.length, warnings, input.timeline);
+    input.onProgress?.({
+        phase: "complete",
+        current: descriptors.length,
+        total: descriptors.length,
+        percent: 100,
+        message: `Scanner captured ${descriptors.length} clip descriptors from ${describeSourceMode(input.state.sourceMode)}.`,
+        included: descriptors.length,
+        excluded: exclusions.disabled +
+            exclusions.audio +
+            exclusions.still +
+            exclusions.overMax +
+            exclusions.sourceMismatch
+    });
+    return {
+        selection,
+        descriptors,
+        warnings,
+        log,
+        planningText
+    };
+}
+function isAutoReelScanCancelledError(error) {
+    return error instanceof AutoReelScanCancelledError;
+}
+function flattenTimelineCandidates(timeline) {
+    return [...timeline.videoTracks, ...timeline.audioTracks].flatMap((track) => track.clips.map((clip) => ({ clip, trackType: track.type })));
+}
+function resolveSourceCandidates(candidates, state, projectItemOptions, timeline) {
+    switch (state.sourceMode) {
+        case "selected-clips":
+            return candidates.filter((candidate) => candidate.clip.selected);
+        case "in-out-range":
+            return candidates.filter((candidate) => overlapsRange(candidate.clip, timeline.inPoint, timeline.outPoint));
+        case "manual-selection":
+            return candidates.filter((candidate) => state.manualClipIds.includes(candidate.clip.id));
+        case "project-items":
+            return resolveProjectItemCandidates(candidates, state.selectedProjectItemIds, projectItemOptions);
+        default:
+            return candidates;
+    }
+}
+function resolveProjectItemCandidates(candidates, selectedIds, projectItemOptions) {
+    const selected = projectItemOptions.filter((option) => selectedIds.includes(option.id));
+    const matchedProjectItemIds = new Set();
+    const matchedNodeIds = new Set();
+    const matchedMediaPaths = new Set();
+    for (const option of selected) {
+        collectProjectItemTargets(option, projectItemOptions).forEach((target) => {
+            if (target.projectItemId) {
+                matchedProjectItemIds.add(target.projectItemId);
+            }
+            if (target.nodeId) {
+                matchedNodeIds.add(target.nodeId);
+            }
+            if (target.mediaPath) {
+                matchedMediaPaths.add(target.mediaPath);
+            }
+        });
+    }
+    return candidates.filter((candidate) => {
+        const projectItemId = candidate.clip.projectItemId;
+        const projectItemNodeId = candidate.clip.projectItemNodeId;
+        const mediaPath = candidate.clip.mediaPath;
+        return ((projectItemId !== null && matchedProjectItemIds.has(projectItemId)) ||
+            (projectItemNodeId !== null && matchedNodeIds.has(projectItemNodeId)) ||
+            (mediaPath !== null && matchedMediaPaths.has(mediaPath)));
+    });
+}
+function collectProjectItemTargets(selected, projectItemOptions) {
+    const descendants = projectItemOptions.filter((candidate) => candidate.ancestorIds?.includes(selected.id));
+    return [selected, ...descendants];
+}
+function shouldIncludeClip(clip, state, exclusions) {
+    if (!state.includeDisabledClips && clip.disabled === true) {
+        exclusions.disabled += 1;
+        return false;
+    }
+    if (!state.includeAudioOnlyItems && clip.mediaType === "audio") {
+        exclusions.audio += 1;
+        return false;
+    }
+    if (!state.includeStillItems && clip.mediaType === "still") {
+        exclusions.still += 1;
+        return false;
+    }
+    return true;
+}
+function overlapsRange(clip, inPoint, outPoint) {
+    if (!(outPoint > inPoint)) {
+        return true;
+    }
+    return clip.end >= inPoint && clip.start <= outPoint;
+}
+function sortCandidates(candidates) {
+    return [...candidates].sort((left, right) => {
+        if (left.clip.start !== right.clip.start) {
+            return left.clip.start - right.clip.start;
+        }
+        if (left.clip.trackIndex !== right.clip.trackIndex) {
+            return left.clip.trackIndex - right.clip.trackIndex;
+        }
+        if (left.trackType !== right.trackType) {
+            return left.trackType === "video" ? -1 : 1;
+        }
+        return left.clip.name.localeCompare(right.clip.name);
+    });
+}
+function toClipDescriptor(candidate, timeline, selectionCacheKey) {
+    const capabilityNotes = candidate.clip.capabilityNotes.map(toCapabilityNote);
+    if (candidate.clip.mediaPath === null) {
+        capabilityNotes.push({
+            field: "mediaPath",
+            source: "unavailable",
+            reason: "Media path remains null because the active host session did not expose getMediaFilePath() for this clip."
+        });
+    }
+    if (candidate.clip.linkedClipIds === null) {
+        capabilityNotes.push({
+            field: "linkedClipIds",
+            source: "unavailable",
+            reason: "Linked audio/video relationship remains null because no verified relationship reader is exposed by the active Premiere runtime."
+        });
+    }
+    if (candidate.clip.proxyState === null) {
+        capabilityNotes.push({
+            field: "proxyState",
+            source: "unavailable",
+            reason: "Proxy state remains null because no verified proxy-state reader is exposed by the active Premiere runtime."
+        });
+    }
+    const mediaFingerprint = buildClipFingerprint(candidate.clip);
+    const metadataStatus = deriveMetadataStatus(capabilityNotes);
+    return {
+        id: candidate.clip.id,
+        projectItemId: candidate.clip.projectItemId,
+        projectItemNodeId: candidate.clip.projectItemNodeId,
+        name: candidate.clip.name,
+        mediaType: candidate.clip.mediaType,
+        mediaPath: candidate.clip.mediaPath,
+        sourceInSeconds: candidate.clip.sourceIn,
+        sourceOutSeconds: candidate.clip.sourceOut,
+        timelineStartSeconds: candidate.clip.start,
+        timelineEndSeconds: candidate.clip.end,
+        trackIndex: candidate.clip.trackIndex,
+        trackType: candidate.trackType,
+        speed: candidate.clip.speed,
+        disabled: candidate.clip.disabled,
+        selected: candidate.clip.selected,
+        linkedClipIds: candidate.clip.linkedClipIds,
+        frameRate: timeline.fps || null,
+        width: candidate.clip.sourceFrameSize?.width ?? null,
+        height: candidate.clip.sourceFrameSize?.height ?? null,
+        proxyState: candidate.clip.proxyState,
+        lockedTrackState: null,
+        mediaFingerprint,
+        cacheKey: (0, autoReelExtractionUtils_1.hashStableText)(`${selectionCacheKey}::${mediaFingerprint}`),
+        metadataStatus,
+        capabilityNotes: [
+            ...capabilityNotes,
+            {
+                field: "lockedTrackState",
+                source: "unavailable",
+                reason: "Track locked-state remains null because no verified reader is exposed by the active Premiere runtime."
+            }
+        ]
+    };
+}
+function buildWarnings(state, exclusions, matchedCount, descriptorCount) {
+    const warnings = [];
+    if (descriptorCount < state.minimumClipCount) {
+        warnings.push(`Scanner matched ${descriptorCount} clips after filtering, below the requested minimum of ${state.minimumClipCount}.`);
+    }
+    if (exclusions.disabled > 0) {
+        warnings.push(`${exclusions.disabled} disabled clips were excluded by filter.`);
+    }
+    if (exclusions.audio > 0) {
+        warnings.push(`${exclusions.audio} audio-only items were excluded by filter.`);
+    }
+    if (exclusions.still > 0) {
+        warnings.push(`${exclusions.still} still items were excluded by filter.`);
+    }
+    if (exclusions.overMax > 0) {
+        warnings.push(`${exclusions.overMax} clips were trimmed after scan because the maximum clip count is ${state.maximumClipCount}.`);
+    }
+    if (state.sourceMode === "project-items" && matchedCount === 0) {
+        warnings.push("No timeline clips matched the selected project items/bin. This workspace does not expose verified live Project-panel selection APIs, so Auto Reel only resolves explicit item/bin picks from the readable project tree.");
+    }
+    return warnings;
+}
+function buildLog(mode, exclusions, matchedCount, descriptorCount, timeline) {
+    const lines = [
+        `Resolved ${matchedCount} source candidates from ${describeSourceMode(mode)}.`,
+        `Captured ${descriptorCount} truthful clip descriptors from the active sequence.`,
+        `Sequence metadata: ${describeFrameSize(timeline.frameSize)} at ${timeline.fps || 0} fps${timeline.timebase !== null ? ` / timebase ${timeline.timebase}` : ""}.`,
+        `Unavailable host reads remain null for linked audio/video relationships, proxy state, and locked-track state.`
+    ];
+    if (exclusions.disabled > 0) {
+        lines.push(`Excluded disabled clips: ${exclusions.disabled}.`);
+    }
+    if (exclusions.audio > 0) {
+        lines.push(`Excluded audio-only items: ${exclusions.audio}.`);
+    }
+    if (exclusions.still > 0) {
+        lines.push(`Excluded still items: ${exclusions.still}.`);
+    }
+    if (exclusions.overMax > 0) {
+        lines.push(`Trimmed after max clip-count filter: ${exclusions.overMax}.`);
+    }
+    return lines;
+}
+function buildPlanningText(mode, descriptorCount, matchedCount, warnings, timeline) {
+    const summary = [
+        `Scanner resolved ${matchedCount} source candidates from ${describeSourceMode(mode)} and kept ${descriptorCount} clip descriptors.`,
+        `Sequence ${timeline.sequenceName || "Active Sequence"} is ${describeFrameSize(timeline.frameSize)} at ${timeline.fps || 0} fps.`,
+        `Playhead ${formatSeconds(timeline.playhead)}, In ${formatSeconds(timeline.inPoint)}, Out ${formatSeconds(timeline.outPoint)}.`
+    ];
+    if (warnings.length > 0) {
+        summary.push(`Warnings: ${warnings.join(" ")}`);
+    }
+    else {
+        summary.push("No frame extraction, scoring, planning, or Premiere execution has run in this phase.");
+    }
+    return summary.join(" ");
+}
+function buildSelectionCapabilityNotes(timeline, state) {
+    const notes = timeline.capabilityNotes.map(toCapabilityNote);
+    notes.push({
+        field: "lockedTrackFilter",
+        source: "unavailable",
+        reason: state.includeLockedTracks
+            ? "Locked-track inclusion was requested, but the active Premiere runtime does not expose a verified locked-track state reader."
+            : "Locked-track exclusion remains unavailable because the active Premiere runtime does not expose a verified locked-track state reader."
+    });
+    return notes;
+}
+function buildClipFingerprint(clip) {
+    return (0, autoReelExtractionUtils_1.hashStableText)([
+        clip.projectItemId ?? "project-item:unknown",
+        clip.projectItemNodeId ?? "node:unknown",
+        clip.mediaPath ?? "path:unknown",
+        clip.name,
+        formatStableNumber(clip.start),
+        formatStableNumber(clip.end),
+        formatStableNumber(clip.sourceIn),
+        formatStableNumber(clip.sourceOut),
+        clip.mediaType
+    ].join("::"));
+}
+function deriveMetadataStatus(notes) {
+    if (notes.some((note) => note.source === "metadata-fallback")) {
+        return "metadata-fallback";
+    }
+    if (notes.some((note) => note.source === "unavailable")) {
+        return "unavailable";
+    }
+    return "host-verified";
+}
+function buildResolveMessage(mode, count) {
+    return `Resolved ${count} source candidates from ${describeSourceMode(mode)}.`;
+}
+function describeSourceMode(mode) {
+    return mode.replaceAll("-", " ");
+}
+function describeFrameSize(frameSize) {
+    if (!frameSize) {
+        return "unknown resolution";
+    }
+    return `${frameSize.width}x${frameSize.height}`;
+}
+function formatSeconds(totalSeconds) {
+    const safe = Math.max(0, Math.floor(totalSeconds));
+    const hours = Math.floor(safe / 3600);
+    const minutes = Math.floor((safe % 3600) / 60);
+    const seconds = safe % 60;
+    return [hours, minutes, seconds].map((value) => String(value).padStart(2, "0")).join(":");
+}
+function toCapabilityNote(note) {
+    return { field: note.field, source: note.source, reason: note.reason };
+}
+function createExclusionCounts() {
+    return {
+        disabled: 0,
+        audio: 0,
+        still: 0,
+        overMax: 0,
+        sourceMismatch: 0
+    };
+}
+function throwIfCancelled(signal) {
+    if (signal?.aborted) {
+        throw new AutoReelScanCancelledError();
+    }
+}
+function formatStableNumber(value) {
+    return typeof value === "number" && Number.isFinite(value) ? value.toFixed(3) : "unknown";
+}
+
+
+/***/ },
+
+/***/ 8489
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.createDefaultAutoReelSetupState = createDefaultAutoReelSetupState;
+exports.buildSetupConfig = buildSetupConfig;
+exports.validateAutoReelSetupState = validateAutoReelSetupState;
+exports.serializeAutoReelSetupIntoRequest = serializeAutoReelSetupIntoRequest;
+exports.getAutoReelLayoutMode = getAutoReelLayoutMode;
+exports.getAutoReelEffectiveWidth = getAutoReelEffectiveWidth;
+exports.fieldFlex = fieldFlex;
+exports.isReferenceUrl = isReferenceUrl;
+exports.isDirectMediaUrl = isDirectMediaUrl;
+exports.isSocialReferenceUrl = isSocialReferenceUrl;
+const validation_1 = __webpack_require__(3492);
+function createDefaultAutoReelSetupState(overrides = {}) {
+    return {
+        sourceMode: "selected-clips",
+        includeLockedTracks: false,
+        includeDisabledClips: false,
+        includeAudioOnlyItems: false,
+        includeStillItems: false,
+        minimumClipCount: 8,
+        maximumClipCount: 60,
+        reelType: "wedding-highlight",
+        targetDurationSeconds: 60,
+        aspectRatio: "9:16",
+        style: "signature",
+        storyMode: "story",
+        emotionPriority: "balanced",
+        balanceTarget: "balanced",
+        energy: "balanced",
+        cutDensity: "balanced",
+        transitionIntensity: "balanced",
+        motionIntensity: "balanced",
+        sfxIntensity: "low",
+        colorIntensity: "balanced",
+        outputSequenceName: "Auto Reel",
+        createNewSequence: true,
+        selectedProjectItemIds: [],
+        manualClipIds: [],
+        musicSourceMode: "none",
+        musicLocalFileName: "",
+        musicLocalFilePath: "",
+        musicProjectItemId: "",
+        musicDirectUrl: "",
+        musicSocialReferenceUrl: "",
+        cachedMusicId: "",
+        extractClipAudio: false,
+        copyrightNoticeAccepted: false,
+        references: [
+            { id: "bride-reference", role: "bride", label: "Bride" },
+            { id: "groom-reference", role: "groom", label: "Groom" }
+        ],
+        referenceReelUrl: "",
+        referenceReelLocalFileName: "",
+        ...overrides
+    };
+}
+function buildSetupConfig(state) {
+    return {
+        sourceMode: state.sourceMode,
+        clipFilter: {
+            includeLockedTracks: state.includeLockedTracks,
+            includeDisabledClips: state.includeDisabledClips,
+            includeAudioOnlyItems: state.includeAudioOnlyItems,
+            includeStillItems: state.includeStillItems,
+            minimumClipCount: state.minimumClipCount,
+            maximumClipCount: state.maximumClipCount
+        },
+        aspectRatio: state.aspectRatio,
+        reelType: state.reelType,
+        style: state.style,
+        storyMode: state.storyMode,
+        emotionPriority: state.emotionPriority,
+        balanceTarget: state.balanceTarget,
+        energy: state.energy,
+        cutDensity: state.cutDensity,
+        transitionIntensity: state.transitionIntensity,
+        motionIntensity: state.motionIntensity,
+        sfxIntensity: state.sfxIntensity,
+        colorIntensity: state.colorIntensity,
+        outputSequenceName: state.outputSequenceName.trim(),
+        createNewSequence: true,
+        musicSource: {
+            mode: state.musicSourceMode,
+            fileName: state.musicLocalFileName || undefined,
+            filePath: state.musicLocalFilePath || undefined,
+            projectItemId: state.musicProjectItemId || undefined,
+            directUrl: normalizeOptionalText(state.musicDirectUrl),
+            socialReferenceUrl: normalizeOptionalText(state.musicSocialReferenceUrl),
+            cachedMusicId: state.cachedMusicId || undefined,
+            extractClipAudio: state.extractClipAudio,
+            copyrightNoticeAccepted: state.copyrightNoticeAccepted
+        },
+        references: state.references.map((reference) => ({
+            id: reference.id,
+            role: reference.role,
+            label: reference.label,
+            fileName: reference.fileName
+        })),
+        referenceReel: state.referenceReelUrl.trim() || state.referenceReelLocalFileName.trim()
+            ? {
+                mode: state.referenceReelLocalFileName.trim() ? "local-file" : "url",
+                url: normalizeOptionalText(state.referenceReelUrl),
+                localFileName: normalizeOptionalText(state.referenceReelLocalFileName)
+            }
+            : undefined,
+        selectedProjectItemIds: state.selectedProjectItemIds,
+        manualClipIds: state.manualClipIds
+    };
+}
+function validateAutoReelSetupState(state, context) {
+    const setupConfig = buildSetupConfig(state);
+    const setupValidation = (0, validation_1.validateAutoReelSetupConfig)(setupConfig);
+    const fields = {};
+    const general = [];
+    if (state.targetDurationSeconds < 15 || state.targetDurationSeconds > 300) {
+        fields.targetDurationSeconds = "Target duration must be between 15 and 300 seconds.";
+    }
+    if (state.minimumClipCount > state.maximumClipCount) {
+        fields.clipCountRange = "Minimum clip count cannot exceed the maximum.";
+    }
+    else if (state.maximumClipCount > Math.max(context.availableClipCount, state.maximumClipCount)) {
+        fields.clipCountRange = "Maximum clip count is too large for the available source clips.";
+    }
+    if (state.sourceMode === "selected-clips" && context.selectedClipCount === 0) {
+        fields.sourceMode = "No selected timeline clips are available in Premiere right now.";
+    }
+    if (state.sourceMode === "project-items" && state.selectedProjectItemIds.length === 0) {
+        fields.selectedProjectItemIds = "Choose at least one Project panel item or bin.";
+    }
+    if (state.sourceMode === "manual-selection" && state.manualClipIds.length === 0) {
+        fields.manualClipIds = "Choose at least one manual clip reference.";
+    }
+    if (state.musicSourceMode === "local-file" && !state.musicLocalFileName.trim()) {
+        fields.musicSource = "Choose a local audio file or switch the music mode.";
+    }
+    if (state.musicSourceMode === "project-item" && !state.musicProjectItemId.trim()) {
+        fields.musicSource = "Choose a Premiere project audio item or switch the music mode.";
+    }
+    if (state.musicSourceMode === "authorized-direct-url" && !isDirectMediaUrl(state.musicDirectUrl)) {
+        fields.musicSource = "Enter a valid direct audio URL ending in a media file extension.";
+    }
+    if (state.musicSourceMode === "social-reference" && !isSocialReferenceUrl(state.musicSocialReferenceUrl)) {
+        fields.musicSource = "Enter a valid Instagram or YouTube reference link.";
+    }
+    if (state.musicSourceMode !== "none" && !state.copyrightNoticeAccepted) {
+        fields.musicSource = "Acknowledge the copyright notice before using a music source.";
+    }
+    if (state.referenceReelUrl.trim() && !isReferenceUrl(state.referenceReelUrl)) {
+        fields.referenceReel = "Enter a valid Instagram or YouTube URL.";
+    }
+    if (!state.outputSequenceName.trim()) {
+        fields.outputSequenceName = "Output sequence name is required.";
+    }
+    for (const issue of setupValidation.issues) {
+        if (issue.path.startsWith("clipFilter")) {
+            fields.clipCountRange = fields.clipCountRange ?? issue.message;
+        }
+        else if (issue.path.startsWith("musicSource")) {
+            fields.musicSource = fields.musicSource ?? issue.message;
+        }
+        else if (issue.path.startsWith("referenceReel")) {
+            fields.referenceReel = fields.referenceReel ?? issue.message;
+        }
+        else if (issue.path in state) {
+            fields[issue.path] = fields[issue.path] ?? issue.message;
+        }
+        else {
+            general.push(issue.message);
+        }
+    }
+    return {
+        general,
+        fields,
+        issues: setupValidation.issues
+    };
+}
+function serializeAutoReelSetupIntoRequest(state, base) {
+    return {
+        id: base.id,
+        prompt: base.prompt,
+        mediaSelection: base.mediaSelection,
+        targetDurationSeconds: base.targetDurationSeconds,
+        aspectRatio: state.aspectRatio,
+        outputSequenceName: base.outputSequenceName,
+        createNewSequence: true,
+        styleHints: base.styleHints,
+        preferredEvents: base.preferredEvents,
+        excludedClipIds: base.excludedClipIds,
+        submittedAt: base.submittedAt,
+        setup: buildSetupConfig(state)
+    };
+}
+function getAutoReelLayoutMode(width) {
+    if (width <= 320) {
+        return "compact";
+    }
+    if (width <= 640) {
+        return "medium";
+    }
+    if (width <= 1080) {
+        return "regular";
+    }
+    return "wide";
+}
+function getAutoReelEffectiveWidth(workspaceWidth, viewportWidth) {
+    if (typeof workspaceWidth === "number" && Number.isFinite(workspaceWidth) && workspaceWidth > 0) {
+        return workspaceWidth;
+    }
+    return Math.max(0, viewportWidth);
+}
+function fieldFlex(layoutMode) {
+    switch (layoutMode) {
+        case "compact":
+            return "1 1 100%";
+        case "medium":
+            return "1 1 calc(50% - 12px)";
+        case "regular":
+            return "1 1 calc(33.333% - 16px)";
+        default:
+            return "1 1 calc(25% - 18px)";
+    }
+}
+function isReferenceUrl(value) {
+    return isSocialReferenceUrl(value);
+}
+function isDirectMediaUrl(value) {
+    if (!isHttpUrl(value)) {
+        return false;
+    }
+    return /\.(mp3|wav|aif|aiff|m4a|aac|flac|ogg)$/i.test(value.trim());
+}
+function isSocialReferenceUrl(value) {
+    if (!isHttpUrl(value)) {
+        return false;
+    }
+    return /(instagram\.com|youtu\.be|youtube\.com)/i.test(value.trim());
+}
+function isHttpUrl(value) {
+    try {
+        const parsed = new URL(value.trim());
+        return parsed.protocol === "http:" || parsed.protocol === "https:";
+    }
+    catch {
+        return false;
+    }
+}
+function normalizeOptionalText(value) {
+    const trimmed = value.trim();
+    return trimmed ? trimmed : undefined;
+}
+
+
+/***/ },
+
+/***/ 1676
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.loadAutoReelSetupContext = loadAutoReelSetupContext;
+exports.createSetupStateFromDraft = createSetupStateFromDraft;
+exports.runAutoReelSetup = runAutoReelSetup;
+exports.loadAutoReelSetupDraft = loadAutoReelSetupDraft;
+const brain_1 = __webpack_require__(7021);
+const PremiereBridge_1 = __webpack_require__(1862);
+const PremiereAPI_1 = __webpack_require__(868);
+const assetService_1 = __webpack_require__(8759);
+const promptReelService_1 = __webpack_require__(2541);
+const AutoReelJobMemory_1 = __webpack_require__(8542);
+const autoReelExtractionService_1 = __webpack_require__(578);
+const autoReelScanner_1 = __webpack_require__(9652);
+const autoReelSetupConfig_1 = __webpack_require__(8489);
+const validation_1 = __webpack_require__(3492);
+const models_1 = __webpack_require__(5225);
+const memory = new brain_1.MemoryEngine();
+const contextEngine = new brain_1.ContextEngine();
+const jobMemory = new AutoReelJobMemory_1.AutoReelJobMemory(memory);
+async function loadAutoReelSetupContext() {
+    const bridge = new PremiereBridge_1.PremiereBridge();
+    const [sequenceContext, timeline, project, activeSequence] = await Promise.all([
+        contextEngine.readSequenceContext(),
+        bridge.readTimeline(),
+        PremiereAPI_1.premiereAPI.getCurrentProject().catch(() => null),
+        PremiereAPI_1.premiereAPI.getActiveSequence().catch(() => null)
+    ]);
+    const connected = timeline !== null && sequenceContext !== null;
+    const projectName = normalizeText(project?.name, sequenceContext?.projectName ?? "");
+    const sequenceName = normalizeText(activeSequence?.name, sequenceContext?.sequenceName ?? "");
+    const activeProjectId = createProjectId(projectName);
+    const activeSequenceId = createSequenceId(activeSequence, sequenceName);
+    const sequenceOptions = await readSequenceOptions(project, activeSequenceId, sequenceName);
+    const sequenceClips = flattenTimelineClips(timeline, sequenceContext?.selectedClips ?? []);
+    const selectedClips = buildSelectedClips(timeline, sequenceContext?.selectedClips ?? []);
+    const assetRecords = await (0, assetService_1.readAssetRecords)(sequenceContext);
+    const projectItemOptions = assetRecords.assets
+        .filter((asset) => asset.source === "project")
+        .map((asset) => ({
+        id: asset.id,
+        label: asset.name,
+        mediaPath: asset.mediaPath ?? undefined,
+        projectItemId: asset.projectItemId,
+        nodeId: asset.nodeId,
+        ancestorIds: asset.ancestorIds,
+        type: asset.type
+    }));
+    const projectAudioOptions = projectItemOptions.filter((item) => /audio|sound|music/i.test(item.type) || /\.(mp3|wav|aac|m4a|aif|aiff|flac|ogg)$/i.test(item.mediaPath ?? ""));
+    const cachedMusicOptions = (0, promptReelService_1.getPromptReelMusicOptions)().map((entry) => ({
+        id: entry.fileHash,
+        label: entry.fileName,
+        bpm: entry.bpm,
+        source: "cached-music-ai"
+    }));
+    const musicOptions = [
+        ...cachedMusicOptions,
+        ...projectAudioOptions.map((item) => ({
+            id: item.id,
+            label: item.label,
+            source: "project-item"
+        }))
+    ];
+    return {
+        connected,
+        projectOptions: projectName ? [{ id: activeProjectId, name: projectName, active: true }] : [],
+        sequenceOptions,
+        activeProjectId,
+        activeSequenceId,
+        projectName,
+        sequenceName,
+        clipCount: sequenceClips.length,
+        selectedClipCount: selectedClips.length,
+        inPointSeconds: timeline?.inPoint ?? sequenceContext?.inPoint ?? 0,
+        outPointSeconds: timeline?.outPoint ?? sequenceContext?.outPoint ?? 0,
+        durationSeconds: timeline?.duration ?? sequenceContext?.duration ?? 0,
+        fps: timeline?.fps ?? sequenceContext?.fps ?? 0,
+        timebase: timeline?.timebase ?? null,
+        frameSize: timeline?.frameSize ?? null,
+        projectItemOptions,
+        manualClipOptions: sequenceClips.map((clip) => ({
+            id: clip.id,
+            label: `${clip.name} • ${formatSeconds(clip.start)}-${formatSeconds(clip.end)}`,
+            projectItemId: clip.projectItemId,
+            startSeconds: clip.start,
+            endSeconds: clip.end,
+            mediaType: clip.mediaType
+        })),
+        musicOptions,
+        selectedClips,
+        sequenceClips,
+        timeline,
+        lockedTrackSupport: "unavailable"
+    };
+}
+function createSetupStateFromDraft(draft, context) {
+    const base = (0, autoReelSetupConfig_1.createDefaultAutoReelSetupState)();
+    const sequenceName = context?.sequenceName || "Auto Reel";
+    return (0, autoReelSetupConfig_1.createDefaultAutoReelSetupState)({
+        ...base,
+        ...(draft?.state ?? {}),
+        outputSequenceName: draft?.state?.outputSequenceName?.trim() ||
+            `${labelForReelType(draft?.state?.reelType ?? base.reelType)} - ${sequenceName}`
+    });
+}
+async function runAutoReelSetup(args) {
+    const context = await loadAutoReelSetupContext();
+    const log = [];
+    if (!context.connected || !context.sequenceName || !context.timeline) {
+        throw new Error("Open an active Premiere project and sequence before starting Auto Reel.");
+    }
+    const validation = (0, autoReelSetupConfig_1.validateAutoReelSetupState)(args.state, {
+        availableClipCount: context.clipCount,
+        selectedClipCount: context.selectedClipCount,
+        availableProjectItemIds: context.projectItemOptions.map((item) => item.id),
+        availableManualClipIds: context.manualClipOptions.map((clip) => clip.id)
+    });
+    if (validation.general.length > 0 || Object.keys(validation.fields).length > 0) {
+        throw new Error([
+            ...validation.general,
+            ...Object.values(validation.fields).filter((value) => typeof value === "string" && value.length > 0)
+        ].join(" "));
+    }
+    const pendingSelection = buildPendingSelection(context, args.state);
+    const baseRequest = (0, autoReelSetupConfig_1.serializeAutoReelSetupIntoRequest)(args.state, {
+        id: `auto-reel-request-${Date.now()}`,
+        prompt: buildPrompt(args.state, context, pendingSelection),
+        mediaSelection: pendingSelection,
+        targetDurationSeconds: args.state.targetDurationSeconds,
+        outputSequenceName: args.state.outputSequenceName.trim(),
+        styleHints: buildStyleHints(args.state),
+        preferredEvents: preferredEventsForType(args.state.reelType),
+        excludedClipIds: [],
+        submittedAt: new Date().toISOString()
+    });
+    const baseRequestValidation = (0, validation_1.validateAutoReelRequest)(baseRequest);
+    if (!baseRequestValidation.valid || !baseRequestValidation.value) {
+        throw new Error(`Auto Reel setup is invalid: ${baseRequestValidation.issues.map((issue) => `${issue.path} ${issue.message}`).join("; ")}`);
+    }
+    let job = (0, models_1.createAutoReelJob)(baseRequestValidation.value, `auto-reel-job-${Date.now()}`);
+    jobMemory.save(job);
+    log.push(`Loaded project "${context.projectName || "Unknown Project"}".`);
+    log.push(`Using sequence "${context.sequenceName}" at ${formatSeconds(context.durationSeconds)} total duration.`);
+    log.push(`Configured ${labelForReelType(args.state.reelType)} in ${args.state.storyMode} story mode with ${args.state.targetDurationSeconds}s target duration.`);
+    job = updateJob(job, "validating", progress(1, 3, "Validating Auto Reel setup"), log, "Validated Phase 4 Auto Reel setup fields.");
+    emitProgress(args.onProgress, job, log, "Validation complete. Preparing real timeline scan.");
+    job = updateJob(job, "scanning", progress(0, Math.max(1, context.clipCount), "Starting real timeline/media scan"), log, "Starting real Phase 4 timeline/media scan.");
+    emitProgress(args.onProgress, job, log, "Starting real timeline/media scan.");
+    try {
+        const scanResult = await (0, autoReelScanner_1.scanAutoReelTimeline)({
+            projectId: args.projectId,
+            sequenceId: args.sequenceId,
+            sequenceName: context.sequenceName,
+            timeline: context.timeline,
+            state: args.state,
+            projectItemOptions: context.projectItemOptions,
+            signal: args.signal,
+            onProgress: (scannerProgress) => {
+                job = saveJob(job, {
+                    progress: progress(scannerProgress.current, scannerProgress.total, scannerProgress.message)
+                });
+                emitProgress(args.onProgress, job, log, scannerProgress.message);
+            }
+        });
+        const request = (0, autoReelSetupConfig_1.serializeAutoReelSetupIntoRequest)(args.state, {
+            id: baseRequest.id,
+            prompt: buildPrompt(args.state, context, scanResult.selection),
+            mediaSelection: scanResult.selection,
+            targetDurationSeconds: args.state.targetDurationSeconds,
+            outputSequenceName: args.state.outputSequenceName.trim(),
+            styleHints: buildStyleHints(args.state),
+            preferredEvents: preferredEventsForType(args.state.reelType),
+            excludedClipIds: [],
+            submittedAt: baseRequest.submittedAt
+        });
+        const requestValidation = (0, validation_1.validateAutoReelRequest)(request);
+        if (!requestValidation.valid || !requestValidation.value) {
+            throw new Error(`Auto Reel setup is invalid: ${requestValidation.issues.map((issue) => `${issue.path} ${issue.message}`).join("; ")}`);
+        }
+        const setupWarnings = buildSetupWarnings(args.state, context, scanResult.selection);
+        const combinedWarnings = [...scanResult.warnings, ...setupWarnings];
+        log.push(...scanResult.log);
+        log.push(`Captured ${scanResult.descriptors.length} clip descriptors for extraction and later planning.`);
+        log.push(describeSelection(scanResult.selection));
+        log.push(describeMusicSource(args.state));
+        log.push(describeReferences(args.state));
+        log.push(describeReferenceReel(args.state));
+        job = saveJob(job, {
+            request: requestValidation.value,
+            clips: scanResult.descriptors,
+            warnings: combinedWarnings,
+            progress: progress(scanResult.descriptors.length, Math.max(1, scanResult.descriptors.length), "Scanner complete. Ready for planning review")
+        });
+        emitProgress(args.onProgress, job, log, scanResult.planningText);
+        job = updateJob(job, "extracting", progress(0, Math.max(1, scanResult.descriptors.length), "Starting frame and audio extraction"), log, "Starting Phase 4 frame/audio extraction with the local-only sidecar when available.");
+        emitProgress(args.onProgress, job, log, "Starting Phase 4 frame/audio extraction.");
+        const extractionStage = await (0, autoReelExtractionService_1.runAutoReelExtractionStage)({
+            job,
+            request: requestValidation.value,
+            clips: scanResult.descriptors,
+            context,
+            signal: args.signal,
+            onProgress: (extraction) => {
+                const totalUnits = Math.max(1, extraction.progress.totalClips + extraction.progress.totalAudioTasks);
+                const completedUnits = extraction.progress.completedClips + extraction.progress.completedAudioTasks;
+                job = saveJob(job, {
+                    frameSamples: extraction.frameSamples,
+                    audioExtractions: extraction.audioExtractions,
+                    extraction,
+                    extractionFailures: extraction.failures,
+                    warnings: dedupeStrings([...combinedWarnings, ...extraction.warnings]),
+                    progress: progress(completedUnits, totalUnits, (0, autoReelExtractionService_1.buildExtractionProgressMessage)(extraction))
+                });
+                emitProgress(args.onProgress, job, log, extraction.status === "sidecar-unavailable" ? extraction.sidecar.reason || extractionStagePlanningText(extraction) : extractionStagePlanningText(extraction));
+            }
+        });
+        log.push(...extractionStage.warnings.map((warning) => `Extraction warning: ${warning}`));
+        job = saveJob(job, {
+            frameSamples: extractionStage.frameSamples,
+            audioExtractions: extractionStage.audioExtractions,
+            extraction: extractionStage.extraction,
+            extractionFailures: extractionStage.failures,
+            warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings]),
+            progress: progress(extractionStage.extraction.progress.completedClips + extractionStage.extraction.progress.completedAudioTasks, Math.max(1, extractionStage.extraction.progress.totalClips + extractionStage.extraction.progress.totalAudioTasks), (0, autoReelExtractionService_1.buildExtractionProgressMessage)(extractionStage.extraction))
+        });
+        emitProgress(args.onProgress, job, log, extractionStage.planningText);
+        job = updateJob(job, "awaiting_review", progress(1, 1, "Extraction complete. Waiting for Phase 4 approval"), log, "Phase 4 extraction complete. Vision AI, Music AI analysis, scoring, story building, planning, execution, and export have not started.");
+        emitProgress(args.onProgress, job, log, extractionStage.planningText);
+        persistSetupDraft({
+            projectId: args.projectId,
+            sequenceId: args.sequenceId,
+            state: args.state
+        });
+        persistSetupAssets(job.id, args.state);
+        memory.setAnalysis(`auto-reel:request:${job.id}`, "request", requestValidation.value);
+        memory.setAnalysis(`auto-reel:scan:${scanResult.selection.cacheKey}`, "result", {
+            scannedAt: new Date().toISOString(),
+            selection: scanResult.selection,
+            descriptors: scanResult.descriptors,
+            warnings: combinedWarnings
+        });
+        memory.setAnalysis(`auto-reel:extraction:${job.id}`, "result", extractionStage.extraction);
+        return {
+            job,
+            context,
+            log,
+            request: requestValidation.value,
+            planningText: extractionStage.planningText
+        };
+    }
+    catch (error) {
+        if ((0, autoReelScanner_1.isAutoReelScanCancelledError)(error) || (0, autoReelExtractionService_1.isAutoReelExtractionCancelledError)(error)) {
+            log.push("Auto Reel scan/extraction was cancelled before later analysis phases.");
+            job = updateJob(job, "cancelled", progress(job.progress.current, Math.max(1, job.progress.total), "Extraction cancelled"), log, "Auto Reel scan/extraction cancelled before later analysis phases.");
+            emitProgress(args.onProgress, job, log, "Auto Reel extraction cancelled before Vision AI, Music AI, or planning.");
+        }
+        throw error;
+    }
+}
+function loadAutoReelSetupDraft() {
+    const stored = memory.getAnalysis("auto-reel:setup", "draft");
+    if (!isRecord(stored) || !isRecord(stored.state)) {
+        return null;
+    }
+    return {
+        projectId: normalizeText(stored.projectId, ""),
+        sequenceId: normalizeText(stored.sequenceId, ""),
+        state: (0, autoReelSetupConfig_1.createDefaultAutoReelSetupState)(stored.state)
+    };
+}
+function persistSetupDraft(draft) {
+    memory.setAnalysis("auto-reel:setup", "draft", draft);
+}
+function persistSetupAssets(jobId, state) {
+    memory.setAnalysis(`auto-reel:setup:${jobId}`, "assets", {
+        references: state.references.map((reference) => ({
+            id: reference.id,
+            role: reference.role,
+            label: reference.label,
+            fileName: reference.fileName ?? ""
+        })),
+        referenceReelUrl: state.referenceReelUrl.trim(),
+        referenceReelLocalFileName: state.referenceReelLocalFileName.trim()
+    });
+}
+function updateJob(job, nextState, nextProgress, log, line) {
+    log.push(line);
+    const updated = (0, models_1.transitionAutoReelJob)(job, nextState, { progress: nextProgress, reason: line });
+    jobMemory.save(updated);
+    return updated;
+}
+function progress(current, total, message) {
+    return { current, total, message };
+}
+async function readSequenceOptions(project, activeSequenceId, activeSequenceName) {
+    if (!isRecord(project) || typeof project.getSequences !== "function") {
+        return activeSequenceName ? [{ id: activeSequenceId, name: activeSequenceName, active: true }] : [];
+    }
+    try {
+        const raw = await project.getSequences();
+        if (!Array.isArray(raw) || raw.length === 0) {
+            return activeSequenceName ? [{ id: activeSequenceId, name: activeSequenceName, active: true }] : [];
+        }
+        return raw.map((sequence, index) => {
+            const name = normalizeText(isRecord(sequence) ? sequence.name : "", `Sequence ${index + 1}`);
+            const id = createSequenceId(sequence, name);
+            return { id, name, active: id === activeSequenceId };
+        });
+    }
+    catch {
+        return activeSequenceName ? [{ id: activeSequenceId, name: activeSequenceName, active: true }] : [];
+    }
+}
+function flattenTimelineClips(timeline, selectedClips) {
+    if (!timeline) {
+        return selectedClips;
+    }
+    return [...timeline.videoTracks, ...timeline.audioTracks].flatMap((track) => track.clips.map((clip) => ({
+        id: clip.id,
+        name: clip.name,
+        start: clip.start,
+        end: clip.end,
+        duration: clip.duration,
+        track: clip.trackIndex,
+        mediaType: clip.mediaType,
+        type: track.type,
+        projectItemId: clip.projectItemId ?? undefined
+    })));
+}
+function buildSelectedClips(timeline, fallbackSelectedClips) {
+    if (!timeline) {
+        return fallbackSelectedClips;
+    }
+    return [...timeline.videoTracks, ...timeline.audioTracks]
+        .flatMap((track) => track.clips
+        .filter((clip) => clip.selected)
+        .map((clip) => ({
+        id: clip.id,
+        name: clip.name,
+        start: clip.start,
+        end: clip.end,
+        duration: clip.duration,
+        track: clip.trackIndex,
+        mediaType: clip.mediaType,
+        type: track.type,
+        projectItemId: clip.projectItemId ?? undefined
+    })));
+}
+function buildPendingSelection(context, state) {
+    return {
+        mode: state.sourceMode,
+        projectId: context.activeProjectId,
+        sequenceId: context.activeSequenceId,
+        sequenceName: context.sequenceName,
+        clipIds: [],
+        projectItemIds: [],
+        inPointSeconds: context.inPointSeconds,
+        outPointSeconds: context.outPointSeconds,
+        usedFallback: false,
+        sequenceResolution: context.frameSize,
+        fps: context.fps || null,
+        timebase: context.timebase,
+        playheadSeconds: context.timeline?.playhead ?? null,
+        selectedClipCount: context.selectedClipCount,
+        scannedClipCount: 0,
+        mediaFingerprint: "pending-scan",
+        cacheKey: "pending-scan",
+        capabilityNotes: []
+    };
+}
+function buildSetupWarnings(state, context, selection) {
+    const warnings = [];
+    if (selection.usedFallback) {
+        warnings.push("The requested source mode did not resolve a full clip set, so Auto Reel recorded a fallback state.");
+    }
+    if (context.lockedTrackSupport === "unavailable") {
+        warnings.push("This host session does not expose locked-track state yet. The include/exclude locked tracks toggle is recorded but not enforced.");
+    }
+    if (state.musicSourceMode === "project-item" && !state.musicProjectItemId) {
+        warnings.push("No Premiere project audio item is selected yet.");
+    }
+    if (state.musicSourceMode === "social-reference") {
+        warnings.push("Social music links remain reference-only and will not be downloaded or analyzed as source audio.");
+    }
+    if (!state.references.some((reference) => Boolean(reference.fileName))) {
+        warnings.push("No person reference images are attached yet.");
+    }
+    if (!state.referenceReelUrl.trim() && !state.referenceReelLocalFileName.trim()) {
+        warnings.push("No reference reel is attached yet.");
+    }
+    return warnings;
+}
+function saveJob(job, patch) {
+    const updated = {
+        ...job,
+        ...patch,
+        updatedAt: new Date().toISOString()
+    };
+    jobMemory.save(updated);
+    return updated;
+}
+function emitProgress(onProgress, job, log, planningText) {
+    onProgress?.({
+        job,
+        log: [...log],
+        planningText
+    });
+}
+function extractionStagePlanningText(extraction) {
+    if (extraction.status === "sidecar-unavailable") {
+        return extraction.sidecar.reason || "Frame/audio extraction is unavailable because the local sidecar is not reachable.";
+    }
+    return "Frame/audio extraction is running. Later Vision AI, Music AI, scoring, story building, and planning phases remain disabled.";
+}
+function dedupeStrings(values) {
+    return values.filter((value, index) => values.indexOf(value) === index);
+}
+function buildPrompt(state, context, selection) {
+    return [
+        `Create a ${labelForReelType(state.reelType)} for ${context.sequenceName}.`,
+        `Use ${selection.mode.replaceAll("-", " ")} as the source mode.`,
+        `Target duration ${state.targetDurationSeconds} seconds.`,
+        `Story mode ${state.storyMode}, style ${state.style}, balance ${state.balanceTarget}, energy ${state.energy}.`,
+        `Output sequence ${state.outputSequenceName.trim()}.`
+    ].join(" ");
+}
+function buildStyleHints(state) {
+    return [
+        labelForReelType(state.reelType),
+        `style:${state.style}`,
+        `story:${state.storyMode}`,
+        `emotion:${state.emotionPriority}`,
+        `balance:${state.balanceTarget}`,
+        `energy:${state.energy}`,
+        `cuts:${state.cutDensity}`,
+        `transition:${state.transitionIntensity}`,
+        `motion:${state.motionIntensity}`,
+        `sfx:${state.sfxIntensity}`,
+        `color:${state.colorIntensity}`,
+        `music:${state.musicSourceMode}`
+    ];
+}
+function preferredEventsForType(reelType) {
+    switch (reelType) {
+        case "cinematic-reel":
+            return ["Bride Entry", "Varmala", "Pheras", "Decor", "Drone"];
+        case "emotional-reel":
+            return ["Bride Entry", "Varmala", "Pheras", "Reception"];
+        case "couple-reel":
+            return ["Couple Portrait", "Bride Entry", "Varmala"];
+        case "dance-reel":
+            return ["Sangeet", "Baraat", "Reception", "Dance"];
+        case "reception-reel":
+            return ["Reception", "Cake", "Dance"];
+        default:
+            return ["Bride Entry", "Varmala", "Pheras", "Reception"];
+    }
+}
+function describeSelection(selection) {
+    return `Resolved ${selection.clipIds.length} clips from ${selection.mode.replaceAll("-", " ")}${selection.usedFallback ? " with fallback" : ""}.`;
+}
+function describeMusicSource(state) {
+    switch (state.musicSourceMode) {
+        case "local-file":
+            return state.musicLocalFileName
+                ? `Music source set to local file "${state.musicLocalFileName}".`
+                : "Music source is configured for a local file, but no file is selected yet.";
+        case "project-item":
+            return state.musicProjectItemId
+                ? `Music source set to Premiere project item "${state.musicProjectItemId}".`
+                : "Music source is configured for a Premiere project item, but no item is selected yet.";
+        case "authorized-direct-url":
+            return `Music source set to authorized direct URL ${state.musicDirectUrl.trim() || "(missing URL)"}.`;
+        case "social-reference":
+            return `Music source uses social reference-only link ${state.musicSocialReferenceUrl.trim() || "(missing URL)"} with no download or licensed use implied.`;
+        default:
+            return "Music source is disabled. Auto Reel will plan without music-driven timing.";
+    }
+}
+function describeReferences(state) {
+    const attached = state.references.filter((reference) => reference.fileName);
+    return attached.length > 0
+        ? `Reference images attached: ${attached.map((reference) => `${reference.label} (${reference.fileName})`).join(", ")}.`
+        : "No bride, groom, family, or custom reference image is attached yet.";
+}
+function describeReferenceReel(state) {
+    if (state.referenceReelLocalFileName.trim()) {
+        return `Reference reel file attached: ${state.referenceReelLocalFileName.trim()} (reference only).`;
+    }
+    if (state.referenceReelUrl.trim()) {
+        return `Reference reel URL attached: ${state.referenceReelUrl.trim()} (reference only).`;
+    }
+    return "No reference reel attached yet.";
+}
+function createProjectId(name) {
+    return name ? `project:${name}` : "project:active";
+}
+function createSequenceId(sequence, fallbackName) {
+    if (isRecord(sequence)) {
+        const guid = normalizeText(sequence.guid, "");
+        if (guid) {
+            return `sequence:${guid}`;
+        }
+        const id = normalizeText(sequence.id, "");
+        if (id) {
+            return `sequence:${id}`;
+        }
+    }
+    return `sequence:${fallbackName || "active"}`;
+}
+function labelForReelType(reelType) {
+    switch (reelType) {
+        case "cinematic-reel":
+            return "Cinematic Reel";
+        case "emotional-reel":
+            return "Emotional Reel";
+        case "couple-reel":
+            return "Couple Reel";
+        case "dance-reel":
+            return "Dance Reel";
+        case "reception-reel":
+            return "Reception Reel";
+        default:
+            return "Wedding Highlight";
+    }
+}
+function formatSeconds(totalSeconds) {
+    const seconds = Math.max(0, Math.floor(totalSeconds));
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainder = seconds % 60;
+    return [hours, minutes, remainder].map((value) => String(value).padStart(2, "0")).join(":");
+}
+function normalizeText(value, fallback) {
+    if (typeof value === "string") {
+        return value;
+    }
+    if (typeof value === "number" || typeof value === "boolean") {
+        return String(value);
+    }
+    return fallback;
+}
+function isRecord(value) {
+    return typeof value === "object" && value !== null;
+}
+
+
+/***/ },
+
+/***/ 7950
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.AutoReelSidecarClient = exports.AutoReelSidecarCancelledError = exports.AutoReelSidecarUnavailableError = void 0;
+__webpack_unused_export__ = mapSidecarHealthResponse;
+const SIDECAR_HOST = "127.0.0.1";
+const SIDECAR_START_TIMEOUT_MS = 7000;
+const SIDECAR_POLL_INTERVAL_MS = 250;
+class AutoReelSidecarUnavailableError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "AutoReelSidecarUnavailableError";
+    }
+}
+exports.AutoReelSidecarUnavailableError = AutoReelSidecarUnavailableError;
+class AutoReelSidecarCancelledError extends Error {
+    constructor(message = "Auto Reel extraction was cancelled.") {
+        super(message);
+        this.name = "AutoReelSidecarCancelledError";
+    }
+}
+exports.AutoReelSidecarCancelledError = AutoReelSidecarCancelledError;
+class AutoReelSidecarClient {
+    session = null;
+    async ensureReady() {
+        if (this.session) {
+            const connected = await this.fetchHealth(this.session);
+            if (connected.available) {
+                return connected;
+            }
+            this.session = null;
+        }
+        const started = await this.tryStartSidecar();
+        if (!started) {
+            return {
+                available: false,
+                status: "unavailable",
+                capabilities: [],
+                reason: "Local analysis sidecar is unavailable. Start analysis-sidecar manually or use a runtime that can spawn Python."
+            };
+        }
+        this.session = started;
+        return this.fetchHealth(started);
+    }
+    async runExtractionJob(request, options = {}) {
+        const health = await this.ensureReady();
+        if (!health.available || !this.session) {
+            throw new AutoReelSidecarUnavailableError(health.reason || "Local analysis sidecar is unavailable.");
+        }
+        const submit = await this.requestJson(this.session, "/extraction/jobs", {
+            method: "POST",
+            body: JSON.stringify(request)
+        });
+        if (!submit?.jobId) {
+            throw new AutoReelSidecarUnavailableError("Local analysis sidecar did not return an extraction job ID.");
+        }
+        let aborted = false;
+        const abortHandler = () => {
+            aborted = true;
+            void this.cancelJob(submit.jobId).catch(() => undefined);
+        };
+        options.signal?.addEventListener("abort", abortHandler, { once: true });
+        try {
+            for (;;) {
+                if (aborted || options.signal?.aborted) {
+                    throw new AutoReelSidecarCancelledError();
+                }
+                const result = await this.requestJson(this.session, `/extraction/jobs/${encodeURIComponent(submit.jobId)}`);
+                options.onProgress?.(result);
+                if (isTerminalExtractionStatus(result?.status)) {
+                    return result;
+                }
+                await delay(SIDECAR_POLL_INTERVAL_MS);
+            }
+        }
+        finally {
+            options.signal?.removeEventListener("abort", abortHandler);
+        }
+    }
+    async cancelJob(jobId) {
+        if (!this.session) {
+            return;
+        }
+        await this.requestJson(this.session, `/extraction/jobs/${encodeURIComponent(jobId)}/cancel`, {
+            method: "POST"
+        });
+    }
+    async fetchHealth(session) {
+        try {
+            const payload = await this.requestJson(session, "/health");
+            const capabilities = await this.requestJson(session, "/capabilities").catch(() => null);
+            return mapSidecarHealthResponse(payload, capabilities, session.baseUrl);
+        }
+        catch (error) {
+            return {
+                available: false,
+                status: "unavailable",
+                capabilities: [],
+                reason: error instanceof Error ? error.message : "Local analysis sidecar is unavailable."
+            };
+        }
+    }
+    async tryStartSidecar() {
+        const runtime = resolveRuntimeModules();
+        const scriptPath = resolveSidecarScript(runtime);
+        if (!runtime.childProcess || !runtime.processRef || !scriptPath) {
+            return null;
+        }
+        const token = createRandomToken();
+        const port = 43000 + Math.floor(Math.random() * 1000);
+        const pythonCandidates = uniqueStrings([
+            runtime.processRef.env?.RKFLOW_ANALYSIS_SIDECAR_PYTHON,
+            "python3.11",
+            "python3"
+        ]);
+        for (const pythonCommand of pythonCandidates) {
+            if (!canRunCommand(runtime, pythonCommand)) {
+                continue;
+            }
+            try {
+                runtime.childProcess
+                    .spawn(pythonCommand, [
+                    scriptPath,
+                    "--host",
+                    SIDECAR_HOST,
+                    "--port",
+                    String(port),
+                    "--token",
+                    token
+                ], {
+                    cwd: runtime.processRef.cwd?.(),
+                    env: runtime.processRef.env,
+                    detached: true,
+                    stdio: "ignore"
+                })
+                    ?.unref?.();
+                const session = {
+                    baseUrl: `http://${SIDECAR_HOST}:${port}`,
+                    token,
+                    port,
+                    pythonCommand
+                };
+                if (await waitForHealth(session)) {
+                    return session;
+                }
+            }
+            catch { }
+        }
+        return null;
+    }
+    async requestJson(session, route, init = {}) {
+        if (typeof fetch !== "function") {
+            throw new AutoReelSidecarUnavailableError("This runtime does not expose fetch(), so the local analysis sidecar cannot be reached.");
+        }
+        const response = await fetch(`${session.baseUrl}${route}`, {
+            ...init,
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${session.token}`,
+                ...(init.headers ?? {})
+            }
+        });
+        if (!response.ok) {
+            const message = await response.text().catch(() => response.statusText);
+            throw new AutoReelSidecarUnavailableError(message || `Sidecar request failed with ${response.status}.`);
+        }
+        return response.json();
+    }
+}
+exports.AutoReelSidecarClient = AutoReelSidecarClient;
+function mapSidecarHealthResponse(healthPayload, capabilitiesPayload, baseUrl) {
+    const health = isRecord(healthPayload) ? healthPayload : {};
+    const capabilities = isRecord(capabilitiesPayload) ? capabilitiesPayload : {};
+    const localhostOnly = health.bind === SIDECAR_HOST || capabilities.bind === SIDECAR_HOST;
+    const status = typeof health.status === "string" ? health.status : "unavailable";
+    const available = status === "ok" && localhostOnly;
+    const capabilityList = Array.isArray(capabilities.features)
+        ? capabilities.features.filter((value) => typeof value === "string")
+        : [];
+    return {
+        available,
+        status: available ? "available" : "unavailable",
+        baseUrl,
+        version: typeof capabilities.version === "string" ? capabilities.version : typeof health.version === "string" ? health.version : undefined,
+        pythonVersion: typeof capabilities.python_version === "string" ? capabilities.python_version : undefined,
+        capabilities: capabilityList,
+        reason: available
+            ? undefined
+            : typeof health.reason === "string"
+                ? health.reason
+                : "Local analysis sidecar did not report a localhost-only healthy state."
+    };
+}
+function resolveRuntimeModules() {
+    return {
+        childProcess: resolveModule("child_process"),
+        fs: resolveModule("fs"),
+        path: resolveModule("path"),
+        processRef: typeof process !== "undefined"
+            ? process
+            : (typeof globalThis !== "undefined" ? globalThis.process ?? null : null)
+    };
+}
+function resolveModule(name) {
+    const requireFn = (typeof globalThis !== "undefined" ? globalThis.require : undefined) ||
+        (typeof window !== "undefined" ? window.require : undefined);
+    if (typeof requireFn !== "function") {
+        return null;
+    }
+    try {
+        return requireFn(name);
+    }
+    catch {
+        return null;
+    }
+}
+function resolveSidecarScript(runtime) {
+    const cwd = runtime.processRef?.cwd?.();
+    if (!cwd || !runtime.path || !runtime.fs) {
+        return null;
+    }
+    const scriptPath = runtime.path.join(cwd, "analysis-sidecar", "server.py");
+    return runtime.fs.existsSync(scriptPath) ? scriptPath : null;
+}
+function canRunCommand(runtime, command) {
+    if (!runtime.childProcess) {
+        return false;
+    }
+    try {
+        const result = runtime.childProcess.spawnSync(command, ["--version"], { stdio: "ignore" });
+        return result.status === 0;
+    }
+    catch {
+        return false;
+    }
+}
+async function waitForHealth(session) {
+    const startedAt = Date.now();
+    while (Date.now() - startedAt <= SIDECAR_START_TIMEOUT_MS) {
+        try {
+            const response = await fetch(`${session.baseUrl}/health`, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: `Bearer ${session.token}`
+                }
+            });
+            if (response.ok) {
+                return true;
+            }
+        }
+        catch { }
+        await delay(200);
+    }
+    return false;
+}
+function createRandomToken() {
+    const cryptoRef = typeof globalThis !== "undefined" ? globalThis.crypto : undefined;
+    if (cryptoRef?.getRandomValues) {
+        const bytes = new Uint8Array(16);
+        cryptoRef.getRandomValues(bytes);
+        return Array.from(bytes, (value) => value.toString(16).padStart(2, "0")).join("");
+    }
+    return `${Date.now().toString(16)}${Math.random().toString(16).slice(2)}`;
+}
+function uniqueStrings(values) {
+    return values.filter((value, index, list) => typeof value === "string" && value.length > 0 && list.indexOf(value) === index);
+}
+function isTerminalExtractionStatus(status) {
+    return status === "completed" || status === "cancelled" || status === "failed" || status === "sidecar-unavailable";
+}
+function isRecord(value) {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+function delay(durationMs) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, durationMs);
+    });
+}
+
+
+/***/ },
+
+/***/ 423
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.toPromptReelPlan = toPromptReelPlan;
+// The current AutoEditAssembler consumes Prompt Reel's plan shape. Keep conversion
+// explicit until Phase 2 moves the active planner to the new domain model.
+function toPromptReelPlan(plan) {
+    return {
+        title: plan.title,
+        templateName: "Auto Reel",
+        intentSummary: plan.intentSummary,
+        targetDurationSeconds: plan.targetDurationSeconds,
+        totalDurationSeconds: plan.totalDurationSeconds,
+        selectionMode: "sequence",
+        resolutionPath: "memory",
+        clips: plan.segments.map((segment) => ({
+            clipId: segment.clipId,
+            clipName: segment.clipId,
+            start: segment.sourceInSeconds,
+            end: segment.sourceOutSeconds,
+            sourceDuration: segment.sourceOutSeconds - segment.sourceInSeconds,
+            durationSeconds: segment.durationSeconds,
+            track: 0,
+            mediaType: "video",
+            projectItemId: segment.projectItemId,
+            shotType: "planned",
+            emotionWeight: 0,
+            musicEnergyWeight: 0,
+            shotWeight: 0,
+            selectionScore: segment.score,
+            reason: segment.reason,
+            promptTags: []
+        })),
+        notes: plan.warnings
+    };
+}
+
+
+/***/ },
+
+/***/ 4251
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = void 0;
+var AutoReelScreen_1 = __webpack_require__(8904);
+Object.defineProperty(exports, "default", ({ enumerable: true, get: function () { return __importDefault(AutoReelScreen_1).default; } }));
+__exportStar(__webpack_require__(5225), exports);
+__exportStar(__webpack_require__(3492), exports);
+__exportStar(__webpack_require__(8542), exports);
+__exportStar(__webpack_require__(423), exports);
+__exportStar(__webpack_require__(8489), exports);
+__exportStar(__webpack_require__(1676), exports);
+
+
+/***/ },
+
+/***/ 5225
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AUTO_REEL_JOB_STATES = void 0;
+exports.createAutoReelJob = createAutoReelJob;
+exports.canTransitionAutoReelJob = canTransitionAutoReelJob;
+exports.transitionAutoReelJob = transitionAutoReelJob;
+exports.isActiveAutoReelJobState = isActiveAutoReelJobState;
+exports.serializeAutoReelJob = serializeAutoReelJob;
+exports.AUTO_REEL_JOB_STATES = [
+    "idle",
+    "validating",
+    "scanning",
+    "extracting",
+    "analyzing_vision",
+    "analyzing_faces",
+    "analyzing_emotion",
+    "analyzing_music",
+    "scoring",
+    "building_story",
+    "planning",
+    "awaiting_review",
+    "executing",
+    "completed",
+    "cancelled",
+    "failed"
+];
+const ACTIVE_JOB_STATES = new Set([
+    "validating",
+    "scanning",
+    "extracting",
+    "analyzing_vision",
+    "analyzing_faces",
+    "analyzing_emotion",
+    "analyzing_music",
+    "scoring",
+    "building_story",
+    "planning",
+    "awaiting_review",
+    "executing"
+]);
+const STATE_TRANSITIONS = {
+    idle: ["validating", "cancelled"],
+    validating: ["scanning", "failed", "cancelled"],
+    scanning: ["extracting", "analyzing_vision", "analyzing_music", "scoring", "failed", "cancelled"],
+    extracting: ["awaiting_review", "analyzing_vision", "analyzing_music", "scoring", "failed", "cancelled"],
+    analyzing_vision: ["analyzing_faces", "analyzing_emotion", "analyzing_music", "scoring", "failed", "cancelled"],
+    analyzing_faces: ["analyzing_emotion", "analyzing_music", "scoring", "failed", "cancelled"],
+    analyzing_emotion: ["analyzing_music", "scoring", "failed", "cancelled"],
+    analyzing_music: ["scoring", "failed", "cancelled"],
+    scoring: ["building_story", "planning", "failed", "cancelled"],
+    building_story: ["planning", "failed", "cancelled"],
+    planning: ["awaiting_review", "failed", "cancelled"],
+    awaiting_review: ["planning", "executing", "cancelled", "failed"],
+    executing: ["completed", "failed", "cancelled"],
+    completed: ["idle"],
+    cancelled: ["idle"],
+    failed: ["idle"]
+};
+function createAutoReelJob(request, id, createdAt = new Date().toISOString()) {
+    return {
+        schemaVersion: 1,
+        id,
+        state: "idle",
+        request,
+        progress: { current: 0, total: 0, message: "Waiting to validate request" },
+        clips: [],
+        frameSamples: [],
+        audioExtractions: [],
+        visionSignals: [],
+        faceSignals: [],
+        expressionSignals: [],
+        weddingEventSignals: [],
+        extractionFailures: [],
+        scoreBreakdowns: [],
+        storyBeats: [],
+        revisions: [],
+        transitions: [],
+        warnings: [],
+        createdAt,
+        updatedAt: createdAt
+    };
+}
+function canTransitionAutoReelJob(from, to) {
+    return STATE_TRANSITIONS[from].includes(to);
+}
+function transitionAutoReelJob(job, nextState, options = {}) {
+    if (!canTransitionAutoReelJob(job.state, nextState)) {
+        throw new Error(`Invalid Auto Reel job transition: ${job.state} -> ${nextState}`);
+    }
+    const at = options.at ?? new Date().toISOString();
+    const progress = options.progress ?? job.progress;
+    return {
+        ...job,
+        state: nextState,
+        progress,
+        error: nextState === "failed" ? options.error ?? job.error ?? "Auto Reel job failed" : undefined,
+        transitions: [
+            ...job.transitions,
+            { from: job.state, to: nextState, at, reason: options.reason }
+        ],
+        updatedAt: at
+    };
+}
+function isActiveAutoReelJobState(state) {
+    return ACTIVE_JOB_STATES.has(state);
+}
+function serializeAutoReelJob(job) {
+    return JSON.stringify(job);
+}
+
+
+/***/ },
+
+/***/ 3492
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.validateAutoReelRequest = validateAutoReelRequest;
+exports.validateAutoReelSetupConfig = validateAutoReelSetupConfig;
+exports.validateAiReelPlan = validateAiReelPlan;
+exports.validateBridgeExecutionReport = validateBridgeExecutionReport;
+exports.validatePersistedAutoReelJob = validatePersistedAutoReelJob;
+exports.validateAutoReelAudioExtraction = validateAutoReelAudioExtraction;
+exports.validateAutoReelExtractionResult = validateAutoReelExtractionResult;
+const Command_1 = __webpack_require__(111);
+const models_1 = __webpack_require__(5225);
+function validateAutoReelRequest(input) {
+    if (!isRecord(input)) {
+        return invalid("request", "Expected an object.");
+    }
+    const issues = [];
+    requireNonEmptyString(input, "id", issues);
+    requireNonEmptyString(input, "prompt", issues);
+    requireNonEmptyString(input, "outputSequenceName", issues);
+    requireNonEmptyString(input, "submittedAt", issues);
+    if (input.createNewSequence !== true) {
+        issues.push({ path: "createNewSequence", message: "Auto Reel must create a new sequence." });
+    }
+    if (!isRecord(input.mediaSelection)) {
+        issues.push({ path: "mediaSelection", message: "Expected media selection metadata." });
+    }
+    else {
+        const selection = input.mediaSelection;
+        if (!isStringArray(selection.clipIds)) {
+            issues.push({ path: "mediaSelection.clipIds", message: "Expected a clip ID array." });
+        }
+        if (!isStringArray(selection.projectItemIds)) {
+            issues.push({ path: "mediaSelection.projectItemIds", message: "Expected a project item ID array." });
+        }
+        if (typeof selection.usedFallback !== "boolean") {
+            issues.push({ path: "mediaSelection.usedFallback", message: "Expected a fallback flag." });
+        }
+    }
+    if (input.targetDurationSeconds !== undefined && !isPositiveNumber(input.targetDurationSeconds)) {
+        issues.push({ path: "targetDurationSeconds", message: "Expected a positive duration." });
+    }
+    if (!isString(input.aspectRatio) || !["9:16", "16:9", "1:1", "4:5", "custom"].includes(input.aspectRatio)) {
+        issues.push({ path: "aspectRatio", message: "Expected a supported aspect ratio." });
+    }
+    if (input.setup !== undefined) {
+        const setupResult = validateAutoReelSetupConfig(input.setup);
+        issues.push(...prefixIssues("setup", setupResult.issues));
+    }
+    return issues.length === 0
+        ? { valid: true, value: input, issues }
+        : { valid: false, issues };
+}
+function validateAutoReelSetupConfig(input) {
+    if (!isRecord(input)) {
+        return invalid("setup", "Expected an object.");
+    }
+    const issues = [];
+    if (!isString(input.sourceMode) || !["selected-clips", "active-sequence", "in-out-range", "project-items", "manual-selection"].includes(input.sourceMode)) {
+        issues.push({ path: "sourceMode", message: "Expected a supported media source mode." });
+    }
+    if (!isRecord(input.clipFilter)) {
+        issues.push({ path: "clipFilter", message: "Expected clip filter settings." });
+    }
+    else {
+        if (typeof input.clipFilter.includeLockedTracks !== "boolean") {
+            issues.push({ path: "clipFilter.includeLockedTracks", message: "Expected a locked-track flag." });
+        }
+        if (typeof input.clipFilter.includeDisabledClips !== "boolean") {
+            issues.push({ path: "clipFilter.includeDisabledClips", message: "Expected a disabled-clip flag." });
+        }
+        if (typeof input.clipFilter.includeAudioOnlyItems !== "boolean") {
+            issues.push({ path: "clipFilter.includeAudioOnlyItems", message: "Expected an audio-only inclusion flag." });
+        }
+        if (typeof input.clipFilter.includeStillItems !== "boolean") {
+            issues.push({ path: "clipFilter.includeStillItems", message: "Expected a still-item inclusion flag." });
+        }
+        if (!isPositiveNumber(input.clipFilter.minimumClipCount)) {
+            issues.push({ path: "clipFilter.minimumClipCount", message: "Expected a positive minimum clip count." });
+        }
+        if (!isPositiveNumber(input.clipFilter.maximumClipCount)) {
+            issues.push({ path: "clipFilter.maximumClipCount", message: "Expected a positive maximum clip count." });
+        }
+        if (isPositiveNumber(input.clipFilter.minimumClipCount) &&
+            isPositiveNumber(input.clipFilter.maximumClipCount) &&
+            input.clipFilter.maximumClipCount < input.clipFilter.minimumClipCount) {
+            issues.push({ path: "clipFilter.maximumClipCount", message: "Maximum clip count must be greater than or equal to the minimum." });
+        }
+    }
+    [
+        "reelType",
+        "style",
+        "storyMode",
+        "emotionPriority",
+        "balanceTarget",
+        "energy",
+        "cutDensity",
+        "transitionIntensity",
+        "motionIntensity",
+        "sfxIntensity",
+        "colorIntensity",
+        "outputSequenceName"
+    ].forEach((field) => requireNonEmptyString(input, field, issues));
+    if (!isString(input.aspectRatio) || !["9:16", "16:9", "1:1", "4:5", "custom"].includes(input.aspectRatio)) {
+        issues.push({ path: "aspectRatio", message: "Expected a supported aspect ratio." });
+    }
+    if (input.createNewSequence !== true) {
+        issues.push({ path: "createNewSequence", message: "Auto Reel setup must create a new sequence." });
+    }
+    if (!Array.isArray(input.selectedProjectItemIds) || !input.selectedProjectItemIds.every(isString)) {
+        issues.push({ path: "selectedProjectItemIds", message: "Expected a project-item ID array." });
+    }
+    if (!Array.isArray(input.manualClipIds) || !input.manualClipIds.every(isString)) {
+        issues.push({ path: "manualClipIds", message: "Expected a manual clip ID array." });
+    }
+    if (!isRecord(input.musicSource)) {
+        issues.push({ path: "musicSource", message: "Expected music source settings." });
+    }
+    else {
+        if (!isString(input.musicSource.mode) ||
+            !["none", "local-file", "project-item", "authorized-direct-url", "social-reference"].includes(input.musicSource.mode)) {
+            issues.push({ path: "musicSource.mode", message: "Expected a supported music source mode." });
+        }
+        if (typeof input.musicSource.extractClipAudio !== "boolean") {
+            issues.push({ path: "musicSource.extractClipAudio", message: "Expected a clip-audio extraction flag." });
+        }
+        if (typeof input.musicSource.copyrightNoticeAccepted !== "boolean") {
+            issues.push({ path: "musicSource.copyrightNoticeAccepted", message: "Expected a copyright notice flag." });
+        }
+        if (input.musicSource.directUrl !== undefined && !isValidHttpUrl(input.musicSource.directUrl)) {
+            issues.push({ path: "musicSource.directUrl", message: "Expected a valid direct media URL." });
+        }
+        if (input.musicSource.socialReferenceUrl !== undefined && !isValidHttpUrl(input.musicSource.socialReferenceUrl)) {
+            issues.push({ path: "musicSource.socialReferenceUrl", message: "Expected a valid social reference URL." });
+        }
+    }
+    if (!Array.isArray(input.references)) {
+        issues.push({ path: "references", message: "Expected an array of person references." });
+    }
+    else {
+        input.references.forEach((reference, index) => {
+            const path = `references[${index}]`;
+            if (!isRecord(reference)) {
+                issues.push({ path, message: "Expected a reference object." });
+                return;
+            }
+            requireNonEmptyString(reference, "id", issues, path);
+            requireNonEmptyString(reference, "role", issues, path);
+            requireNonEmptyString(reference, "label", issues, path);
+        });
+    }
+    if (input.referenceReel !== undefined) {
+        if (!isRecord(input.referenceReel)) {
+            issues.push({ path: "referenceReel", message: "Expected reference reel metadata." });
+        }
+        else {
+            if (!isString(input.referenceReel.mode) || !["url", "local-file"].includes(input.referenceReel.mode)) {
+                issues.push({ path: "referenceReel.mode", message: "Expected a supported reference reel mode." });
+            }
+            if (input.referenceReel.url !== undefined && !isValidHttpUrl(input.referenceReel.url)) {
+                issues.push({ path: "referenceReel.url", message: "Expected a valid reference reel URL." });
+            }
+        }
+    }
+    return issues.length === 0
+        ? { valid: true, value: input, issues }
+        : { valid: false, issues };
+}
+function validateAiReelPlan(input) {
+    if (!isRecord(input)) {
+        return invalid("plan", "Expected an object.");
+    }
+    const issues = [];
+    ["id", "jobId", "requestId", "title", "intentSummary", "generatedAt"].forEach((field) => {
+        requireNonEmptyString(input, field, issues);
+    });
+    requirePositiveNumber(input, "version", issues);
+    requirePositiveNumber(input, "targetDurationSeconds", issues);
+    requirePositiveNumber(input, "totalDurationSeconds", issues);
+    if (!Array.isArray(input.segments) || input.segments.length === 0) {
+        issues.push({ path: "segments", message: "Expected at least one planned segment." });
+    }
+    else {
+        const segmentIds = new Set();
+        input.segments.forEach((segment, index) => {
+            const path = `segments[${index}]`;
+            if (!isRecord(segment)) {
+                issues.push({ path, message: "Expected a segment object." });
+                return;
+            }
+            ["id", "storyBeatId", "clipId", "reason"].forEach((field) => {
+                requireNonEmptyString(segment, field, issues, path);
+            });
+            ["order", "sourceInSeconds", "sourceOutSeconds", "timelineStartSeconds", "durationSeconds", "score"].forEach((field) => {
+                requireFiniteNumber(segment, field, issues, path);
+            });
+            if (isString(segment.id)) {
+                if (segmentIds.has(segment.id)) {
+                    issues.push({ path: `${path}.id`, message: "Segment IDs must be unique." });
+                }
+                segmentIds.add(segment.id);
+            }
+            if (isFiniteNumber(segment.sourceInSeconds) && isFiniteNumber(segment.sourceOutSeconds) && segment.sourceOutSeconds <= segment.sourceInSeconds) {
+                issues.push({ path, message: "Source out must be after source in." });
+            }
+            if (!isPositiveNumber(segment.durationSeconds)) {
+                issues.push({ path: `${path}.durationSeconds`, message: "Duration must be positive." });
+            }
+            if (typeof segment.locked !== "boolean") {
+                issues.push({ path: `${path}.locked`, message: "Expected a lock flag." });
+            }
+        });
+    }
+    ["storyBeats", "transitions", "motionDecisions", "sfxDecisions", "colorSuggestions", "rejectedClipIds", "warnings"].forEach((field) => {
+        if (!Array.isArray(input[field])) {
+            issues.push({ path: field, message: "Expected an array." });
+        }
+    });
+    return issues.length === 0
+        ? { valid: true, value: input, issues }
+        : { valid: false, issues };
+}
+function validateBridgeExecutionReport(input) {
+    if (!isRecord(input)) {
+        return invalid("executionReport", "Expected an object.");
+    }
+    const issues = [];
+    ["id", "jobId", "planId", "outputSequenceName", "startedAt", "status"].forEach((field) => {
+        requireNonEmptyString(input, field, issues);
+    });
+    if (input.createdNewSequence !== true) {
+        issues.push({ path: "createdNewSequence", message: "Execution must target a new sequence." });
+    }
+    if (input.sourceTimelineModified !== false) {
+        issues.push({ path: "sourceTimelineModified", message: "Source timeline must remain untouched." });
+    }
+    if (!Array.isArray(input.actions)) {
+        issues.push({ path: "actions", message: "Expected an action report array." });
+    }
+    else {
+        input.actions.forEach((action, index) => {
+            const path = `actions[${index}]`;
+            if (!isRecord(action)) {
+                issues.push({ path, message: "Expected an action report object." });
+                return;
+            }
+            if (!isString(action.action) || !Command_1.COMMAND_ACTIONS.includes(action.action)) {
+                issues.push({ path: `${path}.action`, message: "Unknown command action." });
+            }
+            requireNonEmptyString(action, "commandId", issues, path);
+            requireNonEmptyString(action, "message", issues, path);
+            requireNonEmptyString(action, "completedAt", issues, path);
+            if (typeof action.success !== "boolean") {
+                issues.push({ path: `${path}.success`, message: "Expected a success flag." });
+            }
+        });
+    }
+    return issues.length === 0
+        ? { valid: true, value: input, issues }
+        : { valid: false, issues };
+}
+function validatePersistedAutoReelJob(input) {
+    if (!isRecord(input)) {
+        return invalid("job", "Expected an object.");
+    }
+    const issues = [];
+    if (input.schemaVersion !== 1) {
+        issues.push({ path: "schemaVersion", message: "Unsupported Auto Reel job schema." });
+    }
+    requireNonEmptyString(input, "id", issues);
+    requireNonEmptyString(input, "createdAt", issues);
+    requireNonEmptyString(input, "updatedAt", issues);
+    if (!isString(input.state) || !models_1.AUTO_REEL_JOB_STATES.includes(input.state)) {
+        issues.push({ path: "state", message: "Unknown Auto Reel job state." });
+    }
+    const requestResult = validateAutoReelRequest(input.request);
+    issues.push(...prefixIssues("request", requestResult.issues));
+    if (!isRecord(input.progress) || !isFiniteNumber(input.progress.current) || !isFiniteNumber(input.progress.total) || !isString(input.progress.message)) {
+        issues.push({ path: "progress", message: "Invalid job progress." });
+    }
+    ["clips", "frameSamples", "audioExtractions", "visionSignals", "faceSignals", "expressionSignals", "weddingEventSignals", "extractionFailures", "scoreBreakdowns", "storyBeats", "revisions", "transitions", "warnings"].forEach((field) => {
+        if (!Array.isArray(input[field])) {
+            issues.push({ path: field, message: "Expected an array." });
+        }
+    });
+    if (input.extraction !== undefined) {
+        const extractionResult = validateAutoReelExtractionResult(input.extraction);
+        issues.push(...prefixIssues("extraction", extractionResult.issues));
+    }
+    if (input.plan !== undefined) {
+        const planResult = validateAiReelPlan(input.plan);
+        issues.push(...prefixIssues("plan", planResult.issues));
+    }
+    if (input.executionReport !== undefined) {
+        const reportResult = validateBridgeExecutionReport(input.executionReport);
+        issues.push(...prefixIssues("executionReport", reportResult.issues));
+    }
+    return issues.length === 0
+        ? { valid: true, value: input, issues }
+        : { valid: false, issues };
+}
+function validateAutoReelAudioExtraction(input) {
+    if (!isRecord(input)) {
+        return invalid("audioExtraction", "Expected an object.");
+    }
+    const issues = [];
+    ["id", "taskId", "sourceKind", "cacheKey", "cacheStatus", "extractionStatus", "extractedAt"].forEach((field) => {
+        requireNonEmptyString(input, field, issues);
+    });
+    if (!Array.isArray(input.waveform)) {
+        issues.push({ path: "waveform", message: "Expected a waveform array." });
+    }
+    return issues.length === 0
+        ? { valid: true, value: input, issues }
+        : { valid: false, issues };
+}
+function validateAutoReelExtractionResult(input) {
+    if (!isRecord(input)) {
+        return invalid("extraction", "Expected an object.");
+    }
+    const issues = [];
+    if (input.schemaVersion !== 1) {
+        issues.push({ path: "schemaVersion", message: "Unsupported extraction schema." });
+    }
+    ["jobId", "requestId", "status", "startedAt", "completedAt"].forEach((field) => {
+        requireNonEmptyString(input, field, issues);
+    });
+    if (!isRecord(input.sidecar)) {
+        issues.push({ path: "sidecar", message: "Expected sidecar status metadata." });
+    }
+    else {
+        requireNonEmptyString(input.sidecar, "status", issues, "sidecar");
+    }
+    if (!isRecord(input.progress)) {
+        issues.push({ path: "progress", message: "Expected extraction progress metadata." });
+    }
+    else {
+        const progress = input.progress;
+        [
+            "completedClips",
+            "remainingClips",
+            "totalClips",
+            "completedAudioTasks",
+            "totalAudioTasks",
+            "cacheHits",
+            "cacheMisses"
+        ].forEach((field) => requireFiniteNumber(progress, field, issues, "progress"));
+    }
+    ["clipResults", "frameSamples", "audioExtractions", "failures", "warnings"].forEach((field) => {
+        if (!Array.isArray(input[field])) {
+            issues.push({ path: field, message: "Expected an array." });
+        }
+    });
+    if (Array.isArray(input.audioExtractions)) {
+        input.audioExtractions.forEach((entry, index) => {
+            const result = validateAutoReelAudioExtraction(entry);
+            issues.push(...prefixIssues(`audioExtractions[${index}]`, result.issues));
+        });
+    }
+    return issues.length === 0
+        ? { valid: true, value: input, issues }
+        : { valid: false, issues };
+}
+function invalid(path, message) {
+    return { valid: false, issues: [{ path, message }] };
+}
+function isRecord(value) {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+function isString(value) {
+    return typeof value === "string";
+}
+function isStringArray(value) {
+    return Array.isArray(value) && value.every(isString);
+}
+function isFiniteNumber(value) {
+    return typeof value === "number" && Number.isFinite(value);
+}
+function isPositiveNumber(value) {
+    return isFiniteNumber(value) && value > 0;
+}
+function isValidHttpUrl(value) {
+    if (!isString(value) || value.trim().length === 0) {
+        return false;
+    }
+    try {
+        const parsed = new URL(value);
+        return parsed.protocol === "http:" || parsed.protocol === "https:";
+    }
+    catch {
+        return false;
+    }
+}
+function requireNonEmptyString(record, field, issues, prefix = "") {
+    const value = record[field];
+    if (!isString(value) || value.trim().length === 0) {
+        issues.push({ path: prefix ? `${prefix}.${field}` : field, message: "Expected a non-empty string." });
+    }
+}
+function requireFiniteNumber(record, field, issues, prefix = "") {
+    if (!isFiniteNumber(record[field])) {
+        issues.push({ path: prefix ? `${prefix}.${field}` : field, message: "Expected a finite number." });
+    }
+}
+function requirePositiveNumber(record, field, issues) {
+    if (!isPositiveNumber(record[field])) {
+        issues.push({ path: field, message: "Expected a positive number." });
+    }
+}
+function prefixIssues(prefix, issues) {
+    return issues.map((issue) => ({ path: `${prefix}.${issue.path}`, message: issue.message }));
 }
 
 
@@ -9035,7 +12304,7 @@ function toBrainClip(trackType, clip, index) {
         track: clip.trackIndex,
         mediaType: trackType,
         type: trackType,
-        projectItemId: clip.projectItemId
+        projectItemId: clip.projectItemId ?? undefined
     };
 }
 function applyInOutRange(clips, inPoint, outPoint) {
@@ -9808,6 +13077,7 @@ const MotionAIComponent_1 = __importDefault(__webpack_require__(4038));
 const AudioAIComponent_1 = __importDefault(__webpack_require__(4198));
 const CaptionAIComponent_1 = __importDefault(__webpack_require__(4238));
 const brain_1 = __webpack_require__(7021);
+const auto_reel_1 = __importDefault(__webpack_require__(4251));
 const ai_director_1 = __importDefault(__webpack_require__(7896));
 const analytics_1 = __importDefault(__webpack_require__(3675));
 const asset_ai_1 = __importDefault(__webpack_require__(6830));
@@ -9854,6 +13124,7 @@ const sparkles_mjs_1 = __importDefault(__webpack_require__(5654));
 const timer_reset_mjs_1 = __importDefault(__webpack_require__(692));
 const users_mjs_1 = __importDefault(__webpack_require__(1085));
 const waves_horizontal_mjs_1 = __importDefault(__webpack_require__(9404));
+const appShellLayout_1 = __webpack_require__(1746);
 const MODULE_GROUPS = [
     {
         label: "AI Core",
@@ -9868,6 +13139,7 @@ const MODULE_GROUPS = [
         items: [
             { id: "timeline-ai", title: "Timeline AI", phase: 2, icon: (0, jsx_runtime_1.jsx)(clapperboard_mjs_1.default, { size: 16 }), description: "Timeline health, cleanup, and execution." },
             { id: "auto-edit", title: "Auto Edit", phase: 3, icon: (0, jsx_runtime_1.jsx)(scissors_mjs_1.default, { size: 16 }), description: "One-click reels, highlights, and teasers." },
+            { id: "auto-reel", title: "Auto Reel", phase: 2, icon: (0, jsx_runtime_1.jsx)(timer_reset_mjs_1.default, { size: 16 }), description: "Project-to-plan setup workflow for flagship reel generation." },
             { id: "prompt-reel", title: "Prompt Reel", phase: 3, icon: (0, jsx_runtime_1.jsx)(sparkles_mjs_1.default, { size: 16 }), description: "Free-text reel generation from Premiere clips." },
             { id: "voice-chat", title: "Voice / Chat", phase: 3, icon: (0, jsx_runtime_1.jsx)(mic_vocal_mjs_1.default, { size: 16 }), description: "Natural-language edit commands." }
         ]
@@ -9986,6 +13258,7 @@ function AppShell() {
             "clip-intelligence": ["Sort by AI rating", "Show duplicate clips", "Explain low scores"],
             "music-ai": ["Show me the chorus sections", "Estimate BPM", "Overlay beat markers"],
             "timeline-ai": ["Score timeline health", "Find gaps", "Suggest cleanup report"],
+            "auto-reel": ["Prepare a 60-second wedding highlight", "Scan selected clips", "Attach a reference reel URL"],
             settings: ["Test Gemini connection", "Explain model setup", "Show active provider"]
         };
         return perModule[activeModule] ?? [
@@ -10024,7 +13297,7 @@ function AppShell() {
                                 gap: theme_1.spacing.lg,
                                 height: "100%",
                                 minHeight: 0
-                            }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { flex: "1 1 auto", minWidth: 0, minHeight: 0, display: "flex", flexDirection: "column", gap: theme_1.spacing.lg }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { style: { background: theme_1.colors.panel, boxShadow: theme_1.shadows.raised }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.gold, fontSize: theme_1.typography.sizes.xs, fontWeight: 700, textTransform: "uppercase" }, children: "Monday, August 3, 2026" }), (0, jsx_runtime_1.jsx)("h1", { style: { margin: `${theme_1.spacing.xs}px 0 0`, fontFamily: theme_1.typography.heading, fontSize: theme_1.typography.sizes.xxl, color: theme_1.colors.maroonDeep }, children: activeConfig.title }), (0, jsx_runtime_1.jsx)("p", { style: { margin: `${theme_1.spacing.xs}px 0 0`, color: theme_1.colors.inkMuted }, children: activeConfig.description })] }), !assistantOpen && ((0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: handleAssistantOpen, children: "Open Assistant" }))] }) }), (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: { minHeight: 0 }, children: (0, jsx_runtime_1.jsx)(ErrorBoundary_1.default, { resetKey: activeModule, children: (0, jsx_runtime_1.jsx)(WorkspacePanel, { moduleId: activeModule, timelineInfo: timelineInfo }) }) })] }), assistantOpen && ((0, jsx_runtime_1.jsx)("div", { style: { flex: "0 0 340px", width: 340, minWidth: 300, minHeight: 0 }, children: (0, jsx_runtime_1.jsx)(AIChatPanel_1.default, { title: "AI Assistant", suggestedActions: assistantActions, onAction: handleAssistantAction }) }))] }) })] }), (0, jsx_runtime_1.jsxs)("footer", { style: {
+                            }, children: [(0, jsx_runtime_1.jsxs)("div", { style: appShellLayout_1.WORKSPACE_CONTENT_COLUMN_STYLE, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { style: { background: theme_1.colors.panel, boxShadow: theme_1.shadows.raised }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.gold, fontSize: theme_1.typography.sizes.xs, fontWeight: 700, textTransform: "uppercase" }, children: "Monday, August 3, 2026" }), (0, jsx_runtime_1.jsx)("h1", { style: { margin: `${theme_1.spacing.xs}px 0 0`, fontFamily: theme_1.typography.heading, fontSize: theme_1.typography.sizes.xxl, color: theme_1.colors.maroonDeep }, children: activeConfig.title }), (0, jsx_runtime_1.jsx)("p", { style: { margin: `${theme_1.spacing.xs}px 0 0`, color: theme_1.colors.inkMuted }, children: activeConfig.description })] }), !assistantOpen && ((0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: handleAssistantOpen, children: "Open Assistant" }))] }) }), (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: appShellLayout_1.WORKSPACE_SCROLL_REGION_STYLE, children: (0, jsx_runtime_1.jsx)(ErrorBoundary_1.default, { resetKey: activeModule, children: (0, jsx_runtime_1.jsx)(WorkspacePanel, { moduleId: activeModule, timelineInfo: timelineInfo }) }) })] }), assistantOpen && ((0, jsx_runtime_1.jsx)("div", { style: { flex: "0 0 340px", width: 340, minWidth: 300, minHeight: 0 }, children: (0, jsx_runtime_1.jsx)(AIChatPanel_1.default, { title: "AI Assistant", suggestedActions: assistantActions, onAction: handleAssistantAction }) }))] }) })] }), (0, jsx_runtime_1.jsxs)("footer", { style: {
                     flex: "0 0 auto",
                     borderTop: `1px solid ${theme_1.colors.border}`,
                     background: theme_1.colors.panel,
@@ -10076,7 +13349,8 @@ const LeftNav = (0, react_1.memo)(function LeftNav({ activeModule, navCollapsed,
                     borderBottom: `1px solid ${theme_1.colors.border}`
                 }, children: [!navCollapsed && ((0, jsx_runtime_1.jsxs)("div", { style: { minWidth: 0 }, children: [(0, jsx_runtime_1.jsx)("div", { style: { fontFamily: theme_1.typography.heading, fontSize: theme_1.typography.sizes.xl, color: theme_1.colors.maroonDeep }, children: "RK Flow" }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, fontSize: theme_1.typography.sizes.xs, marginTop: 2 }, children: "AI Studio" })] })), (0, jsx_runtime_1.jsx)(primitives_1.IconButton, { onClick: onToggleNav, "aria-label": "Toggle navigation", children: (0, jsx_runtime_1.jsx)(timer_reset_mjs_1.default, { size: 16 }) })] }), (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: { flex: "1 1 auto" }, children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md, paddingTop: theme_1.spacing.xs }, children: MODULE_GROUPS.map((group) => ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.xs }, children: [!navCollapsed && ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.gold, fontSize: theme_1.typography.sizes.xs, fontWeight: 700, textTransform: "uppercase" }, children: group.label })), group.items.map((item) => {
                                 const active = item.id === activeModule;
-                                return ((0, jsx_runtime_1.jsxs)(primitives_1.Button, { variant: active ? "secondary" : "ghost", onClick: () => onSelectModule(item.id), title: item.title, style: {
+                                const navLabel = (0, appShellLayout_1.formatModuleNavLabel)(item.title, item.phase);
+                                return ((0, jsx_runtime_1.jsxs)(primitives_1.Button, { variant: active ? "secondary" : "ghost", onClick: () => onSelectModule(item.id), title: navLabel, "aria-label": navLabel, style: {
                                         display: "flex",
                                         alignItems: "center",
                                         gap: theme_1.spacing.sm,
@@ -10100,7 +13374,7 @@ const LeftNav = (0, react_1.memo)(function LeftNav({ activeModule, navCollapsed,
                                                 background: active ? theme_1.colors.cream : theme_1.colors.white,
                                                 color: active ? theme_1.colors.maroon : theme_1.colors.inkMuted,
                                                 border: `1px solid ${active ? theme_1.colors.goldSoft : theme_1.colors.border}`
-                                            }, children: item.icon }), !navCollapsed && ((0, jsx_runtime_1.jsxs)("span", { style: { textAlign: "left", minWidth: 0, display: "flex", flexDirection: "column", gap: theme_1.spacing.xs }, children: [(0, jsx_runtime_1.jsx)("span", { style: { display: "block", fontWeight: 700 }, children: item.title }), (0, jsx_runtime_1.jsx)("span", { style: { display: "inline-flex" }, children: (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Phase ${item.phase}`, tone: active ? "warning" : "neutral" }) })] }))] }, item.id));
+                                            }, children: item.icon }), !navCollapsed && ((0, jsx_runtime_1.jsxs)("span", { style: appShellLayout_1.NAV_LABEL_STACK_STYLE, children: [(0, jsx_runtime_1.jsx)("span", { style: appShellLayout_1.NAV_TITLE_STYLE, children: item.title }), (0, jsx_runtime_1.jsx)("span", { style: appShellLayout_1.NAV_BADGE_ROW_STYLE, children: (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Phase ${item.phase}`, tone: active ? "warning" : "neutral" }) })] }))] }, item.id));
                             })] }, group.label))) }) })] }));
 });
 function WorkspacePanel({ moduleId, timelineInfo }) {
@@ -10142,6 +13416,9 @@ function WorkspacePanel({ moduleId, timelineInfo }) {
     }
     if (moduleId === "auto-edit") {
         return (0, jsx_runtime_1.jsx)(AutoEditComponent_1.default, {});
+    }
+    if (moduleId === "auto-reel") {
+        return (0, jsx_runtime_1.jsx)(auto_reel_1.default, {});
     }
     if (moduleId === "prompt-reel") {
         return (0, jsx_runtime_1.jsx)(prompt_reel_1.default, {});
@@ -10205,6 +13482,57 @@ function DashboardPanel({ timelineInfo }) {
                                     border: `1px solid ${theme_1.colors.border}`,
                                     background: theme_1.colors.white
                                 }, children: project }, project))) }) })] })] }));
+}
+
+
+/***/ },
+
+/***/ 1746
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.NAV_BADGE_ROW_STYLE = exports.NAV_TITLE_STYLE = exports.NAV_LABEL_STACK_STYLE = exports.WORKSPACE_SCROLL_REGION_STYLE = exports.WORKSPACE_CONTENT_COLUMN_STYLE = void 0;
+exports.formatModuleNavLabel = formatModuleNavLabel;
+const theme_1 = __webpack_require__(3877);
+exports.WORKSPACE_CONTENT_COLUMN_STYLE = {
+    flex: "1 1 auto",
+    minWidth: 0,
+    minHeight: 0,
+    display: "flex",
+    flexDirection: "column",
+    gap: theme_1.spacing.lg,
+    overflow: "hidden"
+};
+exports.WORKSPACE_SCROLL_REGION_STYLE = {
+    flex: "1 1 auto",
+    minWidth: 0,
+    minHeight: 0
+};
+exports.NAV_LABEL_STACK_STYLE = {
+    textAlign: "left",
+    minWidth: 0,
+    flex: "1 1 auto",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: theme_1.spacing.xs,
+    overflow: "hidden"
+};
+exports.NAV_TITLE_STYLE = {
+    display: "block",
+    width: "100%",
+    fontWeight: 700,
+    lineHeight: 1.3
+};
+exports.NAV_BADGE_ROW_STYLE = {
+    display: "flex",
+    alignItems: "center",
+    minWidth: 0
+};
+function formatModuleNavLabel(title, phase) {
+    return `${title} Phase ${phase}`;
 }
 
 
@@ -10319,7 +13647,8 @@ class PremiereBridge {
         if (sequence === null) {
             return null;
         }
-        const [videoTrackCount, audioTrackCount, duration, inPoint, outPoint, playhead, settings, videoTracks, audioTracks] = await Promise.all([
+        const capabilityNotes = [];
+        const [videoTrackCount, audioTrackCount, duration, inPoint, outPoint, playhead, settings, rawTimebase, frameSize, videoTracks, audioTracks] = await Promise.all([
             sequence.getVideoTrackCount(),
             sequence.getAudioTrackCount(),
             sequence.getEndTime(),
@@ -10327,19 +13656,39 @@ class PremiereBridge {
             sequence.getOutPoint(),
             sequence.getPlayerPosition(),
             sequence.getSettings(),
+            tryPremiereValue(() => sequence.getTimebase?.(), null),
+            readFrameSize(sequence),
             this.readTracks(sequence, "video"),
             this.readTracks(sequence, "audio")
         ]);
+        const timebase = typeof rawTimebase === "number" && Number.isFinite(rawTimebase) ? rawTimebase : null;
+        if (timebase === null) {
+            capabilityNotes.push({
+                field: "timebase",
+                source: "unavailable",
+                reason: "Sequence.getTimebase() was not exposed by this Premiere host session."
+            });
+        }
+        if (frameSize === null) {
+            capabilityNotes.push({
+                field: "frameSize",
+                source: "unavailable",
+                reason: "Sequence.getFrameSize() was not exposed by this Premiere host session."
+            });
+        }
         return {
             sequenceName: normalizeTextValue(sequence.name, ""),
             fps: await getFrameRate(settings),
+            timebase,
+            frameSize,
             duration: duration.seconds,
             playhead: playhead.seconds,
             inPoint: inPoint.seconds,
             outPoint: outPoint.seconds,
             videoTracks: videoTracks.length > 0 ? videoTracks : createTracks("video", videoTrackCount),
             audioTracks: audioTracks.length > 0 ? audioTracks : createTracks("audio", audioTrackCount),
-            markers: []
+            markers: [],
+            capabilityNotes
         };
     }
     async execute(action, payload = {}) {
@@ -10602,17 +13951,25 @@ class PremiereBridge {
                 break;
             }
             const track = await trackReader(index);
-            const clips = await this.readTrackClips(track);
+            const clips = await this.readTrackClips(track, type);
             tracks.push({
                 id: `${type}-${index + 1}`,
                 name: `${type === "video" ? "Video" : "Audio"} ${index + 1}`,
                 type,
+                locked: null,
+                capabilityNotes: [
+                    {
+                        field: "locked",
+                        source: "unavailable",
+                        reason: "The active Premiere runtime does not expose a verified track locked-state reader in this workspace."
+                    }
+                ],
                 clips
             });
         }
         return tracks;
     }
-    async readTrackClips(track) {
+    async readTrackClips(track, trackType) {
         if (track?.getTrackItems === undefined) {
             return [];
         }
@@ -10620,16 +13977,103 @@ class PremiereBridge {
         const items = await track.getTrackItems(clipType, false);
         return Promise.all((items ?? []).map(async (clip, index) => {
             const projectItem = await tryPremiereValue(() => clip.getProjectItem?.(), null);
+            const mediaPath = await this.readMediaPath(clip);
+            const projectItemId = (await getProjectItemId(projectItem)) ?? null;
+            const projectItemNodeId = getProjectItemNodeId(projectItem);
+            const rawItemType = await tryPremiereValue(() => clip.getType?.(), null);
+            const itemType = normalizeOptionalText(rawItemType);
+            const rawMediaType = normalizeOptionalText(await tryPremiereValue(() => clip.getMediaType?.(), null));
+            const sourceIn = readTickSeconds(await tryPremiereValue(() => clip.getInPoint?.(), null));
+            const sourceOut = readTickSeconds(await tryPremiereValue(() => clip.getOutPoint?.(), null));
+            const speed = await tryPremiereValue(() => clip.getSpeed?.(), null);
+            const disabled = await tryPremiereValue(() => clip.isDisabled?.(), null);
+            const sourceFrameSize = await readFrameSize(projectItem);
+            const mediaTypeResolution = resolveClipMediaType(trackType, rawMediaType, itemType, mediaPath);
+            const capabilityNotes = [...mediaTypeResolution.notes];
+            if (projectItemId === null) {
+                capabilityNotes.push({
+                    field: "projectItemId",
+                    source: "unavailable",
+                    reason: "TrackItem.getProjectItem().getId() did not return a stable project-item identifier."
+                });
+            }
+            if (mediaPath === null) {
+                capabilityNotes.push({
+                    field: "mediaPath",
+                    source: "unavailable",
+                    reason: "This track item did not expose a media file path through getMediaFilePath()."
+                });
+            }
+            if (sourceIn === null || sourceOut === null) {
+                capabilityNotes.push({
+                    field: "sourceInOut",
+                    source: "unavailable",
+                    reason: "TrackItem.getInPoint()/getOutPoint() were not both available for this clip."
+                });
+            }
+            if (speed === null) {
+                capabilityNotes.push({
+                    field: "speed",
+                    source: "unavailable",
+                    reason: "TrackItem.getSpeed() did not return a readable value in this host session."
+                });
+            }
+            if (disabled === null) {
+                capabilityNotes.push({
+                    field: "disabled",
+                    source: "unavailable",
+                    reason: "TrackItem.isDisabled() did not return a readable value in this host session."
+                });
+            }
+            if (sourceFrameSize === null) {
+                capabilityNotes.push({
+                    field: "sourceFrameSize",
+                    source: "unavailable",
+                    reason: "The source project item did not expose a frame size in this host session."
+                });
+            }
+            capabilityNotes.push({
+                field: "linkedClipIds",
+                source: "unavailable",
+                reason: "No verified linked audio/video relationship reader is exposed by the active Premiere runtime in this workspace."
+            });
+            capabilityNotes.push({
+                field: "proxyState",
+                source: "unavailable",
+                reason: "No verified proxy-state reader is exposed by the active Premiere runtime in this workspace."
+            });
             return {
-                id: await tryPremiereValue(() => clip.getName?.(), `clip-${index}`),
+                id: buildStableTimelineClipId({
+                    name: await tryPremiereValue(() => clip.getName?.(), `clip-${index}`),
+                    trackType,
+                    trackIndex: await tryPremiereValue(() => clip.getTrackIndex?.(), 0),
+                    start: (await tryPremiereValue(() => clip.getStartTime?.(), { seconds: 0 })).seconds ?? 0,
+                    end: (await tryPremiereValue(() => clip.getEndTime?.(), { seconds: 0 })).seconds ?? 0,
+                    sourceIn,
+                    sourceOut,
+                    projectItemId,
+                    projectItemNodeId,
+                    mediaPath
+                }),
                 name: await tryPremiereValue(() => clip.getName?.(), `Clip ${index + 1}`),
                 start: (await tryPremiereValue(() => clip.getStartTime?.(), { seconds: 0 })).seconds ?? 0,
                 end: (await tryPremiereValue(() => clip.getEndTime?.(), { seconds: 0 })).seconds ?? 0,
                 duration: (await tryPremiereValue(() => clip.getDuration?.(), { seconds: 0 })).seconds ?? 0,
                 trackIndex: await tryPremiereValue(() => clip.getTrackIndex?.(), 0),
                 selected: await tryPremiereValue(() => clip.getIsSelected?.(), false),
-                mediaPath: await this.readMediaPath(clip),
-                projectItemId: await getProjectItemId(projectItem)
+                mediaPath,
+                projectItemId,
+                projectItemNodeId,
+                mediaType: mediaTypeResolution.mediaType,
+                itemType,
+                sourceIn,
+                sourceOut,
+                speed,
+                disabled,
+                linkedClipIds: null,
+                proxyState: null,
+                sourceFrameSize,
+                capabilityNotes
             };
         }));
     }
@@ -10642,7 +14086,7 @@ class PremiereBridge {
         if (projectItem?.getMediaFilePath) {
             return projectItem.getMediaFilePath();
         }
-        return undefined;
+        return null;
     }
     async findClipById(clipId) {
         const sequence = await this.getActiveSequence();
@@ -10931,6 +14375,14 @@ function createTracks(type, count) {
         id: `${type}-${index + 1}`,
         name: `${type === "video" ? "Video" : "Audio"} ${index + 1}`,
         type,
+        locked: null,
+        capabilityNotes: [
+            {
+                field: "locked",
+                source: "unavailable",
+                reason: "The active Premiere runtime does not expose a verified track locked-state reader in this workspace."
+            }
+        ],
         clips: []
     }));
 }
@@ -11014,6 +14466,94 @@ function projectHint(available) {
     return available
         ? "Premiere transaction APIs are available, but this action requires a confirmed writable transaction contract."
         : "No active writable Premiere project/transaction runtime is attached.";
+}
+function normalizeOptionalText(value) {
+    if (typeof value === "string") {
+        const trimmed = value.trim();
+        return trimmed.length > 0 ? trimmed : null;
+    }
+    if (typeof value === "number" || typeof value === "boolean") {
+        return String(value);
+    }
+    return null;
+}
+function readTickSeconds(value) {
+    if (typeof value === "object" && value !== null && typeof value.seconds === "number") {
+        return value.seconds;
+    }
+    return null;
+}
+async function readFrameSize(source) {
+    if (!source?.getFrameSize) {
+        return null;
+    }
+    try {
+        const value = await source.getFrameSize();
+        const width = typeof value?.width === "number" && Number.isFinite(value.width) ? value.width : null;
+        const height = typeof value?.height === "number" && Number.isFinite(value.height) ? value.height : null;
+        return width !== null && height !== null ? { width, height } : null;
+    }
+    catch {
+        return null;
+    }
+}
+function resolveClipMediaType(trackType, rawMediaType, itemType, mediaPath) {
+    const notes = [];
+    const mediaTypeText = rawMediaType?.toLowerCase() ?? "";
+    const itemTypeText = itemType?.toLowerCase() ?? "";
+    if (trackType === "audio" || /audio/.test(mediaTypeText)) {
+        return { mediaType: "audio", notes };
+    }
+    if (/(still|image|photo)/.test(itemTypeText)) {
+        return { mediaType: "still", notes };
+    }
+    if (isStillMediaPath(mediaPath)) {
+        notes.push({
+            field: "mediaType",
+            source: "metadata-fallback",
+            reason: "Still-image detection used the media file extension because no verified host item-type flag was exposed."
+        });
+        return { mediaType: "still", notes };
+    }
+    if (trackType === "video" || /video/.test(mediaTypeText)) {
+        return { mediaType: "video", notes };
+    }
+    notes.push({
+        field: "mediaType",
+        source: "unavailable",
+        reason: "The active Premiere runtime did not expose a readable clip media type for this track item."
+    });
+    return { mediaType: "unknown", notes };
+}
+function isStillMediaPath(mediaPath) {
+    return mediaPath !== null && /\.(jpg|jpeg|png|gif|bmp|tif|tiff|webp|heic)$/i.test(mediaPath);
+}
+function getProjectItemNodeId(item) {
+    const nodeId = item?.nodeId;
+    if (typeof nodeId === "string" && nodeId.length > 0) {
+        return nodeId;
+    }
+    if (typeof nodeId === "number" && Number.isFinite(nodeId)) {
+        return String(nodeId);
+    }
+    return null;
+}
+function buildStableTimelineClipId(input) {
+    return [
+        input.trackType,
+        input.trackIndex,
+        formatStableNumber(input.start),
+        formatStableNumber(input.end),
+        formatStableNumber(input.sourceIn),
+        formatStableNumber(input.sourceOut),
+        input.projectItemId ?? "project-item:unknown",
+        input.projectItemNodeId ?? "node:unknown",
+        input.mediaPath ?? "path:unknown",
+        input.name
+    ].join("::");
+}
+function formatStableNumber(value) {
+    return typeof value === "number" && Number.isFinite(value) ? value.toFixed(3) : "unknown";
 }
 
 

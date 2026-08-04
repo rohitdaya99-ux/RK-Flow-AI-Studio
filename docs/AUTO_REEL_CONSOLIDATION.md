@@ -83,6 +83,56 @@ because the configured free-tier quota was exhausted.
 | Navigation | `src/layout/AppShell.tsx` | Make only the minimal route/import change required for the new workspace. |
 | New work | `src/features/auto-reel/**`, `analysis-sidecar/**`, `docs/AUTO_REEL_STATUS.md` | Add in later approved phases. |
 
+## Phase 4 Extraction Backbone
+
+Phase 4 extends the active `src/features/auto-reel/` path instead of creating a
+second planner, cache, queue, bridge, or job store.
+
+Active extraction path now:
+
+```text
+AutoReelScreen
+  -> runAutoReelSetup
+  -> scanAutoReelTimeline
+  -> runAutoReelExtractionStage
+  -> AutoReelSidecarClient
+  -> analysis-sidecar FastAPI service
+  -> FFmpeg / ffprobe subprocess extraction
+  -> AutoReelJobMemory + MemoryEngine persistence
+```
+
+Phase 4 additions:
+
+- `src/features/auto-reel/models.ts` now carries strict extraction request/result,
+  audio-proxy, cache, and failure-report types without faking later Music AI or
+  Vision AI outputs.
+- `src/features/auto-reel/autoReelExtractionUtils.ts` centralizes deterministic
+  cache keys and start/middle/end frame sampling, with support for later
+  adaptive-hook samples.
+- `src/features/auto-reel/autoReelExtractionService.ts` prepares approved-root
+  extraction requests, handles sidecar-unavailable fallback honestly, and maps
+  results into `FrameSample` plus audio-extraction models.
+- `src/features/auto-reel/autoReelSidecarClient.ts` is the single typed client
+  for localhost sidecar health, extraction job submission, polling progress, and
+  cancellation. Premiere mutation transport remains unchanged.
+- `analysis-sidecar/**` is the single local-only extraction sidecar. It binds to
+  `127.0.0.1`, requires a per-session bearer token, validates approved roots,
+  manages the RK Flow cache, and shells out to local FFmpeg/ffprobe only.
+- `AutoReelJobMemory` plus `MemoryEngine` remain the only resumable job metadata
+  store. Phase 4 persists extraction results under the existing Auto Reel
+  keyspace instead of introducing a second job store.
+
+Current Phase 4 truth labels:
+
+- Sidecar startup and `/health` are implemented locally and can be verified
+  outside Premiere.
+- Frame/audio extraction code is implemented but remains host-unverified in a
+  live Premiere UXP session until FFmpeg is installed and a real local media path
+  is tested from the panel runtime.
+- Vision AI, face, emotion, wedding-event detection, Music AI analysis, scoring,
+  story building, planning, Premiere execution, and export remain not started by
+  this phase.
+
 ## Retirement Candidates
 
 | System | Files | Evidence | Phase 0 action |

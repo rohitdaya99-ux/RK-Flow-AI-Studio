@@ -1,4 +1,17 @@
 export type TimelineTrackType = "video" | "audio";
+export type TimelineClipMediaType = "video" | "audio" | "still" | "unknown";
+export type TimelineMetadataSource = "host-verified" | "metadata-fallback" | "unavailable";
+
+export interface TimelineCapabilityNote {
+  field: string;
+  source: TimelineMetadataSource;
+  reason: string;
+}
+
+export interface TimelineFrameSize {
+  width: number;
+  height: number;
+}
 
 export interface TimelineClip {
   id: string;
@@ -8,14 +21,27 @@ export interface TimelineClip {
   duration: number;
   trackIndex: number;
   selected: boolean;
-  mediaPath?: string;
-  projectItemId?: string;
+  mediaPath: string | null;
+  projectItemId: string | null;
+  projectItemNodeId: string | null;
+  mediaType: TimelineClipMediaType;
+  itemType: string | null;
+  sourceIn: number | null;
+  sourceOut: number | null;
+  speed: number | null;
+  disabled: boolean | null;
+  linkedClipIds: string[] | null;
+  proxyState: boolean | null;
+  sourceFrameSize: TimelineFrameSize | null;
+  capabilityNotes: TimelineCapabilityNote[];
 }
 
 export interface TimelineTrack {
   id: string;
   name: string;
   type: TimelineTrackType;
+  locked: boolean | null;
+  capabilityNotes: TimelineCapabilityNote[];
   clips: TimelineClip[];
 }
 
@@ -29,6 +55,8 @@ export interface TimelineMarker {
 export interface TimelineState {
   sequenceName: string;
   fps: number;
+  timebase: number | null;
+  frameSize: TimelineFrameSize | null;
   duration: number;
   playhead: number;
   inPoint: number;
@@ -36,6 +64,7 @@ export interface TimelineState {
   videoTracks: TimelineTrack[];
   audioTracks: TimelineTrack[];
   markers: TimelineMarker[];
+  capabilityNotes: TimelineCapabilityNote[];
 }
 
 export interface InOutRange {
@@ -47,12 +76,15 @@ export function createEmptyTimeline(): TimelineState {
   return {
     sequenceName: "",
     fps: 0,
+    timebase: null,
+    frameSize: null,
     duration: 0,
     playhead: 0,
     inPoint: 0,
     outPoint: 0,
     videoTracks: [],
     audioTracks: [],
-    markers: []
+    markers: [],
+    capabilityNotes: []
   };
 }

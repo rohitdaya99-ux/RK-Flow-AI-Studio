@@ -1078,7 +1078,7 @@ function toBrainClip(trackType: "video" | "audio", clip: TimelineClip, index: nu
     track: clip.trackIndex,
     mediaType: trackType,
     type: trackType,
-    projectItemId: clip.projectItemId
+    projectItemId: clip.projectItemId ?? undefined
   };
 }
 

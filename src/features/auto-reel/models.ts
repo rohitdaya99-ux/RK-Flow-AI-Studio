@@ -25,10 +25,97 @@ export type MediaSelectionMode =
   | "selected-clips"
   | "active-sequence"
   | "in-out-range"
-  | "project-items";
+  | "project-items"
+  | "manual-selection";
+
+export type AutoReelAspectRatio = "9:16" | "16:9" | "1:1" | "4:5" | "custom";
+export type AutoReelTuningLevel = "low" | "balanced" | "high";
+export type AutoReelBalanceTarget = "bride" | "groom" | "family" | "balanced";
+export type AutoReelEmotionPriority = "low" | "balanced" | "high";
+export type AutoReelEnergyLevel = "calm" | "balanced" | "high";
+export type AutoReelCutDensity = "sparse" | "balanced" | "rapid";
+export type AutoReelStoryMode = "story" | "emotion" | "music" | "viral" | "documentary" | "cinematic";
+export type AutoReelMusicMode =
+  | "none"
+  | "local-file"
+  | "project-item"
+  | "authorized-direct-url"
+  | "social-reference";
+export type AutoReelPersonRole = "bride" | "groom" | "family" | "custom";
+export type AutoReelReferenceReelMode = "url" | "local-file";
+
+export interface AutoReelClipFilterConfig {
+  includeLockedTracks: boolean;
+  includeDisabledClips: boolean;
+  includeAudioOnlyItems: boolean;
+  includeStillItems: boolean;
+  minimumClipCount: number;
+  maximumClipCount: number;
+}
+
+export interface AutoReelMusicSourceConfig {
+  mode: AutoReelMusicMode;
+  fileName?: string;
+  filePath?: string;
+  projectItemId?: string;
+  directUrl?: string;
+  socialReferenceUrl?: string;
+  cachedMusicId?: string;
+  extractClipAudio: boolean;
+  copyrightNoticeAccepted: boolean;
+}
+
+export interface AutoReelReferencePerson {
+  id: string;
+  role: AutoReelPersonRole;
+  label: string;
+  fileName?: string;
+}
+
+export interface AutoReelReferenceReelConfig {
+  mode: AutoReelReferenceReelMode;
+  url?: string;
+  localFileName?: string;
+}
+
+export interface AutoReelSetupConfig {
+  sourceMode: MediaSelectionMode;
+  clipFilter: AutoReelClipFilterConfig;
+  aspectRatio: AutoReelAspectRatio;
+  reelType: string;
+  style: string;
+  storyMode: AutoReelStoryMode;
+  emotionPriority: AutoReelEmotionPriority;
+  balanceTarget: AutoReelBalanceTarget;
+  energy: AutoReelEnergyLevel;
+  cutDensity: AutoReelCutDensity;
+  transitionIntensity: AutoReelTuningLevel;
+  motionIntensity: AutoReelTuningLevel;
+  sfxIntensity: AutoReelTuningLevel;
+  colorIntensity: AutoReelTuningLevel;
+  outputSequenceName: string;
+  createNewSequence: true;
+  musicSource: AutoReelMusicSourceConfig;
+  references: AutoReelReferencePerson[];
+  referenceReel?: AutoReelReferenceReelConfig;
+  selectedProjectItemIds: string[];
+  manualClipIds: string[];
+}
 
 export type ClipMediaType = "video" | "audio" | "still" | "unknown";
 export type SignalSource = "measured" | "ai" | "metadata" | "user";
+export type AutoReelMetadataStatus = "host-verified" | "metadata-fallback" | "unavailable";
+
+export interface AutoReelCapabilityNote {
+  field: string;
+  source: AutoReelMetadataStatus;
+  reason: string;
+}
+
+export interface AutoReelFrameSize {
+  width: number;
+  height: number;
+}
 
 export interface MediaSelection {
   mode: MediaSelectionMode;
@@ -40,6 +127,15 @@ export interface MediaSelection {
   inPointSeconds?: number;
   outPointSeconds?: number;
   usedFallback: boolean;
+  sequenceResolution: AutoReelFrameSize | null;
+  fps: number | null;
+  timebase: number | null;
+  playheadSeconds: number | null;
+  selectedClipCount: number;
+  scannedClipCount: number;
+  mediaFingerprint: string;
+  cacheKey: string;
+  capabilityNotes: AutoReelCapabilityNote[];
 }
 
 export interface AutoReelRequest {
@@ -47,32 +143,42 @@ export interface AutoReelRequest {
   prompt: string;
   mediaSelection: MediaSelection;
   targetDurationSeconds?: number;
-  aspectRatio: "9:16" | "16:9" | "1:1" | "custom";
+  aspectRatio: AutoReelAspectRatio;
   outputSequenceName: string;
   createNewSequence: true;
   styleHints: string[];
   preferredEvents: string[];
   excludedClipIds: string[];
   submittedAt: string;
+  setup?: AutoReelSetupConfig;
 }
 
 export interface ClipDescriptor {
   id: string;
-  projectItemId?: string;
+  projectItemId?: string | null;
+  projectItemNodeId?: string | null;
   name: string;
   mediaType: ClipMediaType;
-  mediaPath?: string;
-  sourceInSeconds: number;
-  sourceOutSeconds: number;
-  timelineStartSeconds?: number;
-  timelineEndSeconds?: number;
-  trackIndex?: number;
-  speed: number;
-  disabled: boolean;
-  linkedClipIds: string[];
-  frameRate?: number;
-  width?: number;
-  height?: number;
+  mediaPath?: string | null;
+  sourceInSeconds: number | null;
+  sourceOutSeconds: number | null;
+  timelineStartSeconds?: number | null;
+  timelineEndSeconds?: number | null;
+  trackIndex?: number | null;
+  trackType?: "video" | "audio" | null;
+  speed: number | null;
+  disabled: boolean | null;
+  selected: boolean | null;
+  linkedClipIds: string[] | null;
+  frameRate?: number | null;
+  width?: number | null;
+  height?: number | null;
+  proxyState?: boolean | null;
+  lockedTrackState?: boolean | null;
+  mediaFingerprint: string;
+  cacheKey: string;
+  metadataStatus: AutoReelMetadataStatus;
+  capabilityNotes: AutoReelCapabilityNote[];
 }
 
 export interface FrameSample {
@@ -84,6 +190,10 @@ export interface FrameSample {
   contentHash?: string;
   width?: number;
   height?: number;
+  cacheKey?: string;
+  cacheStatus?: "hit" | "miss" | "unavailable";
+  error?: string;
+  capabilityReason?: string;
   extractionStatus: "pending" | "available" | "unavailable" | "failed";
   capturedAt: string;
 }
@@ -193,6 +303,131 @@ export interface AudioAnalysis {
   sections: AudioSection[];
   confidence: number;
   analyzedAt: string;
+}
+
+export interface AutoReelAudioWaveformPoint {
+  timeSeconds: number;
+  amplitude: number;
+}
+
+export interface AutoReelAudioExtraction {
+  id: string;
+  taskId: string;
+  sourceKind: "selected-song" | "clip-audio";
+  clipId?: string;
+  sourcePath?: string;
+  outputPath?: string;
+  cacheKey: string;
+  cacheStatus: "hit" | "miss" | "unavailable";
+  extractionStatus: "available" | "unavailable" | "failed";
+  durationSeconds?: number;
+  sampleRate?: number;
+  channels?: number;
+  codec?: string;
+  waveform: AutoReelAudioWaveformPoint[];
+  extractedAt: string;
+  error?: string;
+  capabilityReason?: string;
+}
+
+export interface AutoReelFrameExtractionTask {
+  clipId: string;
+  clipName: string;
+  mediaPath: string;
+  mediaFingerprint: string;
+  cacheKey: string;
+  sourceInSeconds: number;
+  sourceOutSeconds: number;
+  samplePlan: Array<{
+    id: string;
+    sourceTimeSeconds: number;
+    sampleKind: FrameSample["sampleKind"];
+  }>;
+}
+
+export interface AutoReelAudioExtractionTask {
+  id: string;
+  sourceKind: "selected-song" | "clip-audio";
+  clipId?: string;
+  label: string;
+  mediaPath: string;
+  mediaFingerprint: string;
+  cacheKey: string;
+}
+
+export interface AutoReelExtractionFailure {
+  taskId: string;
+  clipId?: string;
+  audioTaskId?: string;
+  targetKind: "frames" | "audio";
+  status: "unavailable" | "failed" | "cancelled";
+  message: string;
+  attempts: number;
+  recordedAt: string;
+}
+
+export interface AutoReelExtractionRequest {
+  schemaVersion: 1;
+  jobId: string;
+  requestId: string;
+  requestedAt: string;
+  approvedRoots: string[];
+  frameTasks: AutoReelFrameExtractionTask[];
+  audioTasks: AutoReelAudioExtractionTask[];
+  cache: {
+    rootName: "rkflow-cache";
+    extractorVersion: string;
+    ttlSeconds: number;
+    maxBytes: number;
+  };
+  limits: {
+    concurrency: number;
+    retryLimit: number;
+  };
+}
+
+export interface AutoReelClipExtractionResult {
+  clipId: string;
+  clipName: string;
+  frameSampleIds: string[];
+  status: "available" | "partial" | "unavailable" | "failed";
+  cacheHits: number;
+  cacheMisses: number;
+  attempts: number;
+  error?: string;
+}
+
+export interface AutoReelExtractionProgressSnapshot {
+  currentClipId?: string;
+  currentClipName?: string;
+  completedClips: number;
+  remainingClips: number;
+  totalClips: number;
+  completedAudioTasks: number;
+  totalAudioTasks: number;
+  cacheHits: number;
+  cacheMisses: number;
+}
+
+export interface AutoReelExtractionResult {
+  schemaVersion: 1;
+  jobId: string;
+  requestId: string;
+  status: "completed" | "cancelled" | "failed" | "sidecar-unavailable";
+  sidecar: {
+    status: "available" | "unavailable";
+    baseUrl?: string;
+    version?: string;
+    reason?: string;
+  };
+  progress: AutoReelExtractionProgressSnapshot;
+  clipResults: AutoReelClipExtractionResult[];
+  frameSamples: FrameSample[];
+  audioExtractions: AutoReelAudioExtraction[];
+  failures: AutoReelExtractionFailure[];
+  warnings: string[];
+  startedAt: string;
+  completedAt: string;
 }
 
 export interface ClipScoreBreakdown {
@@ -348,11 +583,14 @@ export interface AutoReelJob {
   progress: AutoReelJobProgress;
   clips: ClipDescriptor[];
   frameSamples: FrameSample[];
+  audioExtractions: AutoReelAudioExtraction[];
   visionSignals: VisionSignals[];
   faceSignals: FaceSignals[];
   expressionSignals: ExpressionSignals[];
   weddingEventSignals: WeddingEventSignals[];
   audioAnalysis?: AudioAnalysis;
+  extraction?: AutoReelExtractionResult;
+  extractionFailures: AutoReelExtractionFailure[];
   scoreBreakdowns: ClipScoreBreakdown[];
   storyBeats: StoryBeat[];
   plan?: ReelPlan;
@@ -384,7 +622,7 @@ const STATE_TRANSITIONS: Readonly<Record<AutoReelJobState, readonly AutoReelJobS
   idle: ["validating", "cancelled"],
   validating: ["scanning", "failed", "cancelled"],
   scanning: ["extracting", "analyzing_vision", "analyzing_music", "scoring", "failed", "cancelled"],
-  extracting: ["analyzing_vision", "analyzing_music", "scoring", "failed", "cancelled"],
+  extracting: ["awaiting_review", "analyzing_vision", "analyzing_music", "scoring", "failed", "cancelled"],
   analyzing_vision: ["analyzing_faces", "analyzing_emotion", "analyzing_music", "scoring", "failed", "cancelled"],
   analyzing_faces: ["analyzing_emotion", "analyzing_music", "scoring", "failed", "cancelled"],
   analyzing_emotion: ["analyzing_music", "scoring", "failed", "cancelled"],
@@ -412,10 +650,12 @@ export function createAutoReelJob(
     progress: { current: 0, total: 0, message: "Waiting to validate request" },
     clips: [],
     frameSamples: [],
+    audioExtractions: [],
     visionSignals: [],
     faceSignals: [],
     expressionSignals: [],
     weddingEventSignals: [],
+    extractionFailures: [],
     scoreBreakdowns: [],
     storyBeats: [],
     revisions: [],
