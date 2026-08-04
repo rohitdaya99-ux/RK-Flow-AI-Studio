@@ -1,7 +1,6 @@
 import { AIChatService } from "../services/AIChatService";
 import { AIState } from "./AIState";
 import { ProviderId } from "../providers/ProviderFactory";
-import { AIModel } from "../models/ModelRegistry";
 
 export class AIController {
   private readonly chatService = new AIChatService();
@@ -14,16 +13,8 @@ export class AIController {
     return AIState.provider();
   }
 
-  setProvider(provider: ProviderId): void {
-    AIState.setProvider(provider);
-  }
-
-  getModel(): AIModel {
+  getModel(): string {
     return AIState.model();
-  }
-
-  setModel(model: AIModel): void {
-    AIState.setModel(model);
   }
 
   getApiKey(): string {

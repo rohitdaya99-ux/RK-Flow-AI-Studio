@@ -1,0 +1,9 @@
+{
+  "event": "haldi",
+  "tone": "bright",
+  "music": "upbeat festive",
+  "color": "warm yellow",
+  "sfx": ["whoosh", "pop", "hit"],
+  "shotPriority": ["smiles", "family reactions", "powder throw", "details"],
+  "exportProfile": "vertical_reel"
+}

@@ -1,37 +1,26 @@
-import { AIConfigManager } from "../config/AIConfigManager";
-import { ProviderId } from "../providers/ProviderFactory";
-import { AIModel } from "../models/ModelRegistry";
+import { GEMINI_MODEL } from '../GeminiService';
+import { resolveGeminiConfig, saveGeminiConfig } from '../../config';
+import { ProviderId } from '../providers/ProviderFactory';
 
-const DEFAULT_GEMINI_KEY = "AQ.Ab8RN6J5PW823wXcNZzXoZXHCtlB-xbcFK1M5ON2aNEaSUZvOA";
-
-AIConfigManager.setProvider("gemini");
-
-if (!AIConfigManager.hasApiKey("gemini") && DEFAULT_GEMINI_KEY) {
-  AIConfigManager.setApiKey("gemini", DEFAULT_GEMINI_KEY);
-}
+// NOTE: This is a simplified state manager for the UI.
+// The provider is hardcoded to Gemini as it's the only one implemented.
+// The model is also fixed for now.
+// The main purpose is to abstract the API key storage.
 
 export class AIState {
   static provider(): ProviderId {
-    return AIConfigManager.provider();
+    return 'gemini';
   }
 
-  static setProvider(provider: ProviderId): void {
-    AIConfigManager.setProvider(provider);
-  }
-
-  static model(): AIModel {
-    return AIConfigManager.model();
-  }
-
-  static setModel(model: AIModel): void {
-    AIConfigManager.setModel(model);
+  static model(): string {
+    return GEMINI_MODEL;
   }
 
   static apiKey(): string {
-    return AIConfigManager.apiKey(this.provider());
+    return resolveGeminiConfig().apiKey;
   }
 
   static setApiKey(key: string): void {
-    AIConfigManager.setApiKey(this.provider(), key);
+    saveGeminiConfig({ apiKey: key });
   }
 }

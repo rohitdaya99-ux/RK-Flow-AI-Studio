@@ -1,0 +1,9 @@
+{
+  "event": "vidaai",
+  "tone": "emotional",
+  "music": "emotional slow",
+  "color": "soft warm",
+  "sfx": ["soft swell", "gentle rise"],
+  "shotPriority": ["tears", "hugs", "blessings", "closeups"],
+  "exportProfile": "vertical_reel"
+}

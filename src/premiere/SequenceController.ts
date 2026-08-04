@@ -14,4 +14,8 @@ export class SequenceController {
   ): Promise<CommandResult> {
     return this.bridge.execute("IMPORT_MEDIA", { mediaPath, binPath });
   }
+
+  public async rippleDelete(start: number, end: number): Promise<CommandResult> {
+    return this.bridge.execute("RIPPLE_DELETE", { start, end });
+  }
 }

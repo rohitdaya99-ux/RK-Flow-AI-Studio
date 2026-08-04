@@ -1,0 +1,3 @@
+function mcpBridgePing() {
+  return "ok";
+}

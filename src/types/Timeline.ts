@@ -9,6 +9,7 @@ export interface TimelineClip {
   trackIndex: number;
   selected: boolean;
   mediaPath?: string;
+  projectItemId?: string;
 }
 
 export interface TimelineTrack {

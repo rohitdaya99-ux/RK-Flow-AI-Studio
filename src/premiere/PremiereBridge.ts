@@ -4,10 +4,12 @@ import {
   CommandResult
 } from "../types/Command";
 import {
+  TimelineClip,
   TimelineState,
   TimelineTrack,
   TimelineTrackType
 } from "../types/Timeline";
+import TransactionManager from "../core/TransactionManager";
 
 interface TickTime {
   seconds: number;
@@ -19,24 +21,45 @@ interface SequenceSettings {
 
 interface PremiereSequence {
   name: string;
-  getActiveSequence?: () => Promise<PremiereSequence | null>;
   getAudioTrackCount: () => Promise<number>;
+  getAudioTrack?: (index: number) => Promise<any>;
   getEndTime: () => Promise<TickTime>;
   getInPoint: () => Promise<TickTime>;
   getOutPoint: () => Promise<TickTime>;
   getPlayerPosition: () => Promise<TickTime>;
+  getSelection?: () => Promise<any>;
   getSettings: () => Promise<SequenceSettings>;
   getVideoTrackCount: () => Promise<number>;
+  getVideoTrack?: (index: number) => Promise<any>;
 }
 
 interface PremiereProject {
   getActiveSequence: () => Promise<PremiereSequence | null>;
+  createSequence?: (name: string) => Promise<any>;
+  setActiveSequence?: (sequence: PremiereSequence) => Promise<boolean> | boolean;
+  getSequences?: () => Promise<PremiereSequence[]>;
+  executeTransaction?: (callback: (compoundAction: any) => void) => Promise<boolean>;
+  lockedAccess?: <T>(callback: () => Promise<T>) => Promise<T>;
+  importFiles?: (paths: string[]) => Promise<any>;
+  getRootItem?: () => Promise<any>;
 }
 
 interface PremiereApp {
   Project: {
     getActiveProject: () => Promise<PremiereProject | null>;
   };
+  Constants?: {
+    TrackItemType?: {
+      CLIP: unknown;
+    };
+  };
+  SequenceEditor?: {
+    getEditor?: (sequence: PremiereSequence) => Promise<any> | any;
+  };
+  TickTime?: {
+    createWithSeconds?: (seconds: number) => any;
+  };
+  PointF?: new () => { x: number; y: number };
 }
 
 interface PremiereHost {
@@ -50,9 +73,12 @@ interface PremiereHost {
 
 export class PremiereBridge {
   private readonly host: PremiereHost | null;
+  private readonly transactionManager: TransactionManager | null;
 
   public constructor(host?: PremiereHost | null) {
     this.host = host === undefined ? this.resolveHost() : host;
+    const ppro = this.host?.app;
+    this.transactionManager = ppro ? new TransactionManager(ppro) : null;
   }
 
   public isConnected(): boolean {
@@ -69,124 +95,7 @@ export class PremiereBridge {
     if (sequence === null) {
       return null;
     }
-console.log("===== RKFLOW SEQUENCE =====");
-console.log(sequence);
 
-console.log("Sequence methods:");
-console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(sequence)));
-
-try {
-  const track = await (sequence as any).getVideoTrack(0);
-
-  console.log("===== VIDEO TRACK =====");
-  console.log(track);
-
-  console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(track)));
-
-const PPRO = (globalThis as any).require("premierepro");
-
-console.log("PPRO Constants:", PPRO.Constants);
-
-const clips = await (track as any).getTrackItems(
-  PPRO.Constants.TrackItemType.CLIP,
-  false
-);
-
-console.log("===== TRACK CLIPS =====");
-console.log(clips);
-console.log("Clip count:", clips.length);
-
-if (clips.length > 0) {
-  console.log("===== FIRST CLIP =====");
-  console.log(clips[0]);
-
-  console.log(
-    Object.getOwnPropertyNames(
-      Object.getPrototypeOf(clips[0])
-    )
-  );
-
-  console.log("Clip Name:", await clips[0].getName());
-  console.log("Start:", await clips[0].getStartTime());
-  console.log("End:", await clips[0].getEndTime());
-  console.log("Duration:", await clips[0].getDuration());
-  console.log("In:", await clips[0].getInPoint());
-  console.log("Out:", await clips[0].getOutPoint());
-  console.log("Selected:", await clips[0].getIsSelected());
-  console.log("Track Index:", await clips[0].getTrackIndex());
-
-  const projectItem = await clips[0].getProjectItem();
-
-  console.log("===== PROJECT ITEM =====");
-  console.log(projectItem);
-
-  console.log(
-    Object.getOwnPropertyNames(
-      Object.getPrototypeOf(projectItem)
-    )
-  );
-
-  const media = await (projectItem as any).getMedia?.();
-
-  console.log("===== MEDIA =====");
-  console.log(media);
-
-  if (media) {
-    console.log(
-      Object.getOwnPropertyNames(
-        Object.getPrototypeOf(media)
-      )
-    );
-  }
-
-  const chain = await clips[0].getComponentChain();
-
-  console.log("===== COMPONENT CHAIN =====");
-  console.log(chain);
-
-  console.log(
-    Object.getOwnPropertyNames(
-      Object.getPrototypeOf(chain)
-    )
-  );
-
-  const count = await chain.getComponentCount();
-
-  console.log("Component Count:", count);
-
-  if (count > 0) {
-    const c = await chain.getComponentAtIndex(0);
-
-    console.log("===== FIRST COMPONENT =====");
-    console.log(c);
-
-    console.log(
-      Object.getOwnPropertyNames(
-        Object.getPrototypeOf(c)
-      )
-    );
-
-    const paramCount = await c.getParamCount();
-
-    console.log("Param Count:", paramCount);
-
-    for (let i = 0; i < paramCount; i++) {
-      const param = await c.getParam(i);
-
-      console.log("===== PARAM", i, "=====");
-      console.log(param);
-
-      console.log(
-        Object.getOwnPropertyNames(
-          Object.getPrototypeOf(param)
-        )
-      );
-    }
-  }
-}
-} catch (e) {
-  console.error("Track Error:", e);
-}
     const [
       videoTrackCount,
       audioTrackCount,
@@ -194,7 +103,9 @@ if (clips.length > 0) {
       inPoint,
       outPoint,
       playhead,
-      settings
+      settings,
+      videoTracks,
+      audioTracks
     ] = await Promise.all([
       sequence.getVideoTrackCount(),
       sequence.getAudioTrackCount(),
@@ -202,20 +113,20 @@ if (clips.length > 0) {
       sequence.getInPoint(),
       sequence.getOutPoint(),
       sequence.getPlayerPosition(),
-      sequence.getSettings()
+      sequence.getSettings(),
+      this.readTracks(sequence, "video"),
+      this.readTracks(sequence, "audio")
     ]);
 
     return {
-      sequenceName: sequence.name,
+      sequenceName: normalizeTextValue(sequence.name, ""),
       fps: await getFrameRate(settings),
       duration: duration.seconds,
       playhead: playhead.seconds,
       inPoint: inPoint.seconds,
       outPoint: outPoint.seconds,
-      videoTracks: createTracks("video", videoTrackCount),
-      audioTracks: createTracks("audio", audioTrackCount),
-      // Marker and clip enumeration are added only after the read-only snapshot
-      // is verified in Premiere.
+      videoTracks: videoTracks.length > 0 ? videoTracks : createTracks("video", videoTrackCount),
+      audioTracks: audioTracks.length > 0 ? audioTracks : createTracks("audio", audioTrackCount),
       markers: []
     };
   }
@@ -224,15 +135,234 @@ if (clips.length > 0) {
     action: CommandAction,
     payload: CommandPayload = {}
   ): Promise<CommandResult> {
+    const handler = ACTION_HANDLERS[action];
+
+    if (handler) {
+      try {
+        const result = await handler(this, payload);
+
+        if (!result.success) {
+          console.error(`[RK Flow][PremiereBridge] ${action} returned failure.`, { payload, result });
+        }
+
+        return result;
+      } catch (error: unknown) {
+        console.error(`[RK Flow][PremiereBridge] ${action} threw.`, { payload, error });
+        return {
+          success: false,
+          message: `${action} failed.`,
+          error: error instanceof Error ? error.message : String(error)
+        };
+      }
+    }
+
     if (this.host?.execute !== undefined) {
       return this.executeWithHost(action, payload);
     }
 
-    return {
-      success: false,
-      message: `${action} is not enabled in the read-only UXP bridge.`,
-      error: "ACTION_NOT_IMPLEMENTED"
-    };
+    return unsupported(
+      action,
+      "No local PremiereBridge handler exists and no writable host.execute bridge is attached."
+    );
+  }
+
+  public async createSequence(name: string): Promise<CommandResult> {
+    return this.withProjectAction("CREATE_SEQUENCE", async (project) => {
+      if (project.createSequence === undefined) {
+        throw new Error("Project.createSequence() is not available in this Premiere runtime.");
+      }
+
+      const sequence = await project.createSequence(name);
+
+      if (!sequence) {
+        throw new Error("Premiere did not return the created sequence.");
+      }
+
+      if (project.setActiveSequence) {
+        const activated = await project.setActiveSequence(sequence);
+        if (!activated) {
+          throw new Error("Premiere created the sequence but could not make it active for assembly.");
+        }
+      }
+
+      console.log("[RK Flow][CREATE_SEQUENCE] Created and activated sequence.", {
+        requestedName: name,
+        sequenceName: sequence.name
+      });
+      return sequence;
+    });
+  }
+
+  public async addTransition(
+    type: string,
+    start?: number,
+    duration?: number
+  ): Promise<CommandResult> {
+    return this.withTransaction("ADD_TRANSITION", async () => {
+      const clip = await this.findVideoClipByTime(start);
+
+      if (clip?.createAddVideoTransitionAction === undefined) {
+        throw new Error("TrackItem.createAddVideoTransitionAction() is not available.");
+      }
+
+      return clip.createAddVideoTransitionAction(type, duration ?? 0.5);
+    }, projectHint(projectAvailable(this.host)));
+  }
+
+  public async applyPanAndZoom(clipId: string, preset: string): Promise<CommandResult> {
+    const [x, y, scale] = panAndZoomPreset(preset);
+    return this.setMotionProperties(clipId, { position: [x, y], scale });
+  }
+
+  public async autoZoom(clipId: string, start?: unknown, end?: unknown): Promise<CommandResult> {
+    const from = typeof start === "number" ? start : 0;
+    const to = typeof end === "number" ? end : 1;
+    const scale = 100 + Math.max(0, to - from) * 18;
+    return this.setMotionProperties(clipId, { scale });
+  }
+
+  public async applyParallax(clipId: string): Promise<CommandResult> {
+    return this.setMotionProperties(clipId, { position: [0.54, 0.5], scale: 108 });
+  }
+
+  public async applyMotionBlur(_clipId: string, _amount: string): Promise<CommandResult> {
+    return unsupported(
+      "APPLY_MOTION_BLUR",
+      "The discovered UXP API in this workspace does not expose a confirmed native motion-blur effect insertion or parameter transaction path."
+    );
+  }
+
+  public async reframe(_clipId: string): Promise<CommandResult> {
+    return this.withProjectAction("REFRAME", async () => {
+      const sequence = await this.getActiveSequence();
+
+      if (sequence === null) {
+        throw new Error("No active sequence is available.");
+      }
+
+      const autoReframe = (sequence as any).autoReframeSequence;
+      if (typeof autoReframe !== "function") {
+        throw new Error("Sequence.autoReframeSequence() is not available in this Premiere runtime.");
+      }
+
+      return autoReframe.call(sequence, 9, 16, false, `${sequence.name} Auto Reframe`, true);
+    });
+  }
+
+  public async rippleDelete(_start: number, _end: number): Promise<CommandResult> {
+    return unsupported(
+      "RIPPLE_DELETE",
+      "SequenceEditor.createRemoveItemsAction() exists, but the required writable selection/remove parameter contract was not confirmed in this workspace."
+    );
+  }
+
+  public async importMedia(mediaPath: string): Promise<CommandResult> {
+    return this.withProjectAction("IMPORT_MEDIA", async (project) => {
+      if (project.importFiles === undefined) {
+        throw new Error("Project.importFiles() is not available in this Premiere runtime.");
+      }
+
+      return project.importFiles([mediaPath]);
+    });
+  }
+
+  public async addClipToSequence(_payload: CommandPayload): Promise<CommandResult> {
+    return this.insertProjectItemToSequence("ADD_CLIP_TO_SEQUENCE", _payload, "video");
+  }
+
+  public async addAudioToSequence(_payload: CommandPayload): Promise<CommandResult> {
+    return this.insertProjectItemToSequence("ADD_AUDIO_TO_SEQUENCE", _payload, "audio");
+  }
+
+  public async autoTrim(_clipId?: string): Promise<CommandResult> {
+    return unsupported(
+      "AUTO_TRIM",
+      "The local Premiere UXP API surface here does not expose a confirmed auto-trim analysis/action API."
+    );
+  }
+
+  public async beatCut(_clipId?: string): Promise<CommandResult> {
+    return unsupported(
+      "BEAT_CUT",
+      "Beat detection and cut-placement APIs are not exposed by the discovered Premiere scripting surface in this workspace."
+    );
+  }
+
+  public async silenceRemove(_clipId?: string): Promise<CommandResult> {
+    return unsupported(
+      "SILENCE_REMOVE",
+      "No confirmed Premiere UXP silence-analysis or automatic silence-removal transaction API is available here."
+    );
+  }
+
+  public async speedRamp(_clipId: string, _from: number, _to: number): Promise<CommandResult> {
+    return unsupported(
+      "SPEED_RAMP",
+      "The discovered local UXP API here exposes TrackItem.getSpeed() but no confirmed writable speed-ramp transaction method."
+    );
+  }
+
+  public async applyColorMatch(_sourceClipId: string, _targetClipId: string): Promise<CommandResult> {
+    return unsupported(
+      "APPLY_COLOR_MATCH",
+      "No confirmed Lumetri color-match transaction or documented effect-parameter mapping exists in this workspace."
+    );
+  }
+
+  public async applySkinToneProtection(_clipId: string): Promise<CommandResult> {
+    return unsupported(
+      "APPLY_SKIN_TONE_PROTECTION",
+      "Skin-tone protection would require a confirmed Lumetri/effect parameter map that is not present in this workspace."
+    );
+  }
+
+  public async applyFilmLut(_clipId: string, _lut: string): Promise<CommandResult> {
+    return unsupported(
+      "APPLY_FILM_LUT",
+      "The local reference shows ClipProjectItem.createSetInputLUTIDAction(), but there is no confirmed LUT-ID discovery path wired in this workspace."
+    );
+  }
+
+  public async autoGrade(_clipId: string): Promise<CommandResult> {
+    return unsupported(
+      "AUTO_GRADE",
+      "Auto-grade would require a grading algorithm plus confirmed writable Lumetri parameter bindings, neither of which is present here."
+    );
+  }
+
+  public async removeNoise(_clipId: string): Promise<CommandResult> {
+    return unsupported(
+      "REMOVE_NOISE",
+      "No confirmed native audio-effect insertion/parameter transaction path is exposed in the discovered UXP API here."
+    );
+  }
+
+  public async enhanceVoice(_clipId: string): Promise<CommandResult> {
+    return unsupported(
+      "ENHANCE_VOICE",
+      "No confirmed Speech/Essential Sound transaction API is exposed in this workspace."
+    );
+  }
+
+  public async autoDuck(_mainClipId: string, _musicClipId: string): Promise<CommandResult> {
+    return unsupported(
+      "AUTO_DUCK",
+      "No confirmed Essential Sound auto-duck transaction API is exposed in the discovered local Premiere surface."
+    );
+  }
+
+  public async cleanupSpeech(_clipId: string): Promise<CommandResult> {
+    return unsupported(
+      "CLEANUP_SPEECH",
+      "No confirmed speech cleanup/audio restoration transaction API is exposed in this workspace."
+    );
+  }
+
+  public async insertCaptions(_captions: string): Promise<CommandResult> {
+    return unsupported(
+      "INSERT_CAPTIONS",
+      "No confirmed caption-track creation or caption-item insertion API is exposed in the discovered local UXP surface here."
+    );
   }
 
   private async executeWithHost(
@@ -244,7 +374,7 @@ if (clips.length > 0) {
 
       return {
         success: true,
-        message: `${action} executed.`,
+        message: `${action} executed by host bridge.`,
         data
       };
     } catch (error: unknown) {
@@ -256,13 +386,516 @@ if (clips.length > 0) {
     }
   }
 
-  private async getActiveSequence(): Promise<PremiereSequence | null> {
+  private async withProjectAction(
+    action: CommandAction,
+    callback: (project: PremiereProject) => Promise<unknown>
+  ): Promise<CommandResult> {
+    const project = await this.getActiveProject();
+
+    if (project === null) {
+      return unsupported(action, "No active Premiere project is available.");
+    }
+
+    try {
+      const data = await callback(project);
+      return { success: true, message: `${action} executed.`, data };
+    } catch (error: unknown) {
+      return {
+        success: false,
+        message: `${action} failed.`,
+        error: error instanceof Error ? error.message : String(error)
+      };
+    }
+  }
+
+  private async withTransaction(
+    action: CommandAction,
+    actionBuilder: (project: PremiereProject) => Promise<any>,
+    unsupportedReason: string
+  ): Promise<CommandResult> {
+    if (this.transactionManager === null) {
+      return unsupported(action, unsupportedReason);
+    }
+
+    try {
+      const executed = await this.transactionManager.executeAction(actionBuilder);
+      return {
+        success: executed,
+        message: executed ? `${action} executed.` : `${action} did not complete.`
+      };
+    } catch (error: unknown) {
+      return {
+        success: false,
+        message: `${action} failed.`,
+        error: error instanceof Error ? error.message : String(error)
+      };
+    }
+  }
+
+  private async setMotionProperties(
+    clipId: string,
+    {
+      position,
+      scale
+    }: {
+      position?: [number, number];
+      scale?: number;
+    }
+  ): Promise<CommandResult> {
+    return this.withProjectAction("APPLY_PAN_AND_ZOOM", async (project) => {
+      if (project.lockedAccess === undefined || project.executeTransaction === undefined) {
+        throw new Error("Project transaction APIs are not available.");
+      }
+
+      return project.lockedAccess(async () => {
+        const clip = await this.findClipById(clipId);
+
+        if (clip === null) {
+          throw new Error(`Clip "${clipId}" was not found on the active timeline.`);
+        }
+
+        const chain = await clip.getComponentChain?.();
+        if (!chain) {
+          throw new Error("Clip component chain is not available.");
+        }
+
+        const motion = await chain.getComponentAtIndex?.(1);
+        if (!motion) {
+          throw new Error("Motion component is not available.");
+        }
+
+        const actions: any[] = [];
+
+        if (position) {
+          const positionParam = await motion.getParam?.(0);
+          if (positionParam?.createKeyframe === undefined || positionParam.createSetValueAction === undefined) {
+            throw new Error("Motion position parameter is not writable.");
+          }
+
+          const point = this.createPoint(position[0], position[1]);
+          const keyframe = positionParam.createKeyframe(point);
+          keyframe.value.value = [position[0], position[1]];
+          actions.push(positionParam.createSetValueAction(keyframe, true));
+        }
+
+        if (scale !== undefined) {
+          const scaleParam = await motion.getParam?.(1);
+          if (scaleParam?.createKeyframe === undefined || scaleParam.createSetValueAction === undefined) {
+            throw new Error("Motion scale parameter is not writable.");
+          }
+
+          const keyframe = scaleParam.createKeyframe(scale);
+          keyframe.value.value = scale;
+          actions.push(scaleParam.createSetValueAction(keyframe, true));
+        }
+
+        return project.executeTransaction?.((compoundAction: any) => {
+          for (const action of actions) {
+            compoundAction.addAction(action);
+          }
+        });
+      });
+    });
+  }
+
+  private async getActiveProject(): Promise<PremiereProject | null> {
     if (this.host?.app === undefined) {
       return null;
     }
 
-    const project = await this.host.app.Project.getActiveProject();
+    return this.host.app.Project.getActiveProject();
+  }
+
+  private async getActiveSequence(): Promise<PremiereSequence | null> {
+    const project = await this.getActiveProject();
     return project === null ? null : project.getActiveSequence();
+  }
+
+  private async readTracks(
+    sequence: PremiereSequence,
+    type: TimelineTrackType
+  ): Promise<TimelineTrack[]> {
+    const count =
+      type === "video"
+        ? await sequence.getVideoTrackCount()
+        : await sequence.getAudioTrackCount();
+
+    const tracks: TimelineTrack[] = [];
+
+    for (let index = 0; index < count; index += 1) {
+      const trackReader =
+        type === "video" ? sequence.getVideoTrack?.bind(sequence) : sequence.getAudioTrack?.bind(sequence);
+
+      if (!trackReader) {
+        break;
+      }
+
+      const track = await trackReader(index);
+      const clips = await this.readTrackClips(track);
+      tracks.push({
+        id: `${type}-${index + 1}`,
+        name: `${type === "video" ? "Video" : "Audio"} ${index + 1}`,
+        type,
+        clips
+      });
+    }
+
+    return tracks;
+  }
+
+  private async readTrackClips(track: any): Promise<TimelineClip[]> {
+    if (track?.getTrackItems === undefined) {
+      return [];
+    }
+
+    const clipType = this.host?.app?.Constants?.TrackItemType?.CLIP;
+    const items = await track.getTrackItems(clipType, false);
+
+    return Promise.all(
+      (items ?? []).map(async (clip: any, index: number) => {
+        const projectItem = await tryPremiereValue(() => clip.getProjectItem?.(), null);
+
+        return {
+          id: await tryPremiereValue(() => clip.getName?.(), `clip-${index}`),
+          name: await tryPremiereValue(() => clip.getName?.(), `Clip ${index + 1}`),
+          start: (await tryPremiereValue(() => clip.getStartTime?.(), { seconds: 0 })).seconds ?? 0,
+          end: (await tryPremiereValue(() => clip.getEndTime?.(), { seconds: 0 })).seconds ?? 0,
+          duration: (await tryPremiereValue(() => clip.getDuration?.(), { seconds: 0 })).seconds ?? 0,
+          trackIndex: await tryPremiereValue(() => clip.getTrackIndex?.(), 0),
+          selected: await tryPremiereValue(() => clip.getIsSelected?.(), false),
+          mediaPath: await this.readMediaPath(clip),
+          projectItemId: await getProjectItemId(projectItem)
+        };
+      })
+    );
+  }
+
+  private async readMediaPath(clip: any): Promise<string | undefined> {
+    const projectItem = await tryPremiereValue(() => clip.getProjectItem?.(), null);
+    const media = await tryPremiereValue(() => projectItem?.getMedia?.(), null);
+
+    if (media?.getMediaFilePath) {
+      return media.getMediaFilePath();
+    }
+
+    if (projectItem?.getMediaFilePath) {
+      return projectItem.getMediaFilePath();
+    }
+
+    return undefined;
+  }
+
+  private async findClipById(clipId: string): Promise<any | null> {
+    const sequence = await this.getActiveSequence();
+
+    if (sequence === null) {
+      return null;
+    }
+
+    for (const type of ["video", "audio"] as const) {
+      const count =
+        type === "video"
+          ? await sequence.getVideoTrackCount()
+          : await sequence.getAudioTrackCount();
+
+      for (let trackIndex = 0; trackIndex < count; trackIndex += 1) {
+        const track =
+          type === "video"
+            ? await sequence.getVideoTrack?.(trackIndex)
+            : await sequence.getAudioTrack?.(trackIndex);
+
+        const items = await track?.getTrackItems?.(
+          this.host?.app?.Constants?.TrackItemType?.CLIP,
+          false
+        );
+
+        for (const item of items ?? []) {
+          const name = await tryPremiereValue(() => item.getName?.(), "");
+          if (name === clipId) {
+            return item;
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
+  private async findVideoClipByTime(time?: number): Promise<any | null> {
+    const sequence = await this.getActiveSequence();
+
+    if (sequence === null || sequence.getVideoTrack === undefined) {
+      return null;
+    }
+
+    const videoTrackCount = await sequence.getVideoTrackCount();
+    const targetTime = typeof time === "number" ? time : null;
+
+    for (let trackIndex = 0; trackIndex < videoTrackCount; trackIndex += 1) {
+      const track = await sequence.getVideoTrack(trackIndex);
+      const items = await track?.getTrackItems?.(
+        this.host?.app?.Constants?.TrackItemType?.CLIP,
+        false
+      );
+
+      for (const item of items ?? []) {
+        if (targetTime === null) {
+          const selected = await tryPremiereValue(() => item.getIsSelected?.(), false);
+          if (selected) {
+            return item;
+          }
+          continue;
+        }
+
+        const start = (await tryPremiereValue(() => item.getStartTime?.(), { seconds: 0 })).seconds ?? 0;
+        const end = (await tryPremiereValue(() => item.getEndTime?.(), { seconds: 0 })).seconds ?? 0;
+
+        if (start <= targetTime && targetTime <= end) {
+          return item;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  private createPoint(x: number, y: number) {
+    const PointCtor = this.host?.app?.PointF;
+
+    if (PointCtor) {
+      const point = new PointCtor();
+      point.x = x;
+      point.y = y;
+      return point;
+    }
+
+    return { x, y };
+  }
+
+  private createTickTime(seconds: number) {
+    const TickTimeCtor = this.host?.app?.TickTime;
+
+    if (TickTimeCtor && typeof TickTimeCtor.createWithSeconds === "function") {
+      return TickTimeCtor.createWithSeconds(seconds);
+    }
+
+    throw new Error("TickTime.createWithSeconds() is not available in this Premiere runtime.");
+  }
+
+  private async insertProjectItemToSequence(
+    action: "ADD_CLIP_TO_SEQUENCE" | "ADD_AUDIO_TO_SEQUENCE",
+    payload: CommandPayload,
+    mediaType: "video" | "audio"
+  ): Promise<CommandResult> {
+    return this.withProjectAction(action, async (project) => {
+      const attempt = {
+        action,
+        mediaType,
+        clipId: asString(payload.clipId),
+        projectItemId: asString(payload.projectItemId),
+        mediaPath: asString(payload.mediaPath),
+        start: asNumber(payload.start) ?? 0
+      };
+      console.log(`[RK Flow][${action}] Starting insertion attempt.`, attempt);
+
+      try {
+      const sequence = await project.getActiveSequence();
+
+      if (sequence === null) {
+        throw new Error("No active sequence is available.");
+      }
+
+      if (project.lockedAccess === undefined || project.executeTransaction === undefined) {
+        throw new Error("Project transaction APIs are not available for clip insertion in this Premiere runtime.");
+      }
+
+      const editor = await this.host?.app?.SequenceEditor?.getEditor?.(sequence);
+      const createInsertProjectItemAction = editor?.createInsertProjectItemAction;
+
+      if (typeof createInsertProjectItemAction !== "function") {
+        throw new Error("SequenceEditor.createInsertProjectItemAction() is not available in this Premiere runtime.");
+      }
+
+      const startSeconds = asNumber(payload.start) ?? 0;
+      const videoTrackIndex = asNumber(payload.videoTrackIndex) ?? asNumber(payload.targetTrackIndex) ?? 0;
+      const audioTrackIndex = asNumber(payload.audioTrackIndex) ?? asNumber(payload.targetTrackIndex) ?? 0;
+
+      let projectItem = await this.findProjectItemForPayload(project, payload);
+
+      if (projectItem === null && typeof payload.mediaPath === "string" && project.importFiles) {
+        await project.importFiles([payload.mediaPath]);
+        projectItem = await this.findProjectItemForPayload(project, payload);
+      }
+
+      if (projectItem === null) {
+        throw new Error("Project item could not be resolved for clip/audio insertion.");
+      }
+
+      const insertionTime = this.createTickTime(startSeconds);
+      const beforeItemCount = await this.countSequenceItems(sequence, mediaType);
+      console.log(`[RK Flow][${action}] Resolved project item and transaction inputs.`, {
+        ...attempt,
+        itemName: await getProjectItemName(projectItem),
+        resolvedProjectItemId: await getProjectItemId(projectItem),
+        beforeItemCount,
+        videoTrackIndex: mediaType === "video" ? videoTrackIndex : -1,
+        audioTrackIndex,
+        limitShift: true
+      });
+      const transactionCommitted = await project.lockedAccess(async () =>
+        project.executeTransaction?.((compoundAction: any) => {
+          const insertAction = createInsertProjectItemAction.call(
+            editor,
+            projectItem,
+            insertionTime,
+            mediaType === "video" ? videoTrackIndex : -1,
+            audioTrackIndex,
+            true
+          );
+
+          if (!insertAction || compoundAction.addAction(insertAction) === false) {
+            throw new Error("Premiere rejected the insert-project-item action.");
+          }
+        })
+      );
+
+      if (!transactionCommitted) {
+        throw new Error("Premiere did not commit the insert-project-item transaction.");
+      }
+
+      const afterItemCount = await this.countSequenceItems(sequence, mediaType);
+
+      if (afterItemCount <= beforeItemCount) {
+        throw new Error(
+          `Premiere committed the insert transaction but ${mediaType} item count did not increase (${beforeItemCount} -> ${afterItemCount}).`
+        );
+      }
+
+      console.log(`[RK Flow][${action}] Insertion succeeded.`, {
+        ...attempt,
+        beforeItemCount,
+        afterItemCount,
+        transactionCommitted
+      });
+
+      return {
+        inserted: true,
+        mediaType,
+        startSeconds,
+        itemName: await getProjectItemName(projectItem),
+        videoTrackIndex: mediaType === "video" ? videoTrackIndex : -1,
+        audioTrackIndex
+      };
+      } catch (error: unknown) {
+        console.error(`[RK Flow][${action}] Insertion failed.`, { ...attempt, error });
+        throw error;
+      }
+    });
+  }
+
+  private async countSequenceItems(sequence: PremiereSequence, mediaType: "video" | "audio") {
+    const count = mediaType === "video"
+      ? await sequence.getVideoTrackCount()
+      : await sequence.getAudioTrackCount();
+    const getTrack = mediaType === "video" ? sequence.getVideoTrack?.bind(sequence) : sequence.getAudioTrack?.bind(sequence);
+
+    if (!getTrack) {
+      return 0;
+    }
+
+    let itemCount = 0;
+    for (let index = 0; index < count; index += 1) {
+      const track = await getTrack(index);
+      const items = await track?.getTrackItems?.(this.host?.app?.Constants?.TrackItemType?.CLIP, false);
+      itemCount += Array.isArray(items) ? items.length : 0;
+    }
+
+    return itemCount;
+  }
+
+  private async findProjectItemForPayload(
+    project: PremiereProject,
+    payload: CommandPayload
+  ): Promise<any | null> {
+    const candidates = [
+      asString(payload.projectItemId),
+      asString(payload.clipId),
+      asString(payload.assetId),
+      asString(payload.mediaPath)
+    ].filter((value): value is string => Boolean(value));
+
+    for (const candidate of candidates) {
+      const timelineMatch = await this.findProjectItemInSequences(project, candidate);
+      if (timelineMatch) {
+        return timelineMatch;
+      }
+
+      const root = await project.getRootItem?.();
+      if (!root) {
+        continue;
+      }
+
+      const match = await this.findProjectItemRecursive(root, candidate);
+      if (match) {
+        return match;
+      }
+    }
+
+    return null;
+  }
+
+  private async findProjectItemInSequences(
+    project: PremiereProject,
+    candidate: string
+  ): Promise<any | null> {
+    const sequences = await project.getSequences?.();
+    const clipType = this.host?.app?.Constants?.TrackItemType?.CLIP;
+
+    for (const sequence of sequences ?? []) {
+      const trackCount = await sequence.getVideoTrackCount();
+
+      for (let trackIndex = 0; trackIndex < trackCount; trackIndex += 1) {
+        const track = await sequence.getVideoTrack?.(trackIndex);
+        const items = await tryPremiereValue(
+          () => track?.getTrackItems?.(clipType, false),
+          [] as any[]
+        );
+
+        for (const clip of items ?? []) {
+          const projectItem = await tryPremiereValue(() => clip.getProjectItem?.(), null);
+          if (await projectItemMatches(projectItem, candidate)) {
+            console.log("[RK Flow][ADD_CLIP_TO_SEQUENCE] Resolved project item from source sequence.", {
+              candidate,
+              sourceSequence: sequence.name,
+              sourceTrackIndex: trackIndex
+            });
+            return projectItem;
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
+  private async findProjectItemRecursive(rootItem: any, candidate: string): Promise<any | null> {
+    // UXP FolderItem exposes child project items through getItems(), not CEP's children collection.
+    const items = await rootItem?.getItems?.();
+
+    for (const item of items ?? []) {
+      if (await projectItemMatches(item, candidate)) {
+        return item;
+      }
+
+      if (typeof item?.getItems === "function") {
+        const nested = await this.findProjectItemRecursive(item, candidate);
+        if (nested) {
+          return nested;
+        }
+      }
+    }
+
+    return null;
   }
 
   private resolveHost(): PremiereHost | null {
@@ -281,6 +914,74 @@ if (clips.length > 0) {
   }
 }
 
+function normalizeTextValue(value: unknown, fallback: string): string {
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  return fallback;
+}
+
+const ACTION_HANDLERS: Partial<
+  Record<CommandAction, (bridge: PremiereBridge, payload: CommandPayload) => Promise<CommandResult>>
+> = {
+  CREATE_SEQUENCE: (bridge, payload) => bridge.createSequence(String(payload.name ?? "")),
+  IMPORT_MEDIA: (bridge, payload) => bridge.importMedia(String(payload.mediaPath ?? "")),
+  ADD_TRANSITION: (bridge, payload) =>
+    bridge.addTransition(
+      String(payload.type ?? "cross_dissolve"),
+      asNumber(payload.start),
+      asNumber(payload.duration)
+    ),
+  AUTO_ZOOM: (bridge, payload) =>
+    bridge.autoZoom(String(payload.clipId ?? ""), payload.start, payload.end),
+  APPLY_PAN_AND_ZOOM: (bridge, payload) =>
+    bridge.applyPanAndZoom(String(payload.clipId ?? ""), String(payload.preset ?? "")),
+  APPLY_PARALLAX: (bridge, payload) =>
+    bridge.applyParallax(String(payload.clipId ?? "")),
+  APPLY_MOTION_BLUR: (bridge, payload) =>
+    bridge.applyMotionBlur(String(payload.clipId ?? ""), String(payload.amount ?? "")),
+  REFRAME: (bridge, payload) => bridge.reframe(String(payload.clipId ?? "")),
+  RIPPLE_DELETE: (bridge, payload) =>
+    bridge.rippleDelete(asNumber(payload.start) ?? 0, asNumber(payload.end) ?? 0),
+  ADD_CLIP_TO_SEQUENCE: (bridge, payload) => bridge.addClipToSequence(payload),
+  ADD_AUDIO_TO_SEQUENCE: (bridge, payload) => bridge.addAudioToSequence(payload),
+  AUTO_TRIM: (bridge, payload) => bridge.autoTrim(asString(payload.clipId)),
+  BEAT_CUT: (bridge, payload) => bridge.beatCut(asString(payload.clipId)),
+  SILENCE_REMOVE: (bridge, payload) => bridge.silenceRemove(asString(payload.clipId)),
+  SPEED_RAMP: (bridge, payload) =>
+    bridge.speedRamp(
+      String(payload.clipId ?? ""),
+      asNumber(payload.from) ?? 0,
+      asNumber(payload.to) ?? 0
+    ),
+  APPLY_COLOR_MATCH: (bridge, payload) =>
+    bridge.applyColorMatch(
+      String(payload.sourceClipId ?? ""),
+      String(payload.targetClipId ?? "")
+    ),
+  APPLY_SKIN_TONE_PROTECTION: (bridge, payload) =>
+    bridge.applySkinToneProtection(String(payload.clipId ?? "")),
+  APPLY_FILM_LUT: (bridge, payload) =>
+    bridge.applyFilmLut(String(payload.clipId ?? ""), String(payload.lut ?? "")),
+  AUTO_GRADE: (bridge, payload) =>
+    bridge.autoGrade(String(payload.clipId ?? "")),
+  REMOVE_NOISE: (bridge, payload) =>
+    bridge.removeNoise(String(payload.clipId ?? "")),
+  ENHANCE_VOICE: (bridge, payload) =>
+    bridge.enhanceVoice(String(payload.clipId ?? "")),
+  AUTO_DUCK: (bridge, payload) =>
+    bridge.autoDuck(String(payload.mainClipId ?? ""), String(payload.musicClipId ?? "")),
+  CLEANUP_SPEECH: (bridge, payload) =>
+    bridge.cleanupSpeech(String(payload.clipId ?? "")),
+  INSERT_CAPTIONS: (bridge, payload) =>
+    bridge.insertCaptions(String(payload.captions ?? ""))
+};
+
 async function getFrameRate(settings: SequenceSettings): Promise<number> {
   if (settings.getVideoFrameRate === undefined) {
     return 0;
@@ -296,4 +997,104 @@ function createTracks(type: TimelineTrackType, count: number): TimelineTrack[] {
     type,
     clips: []
   }));
+}
+
+function unsupported(action: CommandAction, reason: string): CommandResult {
+  return {
+    success: false,
+    message: `${action} is not supported by the local PremiereBridge implementation.`,
+    error: reason
+  };
+}
+
+function panAndZoomPreset(preset: string): [number, number, number] {
+  switch (preset) {
+    case "slow_zoom_in":
+      return [0.5, 0.5, 112];
+    case "pan_left_to_right":
+      return [0.68, 0.5, 105];
+    default:
+      return [0.5, 0.5, 105];
+  }
+}
+
+function asNumber(value: unknown): number | undefined {
+  return typeof value === "number" && Number.isFinite(value) ? value : undefined;
+}
+
+function asString(value: unknown): string | undefined {
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+async function projectItemMatches(item: any, candidate: string): Promise<boolean> {
+  if (!item) {
+    return false;
+  }
+
+  if (String(item.nodeId ?? "") === candidate) {
+    return true;
+  }
+
+  if ((await getProjectItemId(item)) === candidate) {
+    return true;
+  }
+
+  if (String(item.name ?? "") === candidate) {
+    return true;
+  }
+
+  const mediaPath = await getProjectItemMediaPath(item);
+  return mediaPath === candidate;
+}
+
+async function getProjectItemId(item: any): Promise<string | undefined> {
+  try {
+    const id = await item?.getId?.();
+    return typeof id === "string" && id.length > 0 ? id : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+async function getProjectItemMediaPath(item: any): Promise<string | undefined> {
+  if (typeof item.getMediaFilePath === "function") {
+    return item.getMediaFilePath();
+  }
+
+  const media = await tryPremiereValue(() => item?.getMedia?.(), null);
+  if (media?.getMediaFilePath) {
+    return media.getMediaFilePath();
+  }
+
+  return undefined;
+}
+
+async function tryPremiereValue<T>(
+  callback: () => T | Promise<T>,
+  fallback: T
+): Promise<T> {
+  try {
+    const value = await callback();
+    return value ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+async function getProjectItemName(item: any): Promise<string> {
+  if (typeof item.getName === "function") {
+    return item.getName();
+  }
+
+  return String(item.name ?? "Unknown Item");
+}
+
+function projectAvailable(host: PremiereHost | null): boolean {
+  return host?.app?.Project?.getActiveProject !== undefined;
+}
+
+function projectHint(available: boolean): string {
+  return available
+    ? "Premiere transaction APIs are available, but this action requires a confirmed writable transaction contract."
+    : "No active writable Premiere project/transaction runtime is attached.";
 }

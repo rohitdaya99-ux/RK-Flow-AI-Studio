@@ -2,6 +2,7 @@ import { CommandResult, RKCommand } from "../types/Command";
 import { ClipController } from "../premiere/ClipController";
 import { ExportController } from "../premiere/ExportController";
 import { MarkerController } from "../premiere/MarkerController";
+import { EffectsController } from "../premiere/effects/EffectsController";
 import { PremiereBridge } from "../premiere/PremiereBridge";
 import { SequenceController } from "../premiere/SequenceController";
 import { TimelineReader } from "../premiere/TimelineReader";
@@ -20,6 +21,7 @@ export class CommandExecutor {
   private readonly markers: MarkerController;
   private readonly sequences: SequenceController;
   private readonly exporter: ExportController;
+  private readonly effects: EffectsController;
 
   public constructor(dependencies: CommandExecutorDependencies = {}) {
     this.bridge = dependencies.bridge ?? new PremiereBridge();
@@ -29,6 +31,7 @@ export class CommandExecutor {
     this.markers = new MarkerController(this.bridge);
     this.sequences = new SequenceController(this.bridge);
     this.exporter = new ExportController(this.bridge);
+    this.effects = new EffectsController(this.bridge);
   }
 
   public async execute(command: RKCommand): Promise<CommandResult> {
@@ -107,6 +110,47 @@ export class CommandExecutor {
           command.payload.preset as string | undefined
         );
       case "CREATE_REEL":
+        return this.bridge.execute(command.action, command.payload);
+      case "RIPPLE_DELETE":
+        return this.sequences.rippleDelete(
+          command.payload.start as number,
+          command.payload.end as number
+        );
+      case "AUTO_TRIM":
+        return this.effects.autoTrim();
+      case "BEAT_CUT":
+        return this.effects.beatCut();
+      case "SILENCE_REMOVE":
+        return this.effects.silenceRemove();
+      case "SPEED_RAMP":
+        return this.effects.speedRamp(
+          command.payload.clipId as string,
+          command.payload.from as number,
+          command.payload.to as number
+        );
+      case "AUTO_ZOOM":
+        return this.effects.autoZoom(
+          command.payload.clipId as string,
+          command.payload.start,
+          command.payload.end
+        );
+      case "REFRAME":
+        return this.effects.reframe(command.payload.clipId as string);
+      case "ADD_CLIP_TO_SEQUENCE":
+      case "ADD_AUDIO_TO_SEQUENCE":
+      case "ADD_TRANSITION":
+      case "APPLY_COLOR_MATCH":
+      case "APPLY_SKIN_TONE_PROTECTION":
+      case "APPLY_FILM_LUT":
+      case "AUTO_GRADE":
+      case "APPLY_PAN_AND_ZOOM":
+      case "APPLY_PARALLAX":
+      case "APPLY_MOTION_BLUR":
+      case "REMOVE_NOISE":
+      case "ENHANCE_VOICE":
+      case "AUTO_DUCK":
+      case "CLEANUP_SPEECH":
+      case "INSERT_CAPTIONS":
         return this.bridge.execute(command.action, command.payload);
     }
   }

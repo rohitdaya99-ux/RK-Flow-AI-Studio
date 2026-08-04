@@ -1,0 +1,9 @@
+{
+  "event": "sangeet",
+  "tone": "energetic",
+  "music": "high energy",
+  "color": "punchy cinematic",
+  "sfx": ["bass hit", "rise", "impact"],
+  "shotPriority": ["dance floor", "crowd cheers", "beat drops", "hero moments"],
+  "exportProfile": "vertical_reel"
+}

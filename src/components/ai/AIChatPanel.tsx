@@ -1,184 +1,202 @@
-import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
+import Send from "lucide-react/dist/esm/icons/send.mjs";
+import Sparkles from "lucide-react/dist/esm/icons/sparkles.mjs";
 import { AIController } from "../../ai/ui";
+import { Button, Card, ScrollArea, StatusChip } from "../../ui/theme/primitives";
+import { colors, spacing, typography } from "../../ui/theme";
 
 const ai = new AIController();
 
-type Message = {
+type ChatMessage = {
   role: "user" | "assistant";
   text: string;
   time: string;
 };
 
-export default function AIChatPanel() {
+export default function AIChatPanel({
+  title = "RK Assistant",
+  greeting = "Namaste. I can help plan edits, explain the timeline, and prepare the next action.",
+  suggestedActions = [],
+  onAction
+}: {
+  title?: string;
+  greeting?: string;
+  suggestedActions?: string[];
+  onAction?: (value: string) => void;
+}) {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: "assistant",
-      text: "👋 Welcome to RK Flow AI",
-      time: new Date().toLocaleTimeString()
+      text: greeting,
+      time: timestamp()
     }
   ]);
 
-  const fileInput = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({
-      behavior: "smooth"
-    });
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
-  useEffect(() => {
-    textareaRef.current?.focus();
-  }, []);
+  async function submit(value = prompt) {
+    const text = value.trim();
 
-  const send = async () => {
-    const text = prompt.trim();
+    if (!text || loading) {
+      return;
+    }
 
-    if (!text || loading) return;
-
-    setMessages((m) => [
-      ...m,
-      {
-        role: "user",
-        text,
-        time: new Date().toLocaleTimeString()
-      }
+    setMessages((current) => [
+      ...current,
+      { role: "user", text, time: timestamp() }
     ]);
-
     setPrompt("");
     setLoading(true);
 
     try {
       const reply = await ai.ask(text);
-
-      setMessages((m) => [
-        ...m,
-        {
-          role: "assistant",
-          text: reply,
-          time: new Date().toLocaleTimeString()
-        }
+      setMessages((current) => [
+        ...current,
+        { role: "assistant", text: reply, time: timestamp() }
       ]);
-    } catch (e) {
-      setMessages((m) => [
-        ...m,
+      onAction?.(text);
+    } catch (error) {
+      setMessages((current) => [
+        ...current,
         {
           role: "assistant",
-          text: String(e),
-          time: new Date().toLocaleTimeString()
+          text: error instanceof Error ? error.message : String(error),
+          time: timestamp()
         }
       ]);
     } finally {
       setLoading(false);
-      textareaRef.current?.focus();
     }
-  };
+  }
 
-  const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      void send();
+  const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      void submit();
     }
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        gap: 12
-      }}
-    >
-      <h2>RK Flow AI</h2>
+    <Card title={title} subtitle="Persistent AI copilot for your current workspace." style={{ height: "100%" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: spacing.md, height: "100%" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: spacing.sm }}>
+          <StatusChip label={loading ? "Thinking" : "Ready"} tone={loading ? "warning" : "success"} />
+          <StatusChip label="Gemini 3.6 Flash" />
+        </div>
 
-      <div
-        style={{
-          flex: 1,
-          overflowY: "auto",
-          border: "1px solid #333",
-          borderRadius: 12,
-          padding: 14
-        }}
-      >
-        {messages.map((m, i) => (
-          <div
-            key={i}
-            style={{
-              marginBottom: 18,
-              textAlign: m.role === "user" ? "right" : "left"
-            }}
-          >
-            <strong>{m.role === "user" ? "You" : "RK Flow AI"}</strong>
-
-            <div
-              style={{
-                opacity: 0.6,
-                fontSize: 11
-              }}
-            >
-              {m.time}
-            </div>
-
-            <div
-              style={{
-                marginTop: 6,
-                whiteSpace: "pre-wrap"
-              }}
-            >
-              {m.text}
-            </div>
+        <div>
+          <div style={{ color: colors.inkMuted, fontSize: typography.sizes.sm, marginBottom: spacing.xs }}>
+            Suggested Actions
           </div>
-        ))}
+          <div style={{ display: "flex", gap: spacing.xs, flexWrap: "wrap" }}>
+            {suggestedActions.map((action) => (
+              <Button
+                key={action}
+                variant="secondary"
+                onClick={() => void submit(action)}
+                disabled={loading}
+                style={{ display: "inline-flex", alignItems: "center", gap: spacing.xs }}
+              >
+                <Sparkles size={14} />
+                {action}
+              </Button>
+            ))}
+          </div>
+        </div>
 
-        {loading && <div>🤖 Thinking...</div>}
-
-        <div ref={bottomRef} />
-      </div>
-
-      <textarea
-        ref={textareaRef}
-        rows={4}
-        placeholder="Ask RK Flow AI..."
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-        onKeyDown={onKeyDown}
-      />
-
-      <div
-        style={{
-          display: "flex",
-          gap: 8
-        }}
-      >
-        <button onClick={() => void send()} disabled={loading}>
-          {loading ? "Thinking..." : "Send"}
-        </button>
-
-        <button onClick={() => fileInput.current?.click()}>
-          Attach
-        </button>
-
-        <button
-          onClick={() =>
-            setMessages([
-              {
-                role: "assistant",
-                text: "👋 Chat cleared.",
-                time: new Date().toLocaleTimeString()
-              }
-            ])
-          }
+        <ScrollArea
+          style={{
+            flex: "1 1 auto",
+            maxHeight: "100%",
+            border: `1px solid ${colors.border}`,
+            borderRadius: 10,
+            background: colors.white,
+            padding: spacing.md
+          }}
         >
-          Clear
-        </button>
-      </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: spacing.md }}>
+            {messages.map((message, index) => (
+              <div
+                key={`${message.time}-${index}`}
+                style={{
+                  alignSelf: message.role === "user" ? "flex-end" : "flex-start",
+                  maxWidth: "92%"
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: typography.sizes.xs,
+                    color: colors.inkMuted,
+                    marginBottom: spacing.xs
+                  }}
+                >
+                  {message.role === "user" ? "You" : "RK Assistant"} • {message.time}
+                </div>
+                <div
+                  style={{
+                    background: message.role === "user" ? colors.maroon : colors.panelMuted,
+                    color: message.role === "user" ? colors.white : colors.ink,
+                    borderRadius: 10,
+                    padding: spacing.sm,
+                    whiteSpace: "pre-wrap",
+                    lineHeight: 1.6
+                  }}
+                >
+                  {message.text}
+                </div>
+              </div>
+            ))}
+            <div ref={bottomRef} />
+          </div>
+        </ScrollArea>
 
-      <input ref={fileInput} type="file" hidden />
-    </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: spacing.sm }}>
+          <textarea
+            rows={4}
+            placeholder="Bride entry ko slow motion karo, or ask for a dashboard summary..."
+            value={prompt}
+            onChange={(event) => setPrompt(event.target.value)}
+            onKeyDown={onKeyDown}
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              borderRadius: 10,
+              border: `1px solid ${colors.border}`,
+              background: colors.white,
+              color: colors.ink,
+              padding: `${spacing.sm}px ${spacing.md}px`,
+              fontSize: typography.sizes.sm,
+              resize: "vertical"
+            }}
+          />
+          <div style={{ display: "flex", justifyContent: "space-between", gap: spacing.sm }}>
+            <Button variant="ghost" onClick={() => setMessages([{ role: "assistant", text: greeting, time: timestamp() }])}>
+              Reset Chat
+            </Button>
+            <Button
+              onClick={() => void submit()}
+              disabled={loading}
+              style={{ display: "inline-flex", alignItems: "center", gap: spacing.xs }}
+            >
+              <Send size={14} />
+              {loading ? "Sending..." : "Send"}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </Card>
   );
+}
+
+function timestamp() {
+  return new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
 }

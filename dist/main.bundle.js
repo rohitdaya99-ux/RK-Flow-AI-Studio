@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 445
+/***/ 6445
 (__unused_webpack_module, exports) {
 
 var __webpack_unused_export__;
@@ -13,7 +13,7 @@ var __webpack_unused_export__;
  * as defined by https://swagger.io/docs/specification/data-models/data-types/
  * @public
  */
-exports._L = void 0;
+exports.SchemaType = void 0;
 (function (SchemaType) {
     /** String type. */
     SchemaType["STRING"] = "string";
@@ -27,7 +27,7 @@ exports._L = void 0;
     SchemaType["ARRAY"] = "array";
     /** Object type. */
     SchemaType["OBJECT"] = "object";
-})(exports._L || (exports._L = {}));
+})(exports.SchemaType || (exports.SchemaType = {}));
 
 /**
  * @license
@@ -205,7 +205,7 @@ exports.wP = void 0;
 /**
  * @public
  */
-exports.m0 = void 0;
+exports.FunctionCallingMode = void 0;
 (function (FunctionCallingMode) {
     // Unspecified function calling mode. This value should not be used.
     FunctionCallingMode["MODE_UNSPECIFIED"] = "MODE_UNSPECIFIED";
@@ -220,7 +220,7 @@ exports.m0 = void 0;
     // Model will not predict any function call. Model behavior is same as when
     // not passing any function declarations.
     FunctionCallingMode["NONE"] = "NONE";
-})(exports.m0 || (exports.m0 = {}));
+})(exports.FunctionCallingMode || (exports.FunctionCallingMode = {}));
 /**
  * The mode of the predictor to be used in dynamic retrieval.
  * @public
@@ -1540,7 +1540,7 @@ __webpack_unused_export__ = POSSIBLE_ROLES;
 
 /***/ },
 
-/***/ 551
+/***/ 2551
 (__unused_webpack_module, exports, __webpack_require__) {
 
 /**
@@ -1555,7 +1555,7 @@ __webpack_unused_export__ = POSSIBLE_ROLES;
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(540),ca=__webpack_require__(982);function p(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}var da=new Set,ea={};function fa(a,b){ha(a,b);ha(a+"Capture",b)}
+var aa=__webpack_require__(6540),ca=__webpack_require__(9982);function p(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}var da=new Set,ea={};function fa(a,b){ha(a,b);ha(a+"Capture",b)}
 function ha(a,b){ea[a]=b;for(a=0;a<b.length;a++)da.add(b[a])}
 var ia=!("undefined"===typeof window||"undefined"===typeof window.document||"undefined"===typeof window.document.createElement),ja=Object.prototype.hasOwnProperty,ka=/^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,la=
 {},ma={};function oa(a){if(ja.call(ma,a))return!0;if(ja.call(la,a))return!1;if(ka.test(a))return ma[a]=!0;la[a]=!0;return!1}function pa(a,b,c,d){if(null!==c&&0===c.type)return!1;switch(typeof b){case "function":case "symbol":return!0;case "boolean":if(d)return!1;if(null!==c)return!c.acceptsBooleans;a=a.toLowerCase().slice(0,5);return"data-"!==a&&"aria-"!==a;default:return!1}}
@@ -1869,7 +1869,7 @@ exports.unstable_renderSubtreeIntoContainer=function(a,b,c,d){if(!ol(c))throw Er
 
 /***/ },
 
-/***/ 338
+/***/ 5338
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -1913,17 +1913,16 @@ if (true) {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(551);
+  module.exports = __webpack_require__(2551);
 } else // removed by dead control flow
 {}
 
 
 /***/ },
 
-/***/ 20
+/***/ 1020
 (__unused_webpack_module, exports, __webpack_require__) {
 
-var __webpack_unused_export__;
 /**
  * @license React
  * react-jsx-runtime.production.min.js
@@ -1933,13 +1932,13 @@ var __webpack_unused_export__;
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var f=__webpack_require__(540),k=Symbol.for("react.element"),l=Symbol.for("react.fragment"),m=Object.prototype.hasOwnProperty,n=f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,p={key:!0,ref:!0,__self:!0,__source:!0};
-function q(c,a,g){var b,d={},e=null,h=null;void 0!==g&&(e=""+g);void 0!==a.key&&(e=""+a.key);void 0!==a.ref&&(h=a.ref);for(b in a)m.call(a,b)&&!p.hasOwnProperty(b)&&(d[b]=a[b]);if(c&&c.defaultProps)for(b in a=c.defaultProps,a)void 0===d[b]&&(d[b]=a[b]);return{$$typeof:k,type:c,key:e,ref:h,props:d,_owner:n.current}}__webpack_unused_export__=l;exports.jsx=q;exports.jsxs=q;
+var f=__webpack_require__(6540),k=Symbol.for("react.element"),l=Symbol.for("react.fragment"),m=Object.prototype.hasOwnProperty,n=f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,p={key:!0,ref:!0,__self:!0,__source:!0};
+function q(c,a,g){var b,d={},e=null,h=null;void 0!==g&&(e=""+g);void 0!==a.key&&(e=""+a.key);void 0!==a.ref&&(h=a.ref);for(b in a)m.call(a,b)&&!p.hasOwnProperty(b)&&(d[b]=a[b]);if(c&&c.defaultProps)for(b in a=c.defaultProps,a)void 0===d[b]&&(d[b]=a[b]);return{$$typeof:k,type:c,key:e,ref:h,props:d,_owner:n.current}}exports.Fragment=l;exports.jsx=q;exports.jsxs=q;
 
 
 /***/ },
 
-/***/ 287
+/***/ 5287
 (__unused_webpack_module, exports) {
 
 /**
@@ -1972,33 +1971,33 @@ exports.useMemo=function(a,b){return U.current.useMemo(a,b)};exports.useReducer=
 
 /***/ },
 
-/***/ 540
+/***/ 6540
 (module, __unused_webpack_exports, __webpack_require__) {
 
 
 
 if (true) {
-  module.exports = __webpack_require__(287);
+  module.exports = __webpack_require__(5287);
 } else // removed by dead control flow
 {}
 
 
 /***/ },
 
-/***/ 848
+/***/ 4848
 (module, __unused_webpack_exports, __webpack_require__) {
 
 
 
 if (true) {
-  module.exports = __webpack_require__(20);
+  module.exports = __webpack_require__(1020);
 } else // removed by dead control flow
 {}
 
 
 /***/ },
 
-/***/ 463
+/***/ 7463
 (__unused_webpack_module, exports) {
 
 /**
@@ -2024,20 +2023,20 @@ exports.unstable_shouldYield=M;exports.unstable_wrapCallback=function(a){var b=y
 
 /***/ },
 
-/***/ 982
+/***/ 9982
 (module, __unused_webpack_exports, __webpack_require__) {
 
 
 
 if (true) {
-  module.exports = __webpack_require__(463);
+  module.exports = __webpack_require__(7463);
 } else // removed by dead control flow
 {}
 
 
 /***/ },
 
-/***/ 577
+/***/ 8577
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2046,29 +2045,1619 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = App;
-const jsx_runtime_1 = __webpack_require__(848);
-const App_1 = __importDefault(__webpack_require__(750));
+const jsx_runtime_1 = __webpack_require__(4848);
+const AppShell_1 = __importDefault(__webpack_require__(7664));
 function App() {
-    return (0, jsx_runtime_1.jsx)(App_1.default, {});
+    return (0, jsx_runtime_1.jsx)(AppShell_1.default, {});
 }
 
 
 /***/ },
 
-/***/ 779
+/***/ 5449
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.GEMINI_MODEL = void 0;
+exports.getRecentGeminiCalls = getRecentGeminiCalls;
+exports.getGeminiUsageStats = getGeminiUsageStats;
+exports.getGeminiRuntimeStatus = getGeminiRuntimeStatus;
+exports.runGeminiStructured = runGeminiStructured;
+exports.runGeminiTool = runGeminiTool;
+exports.runGemini = runGemini;
+exports.runGeminiVision = runGeminiVision;
+const generative_ai_1 = __webpack_require__(6445);
+const config_1 = __webpack_require__(7028);
+const loggerService_1 = __webpack_require__(2954);
+const schemas_1 = __webpack_require__(8156);
+exports.GEMINI_MODEL = "gemini-3.6-flash";
+const MAX_USAGE_RECORDS = 20;
+const FALLBACK_MODELS = [
+    "gemini-3.5-flash",
+    "gemini-flash-latest"
+];
+const RETRY_DELAYS_MS = [350, 900, 1800];
+const responseCache = new Map();
+let cacheHits = 0;
+let lastGeminiError = "";
+let lastQuotaMessage = "";
+let client = null;
+let cachedApiKey = "";
+let resolvedModel = null;
+let warnedFallback = false;
+const usageRecords = [];
+function getRecentGeminiCalls() {
+    return [...usageRecords].reverse();
+}
+function getGeminiUsageStats() {
+    const totalCalls = usageRecords.length;
+    const successfulCalls = usageRecords.filter((record) => record.success).length;
+    const failedCalls = totalCalls - successfulCalls;
+    const totalDurationMs = usageRecords.reduce((sum, record) => sum + record.durationMs, 0);
+    return {
+        totalCalls,
+        successfulCalls,
+        failedCalls,
+        averageDurationMs: totalCalls > 0 ? Math.round(totalDurationMs / totalCalls) : 0,
+        cacheHits
+    };
+}
+function getGeminiRuntimeStatus() {
+    return {
+        cacheEntries: responseCache.size,
+        cacheHits,
+        lastError: lastGeminiError,
+        lastQuotaMessage
+    };
+}
+async function runGeminiStructured(prompt, schema, options = {}) {
+    const apiKey = (0, config_1.resolveGeminiConfig)().apiKey;
+    if (!apiKey) {
+        throw new Error("Add your Gemini API key in Settings.");
+    }
+    const modelName = await resolveModel(apiKey, {
+        json: true,
+        systemInstruction: options.systemInstruction
+    });
+    const cacheKey = buildCacheKey("text", modelName, buildContextualPrompt(prompt, options.context), options.systemInstruction, [`responseSchema:${JSON.stringify(schema)}`]);
+    const cachedResponse = responseCache.get(cacheKey);
+    if (cachedResponse) {
+        cacheHits += 1;
+        return (0, schemas_1.validateSchemaValue)(JSON.parse(cachedResponse), schema);
+    }
+    const model = getClient(apiKey).getGenerativeModel({
+        model: modelName,
+        systemInstruction: options.systemInstruction,
+        generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: schema
+        }
+    });
+    const result = await model.generateContent(buildContextualPrompt(prompt, options.context));
+    const response = await result.response;
+    const text = response.text().trim();
+    if (!text) {
+        throw new Error("Gemini returned an empty structured response.");
+    }
+    responseCache.set(cacheKey, text);
+    return (0, schemas_1.validateSchemaValue)(JSON.parse(text), schema);
+}
+async function runGeminiTool(prompt, toolSchemas, context, options = {}) {
+    const apiKey = (0, config_1.resolveGeminiConfig)().apiKey;
+    if (!apiKey) {
+        throw new Error("Add your Gemini API key in Settings.");
+    }
+    if (toolSchemas.length === 0) {
+        throw new Error("runGeminiTool requires at least one tool schema.");
+    }
+    const modelName = await resolveModel(apiKey, options);
+    const fullPrompt = buildContextualPrompt(prompt, context);
+    const cacheKey = buildCacheKey("text", modelName, fullPrompt, options.systemInstruction, [`tools:${JSON.stringify(toolSchemas)}`]);
+    const cachedResponse = responseCache.get(cacheKey);
+    if (cachedResponse) {
+        cacheHits += 1;
+        return JSON.parse(cachedResponse);
+    }
+    const declarations = toolSchemas.map(schemas_1.toFunctionDeclaration);
+    const model = getClient(apiKey).getGenerativeModel({
+        model: modelName,
+        systemInstruction: options.systemInstruction,
+        tools: [{ functionDeclarations: declarations }],
+        toolConfig: {
+            functionCallingConfig: {
+                mode: generative_ai_1.FunctionCallingMode.ANY,
+                allowedFunctionNames: toolSchemas.map((tool) => tool.name)
+            }
+        }
+    });
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    const functionCalls = response.functionCalls();
+    const firstCall = functionCalls?.[0];
+    if (!firstCall) {
+        throw new Error("Gemini did not return a function call.");
+    }
+    const schema = toolSchemas.find((tool) => tool.name === firstCall.name);
+    if (!schema) {
+        throw new Error(`Gemini returned an unknown function call: ${firstCall.name}`);
+    }
+    const validatedArgs = (0, schemas_1.validateSchemaValue)(firstCall.args, {
+        type: schema.parameters?.type ?? "object",
+        properties: schema.parameters?.properties ?? {},
+        required: schema.parameters?.required
+    });
+    const payload = { name: firstCall.name, args: validatedArgs };
+    responseCache.set(cacheKey, JSON.stringify(payload));
+    return payload;
+}
+async function runGemini(prompt, options = {}) {
+    const apiKey = (0, config_1.resolveGeminiConfig)().apiKey;
+    const startedAt = Date.now();
+    if (!apiKey) {
+        throw new Error("Add your Gemini API key in Settings.");
+    }
+    const modelName = await resolveModel(apiKey, options);
+    const cacheKey = buildCacheKey("text", modelName, prompt, options.systemInstruction, []);
+    const cachedResponse = responseCache.get(cacheKey);
+    if (cachedResponse) {
+        cacheHits += 1;
+        trackUsage({
+            kind: "text",
+            model: modelName,
+            prompt,
+            startedAt,
+            success: true,
+            responseText: cachedResponse,
+            cacheHit: true
+        });
+        loggerService_1.loggerService.log(`Gemini text request served from session cache for model ${modelName}.`, "info");
+        return cachedResponse;
+    }
+    loggerService_1.loggerService.log(`Gemini text request started with model ${modelName}.`, "info");
+    let lastError;
+    for (let attempt = 0; attempt < RETRY_DELAYS_MS.length + 1; attempt += 1) {
+        try {
+            const model = getClient(apiKey).getGenerativeModel({
+                model: modelName,
+                systemInstruction: options.systemInstruction,
+                generationConfig: options.json
+                    ? { responseMimeType: "application/json" }
+                    : undefined
+            });
+            const result = await model.generateContent(prompt);
+            const response = await result.response;
+            const text = response.text().trim();
+            if (!text) {
+                throw new Error("Gemini returned an empty response.");
+            }
+            responseCache.set(cacheKey, text);
+            trackUsage({
+                kind: "text",
+                model: modelName,
+                prompt,
+                startedAt,
+                success: true,
+                responseText: text,
+                cacheHit: false
+            });
+            lastGeminiError = "";
+            lastQuotaMessage = "";
+            loggerService_1.loggerService.log(`Gemini text request completed in ${Date.now() - startedAt} ms.`, "success");
+            return text;
+        }
+        catch (error) {
+            lastError = error;
+            if (attempt >= RETRY_DELAYS_MS.length || !isRetryableError(error)) {
+                break;
+            }
+            await delay(RETRY_DELAYS_MS[attempt]);
+        }
+    }
+    trackUsage({
+        kind: "text",
+        model: modelName,
+        prompt,
+        startedAt,
+        success: false,
+        error: lastError,
+        cacheHit: false
+    });
+    lastGeminiError = formatGeminiError(lastError);
+    lastQuotaMessage = formatQuotaMessage(lastError);
+    loggerService_1.loggerService.log(`Gemini text request failed: ${formatGeminiError(lastError)}`, "error");
+    throw new Error(formatGeminiError(lastError));
+}
+async function runGeminiVision(prompt, images, options = {}) {
+    const apiKey = (0, config_1.resolveGeminiConfig)().apiKey;
+    const startedAt = Date.now();
+    if (!apiKey) {
+        throw new Error("Add your Gemini API key in Settings.");
+    }
+    if (images.length === 0) {
+        throw new Error("Gemini vision request requires at least one image.");
+    }
+    const modelName = await resolveModel(apiKey, options);
+    const cacheKey = buildCacheKey("vision", modelName, prompt, options.systemInstruction, images.map((image) => `${image.mimeType}:${image.base64.slice(0, 32)}`));
+    const cachedResponse = responseCache.get(cacheKey);
+    if (cachedResponse) {
+        cacheHits += 1;
+        trackUsage({
+            kind: "vision",
+            model: modelName,
+            prompt,
+            startedAt,
+            success: true,
+            responseText: cachedResponse,
+            cacheHit: true
+        });
+        loggerService_1.loggerService.log(`Gemini vision request served from session cache for model ${modelName}.`, "info");
+        return cachedResponse;
+    }
+    loggerService_1.loggerService.log(`Gemini vision request started with model ${modelName}.`, "info");
+    let lastError;
+    for (let attempt = 0; attempt < RETRY_DELAYS_MS.length + 1; attempt += 1) {
+        try {
+            const model = getClient(apiKey).getGenerativeModel({
+                model: modelName,
+                systemInstruction: options.systemInstruction,
+                generationConfig: options.json
+                    ? { responseMimeType: "application/json" }
+                    : undefined
+            });
+            const result = await model.generateContent([
+                { text: prompt },
+                ...images.map((image) => ({
+                    inlineData: {
+                        mimeType: image.mimeType,
+                        data: image.base64
+                    }
+                }))
+            ]);
+            const response = await result.response;
+            const text = response.text().trim();
+            if (!text) {
+                throw new Error("Gemini returned an empty vision response.");
+            }
+            responseCache.set(cacheKey, text);
+            trackUsage({
+                kind: "vision",
+                model: modelName,
+                prompt,
+                startedAt,
+                success: true,
+                responseText: text,
+                cacheHit: false
+            });
+            lastGeminiError = "";
+            lastQuotaMessage = "";
+            loggerService_1.loggerService.log(`Gemini vision request completed in ${Date.now() - startedAt} ms.`, "success");
+            return text;
+        }
+        catch (error) {
+            lastError = error;
+            if (attempt >= RETRY_DELAYS_MS.length || !isRetryableError(error)) {
+                break;
+            }
+            await delay(RETRY_DELAYS_MS[attempt]);
+        }
+    }
+    trackUsage({
+        kind: "vision",
+        model: modelName,
+        prompt,
+        startedAt,
+        success: false,
+        error: lastError,
+        cacheHit: false
+    });
+    lastGeminiError = formatGeminiError(lastError);
+    lastQuotaMessage = formatQuotaMessage(lastError);
+    loggerService_1.loggerService.log(`Gemini vision request failed: ${formatGeminiError(lastError)}`, "error");
+    throw new Error(formatGeminiError(lastError));
+}
+function trackUsage({ kind, model, prompt, startedAt, success, error, responseText, cacheHit }) {
+    usageRecords.push({
+        id: `${startedAt}-${usageRecords.length + 1}`,
+        kind,
+        model,
+        cacheHit,
+        promptText: prompt,
+        promptPreview: summarizeText(prompt),
+        startedAt: new Date(startedAt).toISOString(),
+        durationMs: Math.max(0, Date.now() - startedAt),
+        success,
+        errorMessage: error ? formatGeminiError(error) : undefined,
+        responseText,
+        responsePreview: responseText ? summarizeText(responseText) : undefined
+    });
+    if (usageRecords.length > MAX_USAGE_RECORDS) {
+        usageRecords.splice(0, usageRecords.length - MAX_USAGE_RECORDS);
+    }
+}
+function buildCacheKey(kind, model, prompt, systemInstruction, extra) {
+    return JSON.stringify({
+        kind,
+        model,
+        prompt,
+        systemInstruction: systemInstruction ?? "",
+        extra
+    });
+}
+function buildContextualPrompt(prompt, context) {
+    if (context === undefined) {
+        return prompt;
+    }
+    return [prompt, "", "Context JSON:", JSON.stringify(context)].join("\n");
+}
+function getClient(apiKey) {
+    if (client === null || cachedApiKey !== apiKey) {
+        client = new generative_ai_1.GoogleGenerativeAI(apiKey);
+        cachedApiKey = apiKey;
+        resolvedModel = null;
+        warnedFallback = false;
+    }
+    return client;
+}
+async function resolveModel(apiKey, options) {
+    if (resolvedModel) {
+        return resolvedModel;
+    }
+    const candidates = [exports.GEMINI_MODEL, ...FALLBACK_MODELS];
+    for (const candidate of candidates) {
+        try {
+            const model = getClient(apiKey).getGenerativeModel({
+                model: candidate,
+                systemInstruction: options.systemInstruction,
+                generationConfig: options.json
+                    ? { responseMimeType: "application/json" }
+                    : undefined
+            });
+            const result = await model.generateContent("Reply with OK.");
+            const response = await result.response;
+            if (!response.text().trim()) {
+                throw new Error(`Model ${candidate} returned an empty response.`);
+            }
+            resolvedModel = candidate;
+            if (candidate !== exports.GEMINI_MODEL && !warnedFallback) {
+                warnedFallback = true;
+                console.warn(`[RK Flow] Gemini model "${exports.GEMINI_MODEL}" was not resolvable for this API key. Falling back to "${candidate}".`);
+            }
+            return candidate;
+        }
+        catch (error) {
+            if (!isModelResolutionError(error)) {
+                throw error;
+            }
+        }
+    }
+    throw new Error(`Gemini model "${exports.GEMINI_MODEL}" is not available for this API key, and no fallback flash model resolved.`);
+}
+function isRetryableError(error) {
+    const message = extractErrorMessage(error).toLowerCase();
+    return (message.includes("429") ||
+        message.includes("500") ||
+        message.includes("502") ||
+        message.includes("503") ||
+        message.includes("504") ||
+        message.includes("rate limit") ||
+        message.includes("timeout"));
+}
+function isModelResolutionError(error) {
+    const message = extractErrorMessage(error).toLowerCase();
+    return (message.includes("404") ||
+        message.includes("not found") ||
+        message.includes("unsupported") ||
+        message.includes("not available") ||
+        message.includes("not exist"));
+}
+function formatGeminiError(error) {
+    const message = extractErrorMessage(error);
+    if (isRateLimitError(error)) {
+        return formatQuotaMessage(error);
+    }
+    if (message) {
+        return `Gemini request failed: ${message}`;
+    }
+    return "Gemini request failed for an unknown reason.";
+}
+function formatQuotaMessage(error) {
+    const message = extractErrorMessage(error);
+    const retryAfter = extractRetryAfterSeconds(message);
+    const suffix = retryAfter !== null ? ` Try again in about ${retryAfter}s.` : " Try again later.";
+    return `Gemini daily limit reached or rate limit hit.${suffix}`;
+}
+function extractErrorMessage(error) {
+    if (error instanceof Error) {
+        return error.message;
+    }
+    if (typeof error === "string") {
+        return error;
+    }
+    return "";
+}
+function isRateLimitError(error) {
+    const message = extractErrorMessage(error).toLowerCase();
+    return message.includes("429") || message.includes("rate limit") || message.includes("quota");
+}
+function extractRetryAfterSeconds(message) {
+    const match = message.match(/(\d+)\s*s(?:ec(?:ond)?s?)?/i);
+    if (!match) {
+        return null;
+    }
+    const seconds = Number(match[1]);
+    return Number.isFinite(seconds) ? seconds : null;
+}
+function delay(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+function summarizeText(value) {
+    const normalized = value.replace(/\s+/g, " ").trim();
+    return normalized.length > 220 ? `${normalized.slice(0, 217)}...` : normalized;
+}
+
+
+/***/ },
+
+/***/ 5989
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.AI_PROVIDERS = void 0;
+exports.AI_PROVIDERS = [
+    {
+        id: "gemini",
+        label: "Google Gemini",
+        enabled: true,
+    },
+    {
+        id: "chatgpt",
+        label: "ChatGPT",
+        enabled: false,
+    },
+    {
+        id: "claude",
+        label: "Claude",
+        enabled: false,
+    },
+    {
+        id: "grok",
+        label: "Grok",
+        enabled: false,
+    },
+    {
+        id: "kimi",
+        label: "Kimi",
+        enabled: false,
+    },
+    {
+        id: "ollama",
+        label: "Ollama",
+        enabled: false,
+    }
+];
+
+
+/***/ },
+
+/***/ 6441
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EmptyPremiereContext = void 0;
+exports.EmptyPremiereContext = {
+    projectName: "",
+    sequenceName: "",
+    fps: 25,
+    inPoint: 0,
+    outPoint: 0,
+    playhead: 0,
+    selectedClips: [],
+    videoTracks: 0,
+    audioTracks: 0,
+    markers: []
+};
+
+
+/***/ },
+
+/***/ 7198
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PremiereContextManager = void 0;
+const PremiereContext_1 = __webpack_require__(6441);
+class PremiereContextManager {
+    static context = {
+        ...PremiereContext_1.EmptyPremiereContext
+    };
+    static get() {
+        return this.context;
+    }
+    static update(data) {
+        this.context = {
+            ...this.context,
+            ...data
+        };
+        return this.context;
+    }
+    static reset() {
+        this.context = {
+            ...PremiereContext_1.EmptyPremiereContext
+        };
+    }
+}
+exports.PremiereContextManager = PremiereContextManager;
+
+
+/***/ },
+
+/***/ 9788
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PremiereContextProvider = void 0;
+const PremiereContextManager_1 = __webpack_require__(7198);
+const PremiereReader_1 = __webpack_require__(611);
+class PremiereContextProvider {
+    static reader = new PremiereReader_1.PremiereReader();
+    static async refresh() {
+        const context = await this.reader.readContext();
+        PremiereContextManager_1.PremiereContextManager.update(context);
+    }
+}
+exports.PremiereContextProvider = PremiereContextProvider;
+
+
+/***/ },
+
+/***/ 6134
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PremiereContextSnapshotService = void 0;
+const PremiereContextManager_1 = __webpack_require__(7198);
+const PremiereReader_1 = __webpack_require__(611);
+class PremiereContextSnapshotService {
+    reader = new PremiereReader_1.PremiereReader();
+    async capture() {
+        const context = await this.reader.readContext();
+        PremiereContextManager_1.PremiereContextManager.update(context);
+        return {
+            projectName: context.projectName,
+            sequenceName: context.sequenceName,
+            fps: context.fps,
+            playhead: context.playhead,
+            inPoint: context.inPoint,
+            outPoint: context.outPoint,
+            videoTracks: context.videoTracks,
+            audioTracks: context.audioTracks,
+            selectedClips: [...context.selectedClips],
+            selectedClipCount: context.selectedClips.length,
+            markers: [...context.markers]
+        };
+    }
+}
+exports.PremiereContextSnapshotService = PremiereContextSnapshotService;
+
+
+/***/ },
+
+/***/ 7523
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(6441), exports);
+__exportStar(__webpack_require__(7198), exports);
+__exportStar(__webpack_require__(9788), exports);
+__exportStar(__webpack_require__(6134), exports);
+
+
+/***/ },
+
+/***/ 318
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.AICopilot = void 0;
+const brain_1 = __webpack_require__(7021);
+const loggerService_1 = __webpack_require__(2954);
+const context_1 = __webpack_require__(7523);
+const GeminiService_1 = __webpack_require__(5449);
+class AICopilot {
+    memory = new brain_1.MemoryEngine();
+    snapshotService = new context_1.PremiereContextSnapshotService();
+    async resolve({ intent, context, memoryScopeKey, memoryCacheKey = "result", skipMemory = false, localResolver, geminiResolver }) {
+        const snapshot = await this.snapshotService.capture();
+        if (!skipMemory && memoryScopeKey) {
+            const cached = this.memory.getAnalysis(memoryScopeKey, memoryCacheKey);
+            if (cached !== null) {
+                loggerService_1.loggerService.log(`[memory] AICopilot resolved ${intent}.`, "info");
+                return { value: cached, path: "memory", snapshot };
+            }
+        }
+        if (localResolver) {
+            const local = await localResolver(snapshot, context);
+            if (local !== null && local !== undefined) {
+                if (memoryScopeKey) {
+                    this.memory.setAnalysis(memoryScopeKey, memoryCacheKey, local);
+                }
+                loggerService_1.loggerService.log(`[local] AICopilot resolved ${intent}.`, "info");
+                return { value: local, path: "local", snapshot };
+            }
+        }
+        const before = (0, GeminiService_1.getGeminiUsageStats)().cacheHits;
+        const value = await geminiResolver(snapshot, context);
+        const after = (0, GeminiService_1.getGeminiUsageStats)().cacheHits;
+        const path = after > before ? "cache" : "gemini";
+        if (memoryScopeKey) {
+            this.memory.setAnalysis(memoryScopeKey, memoryCacheKey, value);
+        }
+        loggerService_1.loggerService.log(`[${path}] AICopilot resolved ${intent}.`, path === "gemini" ? "warn" : "info");
+        return { value, path, snapshot };
+    }
+}
+exports.AICopilot = AICopilot;
+
+
+/***/ },
+
+/***/ 611
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.PremiereReader = void 0;
+const PremiereAPI_1 = __webpack_require__(868);
+const ClipManager_1 = __webpack_require__(2276);
+class PremiereReader {
+    async readContext() {
+        const sequence = await PremiereAPI_1.premiereAPI.getActiveSequence();
+        const timeline = await PremiereAPI_1.premiereAPI.getTimelineContext();
+        const clips = await ClipManager_1.clipManager.getSelectedClips();
+        const playhead = sequence
+            ? await sequence.getPlayerPosition()
+            : null;
+        const inPoint = sequence
+            ? await sequence.getInPoint()
+            : null;
+        const outPoint = sequence
+            ? await sequence.getOutPoint()
+            : null;
+        return {
+            projectName: timeline?.projectName ?? "No Project",
+            sequenceName: timeline?.sequenceName ?? "No Sequence",
+            fps: 25,
+            playhead: playhead?.seconds ?? 0,
+            inPoint: inPoint?.seconds === -400000
+                ? 0
+                : (inPoint?.seconds ?? 0),
+            outPoint: outPoint?.seconds === -400000
+                ? 0
+                : (outPoint?.seconds ?? 0),
+            videoTracks: timeline?.videoTracks ?? 0,
+            audioTracks: timeline?.audioTracks ?? 0,
+            selectedClips: clips.map(c => c.name),
+            markers: []
+        };
+    }
+}
+exports.PremiereReader = PremiereReader;
+
+
+/***/ },
+
+/***/ 8224
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.BaseProvider = void 0;
+class BaseProvider {
+    async initialize(_apiKey) { }
+    isAvailable() {
+        return true;
+    }
+    async chat(request) {
+        return {
+            text: request.prompt,
+            provider: this.id
+        };
+    }
+}
+exports.BaseProvider = BaseProvider;
+
+
+/***/ },
+
+/***/ 3150
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.GeminiProvider = void 0;
+const BaseProvider_1 = __webpack_require__(8224);
+const GeminiService_1 = __webpack_require__(5449);
+class GeminiProvider extends BaseProvider_1.BaseProvider {
+    id = "gemini";
+    name = "Gemini";
+    async initialize(_apiKey) { }
+    async chat(request) {
+        const text = await (0, GeminiService_1.runGemini)(request.prompt, {
+            systemInstruction: request.systemPrompt
+        });
+        return {
+            text,
+            provider: this.id,
+            usage: {
+                promptTokens: 0,
+                completionTokens: 0,
+                totalTokens: 0
+            }
+        };
+    }
+}
+exports.GeminiProvider = GeminiProvider;
+__webpack_unused_export__ = GeminiProvider;
+
+
+/***/ },
+
+/***/ 1103
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.ProviderFactory = void 0;
+const GeminiProvider_1 = __webpack_require__(3150);
+class DisabledProvider {
+    id;
+    name;
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+    }
+    async initialize() {
+        throw new Error(`${this.name} is not yet configured in RK Flow Settings.`);
+    }
+    async chat() {
+        throw new Error(`${this.name} is coming soon. Only Gemini is active right now.`);
+    }
+    isAvailable() {
+        return false;
+    }
+}
+class ProviderFactory {
+    static create(provider) {
+        switch (provider) {
+            case "gemini":
+                return new GeminiProvider_1.GeminiProvider();
+            case "chatgpt":
+                return new DisabledProvider("chatgpt", "ChatGPT");
+            case "claude":
+                return new DisabledProvider("claude", "Claude");
+            case "grok":
+                return new DisabledProvider("grok", "Grok");
+            case "kimi":
+                return new DisabledProvider("kimi", "Kimi");
+            case "ollama":
+                return new DisabledProvider("ollama", "Ollama");
+            default:
+                throw new Error(`Unsupported provider: ${provider}`);
+        }
+    }
+    static providers() {
+        return ["gemini", "chatgpt", "claude", "grok", "kimi", "ollama"];
+    }
+}
+exports.ProviderFactory = ProviderFactory;
+
+
+/***/ },
+
+/***/ 8026
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.AIRouter = void 0;
+const ProviderFactory_1 = __webpack_require__(1103);
+class AIRouter {
+    async chat(request) {
+        const provider = ProviderFactory_1.ProviderFactory.create("gemini");
+        await provider.initialize("");
+        return provider.chat(request);
+    }
+}
+exports.AIRouter = AIRouter;
+
+
+/***/ },
+
+/***/ 2822
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.commandToolSchemas = void 0;
+const generative_ai_1 = __webpack_require__(6445);
+const stringField = { type: generative_ai_1.SchemaType.STRING };
+const numberField = { type: generative_ai_1.SchemaType.NUMBER };
+exports.commandToolSchemas = [
+    {
+        name: "READ_TIMELINE",
+        description: "Read the active Premiere timeline.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: {} }
+    },
+    {
+        name: "READ_SELECTED_CLIPS",
+        description: "Read selected clips from the active Premiere sequence.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: {} }
+    },
+    {
+        name: "GET_IN_OUT",
+        description: "Read current In and Out points.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: {} }
+    },
+    {
+        name: "GET_PLAYHEAD",
+        description: "Read current playhead position.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: {} }
+    },
+    {
+        name: "MOVE_PLAYHEAD",
+        description: "Move the playhead to a given time in seconds.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { time: numberField }, required: ["time"] }
+    },
+    {
+        name: "CREATE_MARKER",
+        description: "Create a timeline marker.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { name: stringField, time: numberField }, required: ["name", "time"] }
+    },
+    {
+        name: "DELETE_MARKER",
+        description: "Delete a marker by id.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { markerId: stringField }, required: ["markerId"] }
+    },
+    {
+        name: "CUT_CLIP",
+        description: "Cut a clip at a given time.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField, time: numberField }, required: ["clipId", "time"] }
+    },
+    {
+        name: "TRIM_CLIP",
+        description: "Trim a clip to a start and end time.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField, start: numberField, end: numberField }, required: ["clipId", "start", "end"] }
+    },
+    {
+        name: "MOVE_CLIP",
+        description: "Move a clip to another track/time.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField, targetTrackIndex: numberField, start: numberField }, required: ["clipId", "targetTrackIndex", "start"] }
+    },
+    {
+        name: "CREATE_SEQUENCE",
+        description: "Create a Premiere sequence.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { name: stringField }, required: ["name"] }
+    },
+    {
+        name: "IMPORT_MEDIA",
+        description: "Import media into the project.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { mediaPath: stringField }, required: ["mediaPath"] }
+    },
+    {
+        name: "EXPORT_SEQUENCE",
+        description: "Export the active sequence.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { destinationPath: stringField, preset: stringField }, required: ["destinationPath"] }
+    },
+    {
+        name: "CREATE_REEL",
+        description: "Create a reel from the current context.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { duration: numberField }, required: ["duration"] }
+    },
+    {
+        name: "RIPPLE_DELETE",
+        description: "Ripple delete a timeline range.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { start: numberField, end: numberField }, required: ["start", "end"] }
+    },
+    {
+        name: "AUTO_TRIM",
+        description: "Automatically trim selected clips.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: {} }
+    },
+    {
+        name: "BEAT_CUT",
+        description: "Cut on detected beats.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: {} }
+    },
+    {
+        name: "SILENCE_REMOVE",
+        description: "Remove silence from selected clips.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: {} }
+    },
+    {
+        name: "SPEED_RAMP",
+        description: "Apply a speed ramp to a clip.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField, from: numberField, to: numberField }, required: ["clipId", "from", "to"] }
+    },
+    {
+        name: "AUTO_ZOOM",
+        description: "Apply auto zoom to a clip.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField, start: numberField, end: numberField }, required: ["clipId"] }
+    },
+    {
+        name: "REFRAME",
+        description: "Auto reframe a clip or sequence.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField } }
+    },
+    {
+        name: "ADD_CLIP_TO_SEQUENCE",
+        description: "Insert a video project item into the active sequence.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField, mediaPath: stringField, start: numberField, targetTrackIndex: numberField }, required: ["start"] }
+    },
+    {
+        name: "ADD_AUDIO_TO_SEQUENCE",
+        description: "Insert an audio project item into the active sequence.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField, mediaPath: stringField, assetId: stringField, start: numberField, targetTrackIndex: numberField }, required: ["start"] }
+    },
+    {
+        name: "ADD_TRANSITION",
+        description: "Add a transition to the timeline.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { type: stringField, start: numberField, duration: numberField }, required: ["type", "start", "duration"] }
+    },
+    {
+        name: "APPLY_COLOR_MATCH",
+        description: "Apply color match using source and target clips.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { sourceClipId: stringField, targetClipId: stringField }, required: ["sourceClipId", "targetClipId"] }
+    },
+    {
+        name: "APPLY_SKIN_TONE_PROTECTION",
+        description: "Apply skin tone protection.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField }, required: ["clipId"] }
+    },
+    {
+        name: "APPLY_FILM_LUT",
+        description: "Apply a film LUT to a clip.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField }, required: ["clipId"] }
+    },
+    {
+        name: "AUTO_GRADE",
+        description: "Auto grade a clip.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField }, required: ["clipId"] }
+    },
+    {
+        name: "APPLY_PAN_AND_ZOOM",
+        description: "Apply pan and zoom motion.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField }, required: ["clipId"] }
+    },
+    {
+        name: "APPLY_PARALLAX",
+        description: "Apply parallax motion.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField }, required: ["clipId"] }
+    },
+    {
+        name: "APPLY_MOTION_BLUR",
+        description: "Apply motion blur.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField }, required: ["clipId"] }
+    },
+    {
+        name: "REMOVE_NOISE",
+        description: "Remove noise from an audio clip.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField }, required: ["clipId"] }
+    },
+    {
+        name: "ENHANCE_VOICE",
+        description: "Enhance voice in an audio clip.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField }, required: ["clipId"] }
+    },
+    {
+        name: "AUTO_DUCK",
+        description: "Auto duck background music beneath speech.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { mainClipId: stringField, musicClipId: stringField }, required: ["mainClipId", "musicClipId"] }
+    },
+    {
+        name: "CLEANUP_SPEECH",
+        description: "Cleanup speech audio.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { clipId: stringField }, required: ["clipId"] }
+    },
+    {
+        name: "INSERT_CAPTIONS",
+        description: "Insert captions into the timeline.",
+        parameters: { type: generative_ai_1.SchemaType.OBJECT, properties: { captions: stringField }, required: ["captions"] }
+    }
+];
+
+
+/***/ },
+
+/***/ 4534
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.aiDirectorToolSchemas = void 0;
+const generative_ai_1 = __webpack_require__(6445);
+const stringField = { type: generative_ai_1.SchemaType.STRING };
+const numberField = { type: generative_ai_1.SchemaType.NUMBER };
+const storySegmentSchema = {
+    type: generative_ai_1.SchemaType.OBJECT,
+    properties: {
+        type: stringField,
+        segment: stringField,
+        clipId: stringField,
+        duration: numberField,
+        content: stringField
+    },
+    required: ["type", "duration"]
+};
+exports.aiDirectorToolSchemas = [
+    {
+        name: "SELECT_SONG",
+        description: "Choose the best soundtrack for the wedding film from available audio assets.",
+        parameters: {
+            type: generative_ai_1.SchemaType.OBJECT,
+            properties: {
+                songId: stringField,
+                reasoning: stringField
+            },
+            required: ["songId", "reasoning"]
+        }
+    },
+    {
+        name: "SELECT_HERO_SHOTS",
+        description: "Select the strongest hero shots from available video assets.",
+        parameters: {
+            type: generative_ai_1.SchemaType.OBJECT,
+            properties: {
+                heroShotIds: {
+                    type: generative_ai_1.SchemaType.ARRAY,
+                    items: stringField
+                },
+                reasoning: stringField
+            },
+            required: ["heroShotIds", "reasoning"]
+        }
+    },
+    {
+        name: "BUILD_STORY_STRUCTURE",
+        description: "Build a story structure for the film using hero shots and wedding beats.",
+        parameters: {
+            type: generative_ai_1.SchemaType.OBJECT,
+            properties: {
+                segments: {
+                    type: generative_ai_1.SchemaType.ARRAY,
+                    items: storySegmentSchema
+                },
+                reasoning: stringField
+            },
+            required: ["segments", "reasoning"]
+        }
+    },
+    {
+        name: "ASSEMBLE_SEQUENCE",
+        description: "Submit the edit plan to Premiere for assembly once the structure is ready.",
+        parameters: {
+            type: generative_ai_1.SchemaType.OBJECT,
+            properties: {
+                templateName: stringField,
+                clipIds: {
+                    type: generative_ai_1.SchemaType.ARRAY,
+                    items: stringField
+                },
+                reasoning: stringField
+            },
+            required: ["templateName", "clipIds", "reasoning"]
+        }
+    },
+    {
+        name: "ASSEMBLE_COMPLETE",
+        description: "Return this only after assembly has completed or no more steps are needed.",
+        parameters: {
+            type: generative_ai_1.SchemaType.OBJECT,
+            properties: {
+                summary: stringField,
+                sequenceName: stringField
+            },
+            required: ["summary"]
+        }
+    }
+];
+
+
+/***/ },
+
+/***/ 8156
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(3012), exports);
+__exportStar(__webpack_require__(2822), exports);
+__exportStar(__webpack_require__(4534), exports);
+__exportStar(__webpack_require__(6141), exports);
+__exportStar(__webpack_require__(6490), exports);
+
+
+/***/ },
+
+/***/ 6141
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.cameraClipsSchema = exports.cameraClipSchema = exports.emotionClipsSchema = exports.emotionClipSchema = exports.faceClustersSchema = exports.faceClusterSchema = exports.weddingSegmentsSchema = exports.weddingSegmentSchema = void 0;
+const generative_ai_1 = __webpack_require__(6445);
+exports.weddingSegmentSchema = {
+    type: generative_ai_1.SchemaType.OBJECT,
+    properties: {
+        id: { type: generative_ai_1.SchemaType.STRING },
+        label: { type: generative_ai_1.SchemaType.STRING },
+        confidence: { type: generative_ai_1.SchemaType.NUMBER },
+        start: { type: generative_ai_1.SchemaType.NUMBER },
+        end: { type: generative_ai_1.SchemaType.NUMBER },
+        source: { type: generative_ai_1.SchemaType.STRING }
+    },
+    required: ["id", "label", "confidence", "start", "end", "source"]
+};
+exports.weddingSegmentsSchema = {
+    type: generative_ai_1.SchemaType.ARRAY,
+    items: exports.weddingSegmentSchema
+};
+exports.faceClusterSchema = {
+    type: generative_ai_1.SchemaType.OBJECT,
+    properties: {
+        id: { type: generative_ai_1.SchemaType.STRING },
+        label: { type: generative_ai_1.SchemaType.STRING },
+        role: { type: generative_ai_1.SchemaType.STRING, format: "enum", enum: ["bride", "groom", "family", "guest", "unknown"] },
+        confidence: { type: generative_ai_1.SchemaType.NUMBER },
+        clipIds: { type: generative_ai_1.SchemaType.ARRAY, items: { type: generative_ai_1.SchemaType.STRING } },
+        emotionTags: { type: generative_ai_1.SchemaType.ARRAY, items: { type: generative_ai_1.SchemaType.STRING } },
+        source: { type: generative_ai_1.SchemaType.STRING }
+    },
+    required: ["id", "label", "role", "confidence", "clipIds", "emotionTags", "source"]
+};
+exports.faceClustersSchema = {
+    type: generative_ai_1.SchemaType.ARRAY,
+    items: exports.faceClusterSchema
+};
+exports.emotionClipSchema = {
+    type: generative_ai_1.SchemaType.OBJECT,
+    properties: {
+        clipId: { type: generative_ai_1.SchemaType.STRING },
+        clipName: { type: generative_ai_1.SchemaType.STRING },
+        emotions: { type: generative_ai_1.SchemaType.ARRAY, items: { type: generative_ai_1.SchemaType.STRING } },
+        confidence: { type: generative_ai_1.SchemaType.NUMBER },
+        source: { type: generative_ai_1.SchemaType.STRING }
+    },
+    required: ["clipId", "clipName", "emotions", "confidence", "source"]
+};
+exports.emotionClipsSchema = {
+    type: generative_ai_1.SchemaType.ARRAY,
+    items: exports.emotionClipSchema
+};
+exports.cameraClipSchema = {
+    type: generative_ai_1.SchemaType.OBJECT,
+    properties: {
+        clipId: { type: generative_ai_1.SchemaType.STRING },
+        clipName: { type: generative_ai_1.SchemaType.STRING },
+        shotType: { type: generative_ai_1.SchemaType.STRING },
+        movement: { type: generative_ai_1.SchemaType.STRING },
+        confidence: { type: generative_ai_1.SchemaType.NUMBER },
+        source: { type: generative_ai_1.SchemaType.STRING }
+    },
+    required: ["clipId", "clipName", "shotType", "movement", "confidence", "source"]
+};
+exports.cameraClipsSchema = {
+    type: generative_ai_1.SchemaType.ARRAY,
+    items: exports.cameraClipSchema
+};
+
+
+/***/ },
+
+/***/ 6490
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.reelPlanSchema = void 0;
+const generative_ai_1 = __webpack_require__(6445);
+const clipPlanSchema = {
+    type: generative_ai_1.SchemaType.OBJECT,
+    properties: {
+        clipId: { type: generative_ai_1.SchemaType.STRING },
+        durationSeconds: { type: generative_ai_1.SchemaType.NUMBER },
+        reason: { type: generative_ai_1.SchemaType.STRING },
+        emotionWeight: { type: generative_ai_1.SchemaType.NUMBER },
+        musicEnergyWeight: { type: generative_ai_1.SchemaType.NUMBER },
+        shotWeight: { type: generative_ai_1.SchemaType.NUMBER }
+    },
+    required: [
+        "clipId",
+        "durationSeconds",
+        "reason",
+        "emotionWeight",
+        "musicEnergyWeight",
+        "shotWeight"
+    ]
+};
+exports.reelPlanSchema = {
+    type: generative_ai_1.SchemaType.OBJECT,
+    properties: {
+        title: { type: generative_ai_1.SchemaType.STRING },
+        templateName: { type: generative_ai_1.SchemaType.STRING },
+        intentSummary: { type: generative_ai_1.SchemaType.STRING },
+        targetDurationSeconds: { type: generative_ai_1.SchemaType.NUMBER },
+        clips: {
+            type: generative_ai_1.SchemaType.ARRAY,
+            items: clipPlanSchema
+        },
+        notes: {
+            type: generative_ai_1.SchemaType.ARRAY,
+            items: { type: generative_ai_1.SchemaType.STRING }
+        }
+    },
+    required: [
+        "title",
+        "templateName",
+        "intentSummary",
+        "targetDurationSeconds",
+        "clips",
+        "notes"
+    ]
+};
+
+
+/***/ },
+
+/***/ 3012
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.toFunctionDeclaration = toFunctionDeclaration;
+exports.validateSchemaValue = validateSchemaValue;
+const generative_ai_1 = __webpack_require__(6445);
+function toFunctionDeclaration(schema) {
+    return {
+        name: schema.name,
+        description: schema.description,
+        parameters: schema.parameters
+    };
+}
+function validateSchemaValue(value, schema) {
+    if (!matchesSchema(value, schema)) {
+        throw new Error("Gemini structured response did not match the expected schema.");
+    }
+    return value;
+}
+function matchesSchema(value, schema) {
+    switch (schema.type) {
+        case generative_ai_1.SchemaType.STRING:
+            return typeof value === "string" || (schema.nullable === true && value === null);
+        case generative_ai_1.SchemaType.NUMBER:
+            return typeof value === "number" || (schema.nullable === true && value === null);
+        case generative_ai_1.SchemaType.INTEGER:
+            return Number.isInteger(value) || (schema.nullable === true && value === null);
+        case generative_ai_1.SchemaType.BOOLEAN:
+            return typeof value === "boolean" || (schema.nullable === true && value === null);
+        case generative_ai_1.SchemaType.ARRAY:
+            return (Array.isArray(value) &&
+                value.every((entry) => matchesSchema(entry, schema.items))) || (schema.nullable === true && value === null);
+        case generative_ai_1.SchemaType.OBJECT:
+            if ((schema.nullable === true && value === null)) {
+                return true;
+            }
+            if (typeof value !== "object" || value === null || Array.isArray(value)) {
+                return false;
+            }
+            for (const key of schema.required ?? []) {
+                if (!(key in value)) {
+                    return false;
+                }
+            }
+            return Object.entries(schema.properties).every(([key, propertySchema]) => {
+                if (!(key in value)) {
+                    return !(schema.required ?? []).includes(key);
+                }
+                return matchesSchema(value[key], propertySchema);
+            });
+        default:
+            return false;
+    }
+}
+
+
+/***/ },
+
+/***/ 5407
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.AIChatService = void 0;
+const AIRouter_1 = __webpack_require__(8026);
+const AICopilot_1 = __webpack_require__(318);
+const CommandParsingService_1 = __webpack_require__(4434);
+const CommandValidator_1 = __webpack_require__(4610);
+const CommandExecutor_1 = __webpack_require__(1779);
+class AIChatService {
+    router = new AIRouter_1.AIRouter();
+    commandParser = new CommandParsingService_1.CommandParsingService();
+    commandValidator = new CommandValidator_1.CommandValidator();
+    commandExecutor = new CommandExecutor_1.CommandExecutor();
+    copilot = new AICopilot_1.AICopilot();
+    async ask(prompt) {
+        const resolved = await this.copilot.resolve({
+            intent: "assistant:chat",
+            context: prompt,
+            localResolver: async (snapshot, value) => {
+                const parsedLocalCommand = this.commandParser.parseLocal(String(value), snapshot);
+                if (!parsedLocalCommand) {
+                    return null;
+                }
+                const validationResult = this.commandValidator.validate(parsedLocalCommand);
+                if (!validationResult.valid) {
+                    return `[local] Command validation failed: ${validationResult.errors.join(", ")}`;
+                }
+                const executionResult = await this.commandExecutor.execute(parsedLocalCommand);
+                return executionResult.success
+                    ? `[local] Command executed successfully: ${executionResult.message}`
+                    : `[local] Command failed: ${executionResult.error}`;
+            },
+            geminiResolver: async (snapshot, value) => {
+                const promptText = String(value);
+                const parsedGeminiCommand = await this.commandParser.parseWithGemini(promptText);
+                if (parsedGeminiCommand) {
+                    const validationResult = this.commandValidator.validate(parsedGeminiCommand);
+                    if (validationResult.valid) {
+                        const executionResult = await this.commandExecutor.execute(parsedGeminiCommand);
+                        return executionResult.success
+                            ? `[gemini] Command executed successfully: ${executionResult.message}`
+                            : `[gemini] Command failed: ${executionResult.error}`;
+                    }
+                }
+                const request = {
+                    prompt: [
+                        "Premiere context snapshot JSON:",
+                        JSON.stringify(snapshot),
+                        "",
+                        `User request: ${promptText}`
+                    ].join("\n")
+                };
+                const response = await this.router.chat(request);
+                return `[gemini] ${response.text}`;
+            }
+        });
+        return resolved.value;
+    }
+}
+exports.AIChatService = AIChatService;
+
+
+/***/ },
+
+/***/ 4434
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.CommandParsingService = void 0;
+const GeminiService_1 = __webpack_require__(5449);
+const schemas_1 = __webpack_require__(8156);
+class CommandParsingService {
+    parseLocal(commandText, snapshot) {
+        const normalized = commandText.trim().toLowerCase();
+        const durationMatch = normalized.match(/(\d+)\s*(?:second|seconds|sec|s)\b/);
+        const duration = durationMatch ? Number(durationMatch[1]) : null;
+        if (normalized.includes("selection") || normalized.includes("selected") || normalized.includes("select clips")) {
+            return buildCommand("READ_SELECTED_CLIPS", {});
+        }
+        if (normalized.includes("timeline")) {
+            return buildCommand("READ_TIMELINE", {});
+        }
+        if (normalized.includes("playhead")) {
+            return buildCommand("GET_PLAYHEAD", {});
+        }
+        if (normalized.includes("trim")) {
+            return buildCommand("AUTO_TRIM", {});
+        }
+        if ((normalized.includes("beat") && normalized.includes("cut")) || normalized === "cut") {
+            return buildCommand("BEAT_CUT", {});
+        }
+        if (normalized.includes("reel") || normalized.includes("highlight") || normalized.includes("short")) {
+            return buildCommand("CREATE_REEL", {
+                duration: duration ?? inferDurationFromSnapshot(snapshot)
+            });
+        }
+        return null;
+    }
+    async parseWithGemini(commandText) {
+        try {
+            const toolCall = await (0, GeminiService_1.runGeminiTool)([
+                "Translate the user's editing request into exactly one structured Premiere command tool call.",
+                "Prefer the most direct available action.",
+                "User request:",
+                commandText
+            ].join("\n"), schemas_1.commandToolSchemas);
+            return {
+                id: `cmd_${Date.now()}`,
+                action: toolCall.name,
+                payload: toolCall.args,
+                timestamp: Date.now()
+            };
+        }
+        catch (error) {
+            console.error('Error parsing command with Gemini:', error);
+            return null;
+        }
+    }
+}
+exports.CommandParsingService = CommandParsingService;
+function buildCommand(action, payload) {
+    return {
+        id: `cmd_${Date.now()}`,
+        action,
+        payload,
+        timestamp: Date.now()
+    };
+}
+function inferDurationFromSnapshot(snapshot) {
+    const candidate = Math.round(Math.max(15, snapshot.outPoint - snapshot.inPoint));
+    return candidate > 0 ? candidate : 45;
+}
+
+
+/***/ },
+
+/***/ 3054
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AIController = void 0;
+const AIChatService_1 = __webpack_require__(5407);
+const AIState_1 = __webpack_require__(9661);
+class AIController {
+    chatService = new AIChatService_1.AIChatService();
+    async ask(prompt) {
+        return this.chatService.ask(prompt);
+    }
+    getProvider() {
+        return AIState_1.AIState.provider();
+    }
+    getModel() {
+        return AIState_1.AIState.model();
+    }
+    getApiKey() {
+        return AIState_1.AIState.apiKey();
+    }
+    setApiKey(key) {
+        AIState_1.AIState.setApiKey(key);
+    }
+}
+exports.AIController = AIController;
+
+
+/***/ },
+
+/***/ 9661
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AIState = void 0;
+const GeminiService_1 = __webpack_require__(5449);
+const config_1 = __webpack_require__(7028);
+// NOTE: This is a simplified state manager for the UI.
+// The provider is hardcoded to Gemini as it's the only one implemented.
+// The model is also fixed for now.
+// The main purpose is to abstract the API key storage.
+class AIState {
+    static provider() {
+        return 'gemini';
+    }
+    static model() {
+        return GeminiService_1.GEMINI_MODEL;
+    }
+    static apiKey() {
+        return (0, config_1.resolveGeminiConfig)().apiKey;
+    }
+    static setApiKey(key) {
+        (0, config_1.saveGeminiConfig)({ apiKey: key });
+    }
+}
+exports.AIState = AIState;
+
+
+/***/ },
+
+/***/ 5710
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(3054), exports);
+__exportStar(__webpack_require__(9661), exports);
+
+
+/***/ },
+
+/***/ 1779
 (__unused_webpack_module, exports, __webpack_require__) {
 
 var __webpack_unused_export__;
 
 __webpack_unused_export__ = ({ value: true });
 exports.CommandExecutor = void 0;
-const ClipController_1 = __webpack_require__(878);
-const ExportController_1 = __webpack_require__(622);
-const MarkerController_1 = __webpack_require__(778);
-const PremiereBridge_1 = __webpack_require__(862);
-const SequenceController_1 = __webpack_require__(857);
+const ClipController_1 = __webpack_require__(7878);
+const ExportController_1 = __webpack_require__(2622);
+const MarkerController_1 = __webpack_require__(4778);
+const EffectsController_1 = __webpack_require__(9585);
+const PremiereBridge_1 = __webpack_require__(1862);
+const SequenceController_1 = __webpack_require__(4857);
 const TimelineReader_1 = __webpack_require__(824);
-const CommandValidator_1 = __webpack_require__(610);
+const CommandValidator_1 = __webpack_require__(4610);
 class CommandExecutor {
     bridge;
     validator;
@@ -2077,6 +3666,7 @@ class CommandExecutor {
     markers;
     sequences;
     exporter;
+    effects;
     constructor(dependencies = {}) {
         this.bridge = dependencies.bridge ?? new PremiereBridge_1.PremiereBridge();
         this.validator = dependencies.validator ?? new CommandValidator_1.CommandValidator();
@@ -2085,6 +3675,7 @@ class CommandExecutor {
         this.markers = new MarkerController_1.MarkerController(this.bridge);
         this.sequences = new SequenceController_1.SequenceController(this.bridge);
         this.exporter = new ExportController_1.ExportController(this.bridge);
+        this.effects = new EffectsController_1.EffectsController(this.bridge);
     }
     async execute(command) {
         const validation = this.validator.validate(command);
@@ -2136,6 +3727,36 @@ class CommandExecutor {
                 return this.exporter.exportSequence(command.payload.destinationPath, command.payload.sequenceId, command.payload.preset);
             case "CREATE_REEL":
                 return this.bridge.execute(command.action, command.payload);
+            case "RIPPLE_DELETE":
+                return this.sequences.rippleDelete(command.payload.start, command.payload.end);
+            case "AUTO_TRIM":
+                return this.effects.autoTrim();
+            case "BEAT_CUT":
+                return this.effects.beatCut();
+            case "SILENCE_REMOVE":
+                return this.effects.silenceRemove();
+            case "SPEED_RAMP":
+                return this.effects.speedRamp(command.payload.clipId, command.payload.from, command.payload.to);
+            case "AUTO_ZOOM":
+                return this.effects.autoZoom(command.payload.clipId, command.payload.start, command.payload.end);
+            case "REFRAME":
+                return this.effects.reframe(command.payload.clipId);
+            case "ADD_CLIP_TO_SEQUENCE":
+            case "ADD_AUDIO_TO_SEQUENCE":
+            case "ADD_TRANSITION":
+            case "APPLY_COLOR_MATCH":
+            case "APPLY_SKIN_TONE_PROTECTION":
+            case "APPLY_FILM_LUT":
+            case "AUTO_GRADE":
+            case "APPLY_PAN_AND_ZOOM":
+            case "APPLY_PARALLAX":
+            case "APPLY_MOTION_BLUR":
+            case "REMOVE_NOISE":
+            case "ENHANCE_VOICE":
+            case "AUTO_DUCK":
+            case "CLEANUP_SPEECH":
+            case "INSERT_CAPTIONS":
+                return this.bridge.execute(command.action, command.payload);
         }
     }
     async readTimeline() {
@@ -2159,7 +3780,7 @@ exports.CommandExecutor = CommandExecutor;
 
 /***/ },
 
-/***/ 737
+/***/ 4737
 (__unused_webpack_module, exports, __webpack_require__) {
 
 var __webpack_unused_export__;
@@ -2181,14 +3802,14 @@ exports.CommandRegistry = CommandRegistry;
 
 /***/ },
 
-/***/ 610
+/***/ 4610
 (__unused_webpack_module, exports, __webpack_require__) {
 
 var __webpack_unused_export__;
 
 __webpack_unused_export__ = ({ value: true });
 exports.CommandValidator = void 0;
-const CommandRegistry_1 = __webpack_require__(737);
+const CommandRegistry_1 = __webpack_require__(4737);
 class CommandValidator {
     registry;
     constructor(registry = new CommandRegistry_1.CommandRegistry()) {
@@ -2256,10 +3877,62 @@ class CommandValidator {
             case "CREATE_REEL":
                 requireFiniteNumber(payload, "duration", errors);
                 break;
+            case "RIPPLE_DELETE":
+                requireFiniteNumber(payload, "start", errors);
+                requireFiniteNumber(payload, "end", errors);
+                break;
+            case "ADD_CLIP_TO_SEQUENCE":
+                if (typeof payload.clipId !== "string" &&
+                    typeof payload.mediaPath !== "string") {
+                    errors.push("clipId or mediaPath must be provided.");
+                }
+                requireFiniteNumber(payload, "start", errors);
+                break;
+            case "ADD_AUDIO_TO_SEQUENCE":
+                if (typeof payload.clipId !== "string" &&
+                    typeof payload.mediaPath !== "string" &&
+                    typeof payload.assetId !== "string") {
+                    errors.push("clipId, mediaPath, or assetId must be provided.");
+                }
+                requireFiniteNumber(payload, "start", errors);
+                break;
+            case "ADD_TRANSITION":
+                requireNonEmptyString(payload, "type", errors);
+                requireFiniteNumber(payload, "start", errors);
+                requireFiniteNumber(payload, "duration", errors);
+                break;
+            case "APPLY_COLOR_MATCH":
+                requireNonEmptyString(payload, "sourceClipId", errors);
+                requireNonEmptyString(payload, "targetClipId", errors);
+                break;
+            case "APPLY_SKIN_TONE_PROTECTION":
+            case "APPLY_FILM_LUT":
+            case "AUTO_GRADE":
+            case "APPLY_PAN_AND_ZOOM":
+            case "APPLY_PARALLAX":
+            case "APPLY_MOTION_BLUR":
+            case "REMOVE_NOISE":
+            case "ENHANCE_VOICE":
+            case "CLEANUP_SPEECH":
+                requireNonEmptyString(payload, "clipId", errors);
+                break;
+            case "AUTO_DUCK":
+                requireNonEmptyString(payload, "mainClipId", errors);
+                requireNonEmptyString(payload, "musicClipId", errors);
+                break;
+            case "INSERT_CAPTIONS":
+                requireNonEmptyString(payload, "captions", errors);
+                break;
             case "READ_TIMELINE":
             case "READ_SELECTED_CLIPS":
             case "GET_IN_OUT":
             case "GET_PLAYHEAD":
+            case "AUTO_TRIM":
+            case "BEAT_CUT":
+            case "SILENCE_REMOVE":
+            case "SPEED_RAMP":
+            case "AUTO_ZOOM":
+            case "REFRAME":
                 break;
         }
     }
@@ -2285,45 +3958,196 @@ function requireNonEmptyString(payload, key, errors) {
 
 /***/ },
 
-/***/ 28
-(__unused_webpack_module, exports) {
+/***/ 4198
+(__unused_webpack_module, exports, __webpack_require__) {
 
-var __webpack_unused_export__;
 
-__webpack_unused_export__ = ({ value: true });
-__webpack_unused_export__ = exports.resolveGeminiConfig = void 0;
-const DEFAULT_GEMINI_API_KEY = 'AQ.Ab8RN6J6SWp_IBif-ZeWmzZz01KK63ioURzR-KRXjonlxjUeKQ';
-const DEFAULT_GEMINI_ACCOUNT_EMAIL = 'rohitdaya99@gmail.com';
-const resolveGeminiConfig = () => {
-    if (typeof window === 'undefined') {
-        return {
-            apiKey: DEFAULT_GEMINI_API_KEY,
-            accountEmail: DEFAULT_GEMINI_ACCOUNT_EMAIL,
-        };
-    }
-    const apiKey = window.__RKFLOW_GEMINI_API_KEY__ || localStorage.getItem('rkflow.gemini.apiKey') || DEFAULT_GEMINI_API_KEY;
-    const accountEmail = window.__RKFLOW_GEMINI_ACCOUNT__ || localStorage.getItem('rkflow.gemini.accountEmail') || DEFAULT_GEMINI_ACCOUNT_EMAIL;
-    return {
-        apiKey,
-        accountEmail,
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const AudioAIEngine_1 = __webpack_require__(2426);
+const AudioAIComponent = () => {
+    const [result, setResult] = (0, react_1.useState)('');
+    const audioAIEngine = new AudioAIEngine_1.AudioAIEngine();
+    const handleAction = async (action, ...args) => {
+        const res = await action(...args);
+        setResult(Array.isArray(res) ? res.join(', ') : res);
     };
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { border: '1px solid #ccc', padding: '10px', margin: '10px' }, children: [(0, jsx_runtime_1.jsx)("h3", { children: "Audio AI" }), (0, jsx_runtime_1.jsxs)("div", { style: { marginBottom: '10px' }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: () => void handleAction(audioAIEngine.removeNoise.bind(audioAIEngine)), children: "Remove Noise" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void handleAction(audioAIEngine.enhanceVoice.bind(audioAIEngine)), children: "Enhance Voice" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void handleAction(audioAIEngine.autoDuck.bind(audioAIEngine)), children: "Auto-Duck Music" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void handleAction(audioAIEngine.cleanupSpeech.bind(audioAIEngine)), children: "Cleanup Speech" })] }), (0, jsx_runtime_1.jsx)("div", { style: { marginBottom: '10px' }, children: (0, jsx_runtime_1.jsx)("button", { onClick: () => setResult(audioAIEngine.suggestSFX('video_clip_with_motion').join(', ')), children: "Suggest SFX" }) }), result && ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsxs)("div", { style: { marginTop: '10px', padding: '10px', backgroundColor: '#f0f0f0' }, children: ["Result: ", result] }), (0, jsx_runtime_1.jsx)("button", { style: { marginTop: '5px' }, children: "Preview (placeholder)" }), (0, jsx_runtime_1.jsx)("button", { style: { marginTop: '5px', marginLeft: '5px' }, children: "Commit" })] }))] }));
 };
-exports.resolveGeminiConfig = resolveGeminiConfig;
-const saveGeminiConfig = (config) => {
-    if (typeof window === 'undefined') {
-        return;
-    }
-    localStorage.setItem('rkflow.gemini.apiKey', config.apiKey);
-    localStorage.setItem('rkflow.gemini.accountEmail', config.accountEmail);
-    window.__RKFLOW_GEMINI_API_KEY__ = config.apiKey;
-    window.__RKFLOW_GEMINI_ACCOUNT__ = config.accountEmail;
-};
-__webpack_unused_export__ = saveGeminiConfig;
+exports["default"] = AudioAIComponent;
 
 
 /***/ },
 
-/***/ 900
+/***/ 1161
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const LearnStyleEngine_1 = __webpack_require__(3426);
+const AutoEditAssembler_1 = __webpack_require__(5336);
+const templates_1 = __webpack_require__(6552);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const AutoEditComponent = () => {
+    const [isEditing, setIsEditing] = (0, react_1.useState)(false);
+    const [styleProfiles, setStyleProfiles] = (0, react_1.useState)({});
+    const [selectedStyle, setSelectedStyle] = (0, react_1.useState)('');
+    const [selectedTemplate, setSelectedTemplate] = (0, react_1.useState)(templates_1.AUTO_EDIT_TEMPLATES[0].name);
+    const [progressLabel, setProgressLabel] = (0, react_1.useState)('Ready to assemble a cut.');
+    const [progressPercent, setProgressPercent] = (0, react_1.useState)(0);
+    (0, react_1.useEffect)(() => {
+        const learnStyleEngine = new LearnStyleEngine_1.LearnStyleEngine();
+        setStyleProfiles(learnStyleEngine.getStyleProfiles());
+    }, []);
+    const handleAutoEdit = async () => {
+        setIsEditing(true);
+        setProgressPercent(0);
+        setProgressLabel("Preparing Auto Edit assembly...");
+        const assembler = new AutoEditAssembler_1.AutoEditAssembler();
+        try {
+            const selectedStyleProfile = selectedStyle ? styleProfiles[selectedStyle] : undefined;
+            const result = await assembler.assemble(selectedTemplate, [], selectedStyleProfile, (next) => {
+                setProgressPercent(next.percent);
+                setProgressLabel(`${next.label} (${next.completed}/${next.total})`);
+            });
+            setProgressPercent(100);
+            setProgressLabel("Auto Edit assembly complete.");
+            alert(result);
+        }
+        catch (error) {
+            if (error instanceof Error) {
+                alert(`Error: ${error.message}`);
+            }
+            else {
+                alert('An unknown error occurred.');
+            }
+        }
+        setIsEditing(false);
+    };
+    return ((0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Auto Edit Engine", subtitle: "Template-driven sequence assembly with live placement progress.", children: [(0, jsx_runtime_1.jsx)("div", { style: { display: 'flex', gap: theme_1.spacing.sm, flexWrap: 'wrap', alignItems: 'center' }, children: (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: isEditing ? 'Assembling' : 'Ready', tone: isEditing ? 'warning' : 'success' }) }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, marginBottom: theme_1.spacing.md }, children: [(isEditing || progressPercent > 0) && (0, jsx_runtime_1.jsx)(primitives_1.ProgressBar, { value: progressPercent, label: `${progressPercent}%` }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.sm, color: theme_1.colors.inkMuted }, children: progressLabel })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginBottom: '10px' }, children: [(0, jsx_runtime_1.jsx)("label", { htmlFor: "template-select-autoedit", style: { marginRight: '10px' }, children: "Select Template:" }), (0, jsx_runtime_1.jsx)("select", { id: "template-select-autoedit", value: selectedTemplate, onChange: (e) => setSelectedTemplate(e.target.value), style: { padding: '5px', marginRight: '20px' }, children: templates_1.AUTO_EDIT_TEMPLATES.map(template => ((0, jsx_runtime_1.jsx)("option", { value: template.name, children: template.name }, template.name))) }), (0, jsx_runtime_1.jsx)("label", { htmlFor: "style-profile-select-autoedit", style: { marginRight: '10px' }, children: "Select Style Profile:" }), (0, jsx_runtime_1.jsxs)("select", { id: "style-profile-select-autoedit", value: selectedStyle, onChange: (e) => setSelectedStyle(e.target.value), style: { padding: '5px' }, children: [(0, jsx_runtime_1.jsx)("option", { value: "", children: "Default Style" }), Object.keys(styleProfiles).map(profileName => ((0, jsx_runtime_1.jsx)("option", { value: profileName, children: profileName }, profileName)))] })] }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: handleAutoEdit, disabled: isEditing, children: isEditing ? 'Editing...' : 'Generate Auto Edit' })] }));
+};
+exports["default"] = AutoEditComponent;
+
+
+/***/ },
+
+/***/ 4238
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const CaptionAIEngine_1 = __webpack_require__(2218);
+const CaptionAIComponent = () => {
+    const [textToCaption, setTextToCaption] = (0, react_1.useState)('This is a sample text for captioning.');
+    const [language, setLanguage] = (0, react_1.useState)('english');
+    const [style, setStyle] = (0, react_1.useState)('standard');
+    const [generatedCaptions, setGeneratedCaptions] = (0, react_1.useState)('');
+    const [isGenerating, setIsGenerating] = (0, react_1.useState)(false);
+    const captionAIEngine = new CaptionAIEngine_1.CaptionAIEngine();
+    const handleGenerateCaptions = async () => {
+        setIsGenerating(true);
+        const result = await captionAIEngine.generateCaptions(textToCaption, language, style);
+        setGeneratedCaptions(result);
+        setIsGenerating(false);
+    };
+    const handleInsertCaptions = async () => {
+        const result = await captionAIEngine.insertCaptions(generatedCaptions);
+        alert(result);
+    };
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { border: '1px solid #ccc', padding: '10px', margin: '10px' }, children: [(0, jsx_runtime_1.jsx)("h3", { children: "Caption AI" }), (0, jsx_runtime_1.jsx)("textarea", { value: textToCaption, onChange: (e) => setTextToCaption(e.target.value), style: { width: '100%', minHeight: '100px', marginBottom: '10px' } }), (0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("label", { children: "Language: " }), (0, jsx_runtime_1.jsxs)("select", { value: language, onChange: (e) => setLanguage(e.target.value), style: { marginRight: '10px' }, children: [(0, jsx_runtime_1.jsx)("option", { value: "english", children: "English" }), (0, jsx_runtime_1.jsx)("option", { value: "hindi", children: "Hindi" }), (0, jsx_runtime_1.jsx)("option", { value: "hinglish", children: "Hinglish" })] }), (0, jsx_runtime_1.jsx)("label", { children: "Style: " }), (0, jsx_runtime_1.jsxs)("select", { value: style, onChange: (e) => setStyle(e.target.value), children: [(0, jsx_runtime_1.jsx)("option", { value: "standard", children: "Standard" }), (0, jsx_runtime_1.jsx)("option", { value: "karaoke", children: "Karaoke" })] })] }), (0, jsx_runtime_1.jsx)("button", { onClick: handleGenerateCaptions, disabled: isGenerating, style: { marginTop: '10px' }, children: isGenerating ? 'Generating...' : 'Generate Captions' }), generatedCaptions && ((0, jsx_runtime_1.jsxs)("div", { style: { marginTop: '10px' }, children: [(0, jsx_runtime_1.jsx)("h4", { children: "Generated Captions" }), (0, jsx_runtime_1.jsx)("pre", { style: { backgroundColor: '#f0f0f0', padding: '10px' }, children: generatedCaptions }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void handleInsertCaptions(), style: { marginTop: '10px' }, children: "Insert Captions into Timeline" })] }))] }));
+};
+exports["default"] = CaptionAIComponent;
+
+
+/***/ },
+
+/***/ 8947
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const ColorAIEngine_1 = __webpack_require__(6528);
+const ColorAIComponent = () => {
+    const [activeTab, setActiveTab] = (0, react_1.useState)('auto-grade');
+    const [result, setResult] = (0, react_1.useState)('');
+    const colorAIEngine = new ColorAIEngine_1.ColorAIEngine();
+    const handleAction = async (action, ...args) => {
+        const res = await action(...args);
+        setResult(res);
+    };
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { border: '1px solid #ccc', padding: '10px', margin: '10px' }, children: [(0, jsx_runtime_1.jsx)("h3", { children: "Color AI" }), (0, jsx_runtime_1.jsxs)("div", { style: { display: 'flex', marginBottom: '10px' }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: () => setActiveTab('auto-grade'), style: { marginRight: '5px', padding: '8px 12px', border: activeTab === 'auto-grade' ? '2px solid #007bff' : '1px solid #ccc' }, children: "Auto-Grade" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => setActiveTab('match'), style: { marginRight: '5px', padding: '8px 12px', border: activeTab === 'match' ? '2px solid #007bff' : '1px solid #ccc' }, children: "Color Match" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => setActiveTab('lut'), style: { padding: '8px 12px', border: activeTab === 'lut' ? '2px solid #007bff' : '1px solid #ccc' }, children: "LUT Generator" })] }), activeTab === 'auto-grade' && ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("h4", { children: "Auto-Grade" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void handleAction(colorAIEngine.autoGrade.bind(colorAIEngine)), children: "Apply Auto-Grade" }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: '10px', display: 'flex' }, children: [(0, jsx_runtime_1.jsx)("div", { style: { width: '50%', border: '1px solid #ccc', padding: '5px', marginRight: '5px' }, children: "Before (placeholder)" }), (0, jsx_runtime_1.jsx)("div", { style: { width: '50%', border: '1px solid #ccc', padding: '5px' }, children: "After (placeholder)" })] })] })), activeTab === 'match' && ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("h4", { children: "Color Match" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void handleAction(colorAIEngine.applyColorMatch.bind(colorAIEngine)), children: "Apply Color Match" })] })), activeTab === 'lut' && ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("h4", { children: "LUT Generator" }), (0, jsx_runtime_1.jsx)("input", { type: "text", placeholder: "Describe the desired look...", style: { width: '60%', padding: '8px' } }), (0, jsx_runtime_1.jsx)("button", { onClick: () => setResult(JSON.stringify(colorAIEngine.generateLUT('A warm, vintage film look'), null, 2)), children: "Generate LUT" })] })), result && (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: '10px', padding: '10px', backgroundColor: '#f0f0f0' }, children: ["Result: ", typeof result === 'object' ? JSON.stringify(result, null, 2) : result] })] }));
+};
+exports["default"] = ColorAIComponent;
+
+
+/***/ },
+
+/***/ 7689
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const LearnStyleEngine_1 = __webpack_require__(3426);
+const LearnStyleComponent = () => {
+    const [sequenceName, setSequenceName] = (0, react_1.useState)('My_Awesome_Sequence');
+    const [styleProfileName, setStyleProfileName] = (0, react_1.useState)('Edit Like Rohit');
+    const [savedProfiles, setSavedProfiles] = (0, react_1.useState)({});
+    const [isLearning, setIsLearning] = (0, react_1.useState)(false);
+    const learnStyleEngine = new LearnStyleEngine_1.LearnStyleEngine();
+    (0, react_1.useEffect)(() => {
+        setSavedProfiles(learnStyleEngine.getStyleProfiles());
+    }, []);
+    const handleLearnStyle = () => {
+        if (!sequenceName || !styleProfileName) {
+            alert("Please provide both a sequence name and a style profile name.");
+            return;
+        }
+        setIsLearning(true);
+        learnStyleEngine.learn(sequenceName, styleProfileName);
+        setSavedProfiles(learnStyleEngine.getStyleProfiles());
+        setIsLearning(false);
+        alert(`Style profile '${styleProfileName}' has been learned and saved!`);
+    };
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { border: '1px solid #ccc', padding: '10px', margin: '10px' }, children: [(0, jsx_runtime_1.jsx)("h3", { children: "Learn My Editing Style" }), (0, jsx_runtime_1.jsxs)("div", { style: { marginBottom: '20px' }, children: [(0, jsx_runtime_1.jsx)("input", { type: "text", value: sequenceName, onChange: (e) => setSequenceName(e.target.value), placeholder: "Enter sequence name to analyze", style: { width: '40%', padding: '8px', marginRight: '10px' } }), (0, jsx_runtime_1.jsx)("input", { type: "text", value: styleProfileName, onChange: (e) => setStyleProfileName(e.target.value), placeholder: "Enter name for the style profile", style: { width: '40%', padding: '8px', marginRight: '10px' } }), (0, jsx_runtime_1.jsx)("button", { onClick: handleLearnStyle, disabled: isLearning, style: { padding: '8px 12px' }, children: isLearning ? 'Learning...' : 'Learn Style' })] }), (0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("h4", { children: "Saved Style Profiles" }), Object.keys(savedProfiles).length > 0 ? ((0, jsx_runtime_1.jsx)("ul", { children: Object.keys(savedProfiles).map(profileName => ((0, jsx_runtime_1.jsxs)("li", { children: [(0, jsx_runtime_1.jsx)("strong", { children: profileName }), (0, jsx_runtime_1.jsx)("pre", { style: { fontSize: '0.8em', backgroundColor: '#f5f5f5', padding: '5px' }, children: JSON.stringify(savedProfiles[profileName], null, 2) })] }, profileName))) })) : ((0, jsx_runtime_1.jsx)("p", { children: "No style profiles learned yet." }))] })] }));
+};
+exports["default"] = LearnStyleComponent;
+
+
+/***/ },
+
+/***/ 4038
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const MotionAIEngine_1 = __webpack_require__(1842);
+const MotionAIComponent = () => {
+    const [result, setResult] = (0, react_1.useState)('');
+    const motionAIEngine = new MotionAIEngine_1.MotionAIEngine();
+    const handleAction = async (action, ...args) => {
+        const res = await action(...args);
+        setResult(res);
+    };
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { border: '1px solid #ccc', padding: '10px', margin: '10px' }, children: [(0, jsx_runtime_1.jsx)("h3", { children: "Motion AI" }), (0, jsx_runtime_1.jsxs)("div", { style: { marginBottom: '10px' }, children: [(0, jsx_runtime_1.jsx)("h4", { children: "Pan & Zoom" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void handleAction(motionAIEngine.applyPanAndZoom.bind(motionAIEngine), undefined, 'slow_zoom_in'), children: "Slow Zoom In" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void handleAction(motionAIEngine.applyPanAndZoom.bind(motionAIEngine), undefined, 'pan_left_to_right'), children: "Pan Left to Right" })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginBottom: '10px' }, children: [(0, jsx_runtime_1.jsx)("h4", { children: "Parallax" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void handleAction(motionAIEngine.applyParallax.bind(motionAIEngine)), children: "Apply Parallax" })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginBottom: '10px' }, children: [(0, jsx_runtime_1.jsx)("h4", { children: "Motion Blur" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void handleAction(motionAIEngine.applyMotionBlur.bind(motionAIEngine), undefined, 'light'), children: "Light" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void handleAction(motionAIEngine.applyMotionBlur.bind(motionAIEngine), undefined, 'medium'), children: "Medium" }), (0, jsx_runtime_1.jsx)("button", { onClick: () => void handleAction(motionAIEngine.applyMotionBlur.bind(motionAIEngine), undefined, 'heavy'), children: "Heavy" })] }), result && (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: '10px', padding: '10px', backgroundColor: '#f0f0f0' }, children: ["Result: ", result] })] }));
+};
+exports["default"] = MotionAIComponent;
+
+
+/***/ },
+
+/***/ 602
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -2331,9 +4155,5629 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const jsx_runtime_1 = __webpack_require__(848);
-const client_1 = __importDefault(__webpack_require__(338));
-const App_1 = __importDefault(__webpack_require__(577));
+exports["default"] = AIChatPanel;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const send_mjs_1 = __importDefault(__webpack_require__(8993));
+const sparkles_mjs_1 = __importDefault(__webpack_require__(5654));
+const ui_1 = __webpack_require__(5710);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const ai = new ui_1.AIController();
+function AIChatPanel({ title = "RK Assistant", greeting = "Namaste. I can help plan edits, explain the timeline, and prepare the next action.", suggestedActions = [], onAction }) {
+    const [prompt, setPrompt] = (0, react_1.useState)("");
+    const [loading, setLoading] = (0, react_1.useState)(false);
+    const [messages, setMessages] = (0, react_1.useState)([
+        {
+            role: "assistant",
+            text: greeting,
+            time: timestamp()
+        }
+    ]);
+    const bottomRef = (0, react_1.useRef)(null);
+    (0, react_1.useEffect)(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages, loading]);
+    async function submit(value = prompt) {
+        const text = value.trim();
+        if (!text || loading) {
+            return;
+        }
+        setMessages((current) => [
+            ...current,
+            { role: "user", text, time: timestamp() }
+        ]);
+        setPrompt("");
+        setLoading(true);
+        try {
+            const reply = await ai.ask(text);
+            setMessages((current) => [
+                ...current,
+                { role: "assistant", text: reply, time: timestamp() }
+            ]);
+            onAction?.(text);
+        }
+        catch (error) {
+            setMessages((current) => [
+                ...current,
+                {
+                    role: "assistant",
+                    text: error instanceof Error ? error.message : String(error),
+                    time: timestamp()
+                }
+            ]);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+    const onKeyDown = (event) => {
+        if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            void submit();
+        }
+    };
+    return ((0, jsx_runtime_1.jsx)(primitives_1.Card, { title: title, subtitle: "Persistent AI copilot for your current workspace.", style: { height: "100%" }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md, height: "100%" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: loading ? "Thinking" : "Ready", tone: loading ? "warning" : "success" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "Gemini 3.6 Flash" })] }), (0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, fontSize: theme_1.typography.sizes.sm, marginBottom: theme_1.spacing.xs }, children: "Suggested Actions" }), (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", gap: theme_1.spacing.xs, flexWrap: "wrap" }, children: suggestedActions.map((action) => ((0, jsx_runtime_1.jsxs)(primitives_1.Button, { variant: "secondary", onClick: () => void submit(action), disabled: loading, style: { display: "inline-flex", alignItems: "center", gap: theme_1.spacing.xs }, children: [(0, jsx_runtime_1.jsx)(sparkles_mjs_1.default, { size: 14 }), action] }, action))) })] }), (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: {
+                        flex: "1 1 auto",
+                        maxHeight: "100%",
+                        border: `1px solid ${theme_1.colors.border}`,
+                        borderRadius: 10,
+                        background: theme_1.colors.white,
+                        padding: theme_1.spacing.md
+                    }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [messages.map((message, index) => ((0, jsx_runtime_1.jsxs)("div", { style: {
+                                    alignSelf: message.role === "user" ? "flex-end" : "flex-start",
+                                    maxWidth: "92%"
+                                }, children: [(0, jsx_runtime_1.jsxs)("div", { style: {
+                                            fontSize: theme_1.typography.sizes.xs,
+                                            color: theme_1.colors.inkMuted,
+                                            marginBottom: theme_1.spacing.xs
+                                        }, children: [message.role === "user" ? "You" : "RK Assistant", " \u2022 ", message.time] }), (0, jsx_runtime_1.jsx)("div", { style: {
+                                            background: message.role === "user" ? theme_1.colors.maroon : theme_1.colors.panelMuted,
+                                            color: message.role === "user" ? theme_1.colors.white : theme_1.colors.ink,
+                                            borderRadius: 10,
+                                            padding: theme_1.spacing.sm,
+                                            whiteSpace: "pre-wrap",
+                                            lineHeight: 1.6
+                                        }, children: message.text })] }, `${message.time}-${index}`))), (0, jsx_runtime_1.jsx)("div", { ref: bottomRef })] }) }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)("textarea", { rows: 4, placeholder: "Bride entry ko slow motion karo, or ask for a dashboard summary...", value: prompt, onChange: (event) => setPrompt(event.target.value), onKeyDown: onKeyDown, style: {
+                                width: "100%",
+                                boxSizing: "border-box",
+                                borderRadius: 10,
+                                border: `1px solid ${theme_1.colors.border}`,
+                                background: theme_1.colors.white,
+                                color: theme_1.colors.ink,
+                                padding: `${theme_1.spacing.sm}px ${theme_1.spacing.md}px`,
+                                fontSize: theme_1.typography.sizes.sm,
+                                resize: "vertical"
+                            } }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "ghost", onClick: () => setMessages([{ role: "assistant", text: greeting, time: timestamp() }]), children: "Reset Chat" }), (0, jsx_runtime_1.jsxs)(primitives_1.Button, { onClick: () => void submit(), disabled: loading, style: { display: "inline-flex", alignItems: "center", gap: theme_1.spacing.xs }, children: [(0, jsx_runtime_1.jsx)(send_mjs_1.default, { size: 14 }), loading ? "Sending..." : "Send"] })] })] })] }) }));
+}
+function timestamp() {
+    return new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
+
+
+/***/ },
+
+/***/ 7028
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.saveGeminiConfig = exports.resolveGeminiConfig = void 0;
+const resolveGeminiConfig = () => {
+    const apiKey = typeof window === "undefined"
+        ? ""
+        : window.__RKFLOW_GEMINI_API_KEY__ || localStorage.getItem("rkflow.gemini.apiKey") || "";
+    return {
+        apiKey: apiKey.trim(),
+    };
+};
+exports.resolveGeminiConfig = resolveGeminiConfig;
+const saveGeminiConfig = (config) => {
+    if (typeof window === "undefined") {
+        return;
+    }
+    localStorage.setItem("rkflow.gemini.apiKey", config.apiKey.trim());
+    window.__RKFLOW_GEMINI_API_KEY__ = config.apiKey;
+};
+exports.saveGeminiConfig = saveGeminiConfig;
+
+
+/***/ },
+
+/***/ 9476
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.APP_VERSION = void 0;
+exports.APP_VERSION = "1.0.0";
+
+
+/***/ },
+
+/***/ 1375
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TransactionManager = void 0;
+class TransactionManager {
+    PPRO;
+    constructor(PPRO) {
+        this.PPRO = PPRO;
+    }
+    async run(callback) {
+        const project = await this.PPRO.Project.getActiveProject();
+        return await project.lockedAccess(async () => {
+            return await callback(project);
+        });
+    }
+    async executeAction(actionBuilder) {
+        return await this.run(async (project) => {
+            const action = await actionBuilder(project);
+            if (!action) {
+                throw new Error("TransactionManager: No action returned.");
+            }
+            return await project.executeTransaction((compoundAction) => {
+                compoundAction.addAction(action);
+            });
+        });
+    }
+}
+exports.TransactionManager = TransactionManager;
+exports["default"] = TransactionManager;
+
+
+/***/ },
+
+/***/ 2148
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ContextEngine = void 0;
+const PremiereContextProvider_1 = __webpack_require__(9788);
+const PremiereContextManager_1 = __webpack_require__(7198);
+const premiereService_1 = __webpack_require__(3763);
+const ClipManager_1 = __webpack_require__(2276);
+class ContextEngine {
+    async readSequenceContext() {
+        await PremiereContextProvider_1.PremiereContextProvider.refresh();
+        const base = PremiereContextManager_1.PremiereContextManager.get();
+        const timelineInfo = await premiereService_1.premiereService.getTimelineInfo();
+        const selectedClips = await this.readSelectedClips();
+        if (!timelineInfo.connected || !base.sequenceName) {
+            return null;
+        }
+        return {
+            projectName: base.projectName,
+            sequenceName: base.sequenceName,
+            sequenceKey: this.getSequenceKey(base.projectName, base.sequenceName),
+            fps: base.fps,
+            playhead: base.playhead,
+            inPoint: base.inPoint,
+            outPoint: base.outPoint,
+            duration: parseDurationToSeconds(timelineInfo.duration),
+            videoTracks: base.videoTracks,
+            audioTracks: base.audioTracks,
+            selectedClips,
+            markers: base.markers
+        };
+    }
+    async readSelectedClips() {
+        const clips = await ClipManager_1.clipManager.getSelectedClips();
+        return Promise.all(clips.map(async (clip, index) => ({
+            id: buildClipId(clip.name, clip.start, clip.track, index),
+            name: clip.name,
+            start: clip.start,
+            end: clip.end,
+            duration: clip.duration,
+            track: clip.track,
+            mediaType: clip.mediaType,
+            type: clip.type,
+            projectItemId: await getProjectItemId(clip.projectItem)
+        })));
+    }
+    async capture(goal) {
+        const context = await this.readSequenceContext();
+        const promptLines = [`Goal: ${goal}`];
+        if (context) {
+            promptLines.push(`Sequence: ${context.sequenceName}`);
+            promptLines.push(`Project: ${context.projectName}`);
+            promptLines.push(`Selected Clips: ${context.selectedClips.map((clip) => clip.name).join(", ") || "None"}`);
+        }
+        else {
+            promptLines.push("No active sequence");
+        }
+        return {
+            context,
+            prompt: promptLines.join("\n")
+        };
+    }
+    getSequenceKey(projectName, sequenceName) {
+        return `${projectName}::${sequenceName}`;
+    }
+}
+exports.ContextEngine = ContextEngine;
+function buildClipId(name, start, track, index) {
+    return `${name}::${track}::${start.toFixed(3)}::${index}`;
+}
+function parseDurationToSeconds(value) {
+    const parts = value.split(":").map(Number);
+    if (parts.length !== 3 || parts.some(Number.isNaN)) {
+        return 0;
+    }
+    return parts[0] * 3600 + parts[1] * 60 + parts[2];
+}
+async function getProjectItemId(projectItem) {
+    try {
+        const id = await projectItem?.getId?.();
+        return typeof id === "string" && id.length > 0 ? id : undefined;
+    }
+    catch {
+        return undefined;
+    }
+}
+
+
+/***/ },
+
+/***/ 9573
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DecisionEngine = void 0;
+class DecisionEngine {
+    choose(options) {
+        if (options.length === 0) {
+            return null;
+        }
+        return [...options].sort((left, right) => right.score - left.score)[0];
+    }
+    summarize(plan) {
+        return `${plan.filter((step) => step.status === "ready").length} steps ready, ${plan.filter((step) => step.status === "pending").length} pending confirmation.`;
+    }
+}
+exports.DecisionEngine = DecisionEngine;
+
+
+/***/ },
+
+/***/ 4647
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.KnowledgeEngine = void 0;
+const KNOWLEDGE = {
+    events: ["Haldi", "Mehndi", "Sangeet", "Baraat", "Pheras", "Vidaai"],
+    shotTypes: ["wide", "close", "detail", "drone", "gimbal"],
+    pacing: ["slow-open", "emotional-rise", "hero-beat", "celebration-finish"]
+};
+class KnowledgeEngine {
+    trace = [];
+    list() {
+        this.trace.push({
+            service: "KnowledgeEngine",
+            timestamp: new Date().toISOString(),
+            detail: "Wedding editing knowledge loaded."
+        });
+        return KNOWLEDGE;
+    }
+    history() {
+        return this.trace;
+    }
+}
+exports.KnowledgeEngine = KnowledgeEngine;
+
+
+/***/ },
+
+/***/ 1700
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MemoryEngine = void 0;
+const STORAGE_KEY = "rkflow.brain.memory.v2";
+class MemoryEngine {
+    load() {
+        if (typeof window === "undefined") {
+            return this.empty();
+        }
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+            return this.empty();
+        }
+        try {
+            const parsed = JSON.parse(raw);
+            return {
+                preferences: parsed.preferences ?? {},
+                projectFacts: parsed.projectFacts ?? [],
+                decisions: parsed.decisions ?? [],
+                analysis: parsed.analysis ?? {}
+            };
+        }
+        catch {
+            return this.empty();
+        }
+    }
+    save(snapshot) {
+        if (typeof window === "undefined") {
+            return;
+        }
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
+    }
+    rememberDecision(decision) {
+        const snapshot = this.load();
+        snapshot.decisions = [decision, ...snapshot.decisions].slice(0, 20);
+        this.save(snapshot);
+    }
+    getPreference(key) {
+        return this.load().preferences[key];
+    }
+    setPreference(key, value) {
+        const snapshot = this.load();
+        snapshot.preferences[key] = value;
+        this.save(snapshot);
+    }
+    getAnalysis(scopeKey, cacheKey) {
+        const snapshot = this.load();
+        const entry = snapshot.analysis[this.composeKey(scopeKey, cacheKey)];
+        return entry === undefined ? null : entry;
+    }
+    setAnalysis(scopeKey, cacheKey, value) {
+        const snapshot = this.load();
+        snapshot.analysis[this.composeKey(scopeKey, cacheKey)] = value;
+        this.save(snapshot);
+    }
+    clearAnalysis(scopeKey, cacheKey) {
+        const snapshot = this.load();
+        if (cacheKey) {
+            delete snapshot.analysis[this.composeKey(scopeKey, cacheKey)];
+        }
+        else {
+            for (const key of Object.keys(snapshot.analysis)) {
+                if (key.startsWith(`${scopeKey}::`)) {
+                    delete snapshot.analysis[key];
+                }
+            }
+        }
+        this.save(snapshot);
+    }
+    composeKey(scopeKey, cacheKey) {
+        return `${scopeKey}::${cacheKey}`;
+    }
+    empty() {
+        return {
+            preferences: {},
+            projectFacts: [],
+            decisions: [],
+            analysis: {}
+        };
+    }
+}
+exports.MemoryEngine = MemoryEngine;
+
+
+/***/ },
+
+/***/ 3206
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PlanningEngine = void 0;
+class PlanningEngine {
+    buildPlan(goal, reasoning) {
+        return [
+            {
+                id: "capture-context",
+                title: `Capture context for: ${goal}`,
+                status: "ready"
+            },
+            {
+                id: "review-reasoning",
+                title: reasoning.slice(0, 120) || "Review Gemini reasoning",
+                status: "ready"
+            },
+            {
+                id: "confirm-execution",
+                title: "Confirm before any timeline change",
+                status: "pending"
+            }
+        ];
+    }
+}
+exports.PlanningEngine = PlanningEngine;
+
+
+/***/ },
+
+/***/ 7695
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ReasoningEngine = void 0;
+const GeminiService_1 = __webpack_require__(5449);
+class ReasoningEngine {
+    async reason(goal, contextPrompt) {
+        return (0, GeminiService_1.runGemini)(`${contextPrompt}\n\nGoal:\n${goal}\n\nReturn a concise reasoning summary and plan outline.`, {
+            systemInstruction: "You are RK Brain. Think like a senior Indian wedding film editor."
+        });
+    }
+}
+exports.ReasoningEngine = ReasoningEngine;
+
+
+/***/ },
+
+/***/ 7021
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(2148), exports);
+__exportStar(__webpack_require__(9573), exports);
+__exportStar(__webpack_require__(4647), exports);
+__exportStar(__webpack_require__(1700), exports);
+__exportStar(__webpack_require__(3206), exports);
+__exportStar(__webpack_require__(7695), exports);
+__exportStar(__webpack_require__(4488), exports);
+
+
+/***/ },
+
+/***/ 4488
+(__unused_webpack_module, exports) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+
+/***/ },
+
+/***/ 8812
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.ActionDispatcher = void 0;
+const CommandExecutor_1 = __webpack_require__(1779);
+class ActionDispatcher {
+    executor;
+    constructor(executor = new CommandExecutor_1.CommandExecutor()) {
+        this.executor = executor;
+    }
+    async dispatch(command) {
+        return this.executor.execute(command);
+    }
+    async dispatchBatch(commands) {
+        const results = [];
+        for (const command of commands) {
+            results.push(await this.dispatch(command));
+        }
+        return results;
+    }
+}
+exports.ActionDispatcher = ActionDispatcher;
+
+
+/***/ },
+
+/***/ 9286
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.ExecutionQueue = void 0;
+const ActionDispatcher_1 = __webpack_require__(8812);
+class ExecutionQueue {
+    dispatcher;
+    chain = Promise.resolve();
+    constructor(dispatcher = new ActionDispatcher_1.ActionDispatcher()) {
+        this.dispatcher = dispatcher;
+    }
+    enqueue(command) {
+        const result = this.chain.then(async () => {
+            try {
+                const outcome = await this.dispatcher.dispatch(command);
+                if (outcome.success) {
+                    console.log(`[RK Flow][ExecutionQueue] ${command.action} succeeded.`, { command, outcome });
+                }
+                else {
+                    console.error(`[RK Flow][ExecutionQueue] ${command.action} failed.`, { command, outcome });
+                }
+                return outcome;
+            }
+            catch (error) {
+                const message = error instanceof Error ? error.message : String(error);
+                console.error(`[RK Flow][ExecutionQueue] ${command.action} threw.`, { command, error });
+                return {
+                    success: false,
+                    message: `${command.action} threw during execution.`,
+                    error: message
+                };
+            }
+        });
+        this.chain = result.then(() => undefined, () => undefined);
+        return result;
+    }
+    async enqueueBatch(commands) {
+        const results = [];
+        for (const command of commands) {
+            results.push(await this.enqueue(command));
+        }
+        return results;
+    }
+}
+exports.ExecutionQueue = ExecutionQueue;
+
+
+/***/ },
+
+/***/ 7365
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.PremiereExecutor = void 0;
+const Command_1 = __webpack_require__(111);
+const ExecutionQueue_1 = __webpack_require__(9286);
+const PreviewGate_1 = __webpack_require__(1016);
+const NON_DESTRUCTIVE_ACTIONS = new Set([
+    "READ_TIMELINE",
+    "READ_SELECTED_CLIPS",
+    "GET_IN_OUT",
+    "GET_PLAYHEAD"
+]);
+// These actions are only used by AutoEditAssembler after it creates and activates a new sequence.
+const NEW_SEQUENCE_ASSEMBLY_ACTIONS = new Set([
+    "CREATE_SEQUENCE",
+    "IMPORT_MEDIA",
+    "ADD_CLIP_TO_SEQUENCE",
+    "ADD_AUDIO_TO_SEQUENCE",
+    "ADD_TRANSITION"
+]);
+class PremiereExecutor {
+    queue;
+    constructor(queue = new ExecutionQueue_1.ExecutionQueue()) {
+        this.queue = queue;
+    }
+    async run(command) {
+        if (!(await this.ensurePreview([command]))) {
+            return {
+                success: false,
+                message: `${command.action} was cancelled before execution.`,
+                error: "PREVIEW_CANCELLED"
+            };
+        }
+        return this.queue.enqueue(command);
+    }
+    runAction(action, payload = {}) {
+        return this.run((0, Command_1.createCommand)(action, payload));
+    }
+    runNewSequenceAssembly(command) {
+        if (!NEW_SEQUENCE_ASSEMBLY_ACTIONS.has(command.action)) {
+            return Promise.resolve({
+                success: false,
+                message: `${command.action} is not allowed in the no-confirm new-sequence assembly path.`,
+                error: "UNSAFE_NEW_SEQUENCE_ACTION"
+            });
+        }
+        console.log(`[RK Flow][PremiereExecutor] Running ${command.action} in the new-sequence assembly path without PreviewGate.`);
+        return this.queue.enqueue(command);
+    }
+    async runBatch(commands) {
+        if (!(await this.ensurePreview(commands))) {
+            return commands.map((command) => ({
+                success: false,
+                message: `${command.action} was cancelled before execution.`,
+                error: "PREVIEW_CANCELLED"
+            }));
+        }
+        return this.queue.enqueueBatch(commands);
+    }
+    async ensurePreview(commands) {
+        const destructiveCommands = commands.filter((command) => !NON_DESTRUCTIVE_ACTIONS.has(command.action));
+        if (destructiveCommands.length === 0) {
+            return true;
+        }
+        return (0, PreviewGate_1.requestExecutionPreview)(destructiveCommands);
+    }
+}
+exports.PremiereExecutor = PremiereExecutor;
+
+
+/***/ },
+
+/***/ 1016
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.requestExecutionPreview = requestExecutionPreview;
+__webpack_unused_export__ = getActivePreview;
+exports.subscribeExecutionPreview = subscribeExecutionPreview;
+exports.approveExecutionPreview = approveExecutionPreview;
+exports.rejectExecutionPreview = rejectExecutionPreview;
+const listeners = new Set();
+let activePreview = null;
+async function requestExecutionPreview(commands) {
+    if (commands.length === 0) {
+        return true;
+    }
+    if (activePreview !== null) {
+        throw new Error("Another Premiere preview confirmation is already pending.");
+    }
+    return new Promise((resolve) => {
+        activePreview = {
+            id: `preview-${Date.now()}`,
+            commands,
+            summary: summarizeCommands(commands),
+            resolve
+        };
+        emit();
+    });
+}
+function getActivePreview() {
+    if (activePreview === null) {
+        return null;
+    }
+    const { id, commands, summary } = activePreview;
+    return { id, commands, summary };
+}
+function subscribeExecutionPreview(listener) {
+    listeners.add(listener);
+    listener(getActivePreview());
+    return () => {
+        listeners.delete(listener);
+    };
+}
+function approveExecutionPreview() {
+    settle(true);
+}
+function rejectExecutionPreview() {
+    settle(false);
+}
+function settle(approved) {
+    if (activePreview === null) {
+        return;
+    }
+    const request = activePreview;
+    activePreview = null;
+    request.resolve(approved);
+    emit();
+}
+function emit() {
+    const snapshot = getActivePreview();
+    listeners.forEach((listener) => listener(snapshot));
+}
+function summarizeCommands(commands) {
+    if (commands.length === 1) {
+        return commands[0].action;
+    }
+    return `${commands.length} Premiere actions`;
+}
+
+
+/***/ },
+
+/***/ 2318
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const TransactionManager_1 = __importDefault(__webpack_require__(1375));
+class MotionEngine {
+    PPRO;
+    transaction;
+    constructor(PPRO) {
+        this.PPRO = PPRO;
+        this.transaction = new TransactionManager_1.default(PPRO);
+    }
+    async setPosition(x, y, trackIndex = 0, clipIndex = 0) {
+        return await this.transaction.executeAction(async (project) => {
+            const sequence = await project.getActiveSequence();
+            const track = await sequence.getVideoTrack(trackIndex);
+            const clips = await track.getTrackItems(this.PPRO.Constants.TrackItemType.CLIP, false);
+            if (!clips.length) {
+                throw new Error("No clips found.");
+            }
+            const clip = clips[clipIndex];
+            if (!clip) {
+                throw new Error("Invalid clip index.");
+            }
+            const chain = await clip.getComponentChain();
+            const motion = await chain.getComponentAtIndex(1);
+            const position = await motion.getParam(0);
+            const point = new this.PPRO.PointF();
+            point.x = x;
+            point.y = y;
+            const keyframe = position.createKeyframe(point);
+            keyframe.value.value = [x, y];
+            return position.createSetValueAction(keyframe, true);
+        });
+    }
+    async center() {
+        return await this.setPosition(0.5, 0.5);
+    }
+    async left() {
+        return await this.setPosition(0.25, 0.5);
+    }
+    async right() {
+        return await this.setPosition(0.75, 0.5);
+    }
+    async top() {
+        return await this.setPosition(0.5, 0.25);
+    }
+    async bottom() {
+        return await this.setPosition(0.5, 0.75);
+    }
+}
+exports["default"] = MotionEngine;
+
+
+/***/ },
+
+/***/ 1742
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = SettingsPage;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const GeminiService_1 = __webpack_require__(5449);
+const AIRouter_1 = __webpack_require__(8026);
+const AIRegistry_1 = __webpack_require__(5989);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const config_1 = __webpack_require__(7028);
+const router = new AIRouter_1.AIRouter();
+function SettingsPage() {
+    const [apiKey, setApiKey] = (0, react_1.useState)((0, config_1.resolveGeminiConfig)().apiKey);
+    const [status, setStatus] = (0, react_1.useState)("Add your Gemini API key in Settings.");
+    const runtimeStatus = (0, GeminiService_1.getGeminiRuntimeStatus)();
+    const usageStats = (0, GeminiService_1.getGeminiUsageStats)();
+    function save() {
+        (0, config_1.saveGeminiConfig)({ apiKey });
+        setStatus(apiKey.trim() ? "Gemini API key saved locally." : "Gemini API key cleared.");
+    }
+    async function test() {
+        try {
+            setStatus("Testing Gemini connection...");
+            const result = await router.chat({
+                prompt: "Reply with exactly: RK Flow AI Connected"
+            });
+            setStatus(result.text);
+        }
+        catch (error) {
+            setStatus(error instanceof Error ? error.message : "Connection failed.");
+        }
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.lg }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Gemini Settings", subtitle: "Single active provider for RK Flow on Monday, August 3, 2026.", children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "Active Provider: Gemini", tone: "success" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Model: ${GeminiService_1.GEMINI_MODEL}` })] }), (0, jsx_runtime_1.jsx)(primitives_1.Input, { type: "password", placeholder: "Paste Gemini API key", value: apiKey, onChange: (event) => setApiKey(event.target.value) }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: save, children: "Save API Key" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void test(), children: "Test Connection" })] }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, fontSize: theme_1.typography.sizes.sm }, children: status })] }) }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Appearance", subtitle: "Theme foundation for the Indian wedding workspace.", children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "Ivory base" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "Maroon accent" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "Muted gold accent" })] }) }), (0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Quota / Cache", subtitle: "Session-level Gemini behavior and rate-limit visibility.", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${usageStats.totalCalls} session calls` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${usageStats.cacheHits} cache hits`, tone: "success" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: runtimeStatus.lastQuotaMessage || "No active quota warning", tone: runtimeStatus.lastQuotaMessage ? "warning" : "neutral" })] }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md, color: theme_1.colors.inkMuted, fontSize: theme_1.typography.sizes.sm }, children: "Gemini free-tier limits are low. RK Flow now tries local command resolution first and only falls back to Gemini when local parsing is not confident." }), runtimeStatus.lastError && ((0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.sm, color: theme_1.colors.warning, fontSize: theme_1.typography.sizes.sm }, children: ["Last Gemini error: ", runtimeStatus.lastError] }))] }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Providers", subtitle: "Only Gemini is wired today. The rest are scaffolded but intentionally disabled.", children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: AIRegistry_1.AI_PROVIDERS.map((provider) => ((0, jsx_runtime_1.jsxs)("div", { style: {
+                            display: "flex",
+                            justifyContent: "space-between",
+                            gap: theme_1.spacing.sm,
+                            alignItems: "center",
+                            padding: theme_1.spacing.sm,
+                            border: `1px solid ${theme_1.colors.border}`,
+                            borderRadius: 10,
+                            background: provider.enabled ? theme_1.colors.panelMuted : theme_1.colors.white
+                        }, children: [(0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.ink, fontWeight: 700 }, children: provider.label }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, fontSize: theme_1.typography.sizes.xs }, children: provider.enabled ? "Configured now" : "Coming soon" })] }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: provider.enabled ? "Active" : "Coming soon", tone: provider.enabled ? "success" : "neutral" })] }, provider.id))) }) })] }));
+}
+
+
+/***/ },
+
+/***/ 833
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.ContextEngine = void 0;
+class ContextEngine {
+    run() {
+        console.log("Gathering cinematic wedding film context...");
+        // Simulate gathering various pieces of context
+        const context = {
+            project: {
+                name: "Wedding Project Alpha",
+                resolution: "1920x1080",
+                frameRate: "29.97fps",
+            },
+            userPreferences: {
+                style: "romantic",
+                mood: "joyful",
+                length: "3-5 minutes",
+            },
+            availableAssets: [
+                { id: "clip_001", type: "video", tags: ["bride", "getting ready", "happy"] },
+                { id: "clip_002", type: "video", tags: ["groom", "first look", "emotional"] },
+                { id: "audio_001", type: "audio", tags: ["romantic song", "upbeat"] },
+            ],
+            weddingSpecifics: {
+                coupleName: "Rohit & Priyanka",
+                date: "2026-08-01",
+                events: ["ceremony", "reception", "photoshoot"],
+            },
+        };
+        return context;
+    }
+}
+exports.ContextEngine = ContextEngine;
+
+
+/***/ },
+
+/***/ 5454
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.DecisionEngine = void 0;
+const GeminiService_1 = __webpack_require__(5449);
+const schemas_1 = __webpack_require__(8156);
+const config_1 = __webpack_require__(7028);
+const loggerService_1 = __webpack_require__(2954);
+const AutoEditAssembler_1 = __webpack_require__(5336);
+const MAX_DECISION_STEPS = 8;
+class DecisionEngine {
+    assembler = new AutoEditAssembler_1.AutoEditAssembler();
+    async run({ context, reasoningResult, planningResult, selectedStyle, onProgress }) {
+        const state = {
+            selectedSong: reasoningResult.selectedSong ?? planningResult.selectedSong ?? null,
+            heroShots: reasoningResult.heroShots ?? [],
+            storyStructure: planningResult.storyStructure ?? [],
+            assemblyMessage: null,
+            sequenceName: "Cinematic Film"
+        };
+        const toolHistory = [];
+        if (!(0, config_1.resolveGeminiConfig)().apiKey) {
+            loggerService_1.loggerService.log("AI Director DecisionEngine using local fallback because no Gemini API key is configured.", "warn");
+            return this.runLocalLoop(state, context, planningResult, selectedStyle, onProgress, toolHistory);
+        }
+        let lastResult = null;
+        for (let step = 1; step <= MAX_DECISION_STEPS; step += 1) {
+            onProgress?.({
+                completed: step,
+                total: MAX_DECISION_STEPS,
+                label: `Decision loop ${step}/${MAX_DECISION_STEPS}`,
+                percent: Math.round((step / MAX_DECISION_STEPS) * 100)
+            });
+            const toolCall = await (0, GeminiService_1.runGeminiTool)(this.buildPrompt(step), schemas_1.aiDirectorToolSchemas, this.buildLoopContext(context, planningResult, state, lastResult, step), {
+                systemInstruction: [
+                    "You are the AI Director orchestration planner for a Premiere Pro panel.",
+                    "Always respond with exactly one function call.",
+                    "First choose a song, then hero shots, then a story structure, then assemble.",
+                    "Only call ASSEMBLE_COMPLETE after ASSEMBLE_SEQUENCE has already succeeded."
+                ].join(" ")
+            });
+            const typedToolCall = toolCall;
+            const executionResult = await this.executeToolCall(typedToolCall, context, state, selectedStyle);
+            toolHistory.push({
+                name: typedToolCall.name,
+                args: typedToolCall.args,
+                result: executionResult
+            });
+            lastResult = executionResult;
+            if (typedToolCall.name === "ASSEMBLE_COMPLETE") {
+                return this.buildFinalResult(planningResult, state, toolHistory, step, "gemini");
+            }
+        }
+        throw new Error(`AI Director hit the max decision step limit (${MAX_DECISION_STEPS}) before completion.`);
+    }
+    async runLocalLoop(state, context, planningResult, selectedStyle, onProgress, toolHistory) {
+        const localCalls = [
+            {
+                name: "SELECT_SONG",
+                args: {
+                    songId: state.selectedSong?.id ??
+                        context.availableAssets.find((asset) => asset.type === "audio")?.id ??
+                        "",
+                    reasoning: "Selected the strongest available soundtrack from local assets."
+                }
+            },
+            {
+                name: "SELECT_HERO_SHOTS",
+                args: {
+                    heroShotIds: state.heroShots.map((shot) => shot.id),
+                    reasoning: "Selected the locally-ranked hero shots."
+                }
+            },
+            {
+                name: "BUILD_STORY_STRUCTURE",
+                args: {
+                    segments: state.storyStructure.map((segment) => ({
+                        type: segment.type,
+                        segment: segment.segment,
+                        duration: segment.duration,
+                        clipId: this.resolveClipId(segment.clip),
+                        content: segment.content
+                    })),
+                    reasoning: "Reused the deterministic planning output."
+                }
+            },
+            {
+                name: "ASSEMBLE_SEQUENCE",
+                args: {
+                    templateName: "Cinematic Film",
+                    clipIds: state.heroShots.map((shot) => shot.id),
+                    reasoning: "Assembling the current local plan."
+                }
+            },
+            {
+                name: "ASSEMBLE_COMPLETE",
+                args: {
+                    summary: "Local AI Director fallback completed."
+                }
+            }
+        ];
+        for (let index = 0; index < localCalls.length; index += 1) {
+            onProgress?.({
+                completed: index + 1,
+                total: localCalls.length,
+                label: `Decision loop ${index + 1}/${localCalls.length}`,
+                percent: Math.round(((index + 1) / localCalls.length) * 100)
+            });
+            const executionResult = await this.executeToolCall(localCalls[index], context, state, selectedStyle);
+            toolHistory.push({
+                name: localCalls[index].name,
+                args: localCalls[index].args,
+                result: executionResult
+            });
+        }
+        return this.buildFinalResult(planningResult, state, toolHistory, localCalls.length, "local");
+    }
+    buildPrompt(step) {
+        return [
+            `Decision loop step ${step}.`,
+            "Choose the next orchestration action for the wedding film.",
+            "Prefer the smallest next step that advances toward final sequence assembly."
+        ].join(" ");
+    }
+    buildLoopContext(context, planningResult, state, lastResult, step) {
+        return {
+            step,
+            context,
+            planningResult,
+            currentState: {
+                selectedSongId: state.selectedSong?.id ?? null,
+                heroShotIds: state.heroShots.map((shot) => shot.id),
+                storyStructure: state.storyStructure.map((segment) => ({
+                    type: segment.type,
+                    duration: segment.duration,
+                    content: segment.content,
+                    segment: segment.segment,
+                    clipId: this.resolveClipId(segment.clip)
+                })),
+                assemblyMessage: state.assemblyMessage,
+                sequenceName: state.sequenceName
+            },
+            lastResult
+        };
+    }
+    async executeToolCall(toolCall, context, state, selectedStyle) {
+        switch (toolCall.name) {
+            case "SELECT_SONG":
+                return this.selectSong(toolCall.args, context, state);
+            case "SELECT_HERO_SHOTS":
+                return this.selectHeroShots(toolCall.args, context, state);
+            case "BUILD_STORY_STRUCTURE":
+                return this.buildStoryStructure(toolCall.args, context, state);
+            case "ASSEMBLE_SEQUENCE":
+                return this.assembleSequence(toolCall.args, context, state, selectedStyle);
+            case "ASSEMBLE_COMPLETE":
+                return toolCall.args;
+        }
+    }
+    selectSong(args, context, state) {
+        const song = context.availableAssets.find((asset) => asset.type === "audio" && asset.id === args.songId) ?? null;
+        state.selectedSong = song;
+        loggerService_1.loggerService.log(`AI Director selected song ${song?.id ?? "none"}.`, "info");
+        return {
+            selectedSongId: song?.id ?? null,
+            reasoning: args.reasoning
+        };
+    }
+    selectHeroShots(args, context, state) {
+        const selectedIds = new Set(args.heroShotIds);
+        state.heroShots = context.availableAssets.filter((asset) => asset.type === "video" && selectedIds.has(asset.id));
+        loggerService_1.loggerService.log(`AI Director selected ${state.heroShots.length} hero shots.`, "info");
+        return {
+            heroShotIds: state.heroShots.map((shot) => shot.id),
+            reasoning: args.reasoning
+        };
+    }
+    buildStoryStructure(args, context, state) {
+        const assetsById = new Map(context.availableAssets.map((asset) => [asset.id, asset]));
+        state.storyStructure = args.segments.map((segment) => ({
+            type: segment.type,
+            segment: segment.segment,
+            duration: segment.duration,
+            content: segment.content,
+            clip: segment.clipId ? assetsById.get(segment.clipId) ?? null : undefined
+        }));
+        loggerService_1.loggerService.log(`AI Director built a ${state.storyStructure.length}-segment story structure.`, "info");
+        return {
+            segmentCount: state.storyStructure.length,
+            reasoning: args.reasoning
+        };
+    }
+    async assembleSequence(args, context, state, selectedStyle) {
+        state.sequenceName = args.templateName;
+        const assemblyClips = this.buildAssemblyClips(args.clipIds, state.storyStructure, context.availableAssets);
+        const message = await this.assembler.assemble(args.templateName, assemblyClips, {
+            learnedFrom: selectedStyle || "AI Director"
+        });
+        state.assemblyMessage = message;
+        loggerService_1.loggerService.log(`AI Director assembly submitted for "${args.templateName}".`, "success");
+        return {
+            message,
+            clipCount: assemblyClips.length,
+            reasoning: args.reasoning
+        };
+    }
+    buildAssemblyClips(clipIds, storyStructure, availableAssets) {
+        const assetsById = new Map(availableAssets.map((asset) => [asset.id, asset]));
+        const chosenIds = clipIds.length > 0
+            ? clipIds
+            : storyStructure
+                .map((segment) => this.resolveClipId(segment.clip))
+                .filter((clipId) => Boolean(clipId));
+        return chosenIds
+            .map((clipId) => assetsById.get(clipId))
+            .filter((asset) => Boolean(asset))
+            .map((asset) => ({
+            id: asset.id,
+            path: asset.path,
+            start: asset.start,
+            end: asset.end,
+            duration: asset.duration,
+            score: asset.score,
+            type: asset.type === "audio" ? "audio" : "video"
+        }));
+    }
+    resolveClipId(clip) {
+        if (!clip || typeof clip !== "object") {
+            return undefined;
+        }
+        return typeof clip.id === "string"
+            ? clip.id
+            : undefined;
+    }
+    buildFinalResult(planningResult, state, toolHistory, iterations, mode) {
+        return {
+            finalSequence: {
+                name: state.sequenceName,
+                totalDuration: state.storyStructure.reduce((total, segment) => total + (segment.duration ?? 0), 0),
+                selectedSongId: state.selectedSong?.id ?? planningResult.selectedSong?.id ?? null,
+                clipCount: state.storyStructure.filter((segment) => segment.clip).length,
+                outputResolution: planningResult.projectResolution
+            },
+            iterations,
+            mode,
+            toolHistory,
+            message: state.assemblyMessage ??
+                "AI Director finished without submitting Premiere assembly."
+        };
+    }
+}
+exports.DecisionEngine = DecisionEngine;
+
+
+/***/ },
+
+/***/ 4561
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.PlanningEngine = void 0;
+class PlanningEngine {
+    run({ context, reasoningResult }) {
+        console.log("Planning: Building story structure from Wedding AI segments...");
+        const { project, userPreferences } = context;
+        const { selectedSong, heroShots } = reasoningResult;
+        const storySegments = [];
+        // Simple story structure: Intro, Ceremony, Reception, Outro
+        storySegments.push({ type: "intro", duration: 10, content: "Opening montage" });
+        // Incorporate hero shots into ceremony/reception
+        heroShots.forEach((shot, index) => {
+            storySegments.push({
+                type: "hero_shot",
+                segment: index % 2 === 0 ? "ceremony" : "reception",
+                clip: shot,
+                duration: 5, // Placeholder duration
+            });
+        });
+        storySegments.push({ type: "montage", duration: 30, content: "General wedding moments" });
+        storySegments.push({ type: "outro", duration: 15, content: "Closing credits/highlights" });
+        const planningResult = {
+            overallLength: userPreferences.length, // Desired length from context
+            selectedSong: selectedSong,
+            storyStructure: storySegments,
+            projectResolution: project.resolution,
+        };
+        return planningResult;
+    }
+}
+exports.PlanningEngine = PlanningEngine;
+
+
+/***/ },
+
+/***/ 9782
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.ReasoningEngine = void 0;
+class ReasoningEngine {
+    run(context) {
+        console.log("Reasoning: Picking a song and selecting hero shots...");
+        const { userPreferences, availableAssets } = context;
+        // Simulate song selection
+        const availableSongs = availableAssets.filter((asset) => asset.type === "audio");
+        let selectedSong = null;
+        if (availableSongs.length > 0) {
+            // Simple logic: pick the first song that matches the mood, or the first available
+            selectedSong = availableSongs.find((song) => song.tags?.includes(userPreferences.mood)) || availableSongs[0];
+        }
+        // Simulate hero shot selection
+        const availableVideoClips = availableAssets.filter((asset) => asset.type === "video");
+        const heroShots = [];
+        if (availableVideoClips.length > 0) {
+            // Simple logic: pick clips that match style/mood, or just a few prominent ones
+            const relevantTags = [userPreferences.style, userPreferences.mood].filter(Boolean);
+            availableVideoClips.forEach((clip) => {
+                if (relevantTags.some((tag) => clip.tags?.includes(tag))) {
+                    heroShots.push(clip);
+                }
+            });
+            // If no hero shots found with tags, just pick a couple
+            if (heroShots.length === 0 && availableVideoClips.length > 0) {
+                heroShots.push(availableVideoClips[0]);
+                if (availableVideoClips.length > 1) {
+                    heroShots.push(availableVideoClips[1]);
+                }
+            }
+        }
+        const reasoningResult = {
+            selectedSong: selectedSong,
+            heroShots: heroShots,
+        };
+        return reasoningResult;
+    }
+}
+exports.ReasoningEngine = ReasoningEngine;
+
+
+/***/ },
+
+/***/ 7896
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = AIDirectorScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const ContextEngine_1 = __webpack_require__(833);
+const DecisionEngine_1 = __webpack_require__(5454);
+const PlanningEngine_1 = __webpack_require__(4561);
+const ReasoningEngine_1 = __webpack_require__(9782);
+const LearnStyleEngine_1 = __webpack_require__(3426);
+const traceStore_1 = __webpack_require__(4992);
+const loggerService_1 = __webpack_require__(2954);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+function AIDirectorScreen() {
+    const baseSteps = 3;
+    const decisionLoopBudget = 8;
+    const [logs, setLogs] = (0, react_1.useState)((0, traceStore_1.getDirectorTrace)());
+    const [isProcessing, setIsProcessing] = (0, react_1.useState)(false);
+    const [styleProfiles, setStyleProfiles] = (0, react_1.useState)({});
+    const [selectedStyle, setSelectedStyle] = (0, react_1.useState)("");
+    const [completedSteps, setCompletedSteps] = (0, react_1.useState)(0);
+    const [totalSteps, setTotalSteps] = (0, react_1.useState)(baseSteps + decisionLoopBudget);
+    const [progressLabel, setProgressLabel] = (0, react_1.useState)("Idle");
+    (0, react_1.useEffect)(() => {
+        const learnStyleEngine = new LearnStyleEngine_1.LearnStyleEngine();
+        setStyleProfiles(learnStyleEngine.getStyleProfiles());
+        return (0, traceStore_1.subscribeDirectorTrace)((entries) => {
+            setLogs(entries);
+        });
+    }, []);
+    async function runEngine(engineInstance, logLabel, args) {
+        const result = await engineInstance.run(args);
+        (0, traceStore_1.appendDirectorTrace)(`${logLabel}: ${JSON.stringify(result, null, 2)}`);
+        setCompletedSteps((current) => Math.min(baseSteps, current + 1));
+        setProgressLabel(`${logLabel} complete`);
+        return result;
+    }
+    async function handleCreateCinematicFilm() {
+        setIsProcessing(true);
+        setCompletedSteps(0);
+        setTotalSteps(baseSteps + decisionLoopBudget);
+        setProgressLabel("Starting AI Director");
+        (0, traceStore_1.clearDirectorTrace)();
+        loggerService_1.loggerService.log("AI Director run started.", "info");
+        if (selectedStyle) {
+            console.log(`[RK Flow] AI Director style profile: ${selectedStyle}`);
+            (0, traceStore_1.appendDirectorTrace)(`Using style profile: ${selectedStyle}`);
+        }
+        try {
+            const context = await runEngine(new ContextEngine_1.ContextEngine(), "Gathering context");
+            const reasoningResult = await runEngine(new ReasoningEngine_1.ReasoningEngine(), "Reasoning", context);
+            const planningResult = await runEngine(new PlanningEngine_1.PlanningEngine(), "Planning", { context, reasoningResult });
+            const decisionResult = await new DecisionEngine_1.DecisionEngine().run({
+                context,
+                reasoningResult,
+                planningResult,
+                selectedStyle,
+                onProgress: (progress) => {
+                    setCompletedSteps(baseSteps + progress.completed);
+                    setProgressLabel(progress.label);
+                }
+            });
+            (0, traceStore_1.appendDirectorTrace)(`Decision: ${JSON.stringify(decisionResult, null, 2)}`);
+            (0, traceStore_1.appendDirectorTrace)(`Final Output: ${JSON.stringify(decisionResult, null, 2)}`);
+            loggerService_1.loggerService.log("AI Director run completed.", "success");
+        }
+        catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            console.error("[RK Flow] AI Director failed:", error);
+            (0, traceStore_1.appendDirectorTrace)(`Error: ${message}`);
+            loggerService_1.loggerService.log(`AI Director run failed: ${message}`, "error");
+        }
+        finally {
+            setIsProcessing(false);
+        }
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "AI Director", subtitle: "Context, planning, and auto-assembly for cinematic wedding edits.", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: isProcessing ? "Generating" : "Ready", tone: isProcessing ? "warning" : "success" }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted }, children: [Object.keys(styleProfiles).length, " learned style profile", Object.keys(styleProfiles).length === 1 ? "" : "s"] })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm, marginTop: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsx)("label", { htmlFor: "ai-director-style", style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: "Style profile" }), (0, jsx_runtime_1.jsxs)("select", { id: "ai-director-style", value: selectedStyle, onChange: (event) => setSelectedStyle(event.target.value), style: {
+                                    width: "100%",
+                                    boxSizing: "border-box",
+                                    borderRadius: 10,
+                                    border: `1px solid ${theme_1.colors.border}`,
+                                    background: theme_1.colors.white,
+                                    color: theme_1.colors.ink,
+                                    padding: "10px 12px"
+                                }, children: [(0, jsx_runtime_1.jsx)("option", { value: "", children: "Default Style" }), Object.keys(styleProfiles).map((profileName) => ((0, jsx_runtime_1.jsx)("option", { value: profileName, children: profileName }, profileName)))] })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md }, children: [isProcessing && ((0, jsx_runtime_1.jsx)("div", { style: { marginBottom: theme_1.spacing.md }, children: (0, jsx_runtime_1.jsx)(primitives_1.ProgressBar, { value: (completedSteps / totalSteps) * 100, label: `${completedSteps}/${totalSteps} steps • ${progressLabel}` }) })), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void handleCreateCinematicFilm(), disabled: isProcessing, children: isProcessing ? "Processing..." : "Create Cinematic Wedding Film" })] })] }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Execution Log", subtitle: "Direct output from the Phase 3 orchestration engines.", children: (0, jsx_runtime_1.jsx)("div", { style: {
+                        minHeight: 220,
+                        maxHeight: 320,
+                        overflow: "auto",
+                        borderRadius: 10,
+                        border: `1px solid ${theme_1.colors.border}`,
+                        background: theme_1.colors.white,
+                        padding: theme_1.spacing.sm
+                    }, children: logs.length === 0 ? ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "Run AI Director to collect context, plan the film, and submit Premiere actions." })) : (logs.map((log, index) => ((0, jsx_runtime_1.jsx)("pre", { style: { margin: 0, whiteSpace: "pre-wrap", wordBreak: "break-word", color: theme_1.colors.ink }, children: log }, `${index}-${log.slice(0, 16)}`)))) }) })] }));
+}
+
+
+/***/ },
+
+/***/ 4992
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.getDirectorTrace = getDirectorTrace;
+exports.clearDirectorTrace = clearDirectorTrace;
+exports.appendDirectorTrace = appendDirectorTrace;
+exports.subscribeDirectorTrace = subscribeDirectorTrace;
+const listeners = new Set();
+let traceEntries = [];
+function getDirectorTrace() {
+    return [...traceEntries];
+}
+function clearDirectorTrace() {
+    traceEntries = [];
+    emit();
+}
+function appendDirectorTrace(entry) {
+    traceEntries = [...traceEntries, entry];
+    emit();
+}
+function subscribeDirectorTrace(listener) {
+    listeners.add(listener);
+    listener(getDirectorTrace());
+    return () => {
+        listeners.delete(listener);
+    };
+}
+function emit() {
+    const snapshot = getDirectorTrace();
+    listeners.forEach((listener) => listener(snapshot));
+}
+
+
+/***/ },
+
+/***/ 3675
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = AnalyticsScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const GeminiService_1 = __webpack_require__(5449);
+const metrics_1 = __webpack_require__(8928);
+const systemStats_1 = __webpack_require__(1125);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+function AnalyticsScreen() {
+    const [timelineMetrics, setTimelineMetrics] = (0, react_1.useState)(null);
+    (0, react_1.useEffect)(() => {
+        let cancelled = false;
+        void (0, metrics_1.measureTimelineRead)().then((metrics) => {
+            if (!cancelled) {
+                setTimelineMetrics(metrics);
+            }
+        });
+        return () => {
+            cancelled = true;
+        };
+    }, []);
+    const systemStats = (0, systemStats_1.getSystemStats)();
+    const usageStats = (0, GeminiService_1.getGeminiUsageStats)();
+    const recentCalls = (0, GeminiService_1.getRecentGeminiCalls)();
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.lg }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexWrap: "wrap", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "System Signals", subtitle: "Shared with the Phase 1 status bar.", style: { flex: "1 1 240px" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `GPU ${systemStats.gpu}` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `RAM ${systemStats.ram}` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Timeline ${timelineMetrics ? `${timelineMetrics.latencyMs} ms` : "—"}`, tone: timelineMetrics?.error ? "warning" : "success" })] }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md, color: theme_1.colors.inkMuted, lineHeight: 1.6 }, children: "GPU and RAM remain unavailable from the current host/runtime, so this screen intentionally mirrors the same honest `\u2014` values shown in the footer." })] }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Timeline Performance", subtitle: "Measured from a real PremiereBridge timeline read.", style: { flex: "1 1 320px" }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: timelineMetrics?.timeline?.sequenceName || "No active sequence", tone: timelineMetrics?.timeline ? "success" : "warning" }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted }, children: ["Read latency: ", timelineMetrics ? `${timelineMetrics.latencyMs} ms` : "—"] }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted }, children: ["Clips scanned: ", timelineMetrics?.clipCount ?? 0] }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted }, children: ["Tracks: ", timelineMetrics?.timeline ? `${timelineMetrics.timeline.videoTracks.length} video / ${timelineMetrics.timeline.audioTracks.length} audio` : "—"] }), timelineMetrics?.error && ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.danger }, children: timelineMetrics.error }))] }) })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexWrap: "wrap", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Gemini Usage", subtitle: "Tracked inside GeminiService for real panel calls.", style: { flex: "1 1 280px" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${usageStats.totalCalls} calls`, tone: "success" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${usageStats.successfulCalls} success` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${usageStats.failedCalls} failed`, tone: usageStats.failedCalls > 0 ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Avg ${usageStats.averageDurationMs} ms` })] }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md, color: theme_1.colors.inkMuted, lineHeight: 1.6 }, children: "Estimated API cost is not exposed by the current browser Gemini SDK response shape in this panel, so cost remains intentionally unavailable here." })] }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Recent Calls", subtitle: "Bounded in-memory history of the latest Gemini requests.", style: { flex: "1 1 420px" }, children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: recentCalls.length === 0 ? ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "No Gemini calls recorded in this session yet." })) : (recentCalls.map((call) => ((0, jsx_runtime_1.jsxs)("div", { style: {
+                                    border: `1px solid ${theme_1.colors.border}`,
+                                    borderRadius: 10,
+                                    background: theme_1.colors.white,
+                                    padding: theme_1.spacing.sm,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: theme_1.spacing.xs
+                                }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { fontWeight: 700, color: theme_1.colors.maroonDeep }, children: [call.kind === "vision" ? "Vision" : "Text", " request"] }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: call.success ? "Success" : "Failed", tone: call.success ? "success" : "danger" })] }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted, fontSize: theme_1.typography.sizes.xs }, children: [call.model, " \u2022 ", call.durationMs, " ms \u2022 ", new Date(call.startedAt).toLocaleTimeString()] }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.ink, whiteSpace: "pre-wrap", wordBreak: "break-word" }, children: call.promptPreview }), call.errorMessage && ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.danger }, children: call.errorMessage }))] }, call.id)))) }) })] })] }));
+}
+
+
+/***/ },
+
+/***/ 8928
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.measureTimelineRead = measureTimelineRead;
+const PremiereBridge_1 = __webpack_require__(1862);
+const bridge = new PremiereBridge_1.PremiereBridge();
+async function measureTimelineRead() {
+    const started = performance.now();
+    try {
+        const timeline = await bridge.readTimeline();
+        return {
+            timeline,
+            latencyMs: Math.round(performance.now() - started),
+            error: null,
+            clipCount: countTimelineClips(timeline)
+        };
+    }
+    catch (error) {
+        return {
+            timeline: null,
+            latencyMs: Math.round(performance.now() - started),
+            error: error instanceof Error ? error.message : String(error),
+            clipCount: 0
+        };
+    }
+}
+function countTimelineClips(timeline) {
+    if (!timeline) {
+        return 0;
+    }
+    return [...timeline.videoTracks, ...timeline.audioTracks].reduce((count, track) => count + track.clips.length, 0);
+}
+
+
+/***/ },
+
+/***/ 8759
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.readAssetRecords = readAssetRecords;
+exports.getCollections = getCollections;
+exports.saveCollection = saveCollection;
+exports.deleteCollection = deleteCollection;
+const ClipManager_1 = __webpack_require__(2276);
+const PremiereAPI_1 = __webpack_require__(868);
+const brain_1 = __webpack_require__(7021);
+const memory = new brain_1.MemoryEngine();
+const COLLECTION_SCOPE = "asset-ai";
+const COLLECTION_KEY = "collections";
+async function readAssetRecords(context) {
+    const projectAssets = await readProjectAssets();
+    if (projectAssets.length > 0) {
+        return {
+            assets: enrichAssets(projectAssets, context),
+            sourceNote: "Scanned active Premiere project items and merged cached AI tags."
+        };
+    }
+    const selectedAssets = await readSelectedClipAssets();
+    return {
+        assets: enrichAssets(selectedAssets, context),
+        sourceNote: selectedAssets.length > 0
+            ? "Project-wide item scan was unavailable in this host session, so Asset AI is showing the current selection only."
+            : "No readable project items or selected clips were available from Premiere."
+    };
+}
+function getCollections() {
+    return memory.getAnalysis(COLLECTION_SCOPE, COLLECTION_KEY) ?? [];
+}
+function saveCollection(name, assetIds) {
+    const collections = getCollections();
+    const next = {
+        id: `${Date.now()}-${name.toLowerCase().replace(/\s+/g, "-")}`,
+        name: name.trim(),
+        assetIds,
+        createdAt: new Date().toISOString()
+    };
+    memory.setAnalysis(COLLECTION_SCOPE, COLLECTION_KEY, [next, ...collections]);
+}
+function deleteCollection(collectionId) {
+    const collections = getCollections().filter((collection) => collection.id !== collectionId);
+    memory.setAnalysis(COLLECTION_SCOPE, COLLECTION_KEY, collections);
+}
+async function readProjectAssets() {
+    try {
+        const project = await PremiereAPI_1.premiereAPI.getCurrentProject();
+        const rootItem = project?.rootItem ?? project?.getRootItem?.();
+        const items = await collectProjectItems(rootItem);
+        return dedupeAssets(items);
+    }
+    catch (error) {
+        console.warn("[RK Flow] Asset AI could not enumerate project items.", error);
+        return [];
+    }
+}
+async function readSelectedClipAssets() {
+    const clips = await ClipManager_1.clipManager.getSelectedClips();
+    return clips.map((clip, index) => ({
+        id: assetId(clip.projectItem?.nodeId ?? clip.mediaType ?? clip.name, clip.projectItem?.getMediaPath ? null : `${index}`),
+        name: clip.name,
+        type: clip.mediaType || clip.type || "clip",
+        mediaPath: null,
+        source: "selection",
+        clipId: `${clip.name}::${clip.track}::${clip.start.toFixed(3)}::${index}`,
+        tags: [],
+        duplicateGroup: null,
+        metadata: {
+            resolution: null,
+            codec: null,
+            durationSeconds: clip.duration,
+            frameRate: null
+        }
+    }));
+}
+async function collectProjectItems(rootItem) {
+    if (!rootItem) {
+        return [];
+    }
+    const items = [];
+    const children = rootItem.children;
+    const count = typeof children?.numItems === "number" ? children.numItems : 0;
+    for (let index = 0; index < count; index += 1) {
+        const item = children[index];
+        if (!item) {
+            continue;
+        }
+        const type = await readItemType(item);
+        const mediaPath = await readString(() => item.getMediaPath?.());
+        const nodeId = readPlain(item.nodeId);
+        const name = String(readPlain(item.name) ?? `Item ${index + 1}`);
+        const metadata = await readMetadata(item);
+        if (type !== "bin" && type !== "root") {
+            items.push({
+                id: assetId(nodeId || name, mediaPath),
+                name,
+                type,
+                mediaPath,
+                source: "project",
+                clipId: null,
+                tags: [],
+                duplicateGroup: null,
+                metadata
+            });
+        }
+        if (item.children || item.type === 2) {
+            items.push(...(await collectProjectItems(item)));
+        }
+    }
+    return items;
+}
+async function readMetadata(item) {
+    const resolution = await readResolution(item);
+    const frameRate = await readFrameRate(item);
+    const durationSeconds = await readDuration(item);
+    const codec = await readCodec(item);
+    return {
+        resolution,
+        codec,
+        durationSeconds,
+        frameRate
+    };
+}
+async function readResolution(item) {
+    const direct = (await readPlainAsync(item.getFrameSize?.bind(item))) ??
+        (await readPlainAsync(item.getFootageInterpretation?.bind(item)));
+    if (direct && typeof direct === "object") {
+        const width = parseNumber(direct.width);
+        const height = parseNumber(direct.height);
+        if (width && height) {
+            return `${width}x${height}`;
+        }
+    }
+    const xmp = await readString(() => item.getXMPMetadata?.());
+    if (!xmp) {
+        return null;
+    }
+    const widthMatch = xmp.match(/frameSizeHorizontal[^>]*>(\d+)</i);
+    const heightMatch = xmp.match(/frameSizeVertical[^>]*>(\d+)</i);
+    if (widthMatch && heightMatch) {
+        return `${widthMatch[1]}x${heightMatch[1]}`;
+    }
+    return null;
+}
+async function readFrameRate(item) {
+    const interpretation = await readPlainAsync(item.getFootageInterpretation?.bind(item));
+    if (interpretation && typeof interpretation === "object") {
+        const frameRate = parseNumber(interpretation.frameRate);
+        if (frameRate !== null) {
+            return frameRate;
+        }
+    }
+    return null;
+}
+async function readDuration(item) {
+    const duration = await readPlainAsync(item.getOutPoint?.bind(item));
+    if (duration && typeof duration === "object") {
+        const ticks = parseNumber(duration.ticks);
+        if (ticks !== null) {
+            return ticks / 254016000000;
+        }
+    }
+    return null;
+}
+async function readCodec(item) {
+    const projectMetadata = await readString(() => item.getProjectMetadata?.());
+    const xmpMetadata = await readString(() => item.getXMPMetadata?.());
+    const metadata = `${projectMetadata ?? ""}\n${xmpMetadata ?? ""}`;
+    const codecMatch = metadata.match(/codec[^>]*>([^<]+)</i) ??
+        metadata.match(/CompressorName[^>]*>([^<]+)</i) ??
+        metadata.match(/videoCodec[^>]*>([^<]+)</i);
+    return codecMatch?.[1]?.trim() || null;
+}
+function enrichAssets(assets, context) {
+    const sequenceKey = context?.sequenceKey ?? "";
+    const wedding = sequenceKey ? memory.getAnalysis(`wedding-ai:${sequenceKey}`, "result") : null;
+    const face = sequenceKey ? memory.getAnalysis(`face-ai:${sequenceKey}`, "result") : null;
+    const emotion = sequenceKey ? memory.getAnalysis(`emotion-ai:${sequenceKey}`, "result") : null;
+    const clipIntelligence = sequenceKey
+        ? memory.getAnalysis(`clip-intelligence:${sequenceKey}`, "result")
+        : null;
+    return assets.map((asset) => {
+        const clipId = asset.clipId ?? findClipIdForAsset(asset, context);
+        const tags = new Set(asset.tags);
+        if (clipId) {
+            for (const segment of wedding?.segments ?? []) {
+                if (segment.id === clipId || segment.id.includes(asset.name)) {
+                    tags.add(segment.label);
+                }
+            }
+            for (const cluster of face?.clusters ?? []) {
+                if (cluster.clipIds.includes(clipId)) {
+                    tags.add(cluster.role);
+                    tags.add(cluster.label);
+                }
+            }
+            const emotionHit = emotion?.clips.find((clip) => clip.clipId === clipId);
+            for (const emotionTag of emotionHit?.emotions ?? []) {
+                tags.add(emotionTag);
+            }
+        }
+        const duplicateGroup = clipId
+            ? clipIntelligence?.clips.find((clip) => clip.clipId === clipId)?.duplicateGroup ?? null
+            : findDuplicateByPath(asset, assets);
+        if (duplicateGroup) {
+            tags.add("duplicate");
+        }
+        return {
+            ...asset,
+            clipId,
+            tags: Array.from(tags).filter(Boolean).sort(),
+            duplicateGroup
+        };
+    });
+}
+function findClipIdForAsset(asset, context) {
+    return (context?.selectedClips.find((clip) => {
+        if (asset.mediaPath && clip.name === asset.name) {
+            return true;
+        }
+        return clip.name === asset.name;
+    })?.id ?? null);
+}
+function findDuplicateByPath(asset, assets) {
+    if (!asset.mediaPath) {
+        return null;
+    }
+    const matches = assets.filter((candidate) => candidate.mediaPath === asset.mediaPath);
+    return matches.length > 1 ? matches[0].id : null;
+}
+function dedupeAssets(items) {
+    const deduped = new Map();
+    for (const item of items) {
+        deduped.set(item.id, item);
+    }
+    return Array.from(deduped.values()).sort((left, right) => left.name.localeCompare(right.name));
+}
+function assetId(primary, secondary) {
+    return String(primary ?? secondary ?? `asset-${Math.random().toString(16).slice(2)}`);
+}
+async function readItemType(item) {
+    const type = readPlain(item.type);
+    if (type === 2)
+        return "bin";
+    if (type === 3)
+        return "root";
+    if (type === 1 || type === 4)
+        return "clip";
+    return typeof type === "string" ? type : "clip";
+}
+function readPlain(value) {
+    return typeof value === "string" || typeof value === "number" ? value : null;
+}
+async function readPlainAsync(method) {
+    if (!method) {
+        return null;
+    }
+    try {
+        return await method();
+    }
+    catch {
+        return null;
+    }
+}
+async function readString(method) {
+    try {
+        const value = await method();
+        return typeof value === "string" && value.trim() ? value : null;
+    }
+    catch {
+        return null;
+    }
+}
+function parseNumber(value) {
+    if (typeof value === "number" && Number.isFinite(value)) {
+        return value;
+    }
+    if (typeof value === "string") {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed : null;
+    }
+    return null;
+}
+
+
+/***/ },
+
+/***/ 6830
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = AssetAIScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const useSequenceAnalysis_1 = __webpack_require__(8936);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const assetService_1 = __webpack_require__(8759);
+function AssetAIScreen() {
+    const [query, setQuery] = (0, react_1.useState)("");
+    const [selectedAssetId, setSelectedAssetId] = (0, react_1.useState)(null);
+    const [collectionName, setCollectionName] = (0, react_1.useState)("");
+    const [selectedAssetIds, setSelectedAssetIds] = (0, react_1.useState)([]);
+    const [collections, setCollections] = (0, react_1.useState)(() => (0, assetService_1.getCollections)());
+    const { context, result, loading, progress, error, reanalyze } = (0, useSequenceAnalysis_1.useSequenceAnalysis)({
+        moduleId: "asset-ai",
+        analyze: async (sequenceContext, onProgress) => {
+            onProgress("Reading project assets and cached tags...");
+            return (0, assetService_1.readAssetRecords)(sequenceContext);
+        }
+    });
+    (0, react_1.useEffect)(() => {
+        setCollections((0, assetService_1.getCollections)());
+    }, [result]);
+    const assets = result?.assets ?? [];
+    const filteredAssets = (0, react_1.useMemo)(() => {
+        const term = query.trim().toLowerCase();
+        if (!term) {
+            return assets;
+        }
+        return assets.filter((asset) => {
+            return (asset.name.toLowerCase().includes(term) ||
+                asset.mediaPath?.toLowerCase().includes(term) ||
+                asset.tags.some((tag) => tag.toLowerCase().includes(term)));
+        });
+    }, [assets, query]);
+    const selectedAsset = filteredAssets.find((asset) => asset.id === selectedAssetId) ??
+        assets.find((asset) => asset.id === selectedAssetId) ??
+        null;
+    function toggleAsset(assetId) {
+        setSelectedAssetIds((current) => current.includes(assetId)
+            ? current.filter((id) => id !== assetId)
+            : [...current, assetId]);
+    }
+    function createCollection() {
+        if (!collectionName.trim() || selectedAssetIds.length === 0) {
+            return;
+        }
+        (0, assetService_1.saveCollection)(collectionName, selectedAssetIds);
+        setCollectionName("");
+        setSelectedAssetIds([]);
+        setCollections((0, assetService_1.getCollections)());
+    }
+    function removeCollection(collectionId) {
+        (0, assetService_1.deleteCollection)(collectionId);
+        setCollections((0, assetService_1.getCollections)());
+    }
+    if (!context) {
+        return (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Asset AI", children: "Open a sequence to inspect Premiere assets." });
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Asset AI", subtitle: result?.sourceNote ?? "Project asset inspection", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", justifyContent: "space-between" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Input, { placeholder: "Search by asset name, path, or tag", value: query, onChange: (event) => setQuery(event.target.value), style: { maxWidth: 320 } }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void reanalyze(), disabled: loading, children: "Refresh Assets" })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [loading && (0, jsx_runtime_1.jsx)(primitives_1.ProgressBar, { value: progress.percent, label: `${progress.completed}/${progress.total} steps` }), (0, jsx_runtime_1.jsx)("div", { style: { color: error ? theme_1.colors.danger : theme_1.colors.inkMuted }, children: error || progress.label })] })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexWrap: "wrap", gap: theme_1.spacing.md, alignItems: "flex-start" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: `Assets (${filteredAssets.length})`, subtitle: "Tags reuse cached Wedding AI, Face AI, Emotion AI, and Clip Intelligence results.", style: { flex: "2 1 520px" }, children: filteredAssets.length === 0 ? ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "No assets matched the current search. Project-wide scanning depends on host-readable project items; if unavailable, this screen falls back to the current selection." })) : ((0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: filteredAssets.map((asset) => ((0, jsx_runtime_1.jsxs)("button", { type: "button", onClick: () => setSelectedAssetId(asset.id), style: {
+                                    width: "100%",
+                                    textAlign: "left",
+                                    borderRadius: 10,
+                                    border: `1px solid ${selectedAssetId === asset.id ? theme_1.colors.gold : theme_1.colors.border}`,
+                                    background: selectedAssetId === asset.id ? theme_1.colors.panelMuted : theme_1.colors.white,
+                                    padding: theme_1.spacing.sm,
+                                    cursor: "pointer"
+                                }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: asset.name }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, fontSize: theme_1.typography.sizes.xs }, children: asset.mediaPath ?? "No media path exposed by this host item" })] }), (0, jsx_runtime_1.jsxs)("label", { style: { display: "inline-flex", alignItems: "center", gap: theme_1.spacing.xs }, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: selectedAssetIds.includes(asset.id), onChange: () => toggleAsset(asset.id), onClick: (event) => event.stopPropagation() }), "Collection"] })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.xs, flexWrap: "wrap", marginTop: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: asset.source === "project" ? "Project item" : "Selection fallback", tone: asset.source === "project" ? "success" : "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: asset.type }), asset.duplicateGroup && (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "Duplicate candidate", tone: "warning" }), asset.tags.map((tag) => ((0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: tag }, `${asset.id}-${tag}`)))] })] }, asset.id))) })) }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md, flex: "1 1 320px" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Metadata Panel", subtitle: "Only real host-exposed values are shown. Missing fields remain blank.", children: selectedAsset ? ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)(MetaRow, { label: "Name", value: selectedAsset.name }), (0, jsx_runtime_1.jsx)(MetaRow, { label: "Path", value: selectedAsset.mediaPath ?? "—" }), (0, jsx_runtime_1.jsx)(MetaRow, { label: "Resolution", value: selectedAsset.metadata.resolution ?? "—" }), (0, jsx_runtime_1.jsx)(MetaRow, { label: "Codec", value: selectedAsset.metadata.codec ?? "—" }), (0, jsx_runtime_1.jsx)(MetaRow, { label: "Duration", value: selectedAsset.metadata.durationSeconds !== null
+                                                ? `${selectedAsset.metadata.durationSeconds.toFixed(2)}s`
+                                                : "—" }), (0, jsx_runtime_1.jsx)(MetaRow, { label: "Frame rate", value: selectedAsset.metadata.frameRate !== null
+                                                ? `${selectedAsset.metadata.frameRate.toFixed(3)} fps`
+                                                : "—" })] })) : ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "Choose an asset to inspect its metadata." })) }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Collections", subtitle: "Local-only grouping persisted in MemoryEngine.", children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Input, { placeholder: "Collection name", value: collectionName, onChange: (event) => setCollectionName(event.target.value) }), (0, jsx_runtime_1.jsxs)(primitives_1.Button, { onClick: createCollection, disabled: !collectionName.trim() || selectedAssetIds.length === 0, children: ["Save Collection (", selectedAssetIds.length, ")"] }), collections.length === 0 ? ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "No saved collections yet." })) : (collections.map((collection) => ((0, jsx_runtime_1.jsxs)("div", { style: {
+                                                border: `1px solid ${theme_1.colors.border}`,
+                                                borderRadius: 10,
+                                                padding: theme_1.spacing.sm,
+                                                background: theme_1.colors.white
+                                            }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: collection.name }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted, marginTop: theme_1.spacing.xs }, children: [collection.assetIds.length, " asset", collection.assetIds.length === 1 ? "" : "s", " \u2022 ", new Date(collection.createdAt).toLocaleString()] }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.sm }, children: (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "ghost", onClick: () => removeCollection(collection.id), children: "Delete Collection" }) })] }, collection.id))))] }) })] })] })] }));
+}
+function MetaRow({ label, value }) {
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm, borderBottom: `1px solid ${theme_1.colors.border}`, paddingBottom: theme_1.spacing.xs }, children: [(0, jsx_runtime_1.jsx)("span", { style: { color: theme_1.colors.inkMuted }, children: label }), (0, jsx_runtime_1.jsx)("span", { style: { color: theme_1.colors.ink, textAlign: "right", wordBreak: "break-word" }, children: value })] }));
+}
+
+
+/***/ },
+
+/***/ 2426
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.AudioAIEngine = void 0;
+const PremiereExecutor_1 = __webpack_require__(7365);
+const PremiereBridge_1 = __webpack_require__(1862);
+const TimelineReader_1 = __webpack_require__(824);
+class AudioAIEngine {
+    executor = new PremiereExecutor_1.PremiereExecutor();
+    timelineReader = new TimelineReader_1.TimelineReader(new PremiereBridge_1.PremiereBridge());
+    async removeNoise(clip) {
+        const resolvedClip = await this.resolveClip(clip, 0);
+        if (!resolvedClip) {
+            return "Select an audio clip in Premiere before removing noise.";
+        }
+        const result = await this.executor.runAction("REMOVE_NOISE", {
+            clipId: resolvedClip
+        });
+        return result.success
+            ? `Noise removal submitted to Premiere for ${resolvedClip}.`
+            : `Noise removal failed: ${result.error ?? result.message}`;
+    }
+    async enhanceVoice(clip) {
+        const resolvedClip = await this.resolveClip(clip, 0);
+        if (!resolvedClip) {
+            return "Select an audio clip in Premiere before enhancing voice.";
+        }
+        const result = await this.executor.runAction("ENHANCE_VOICE", {
+            clipId: resolvedClip
+        });
+        return result.success
+            ? `Voice enhancement submitted to Premiere for ${resolvedClip}.`
+            : `Voice enhancement failed: ${result.error ?? result.message}`;
+    }
+    async autoDuck(mainClip, musicClip) {
+        const resolvedMain = await this.resolveClip(mainClip, 0);
+        const resolvedMusic = await this.resolveClip(musicClip, 1);
+        if (!resolvedMain || !resolvedMusic) {
+            return "Select two audio clips in Premiere before running Auto-Duck.";
+        }
+        const result = await this.executor.runAction("AUTO_DUCK", {
+            mainClipId: resolvedMain,
+            musicClipId: resolvedMusic
+        });
+        return result.success
+            ? `Auto-duck submitted to Premiere for ${resolvedMusic}.`
+            : `Auto-duck failed: ${result.error ?? result.message}`;
+    }
+    suggestSFX(clip) {
+        console.log(`Suggesting SFX for ${clip}...`);
+        return ["whoosh", "riser", "impact"];
+    }
+    async cleanupSpeech(clip) {
+        const resolvedClip = await this.resolveClip(clip, 0);
+        if (!resolvedClip) {
+            return "Select an audio clip in Premiere before cleaning speech.";
+        }
+        const result = await this.executor.runAction("CLEANUP_SPEECH", {
+            clipId: resolvedClip
+        });
+        return result.success
+            ? `Speech cleanup submitted to Premiere for ${resolvedClip}.`
+            : `Speech cleanup failed: ${result.error ?? result.message}`;
+    }
+    async resolveClip(clip, index) {
+        if (clip) {
+            return clip;
+        }
+        const selected = await this.timelineReader.getSelectedClips();
+        return selected[index]?.id ?? null;
+    }
+}
+exports.AudioAIEngine = AudioAIEngine;
+
+
+/***/ },
+
+/***/ 5336
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.AutoEditAssembler = void 0;
+const Command_1 = __webpack_require__(111);
+const PremiereBridge_1 = __webpack_require__(1862);
+const TimelineReader_1 = __webpack_require__(824);
+const PremiereExecutor_1 = __webpack_require__(7365);
+const templates_1 = __webpack_require__(6552);
+class AutoEditAssembler {
+    executor = new PremiereExecutor_1.PremiereExecutor();
+    timelineReader = new TimelineReader_1.TimelineReader(new PremiereBridge_1.PremiereBridge());
+    async assemble(templateName, clips = [], styleProfile, onProgress) {
+        const template = templates_1.AUTO_EDIT_TEMPLATES.find(t => t.name === templateName);
+        if (!template) {
+            throw new Error(`Template not found: ${templateName}`);
+        }
+        const sourceClips = await this.resolveSourceClips(clips);
+        if (sourceClips.length === 0) {
+            throw new Error("Select timeline clips in Premiere or provide importable media paths before running Auto Edit.");
+        }
+        const sequenceName = this.buildSequenceName(template.name, styleProfile);
+        const plan = this.buildAssemblyPlan(sequenceName, template, sourceClips);
+        return this.executeAssemblyPlan(sequenceName, plan.clipPlans, plan.createSequenceCommand, onProgress);
+    }
+    async assembleReelPlan(plan, styleProfile, onProgress) {
+        if (plan.clips.length === 0) {
+            throw new Error("Generate a reel plan with at least one clip before assembly.");
+        }
+        const sequenceName = this.buildSequenceName(plan.title || plan.templateName, styleProfile);
+        const clipPlans = plan.clips.map((clip, index) => {
+            const commands = [];
+            if (clip.mediaPath) {
+                commands.push((0, Command_1.createCommand)("IMPORT_MEDIA", { mediaPath: clip.mediaPath }));
+            }
+            commands.push((0, Command_1.createCommand)("ADD_CLIP_TO_SEQUENCE", {
+                clipId: clip.clipName,
+                projectItemId: clip.projectItemId,
+                mediaPath: clip.mediaPath,
+                start: plan.clips
+                    .slice(0, index)
+                    .reduce((sum, entry) => sum + entry.durationSeconds, 0),
+                end: clip.start + clip.durationSeconds,
+                duration: clip.durationSeconds
+            }));
+            if (index < plan.clips.length - 1) {
+                commands.push((0, Command_1.createCommand)("ADD_TRANSITION", {
+                    type: transitionTypeForPromptReel(clip.reason),
+                    start: plan.clips
+                        .slice(0, index + 1)
+                        .reduce((sum, entry) => sum + entry.durationSeconds, 0) - 0.4,
+                    duration: 0.4
+                }));
+            }
+            return { clip, commands };
+        });
+        return this.executeAssemblyPlan(sequenceName, clipPlans, (0, Command_1.createCommand)("CREATE_SEQUENCE", { name: sequenceName }), onProgress);
+    }
+    async executeAssemblyPlan(sequenceName, clipPlans, createSequenceCommand, onProgress) {
+        const totalSteps = 1 +
+            clipPlans.reduce((count, clipPlan) => count + clipPlan.commands.length, 0);
+        const results = [];
+        let completed = 0;
+        onProgress?.({
+            completed,
+            total: totalSteps,
+            label: `Creating sequence "${sequenceName}"`,
+            percent: 0
+        });
+        const createResult = await this.executor.runNewSequenceAssembly(createSequenceCommand);
+        results.push(createResult);
+        this.throwOnFailedAction(createSequenceCommand.action, createResult);
+        completed += 1;
+        onProgress?.({
+            completed,
+            total: totalSteps,
+            label: `Created sequence "${sequenceName}"`,
+            percent: Math.round((completed / totalSteps) * 100)
+        });
+        for (let index = 0; index < clipPlans.length; index += 1) {
+            const clipPlan = clipPlans[index];
+            for (const command of clipPlan.commands) {
+                const result = await this.executor.runNewSequenceAssembly(command);
+                results.push(result);
+                this.throwOnFailedAction(command.action, result, `clip ${index + 1}`);
+                completed += 1;
+            }
+            onProgress?.({
+                completed,
+                total: totalSteps,
+                label: `Placed clip ${index + 1} of ${clipPlans.length}`,
+                percent: Math.round((completed / totalSteps) * 100)
+            });
+        }
+        const failures = results.filter((result) => !result.success);
+        if (failures.length > 0) {
+            throw new Error(failures.map((result) => result.error ?? result.message).join(" "));
+        }
+        return `Submitted ${results.length} Premiere actions to build sequence "${sequenceName}".`;
+    }
+    throwOnFailedAction(action, result, context) {
+        if (result.success) {
+            return;
+        }
+        const detail = result.error ?? result.message;
+        const label = context ? ` for ${context}` : "";
+        console.error(`[RK Flow][Assembly] ${action}${label} failed.`, { result });
+        throw new Error(`${action}${label} failed: ${detail}`);
+    }
+    buildSequenceName(templateName, styleProfile) {
+        const styleSuffix = typeof styleProfile?.learnedFrom === "string"
+            ? ` - ${styleProfile.learnedFrom}`
+            : "";
+        return `${templateName}${styleSuffix} - ${Date.now()}`;
+    }
+    buildAssemblyPlan(sequenceName, template, clips) {
+        const targetDuration = (0, templates_1.parseDurationSeconds)(template.targetDuration);
+        const selectedClips = this.selectClipsForTemplate(template, clips, targetDuration);
+        let currentTime = 0;
+        const clipPlans = [];
+        for (const clip of selectedClips) {
+            const commands = [];
+            if (clip.path) {
+                commands.push((0, Command_1.createCommand)("IMPORT_MEDIA", { mediaPath: clip.path }));
+            }
+            commands.push((0, Command_1.createCommand)(clip.type === "audio" ? "ADD_AUDIO_TO_SEQUENCE" : "ADD_CLIP_TO_SEQUENCE", {
+                clipId: clip.id,
+                mediaPath: clip.path,
+                start: currentTime,
+                end: clip.end,
+                duration: clip.duration
+            }));
+            currentTime += clip.duration ?? Math.max(1, (clip.end ?? 0) - (clip.start ?? 0));
+            if (currentTime > 0 && clip.type !== "audio") {
+                commands.push((0, Command_1.createCommand)("ADD_TRANSITION", {
+                    type: transitionTypeForTemplate(template),
+                    start: Math.max(0, currentTime - 0.5),
+                    duration: 0.5
+                }));
+            }
+            clipPlans.push({ clip, commands });
+        }
+        return {
+            createSequenceCommand: (0, Command_1.createCommand)("CREATE_SEQUENCE", { name: sequenceName }),
+            clipPlans
+        };
+    }
+    selectClipsForTemplate(template, clips, targetDuration) {
+        const weighted = [...clips].sort((left, right) => (right.score ?? 0) - (left.score ?? 0));
+        const chosen = [];
+        let totalDuration = 0;
+        for (const clip of weighted) {
+            chosen.push(clip);
+            totalDuration += clip.duration ?? Math.max(1, (clip.end ?? 0) - (clip.start ?? 0));
+            if (targetDuration > 0 && totalDuration >= targetDuration) {
+                break;
+            }
+        }
+        return chosen.length > 0 ? chosen : clips.slice(0, Math.max(1, template.prioritizedSegments.length));
+    }
+    async resolveSourceClips(clips) {
+        if (clips.length > 0) {
+            return clips.map(normalizeClip);
+        }
+        const selectedClips = await this.timelineReader.getSelectedClips();
+        return selectedClips.map((clip) => normalizeTimelineClip(clip));
+    }
+}
+exports.AutoEditAssembler = AutoEditAssembler;
+function normalizeClip(clip) {
+    return {
+        ...clip,
+        type: clip.type ?? "video",
+        duration: clip.duration ??
+            Math.max(1, (clip.end ?? clip.start ?? 0) - (clip.start ?? 0))
+    };
+}
+function normalizeTimelineClip(clip) {
+    return {
+        id: clip.id,
+        path: clip.mediaPath,
+        start: clip.start,
+        end: clip.end,
+        duration: clip.duration,
+        score: clip.duration,
+        type: "video"
+    };
+}
+function transitionTypeForTemplate(template) {
+    const intensity = template.beatSyncRules[0]?.intensity ?? "medium";
+    switch (intensity) {
+        case "high":
+            return "dip_to_black";
+        case "low":
+            return "cross_dissolve";
+        default:
+            return "film_dissolve";
+    }
+}
+function transitionTypeForPromptReel(reason) {
+    if (/music energy|dance|energetic|wide/i.test(reason)) {
+        return "dip_to_black";
+    }
+    if (/emotion|family|hug|reaction|bride entry|varmala/i.test(reason)) {
+        return "cross_dissolve";
+    }
+    return "film_dissolve";
+}
+
+
+/***/ },
+
+/***/ 6552
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.AUTO_EDIT_TEMPLATES = void 0;
+exports.parseDurationSeconds = parseDurationSeconds;
+exports.AUTO_EDIT_TEMPLATES = [
+    {
+        name: "Reel",
+        targetDuration: "1m",
+        prioritizedSegments: ["Couple", "Highlights"],
+        clipIntelligenceWeight: 0.8,
+        emotionAIWeight: 0.7,
+        beatSyncRules: [{ type: "auto", intensity: "high" }],
+    },
+    {
+        name: "Shorts",
+        targetDuration: "30s",
+        prioritizedSegments: ["Couple", "Highlights"],
+        clipIntelligenceWeight: 0.9,
+        emotionAIWeight: 0.8,
+        beatSyncRules: [{ type: "auto", intensity: "high" }],
+    },
+    {
+        name: "Highlight",
+        targetDuration: "3m",
+        prioritizedSegments: ["Couple", "Ceremony", "Reception", "Highlights"],
+        clipIntelligenceWeight: 0.7,
+        emotionAIWeight: 0.7,
+        beatSyncRules: [{ type: "auto", intensity: "medium" }],
+    },
+    {
+        name: "Trailer",
+        targetDuration: "1m30s",
+        prioritizedSegments: ["Couple", "Ceremony", "Reception", "Highlights"],
+        clipIntelligenceWeight: 0.75,
+        emotionAIWeight: 0.85,
+        beatSyncRules: [{ type: "auto", intensity: "high" }],
+    },
+    {
+        name: "Teaser",
+        targetDuration: "45s",
+        prioritizedSegments: ["Couple", "Highlights"],
+        clipIntelligenceWeight: 0.85,
+        emotionAIWeight: 0.9,
+        beatSyncRules: [{ type: "auto", intensity: "high" }],
+    },
+    {
+        name: "Documentary",
+        targetDuration: "15m",
+        prioritizedSegments: ["Ceremony", "Reception", "Couple", "Family", "Highlights"],
+        clipIntelligenceWeight: 0.6,
+        emotionAIWeight: 0.6,
+        beatSyncRules: [{ type: "manual", intensity: "low" }],
+    },
+    {
+        name: "Couple Story",
+        targetDuration: "5m",
+        prioritizedSegments: ["Couple", "Highlights"],
+        clipIntelligenceWeight: 0.8,
+        emotionAIWeight: 0.9,
+        beatSyncRules: [{ type: "auto", intensity: "medium" }],
+    },
+    {
+        name: "Family Story",
+        targetDuration: "7m",
+        prioritizedSegments: ["Family", "Ceremony", "Reception"],
+        clipIntelligenceWeight: 0.7,
+        emotionAIWeight: 0.6,
+        beatSyncRules: [{ type: "manual", intensity: "medium" }],
+    },
+    {
+        name: "Cinematic Film",
+        targetDuration: "20m",
+        prioritizedSegments: ["Couple", "Ceremony", "Reception", "Family", "Highlights"],
+        clipIntelligenceWeight: 0.75,
+        emotionAIWeight: 0.8,
+        beatSyncRules: [{ type: "manual", intensity: "high" }],
+    },
+    {
+        name: "Same Day Edit",
+        targetDuration: "3m",
+        prioritizedSegments: ["Couple", "Ceremony", "Highlights"],
+        clipIntelligenceWeight: 0.9,
+        emotionAIWeight: 0.8,
+        beatSyncRules: [{ type: "auto", intensity: "high" }],
+    },
+];
+function parseDurationSeconds(value) {
+    const match = value.match(/^(?:(\d+)m)?(?:(\d+)s)?$/i);
+    if (!match) {
+        return 0;
+    }
+    const minutes = Number(match[1] ?? 0);
+    const seconds = Number(match[2] ?? 0);
+    return minutes * 60 + seconds;
+}
+
+
+/***/ },
+
+/***/ 5187
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = CameraAIScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const ClipGrid_1 = __importDefault(__webpack_require__(1820));
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const perceptionAnalyzers_1 = __webpack_require__(990);
+const useSequenceAnalysis_1 = __webpack_require__(8936);
+function CameraAIScreen() {
+    const [filter, setFilter] = (0, react_1.useState)("all");
+    const { context, result, loading, progress, error, reanalyze } = (0, useSequenceAnalysis_1.useSequenceAnalysis)({
+        moduleId: "camera-ai",
+        analyze: perceptionAnalyzers_1.analyzeCamera
+    });
+    const shotTypes = (0, react_1.useMemo)(() => Array.from(new Set((result?.clips ?? []).map((clip) => clip.shotType))), [result?.clips]);
+    const items = (result?.clips ?? [])
+        .filter((clip) => filter === "all" || clip.shotType === filter)
+        .map((clip) => ({
+        id: clip.clipId,
+        title: clip.clipName,
+        subtitle: `${clip.shotType} • ${clip.movement}`,
+        badges: [clip.source === "visual" ? "Visual" : "Metadata-only", clip.shotType, clip.movement],
+        detail: `${(clip.confidence * 100).toFixed(0)}% confidence • ${clip.source}`
+    }));
+    if (!context) {
+        return (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Camera AI", children: "Open a sequence to analyze." });
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Camera AI", subtitle: result?.source ?? "Metadata-only classification", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.xs, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: () => setFilter("all"), style: chipButton(filter === "all"), children: "All" }), shotTypes.map((tag) => ((0, jsx_runtime_1.jsx)("button", { onClick: () => setFilter(tag), style: chipButton(filter === tag), children: tag }, tag)))] }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void reanalyze(), disabled: loading, children: "Re-analyze" })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [loading && (0, jsx_runtime_1.jsx)(primitives_1.ProgressBar, { value: progress.percent, label: `${progress.completed}/${progress.total} clips` }), (0, jsx_runtime_1.jsx)("div", { style: { color: error ? theme_1.colors.danger : theme_1.colors.inkMuted }, children: error || progress.label })] })] }), (0, jsx_runtime_1.jsx)(ClipGrid_1.default, { items: items, emptyLabel: "No clips matched the selected shot type." })] }));
+}
+function chipButton(active) {
+    return {
+        borderRadius: 999,
+        border: `1px solid ${active ? theme_1.colors.gold : theme_1.colors.border}`,
+        background: active ? theme_1.colors.panelMuted : theme_1.colors.white,
+        color: active ? theme_1.colors.maroonDeep : theme_1.colors.ink,
+        padding: "6px 10px",
+        cursor: "pointer"
+    };
+}
+
+
+/***/ },
+
+/***/ 2218
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.CaptionAIEngine = void 0;
+const GeminiService_1 = __webpack_require__(5449);
+const PremiereExecutor_1 = __webpack_require__(7365);
+class CaptionAIEngine {
+    executor = new PremiereExecutor_1.PremiereExecutor();
+    async generateCaptions(text, language, style) {
+        console.log(`Generating ${style} captions in ${language} for: "${text}"`);
+        const prompt = `Generate captions for the following text in ${language}. The desired style is ${style}. If the style is 'karaoke', provide timestamps for each word. Text: "${text}"`;
+        try {
+            const result = await (0, GeminiService_1.runGemini)(prompt, { json: style === 'karaoke' });
+            return result;
+        }
+        catch (error) {
+            console.error("Error generating captions with Gemini:", error);
+            return `Error generating captions: ${error}`;
+        }
+    }
+    async insertCaptions(captions) {
+        const result = await this.executor.runAction("INSERT_CAPTIONS", { captions });
+        return result.success
+            ? "Caption insertion submitted to Premiere."
+            : `Caption insertion failed: ${result.error ?? result.message}`;
+    }
+}
+exports.CaptionAIEngine = CaptionAIEngine;
+
+
+/***/ },
+
+/***/ 2917
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = ClipIntelligenceScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const ClipGrid_1 = __importDefault(__webpack_require__(1820));
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const perceptionAnalyzers_1 = __webpack_require__(990);
+const useSequenceAnalysis_1 = __webpack_require__(8936);
+function ClipIntelligenceScreen() {
+    const [selectedClipId, setSelectedClipId] = (0, react_1.useState)(null);
+    const { context, result, loading, progress, error, reanalyze } = (0, useSequenceAnalysis_1.useSequenceAnalysis)({
+        moduleId: "clip-intelligence",
+        analyze: perceptionAnalyzers_1.analyzeClipIntelligence
+    });
+    if (!context) {
+        return (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Clip Intelligence", children: "Open a sequence to analyze." });
+    }
+    const selectedClip = result?.clips.find((clip) => clip.clipId === selectedClipId) ?? null;
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Clip Intelligence", subtitle: result?.formula ?? "Metadata fallback scoring", children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted, minWidth: 220 }, children: [loading && (0, jsx_runtime_1.jsx)(primitives_1.ProgressBar, { value: progress.percent, label: `${progress.completed}/${progress.total} clips` }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: loading ? theme_1.spacing.xs : 0 }, children: error || progress.label })] }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void reanalyze(), disabled: loading, children: "Re-analyze" })] }) }), (0, jsx_runtime_1.jsx)(ClipGrid_1.default, { items: (result?.clips ?? []).map((clip) => ({
+                    id: clip.clipId,
+                    title: clip.clipName,
+                    subtitle: clip.source,
+                    badges: [
+                        clip.source === "visual" ? "Visual" : "Metadata-only",
+                        clip.duplicateGroup ? `Duplicate: ${clip.duplicateGroup}` : "Unique"
+                    ],
+                    score: clip.aiRating,
+                    detail: ((0, jsx_runtime_1.jsx)("button", { type: "button", onClick: () => setSelectedClipId(clip.clipId), style: { border: "none", background: "transparent", color: theme_1.colors.maroon, cursor: "pointer", padding: 0 }, children: "View sub-score breakdown" }))
+                })), emptyLabel: "No selected clips available for clip intelligence." }), selectedClip && ((0, jsx_runtime_1.jsx)(primitives_1.Card, { title: selectedClip.clipName, subtitle: "Technical breakdown", children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexWrap: "wrap", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)(Metric, { label: "Blur", value: selectedClip.blur }), (0, jsx_runtime_1.jsx)(Metric, { label: "Focus", value: selectedClip.focus }), (0, jsx_runtime_1.jsx)(Metric, { label: "Noise", value: selectedClip.noise }), (0, jsx_runtime_1.jsx)(Metric, { label: "Exposure", value: selectedClip.exposure }), (0, jsx_runtime_1.jsx)(Metric, { label: "White Balance", value: selectedClip.whiteBalance })] }) }))] }));
+}
+function Metric({ label, value }) {
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { border: `1px solid ${theme_1.colors.border}`, borderRadius: 10, padding: theme_1.spacing.sm, flex: "1 1 160px" }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, fontSize: 12 }, children: label }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.maroonDeep, fontSize: 20, fontWeight: 700 }, children: value })] }));
+}
+
+
+/***/ },
+
+/***/ 6528
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.ColorAIEngine = void 0;
+const PremiereExecutor_1 = __webpack_require__(7365);
+const PremiereBridge_1 = __webpack_require__(1862);
+const TimelineReader_1 = __webpack_require__(824);
+class ColorAIEngine {
+    executor = new PremiereExecutor_1.PremiereExecutor();
+    timelineReader = new TimelineReader_1.TimelineReader(new PremiereBridge_1.PremiereBridge());
+    async applyColorMatch(source, target) {
+        const [resolvedSource, resolvedTarget] = await this.resolvePair(source, target);
+        if (!resolvedSource || !resolvedTarget) {
+            return "Select two clips in Premiere to run Color Match.";
+        }
+        const result = await this.executor.runAction("APPLY_COLOR_MATCH", {
+            sourceClipId: resolvedSource,
+            targetClipId: resolvedTarget
+        });
+        return result.success
+            ? `Color match submitted to Premiere for ${resolvedTarget}.`
+            : `Color match failed: ${result.error ?? result.message}`;
+    }
+    async applySkinToneProtection(clip) {
+        const resolvedClip = await this.resolveSingleClip(clip);
+        if (!resolvedClip) {
+            return "Select a clip in Premiere to protect skin tones.";
+        }
+        const result = await this.executor.runAction("APPLY_SKIN_TONE_PROTECTION", {
+            clipId: resolvedClip
+        });
+        return result.success
+            ? `Skin-tone protection submitted to Premiere for ${resolvedClip}.`
+            : `Skin-tone protection failed: ${result.error ?? result.message}`;
+    }
+    async applyFilmLUT(clip, lut) {
+        const resolvedClip = await this.resolveSingleClip(clip);
+        if (!resolvedClip) {
+            return "Select a clip in Premiere before applying a LUT.";
+        }
+        const result = await this.executor.runAction("APPLY_FILM_LUT", {
+            clipId: resolvedClip,
+            lut
+        });
+        return result.success
+            ? `Film LUT "${lut}" submitted to Premiere for ${resolvedClip}.`
+            : `Film LUT failed: ${result.error ?? result.message}`;
+    }
+    generateLUT(description) {
+        console.log(`Generating LUT based on description: "${description}"...`);
+        return {
+            name: `Generated LUT - ${new Date().toLocaleTimeString()}`,
+            description: description,
+            // In a real scenario, this would be a LUT file or data.
+            data: "SIMULATED_LUT_DATA"
+        };
+    }
+    async autoGrade(clip) {
+        const resolvedClip = await this.resolveSingleClip(clip);
+        if (!resolvedClip) {
+            return "Select a clip in Premiere to auto-grade.";
+        }
+        const result = await this.executor.runAction("AUTO_GRADE", {
+            clipId: resolvedClip
+        });
+        return result.success
+            ? `Auto-grade submitted to Premiere for ${resolvedClip}.`
+            : `Auto-grade failed: ${result.error ?? result.message}`;
+    }
+    async resolveSingleClip(clip) {
+        if (clip) {
+            return clip;
+        }
+        const selected = await this.timelineReader.getSelectedClips();
+        return selected[0]?.id ?? null;
+    }
+    async resolvePair(source, target) {
+        if (source && target) {
+            return [source, target];
+        }
+        const selected = await this.timelineReader.getSelectedClips();
+        return [source ?? selected[0]?.id ?? null, target ?? selected[1]?.id ?? null];
+    }
+}
+exports.ColorAIEngine = ColorAIEngine;
+
+
+/***/ },
+
+/***/ 3453
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = DeveloperCenterScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const GeminiService_1 = __webpack_require__(5449);
+const appInfo_1 = __webpack_require__(9476);
+const AIRouter_1 = __webpack_require__(8026);
+const metrics_1 = __webpack_require__(8928);
+const traceStore_1 = __webpack_require__(4992);
+const loggerService_1 = __webpack_require__(2954);
+const systemStats_1 = __webpack_require__(1125);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const router = new AIRouter_1.AIRouter();
+const LOG_FILTERS = ["all", "info", "warn", "error", "success"];
+function DeveloperCenterScreen() {
+    const [activeTab, setActiveTab] = (0, react_1.useState)("diagnostics");
+    const [timelineMetrics, setTimelineMetrics] = (0, react_1.useState)(null);
+    const [logEntries, setLogEntries] = (0, react_1.useState)(loggerService_1.loggerService.getEntries());
+    const [logFilter, setLogFilter] = (0, react_1.useState)("all");
+    const [selectedCallId, setSelectedCallId] = (0, react_1.useState)("");
+    const [directorTrace, setDirectorTrace] = (0, react_1.useState)((0, traceStore_1.getDirectorTrace)());
+    const [apiPrompt, setApiPrompt] = (0, react_1.useState)("Reply with exactly: RK Flow dev test");
+    const [systemInstruction, setSystemInstruction] = (0, react_1.useState)("");
+    const [apiResponse, setApiResponse] = (0, react_1.useState)("");
+    const [apiStatus, setApiStatus] = (0, react_1.useState)("Developer tool only. Sends a live request through GeminiService.");
+    const [apiPending, setApiPending] = (0, react_1.useState)(false);
+    (0, react_1.useEffect)(() => {
+        let cancelled = false;
+        void (0, metrics_1.measureTimelineRead)().then((metrics) => {
+            if (!cancelled) {
+                setTimelineMetrics(metrics);
+            }
+        });
+        const unsubscribeLogs = loggerService_1.loggerService.subscribe((entries) => {
+            setLogEntries(entries);
+        });
+        const unsubscribeTrace = (0, traceStore_1.subscribeDirectorTrace)((entries) => {
+            setDirectorTrace(entries);
+        });
+        return () => {
+            cancelled = true;
+            unsubscribeLogs();
+            unsubscribeTrace();
+        };
+    }, []);
+    const systemStats = (0, systemStats_1.getSystemStats)();
+    const usageStats = (0, GeminiService_1.getGeminiUsageStats)();
+    const recentCalls = (0, GeminiService_1.getRecentGeminiCalls)();
+    const selectedCall = recentCalls.find((call) => call.id === selectedCallId) ?? recentCalls[0] ?? null;
+    const filteredLogs = (0, react_1.useMemo)(() => logEntries.filter((entry) => logFilter === "all" || entry.severity === logFilter), [logEntries, logFilter]);
+    (0, react_1.useEffect)(() => {
+        if (!selectedCallId && recentCalls.length > 0) {
+            setSelectedCallId(recentCalls[0].id);
+        }
+    }, [recentCalls, selectedCallId]);
+    async function handleProviderSmokeTest() {
+        setApiPending(true);
+        setApiStatus("Testing provider via AIRouter...");
+        try {
+            const response = await router.chat({
+                prompt: "Reply with exactly: RK Flow developer diagnostics OK"
+            });
+            setApiStatus(response.text);
+        }
+        catch (error) {
+            setApiStatus(error instanceof Error ? error.message : "AIRouter test failed.");
+        }
+        finally {
+            setApiPending(false);
+        }
+    }
+    async function handleApiTest() {
+        setApiPending(true);
+        setApiStatus("Sending live GeminiService request...");
+        setApiResponse("");
+        try {
+            const response = await (0, GeminiService_1.runGemini)(apiPrompt, {
+                systemInstruction: systemInstruction.trim() || undefined
+            });
+            setApiResponse(response);
+            setApiStatus("GeminiService request completed.");
+        }
+        catch (error) {
+            setApiStatus(error instanceof Error ? error.message : "GeminiService request failed.");
+        }
+        finally {
+            setApiPending(false);
+        }
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Developer Center", subtitle: "Diagnostics, prompt inspection, and debug tooling for Monday, August 3, 2026.", children: (0, jsx_runtime_1.jsx)(primitives_1.Tabs, { items: [
+                        { id: "diagnostics", label: "Diagnostics" },
+                        { id: "logs", label: "Logs" },
+                        { id: "prompts", label: "Prompt Builder" },
+                        { id: "debugger", label: "AI Debugger" },
+                        { id: "api", label: "API Tester" }
+                    ], active: activeTab, onChange: setActiveTab }) }), activeTab === "diagnostics" && ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexWrap: "wrap", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Environment", subtitle: "Real runtime facts from the current panel bridge.", style: { flex: "1 1 320px" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "Provider Gemini", tone: "success" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Model ${GeminiService_1.GEMINI_MODEL}` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Plugin ${appInfo_1.APP_VERSION}` })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", flexDirection: "column", gap: theme_1.spacing.sm, color: theme_1.colors.inkMuted }, children: [(0, jsx_runtime_1.jsxs)("div", { children: ["Premiere bridge: ", timelineMetrics?.timeline ? "Connected" : "No active sequence or bridge response yet"] }), (0, jsx_runtime_1.jsx)("div", { children: "Premiere version: Unavailable in this panel bridge" }), (0, jsx_runtime_1.jsx)("div", { children: "Premiere build: Unavailable in this panel bridge" }), (0, jsx_runtime_1.jsxs)("div", { children: ["GPU: ", systemStats.gpu] }), (0, jsx_runtime_1.jsxs)("div", { children: ["RAM: ", systemStats.ram] })] }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md }, children: (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void handleProviderSmokeTest(), disabled: apiPending, children: "Test AIRouter Provider" }) })] }), (0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Performance Monitor", subtitle: "Reuses the same Module 4 analytics sources.", style: { flex: "1 1 320px" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${usageStats.totalCalls} Gemini calls` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Avg ${usageStats.averageDurationMs} ms` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Timeline ${timelineMetrics ? `${timelineMetrics.latencyMs} ms` : "—"}`, tone: timelineMetrics?.error ? "warning" : "success" })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", flexDirection: "column", gap: theme_1.spacing.sm, color: theme_1.colors.inkMuted }, children: [(0, jsx_runtime_1.jsxs)("div", { children: ["Sequence: ", timelineMetrics?.timeline?.sequenceName || "No active sequence"] }), (0, jsx_runtime_1.jsxs)("div", { children: ["Clips scanned: ", timelineMetrics?.clipCount ?? 0] }), (0, jsx_runtime_1.jsxs)("div", { children: ["Failures: ", usageStats.failedCalls] }), timelineMetrics?.error && (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.warning }, children: timelineMetrics.error })] })] })] })), activeTab === "logs" && ((0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Logs Viewer", subtitle: "Shared logger service entries, filterable by severity.", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", marginBottom: theme_1.spacing.md }, children: [LOG_FILTERS.map((filter) => ((0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: logFilter === filter ? "primary" : "secondary", onClick: () => setLogFilter(filter), children: filter.toUpperCase() }, filter))), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "ghost", onClick: () => loggerService_1.loggerService.clear(), children: "Clear Logs" })] }), (0, jsx_runtime_1.jsx)("div", { style: panelStyle, children: filteredLogs.length === 0 ? ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "No shared log entries captured yet." })) : (filteredLogs.slice().reverse().map((entry) => ((0, jsx_runtime_1.jsxs)("div", { style: { paddingBottom: theme_1.spacing.sm, borderBottom: `1px solid ${theme_1.colors.border}` }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)("strong", { style: { color: theme_1.colors.maroonDeep }, children: entry.severity.toUpperCase() }), (0, jsx_runtime_1.jsx)("span", { style: { color: theme_1.colors.inkMuted, fontSize: theme_1.typography.sizes.xs }, children: entry.timestamp })] }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.ink, marginTop: 4 }, children: entry.message })] }, entry.id)))) })] })), activeTab === "prompts" && ((0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Prompt Builder", subtitle: "Exact GeminiService prompt payloads from recent recorded calls.", children: recentCalls.length === 0 ? ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "No GeminiService calls are recorded in this session yet." })) : ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsx)("select", { value: selectedCall?.id ?? "", onChange: (event) => setSelectedCallId(event.target.value), style: selectStyle, children: recentCalls.map((call) => ((0, jsx_runtime_1.jsxs)("option", { value: call.id, children: [new Date(call.startedAt).toLocaleTimeString(), " \u2022 ", call.kind, " \u2022 ", call.model] }, call.id))) }), selectedCall && ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexWrap: "wrap", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { flex: "1 1 320px" }, children: [(0, jsx_runtime_1.jsx)("div", { style: sectionLabelStyle, children: "Exact Prompt" }), (0, jsx_runtime_1.jsx)("pre", { style: panelStyle, children: selectedCall.promptText })] }), (0, jsx_runtime_1.jsxs)("div", { style: { flex: "1 1 320px" }, children: [(0, jsx_runtime_1.jsx)("div", { style: sectionLabelStyle, children: "Response" }), (0, jsx_runtime_1.jsx)("pre", { style: panelStyle, children: selectedCall.responseText || selectedCall.errorMessage || "No response body stored." })] })] }))] })) })), activeTab === "debugger" && ((0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "AI Debugger", subtitle: "The same live AI Director step-log stream used by the feature screen.", children: [(0, jsx_runtime_1.jsx)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", marginBottom: theme_1.spacing.md }, children: (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${directorTrace.length} steps` }) }), (0, jsx_runtime_1.jsx)("div", { style: panelStyle, children: directorTrace.length === 0 ? ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "Run AI Director to populate the shared reasoning trace." })) : (directorTrace.map((entry, index) => ((0, jsx_runtime_1.jsx)("pre", { style: preStyle, children: entry }, `${index}-${entry.slice(0, 16)}`)))) })] })), activeTab === "api" && ((0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "API Testing Panel", subtitle: "Developer-only raw GeminiService probe. This is not user-facing workflow UI.", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", marginBottom: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "Dev Tool", tone: "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Model ${GeminiService_1.GEMINI_MODEL}` })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Input, { multiline: true, rows: 3, value: systemInstruction, onChange: (event) => setSystemInstruction(event.target.value), placeholder: "Optional system instruction" }), (0, jsx_runtime_1.jsx)(primitives_1.Input, { multiline: true, rows: 6, value: apiPrompt, onChange: (event) => setApiPrompt(event.target.value), placeholder: "Prompt to send through GeminiService" }), (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void handleApiTest(), disabled: apiPending || !apiPrompt.trim(), children: apiPending ? "Running..." : "Send Raw Prompt" }) }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: apiStatus }), (0, jsx_runtime_1.jsx)("pre", { style: panelStyle, children: apiResponse || "No response yet." })] })] }))] }));
+}
+const panelStyle = {
+    maxHeight: 360,
+    overflow: "auto",
+    borderRadius: 10,
+    border: `1px solid ${theme_1.colors.border}`,
+    background: theme_1.colors.white,
+    padding: theme_1.spacing.sm,
+    whiteSpace: "pre-wrap",
+    wordBreak: "break-word"
+};
+const preStyle = {
+    margin: 0,
+    whiteSpace: "pre-wrap",
+    wordBreak: "break-word"
+};
+const sectionLabelStyle = {
+    color: theme_1.colors.maroonDeep,
+    fontWeight: 700,
+    marginBottom: theme_1.spacing.xs
+};
+const selectStyle = {
+    width: "100%",
+    boxSizing: "border-box",
+    borderRadius: 10,
+    border: `1px solid ${theme_1.colors.border}`,
+    background: theme_1.colors.white,
+    color: theme_1.colors.ink,
+    padding: "10px 12px"
+};
+
+
+/***/ },
+
+/***/ 6175
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = EmotionAIScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const ClipGrid_1 = __importDefault(__webpack_require__(1820));
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const perceptionAnalyzers_1 = __webpack_require__(990);
+const useSequenceAnalysis_1 = __webpack_require__(8936);
+function EmotionAIScreen() {
+    const [filter, setFilter] = (0, react_1.useState)("all");
+    const { context, result, loading, progress, error, reanalyze } = (0, useSequenceAnalysis_1.useSequenceAnalysis)({
+        moduleId: "emotion-ai",
+        analyze: perceptionAnalyzers_1.analyzeEmotions
+    });
+    const tags = (0, react_1.useMemo)(() => Array.from(new Set((result?.clips ?? []).flatMap((clip) => clip.emotions))), [result?.clips]);
+    const items = (result?.clips ?? [])
+        .filter((clip) => filter === "all" || clip.emotions.includes(filter))
+        .map((clip) => ({
+        id: clip.clipId,
+        title: clip.clipName,
+        subtitle: clip.source,
+        badges: [clip.source === "visual" ? "Visual" : "Metadata-only", ...clip.emotions],
+        detail: `${(clip.confidence * 100).toFixed(0)}% confidence`
+    }));
+    if (!context) {
+        return (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Emotion AI", children: "Open a sequence to analyze." });
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Emotion AI", subtitle: result?.source ?? "Metadata-only emotion inference", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", justifyContent: "space-between" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.xs, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)("button", { onClick: () => setFilter("all"), style: chipButton(filter === "all"), children: "All" }), tags.map((tag) => ((0, jsx_runtime_1.jsx)("button", { onClick: () => setFilter(tag), style: chipButton(filter === tag), children: tag }, tag)))] }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void reanalyze(), disabled: loading, children: "Re-analyze" })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [loading && (0, jsx_runtime_1.jsx)(primitives_1.ProgressBar, { value: progress.percent, label: `${progress.completed}/${progress.total} clips` }), (0, jsx_runtime_1.jsx)("div", { style: { color: error ? theme_1.colors.danger : theme_1.colors.inkMuted }, children: error || progress.label })] })] }), (0, jsx_runtime_1.jsx)(ClipGrid_1.default, { items: items, emptyLabel: "No clips matched the selected emotion filter." })] }));
+}
+function chipButton(active) {
+    return {
+        borderRadius: 999,
+        border: `1px solid ${active ? theme_1.colors.gold : theme_1.colors.border}`,
+        background: active ? theme_1.colors.panelMuted : theme_1.colors.white,
+        color: active ? theme_1.colors.maroonDeep : theme_1.colors.ink,
+        padding: "6px 10px",
+        cursor: "pointer"
+    };
+}
+
+
+/***/ },
+
+/***/ 2503
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.inspectExportCapability = inspectExportCapability;
+exports.buildOutputName = buildOutputName;
+exports.createQueueItem = createQueueItem;
+const PremiereAPI_1 = __webpack_require__(868);
+async function inspectExportCapability() {
+    try {
+        const sequence = await PremiereAPI_1.premiereAPI.getActiveSequence();
+        const missing = [];
+        if (!sequence) {
+            missing.push("No active sequence");
+        }
+        if (!sequence?.exportAsMediaDirect) {
+            missing.push("sequence.exportAsMediaDirect");
+        }
+        if (!sequence?.getExportFileExtension) {
+            missing.push("sequence.getExportFileExtension");
+        }
+        if (missing.length > 0) {
+            return {
+                canAttemptDirectExport: false,
+                missing,
+                note: "This workspace has no verified preset-discovery path wired into the panel runtime yet. Export AI will prepare a Media Encoder hand-off instead of pretending a one-click export is confirmed."
+            };
+        }
+        return {
+            canAttemptDirectExport: true,
+            missing: [],
+            note: "Premiere reports a direct export API surface, but this repo has not manually re-verified an end-to-end delivery export from the panel in the current session."
+        };
+    }
+    catch (error) {
+        return {
+            canAttemptDirectExport: false,
+            missing: ["Premiere capability inspection failed"],
+            note: error instanceof Error ? error.message : "Could not inspect export capability."
+        };
+    }
+}
+function buildOutputName(sequenceName, presetLabel, template) {
+    const today = new Date();
+    const date = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, "0"),
+        String(today.getDate()).padStart(2, "0")
+    ].join("-");
+    return template
+        .replaceAll("{sequenceName}", sanitize(sequenceName || "Sequence"))
+        .replaceAll("{preset}", sanitize(presetLabel))
+        .replaceAll("{date}", date);
+}
+function createQueueItem(args) {
+    const handoff = !args.capability.canAttemptDirectExport;
+    return {
+        id: `${Date.now()}-${args.preset.id}`,
+        presetId: args.preset.id,
+        presetLabel: args.preset.label,
+        outputName: args.outputName,
+        destination: args.destination,
+        status: handoff ? "handoff" : "queued",
+        detail: handoff
+            ? "Prepared for Premiere's native Media Encoder hand-off."
+            : "Direct export API detected, but still awaiting manual verification and preset wiring.",
+        createdAt: new Date().toISOString()
+    };
+}
+function sanitize(value) {
+    return value.replace(/[^\w.-]+/g, "_");
+}
+
+
+/***/ },
+
+/***/ 3254
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = ExportAIScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const premiereService_1 = __webpack_require__(3763);
+const exportService_1 = __webpack_require__(2503);
+const presets_1 = __webpack_require__(2550);
+const DEFAULT_TEMPLATE = "{sequenceName}_{preset}_{date}";
+function ExportAIScreen() {
+    const [selectedPresetId, setSelectedPresetId] = (0, react_1.useState)(presets_1.EXPORT_PRESETS[0].id);
+    const [template, setTemplate] = (0, react_1.useState)(DEFAULT_TEMPLATE);
+    const [destination, setDestination] = (0, react_1.useState)("/exports");
+    const [queue, setQueue] = (0, react_1.useState)([]);
+    const [capability, setCapability] = (0, react_1.useState)(null);
+    const [timelineName, setTimelineName] = (0, react_1.useState)("Sequence");
+    (0, react_1.useEffect)(() => {
+        void (0, exportService_1.inspectExportCapability)().then(setCapability);
+        void premiereService_1.premiereService.getTimelineInfo().then((info) => {
+            setTimelineName(info.sequenceName || "Sequence");
+        });
+    }, []);
+    const preset = (0, react_1.useMemo)(() => presets_1.EXPORT_PRESETS.find((item) => item.id === selectedPresetId) ?? presets_1.EXPORT_PRESETS[0], [selectedPresetId]);
+    const outputName = (0, exportService_1.buildOutputName)(timelineName, preset.label, template);
+    function queueExport() {
+        const next = (0, exportService_1.createQueueItem)({
+            preset,
+            outputName,
+            destination,
+            capability: capability ?? {
+                canAttemptDirectExport: false,
+                missing: ["Capability check still loading"],
+                note: "Capability inspection is still loading; queueing as Media Encoder hand-off."
+            }
+        });
+        setQueue((current) => [next, ...current]);
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Export AI", subtitle: "Delivery presets, naming templates, and an honest export hand-off queue.", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexWrap: "wrap", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { flex: "1 1 280px", display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)("label", { htmlFor: "export-preset", style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: "Delivery preset" }), (0, jsx_runtime_1.jsx)("select", { id: "export-preset", value: selectedPresetId, onChange: (event) => setSelectedPresetId(event.target.value), style: {
+                                            width: "100%",
+                                            boxSizing: "border-box",
+                                            borderRadius: 10,
+                                            border: `1px solid ${theme_1.colors.border}`,
+                                            background: theme_1.colors.white,
+                                            color: theme_1.colors.ink,
+                                            padding: "10px 12px"
+                                        }, children: presets_1.EXPORT_PRESETS.map((item) => ((0, jsx_runtime_1.jsx)("option", { value: item.id, children: item.label }, item.id))) }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted }, children: [preset.resolution, " \u2022 ", preset.aspectRatio, " \u2022 ", preset.targetBitrate, " \u2022 ", preset.format] }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, fontSize: theme_1.typography.sizes.sm }, children: preset.notes })] }), (0, jsx_runtime_1.jsxs)("div", { style: { flex: "1 1 320px", display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)("label", { htmlFor: "export-template", style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: "Naming template" }), (0, jsx_runtime_1.jsx)(primitives_1.Input, { id: "export-template", value: template, onChange: (event) => setTemplate(event.target.value) }), (0, jsx_runtime_1.jsx)("label", { htmlFor: "export-destination", style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: "Destination folder" }), (0, jsx_runtime_1.jsx)(primitives_1.Input, { id: "export-destination", value: destination, onChange: (event) => setDestination(event.target.value) }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted }, children: ["Output name preview: ", (0, jsx_runtime_1.jsx)("strong", { children: outputName })] })] })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: capability?.canAttemptDirectExport
+                                    ? "Direct export API detected"
+                                    : "Media Encoder hand-off only", tone: capability?.canAttemptDirectExport ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: queueExport, children: "Add To Export Queue" })] }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md, color: theme_1.colors.inkMuted }, children: capability?.note ?? "Inspecting Premiere export capability..." }), capability && capability.missing.length > 0 && ((0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.xs, color: theme_1.colors.warning }, children: ["Missing or unverified host surface: ", capability.missing.join(", ")] }))] }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Export Queue", subtitle: "Queue state is real UI. Final rendering still depends on Premiere's native export path.", children: queue.length === 0 ? ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "Queue a delivery preset to prepare the export hand-off." })) : ((0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: queue.map((item) => ((0, jsx_runtime_1.jsxs)("div", { style: {
+                            border: `1px solid ${theme_1.colors.border}`,
+                            borderRadius: 10,
+                            background: theme_1.colors.white,
+                            padding: theme_1.spacing.sm
+                        }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: item.outputName }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted }, children: [item.presetLabel, " \u2022 ", item.destination] })] }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: statusLabel(item.status), tone: item.status === "failed" ? "danger" : item.status === "submitted" ? "success" : "warning" })] }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.sm, color: theme_1.colors.inkMuted }, children: item.detail })] }, item.id))) })) })] }));
+}
+function statusLabel(status) {
+    switch (status) {
+        case "handoff":
+            return "Ready for Media Encoder";
+        case "queued":
+            return "Queued";
+        case "submitted":
+            return "Submitted";
+        case "failed":
+            return "Failed";
+        default:
+            return status;
+    }
+}
+
+
+/***/ },
+
+/***/ 2550
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.EXPORT_PRESETS = void 0;
+exports.EXPORT_PRESETS = [
+    {
+        id: "instagram-reel",
+        label: "Instagram Reel",
+        resolution: "1080x1920",
+        aspectRatio: "9:16",
+        targetBitrate: "10-16 Mbps",
+        format: "H.264 MP4",
+        notes: "Vertical social delivery with compact bitrate for fast upload."
+    },
+    {
+        id: "youtube-shorts",
+        label: "YouTube Shorts",
+        resolution: "1080x1920",
+        aspectRatio: "9:16",
+        targetBitrate: "12-20 Mbps",
+        format: "H.264 MP4",
+        notes: "Vertical short-form preset for YouTube mobile playback."
+    },
+    {
+        id: "youtube-highlight",
+        label: "YouTube Highlight",
+        resolution: "1920x1080",
+        aspectRatio: "16:9",
+        targetBitrate: "16-30 Mbps",
+        format: "H.264 MP4",
+        notes: "Standard highlight export for long-form wedding edits."
+    },
+    {
+        id: "facebook",
+        label: "Facebook",
+        resolution: "1920x1080",
+        aspectRatio: "16:9",
+        targetBitrate: "10-18 Mbps",
+        format: "H.264 MP4",
+        notes: "Balanced delivery for Facebook feed playback."
+    },
+    {
+        id: "whatsapp",
+        label: "WhatsApp",
+        resolution: "1280x720",
+        aspectRatio: "16:9",
+        targetBitrate: "4-8 Mbps",
+        format: "H.264 MP4",
+        notes: "Mobile-friendly compressed export for direct sharing."
+    },
+    {
+        id: "master-export",
+        label: "Master Export",
+        resolution: "Sequence Native",
+        aspectRatio: "Sequence Native",
+        targetBitrate: "High / mezzanine",
+        format: "ProRes / DNx / H.264 depending on editor preset",
+        notes: "Archive-quality delivery. Requires an explicit Premiere export preset."
+    }
+];
+
+
+/***/ },
+
+/***/ 9209
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = FaceAIScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const brain_1 = __webpack_require__(7021);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const perceptionAnalyzers_1 = __webpack_require__(990);
+const useSequenceAnalysis_1 = __webpack_require__(8936);
+const memory = new brain_1.MemoryEngine();
+function FaceAIScreen() {
+    const [filter, setFilter] = (0, react_1.useState)("");
+    const { context, result, loading, progress, error, reanalyze } = (0, useSequenceAnalysis_1.useSequenceAnalysis)({
+        moduleId: "face-ai",
+        analyze: perceptionAnalyzers_1.analyzeFaceClusters
+    });
+    const sequenceKey = context?.sequenceKey ?? "";
+    const clusters = (0, react_1.useMemo)(() => {
+        const list = result?.clusters ?? [];
+        return list.filter((cluster) => cluster.label.toLowerCase().includes(filter.toLowerCase()));
+    }, [filter, result?.clusters]);
+    if (!context) {
+        return (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Face AI", children: "Open a sequence to analyze." });
+    }
+    function renameCluster(cluster) {
+        const next = window.prompt("Rename cluster", cluster.label);
+        if (!next || !result) {
+            return;
+        }
+        const updated = result.clusters.map((item) => item.id === cluster.id ? { ...item, label: next.trim() } : item);
+        memory.setAnalysis(`face-ai:${sequenceKey}`, "result", {
+            ...result,
+            clusters: updated
+        });
+        window.location.reload();
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Face AI", subtitle: result?.source ?? "Metadata-only clustering fallback", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", justifyContent: "space-between" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Input, { placeholder: "Search person", value: filter, onChange: (event) => setFilter(event.target.value), style: { maxWidth: 280 } }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void reanalyze(), disabled: loading, children: "Re-analyze" })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [loading && (0, jsx_runtime_1.jsx)(primitives_1.ProgressBar, { value: progress.percent, label: `${progress.completed}/${progress.total} clips` }), (0, jsx_runtime_1.jsx)("div", { style: { color: error ? theme_1.colors.danger : theme_1.colors.inkMuted }, children: error || progress.label })] })] }), (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexWrap: "wrap", gap: theme_1.spacing.md }, children: clusters.map((cluster) => ((0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: cluster.label, subtitle: `Role: ${cluster.role}`, style: { flex: "1 1 240px" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.xs, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: cluster.source === "visual" ? "Visual" : "Metadata-only", tone: cluster.source === "visual" ? "success" : "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${(cluster.confidence * 100).toFixed(0)}%` }), cluster.emotionTags.map((tag) => ((0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: tag }, tag)))] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, color: theme_1.colors.inkMuted }, children: ["Appears in ", cluster.clipIds.length, " selected clips."] }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md }, children: (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "ghost", onClick: () => renameCluster(cluster), children: "Rename Cluster" }) })] }, cluster.id))) })] }));
+}
+
+
+/***/ },
+
+/***/ 3426
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.LearnStyleEngine = void 0;
+const MemoryEngine_1 = __webpack_require__(1700);
+class LearnStyleEngine {
+    memory;
+    constructor() {
+        this.memory = new MemoryEngine_1.MemoryEngine();
+    }
+    learn(sequenceName, styleProfileName) {
+        console.log(`Analyzing sequence: ${sequenceName} to learn style and save as '${styleProfileName}'...`);
+        // Simulate analyzing a sequence.
+        // In a real scenario, this would involve deep analysis of the sequence.
+        const learnedStyle = {
+            cutTiming: "Aggressive, with frequent jump cuts",
+            musicChoice: "High-energy electronic, synced to action",
+            transitions: "Whip pans and quick zooms",
+            colorGrade: "High contrast, saturated, with a slight cool tint",
+            sfx: "Impact sounds and risers on key moments",
+            zoomHabits: "Slow push-ins on emotional moments",
+            titlingStyle: "Bold, sans-serif, lower-third titles",
+            learnedFrom: sequenceName,
+            createdAt: new Date().toISOString()
+        };
+        this.memory.setAnalysis("learn-style", styleProfileName, learnedStyle);
+        console.log(`Style profile '${styleProfileName}' saved to MemoryEngine.`);
+        return learnedStyle;
+    }
+    getStyleProfiles() {
+        const allAnalysis = this.memory.load().analysis;
+        const styleProfiles = {};
+        for (const key in allAnalysis) {
+            if (key.startsWith("learn-style::")) {
+                const profileName = key.replace("learn-style::", "");
+                styleProfiles[profileName] = allAnalysis[key];
+            }
+        }
+        return styleProfiles;
+    }
+}
+exports.LearnStyleEngine = LearnStyleEngine;
+
+
+/***/ },
+
+/***/ 1842
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.MotionAIEngine = void 0;
+const PremiereExecutor_1 = __webpack_require__(7365);
+const PremiereBridge_1 = __webpack_require__(1862);
+const TimelineReader_1 = __webpack_require__(824);
+class MotionAIEngine {
+    executor = new PremiereExecutor_1.PremiereExecutor();
+    timelineReader = new TimelineReader_1.TimelineReader(new PremiereBridge_1.PremiereBridge());
+    async applyPanAndZoom(clip, preset) {
+        const resolvedClip = await this.resolveSingleClip(clip);
+        if (!resolvedClip) {
+            return "Select a clip in Premiere before applying Pan & Zoom.";
+        }
+        const result = await this.executor.runAction("APPLY_PAN_AND_ZOOM", {
+            clipId: resolvedClip,
+            preset
+        });
+        return result.success
+            ? `Pan and zoom submitted to Premiere for ${resolvedClip}.`
+            : `Pan and zoom failed: ${result.error ?? result.message}`;
+    }
+    async applyParallax(clip) {
+        const resolvedClip = await this.resolveSingleClip(clip);
+        if (!resolvedClip) {
+            return "Select a clip in Premiere before applying Parallax.";
+        }
+        const result = await this.executor.runAction("APPLY_PARALLAX", {
+            clipId: resolvedClip
+        });
+        return result.success
+            ? `Parallax submitted to Premiere for ${resolvedClip}.`
+            : `Parallax failed: ${result.error ?? result.message}`;
+    }
+    async applyMotionBlur(clip, amount) {
+        const resolvedClip = await this.resolveSingleClip(clip);
+        if (!resolvedClip) {
+            return "Select a clip in Premiere before applying Motion Blur.";
+        }
+        const result = await this.executor.runAction("APPLY_MOTION_BLUR", {
+            clipId: resolvedClip,
+            amount
+        });
+        return result.success
+            ? `Motion blur submitted to Premiere for ${resolvedClip}.`
+            : `Motion blur failed: ${result.error ?? result.message}`;
+    }
+    async resolveSingleClip(clip) {
+        if (clip) {
+            return clip;
+        }
+        const selected = await this.timelineReader.getSelectedClips();
+        return selected[0]?.id ?? null;
+    }
+}
+exports.MotionAIEngine = MotionAIEngine;
+
+
+/***/ },
+
+/***/ 6609
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = MusicAIScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const musicAnalysisCache_1 = __webpack_require__(4262);
+function MusicAIScreen() {
+    const [analysis, setAnalysis] = (0, react_1.useState)(null);
+    const [progress, setProgress] = (0, react_1.useState)("Select a song file to analyze.");
+    const [progressPercent, setProgressPercent] = (0, react_1.useState)(0);
+    const [loading, setLoading] = (0, react_1.useState)(false);
+    const chartPoints = (0, react_1.useMemo)(() => {
+        if (!analysis || analysis.energyCurve.length === 0) {
+            return "";
+        }
+        return analysis.energyCurve
+            .map((value, index) => {
+            const x = (index / Math.max(analysis.energyCurve.length - 1, 1)) * 100;
+            const y = 40 - value * 34;
+            return `${x},${Math.max(4, y)}`;
+        })
+            .join(" ");
+    }, [analysis]);
+    async function onFileChange(file) {
+        if (!file) {
+            return;
+        }
+        setLoading(true);
+        setProgress("Reading audio file...");
+        setProgressPercent(10);
+        try {
+            const result = await (0, musicAnalysisCache_1.analyzeAndCacheMusicFile)(file, (next) => {
+                setProgress(next.label);
+                if (next.percent !== undefined) {
+                    setProgressPercent(next.percent);
+                }
+            });
+            setAnalysis(result);
+            setProgress("Music analysis complete.");
+            setProgressPercent(100);
+        }
+        catch (error) {
+            setProgress(error instanceof Error ? error.message : "Could not analyze the song.");
+            setProgressPercent(0);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Music AI", subtitle: analysis?.source ?? "Audio-signal analysis", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)("input", { type: "file", accept: "audio/*", onChange: (event) => void onFileChange(event.target.files?.[0] ?? null) }), analysis && (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${analysis.bpm} BPM`, tone: "success" })] }), loading && ((0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md }, children: (0, jsx_runtime_1.jsx)(primitives_1.ProgressBar, { value: progressPercent, label: `${progressPercent}%` }) })), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md, color: theme_1.colors.inkMuted }, children: loading ? "Analyzing..." : progress })] }), analysis && ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: analysis.fileName, subtitle: `${analysis.genre} • ${analysis.mood}`, children: (0, jsx_runtime_1.jsxs)("svg", { viewBox: "0 0 100 40", style: { width: "100%", height: 120, background: theme_1.colors.white, borderRadius: 10 }, children: [(0, jsx_runtime_1.jsx)("polyline", { fill: "none", stroke: theme_1.colors.maroon, strokeWidth: "1.4", points: chartPoints }), analysis.beatPositions.map((beat, index) => ((0, jsx_runtime_1.jsx)("line", { x1: (beat / Math.max(analysis.sections[analysis.sections.length - 1]?.end || 1, 1)) * 100, x2: (beat / Math.max(analysis.sections[analysis.sections.length - 1]?.end || 1, 1)) * 100, y1: "0", y2: "40", stroke: theme_1.colors.gold, strokeWidth: "0.5" }, `${beat}-${index}`)))] }) }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Sections", children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: analysis.sections.map((section) => ((0, jsx_runtime_1.jsxs)("div", { style: { padding: theme_1.spacing.sm, borderRadius: 10, border: `1px solid ${theme_1.colors.border}` }, children: [section.label, ": ", section.start.toFixed(1), "s - ", section.end.toFixed(1), "s"] }, section.id))) }) })] }))] }));
+}
+
+
+/***/ },
+
+/***/ 4262
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.listCachedMusicAnalyses = listCachedMusicAnalyses;
+exports.analyzeAndCacheMusicFile = analyzeAndCacheMusicFile;
+const brain_1 = __webpack_require__(7021);
+const perceptionAnalyzers_1 = __webpack_require__(990);
+const memory = new brain_1.MemoryEngine();
+const MUSIC_CACHE_PREFIX = "music-ai:file:";
+function listCachedMusicAnalyses() {
+    return Object.entries(memory.load().analysis)
+        .filter(([key, value]) => key.startsWith(MUSIC_CACHE_PREFIX) && isMusicAnalysis(value))
+        .map(([, value]) => value)
+        .sort((left, right) => left.fileName.localeCompare(right.fileName));
+}
+async function analyzeAndCacheMusicFile(file, onProgress) {
+    const hash = await hashFile(file);
+    const cached = memory.getAnalysis(`${MUSIC_CACHE_PREFIX}${hash}`, "result");
+    if (cached) {
+        onProgress({ label: "Loaded cached song analysis.", percent: 100 });
+        return cached;
+    }
+    onProgress({ label: "Reading audio file...", percent: 10 });
+    const context = new AudioContext();
+    try {
+        const buffer = await file.arrayBuffer();
+        const audioBuffer = await context.decodeAudioData(buffer.slice(0));
+        const result = await (0, perceptionAnalyzers_1.analyzeMusicFile)(file, audioBuffer, (next) => {
+            if (typeof next === "string") {
+                onProgress({ label: next });
+                return;
+            }
+            onProgress({ label: next.label, percent: next.percent });
+        });
+        memory.setAnalysis(`${MUSIC_CACHE_PREFIX}${result.fileHash}`, "result", result);
+        return result;
+    }
+    finally {
+        await context.close?.();
+    }
+}
+function isMusicAnalysis(value) {
+    return Boolean(value &&
+        typeof value === "object" &&
+        typeof value.fileHash === "string" &&
+        typeof value.fileName === "string" &&
+        Array.isArray(value.energyCurve));
+}
+async function hashFile(file) {
+    const buffer = await file.arrayBuffer();
+    const digest = await crypto.subtle.digest("SHA-256", buffer);
+    return Array.from(new Uint8Array(digest))
+        .slice(0, 12)
+        .map((value) => value.toString(16).padStart(2, "0"))
+        .join("");
+}
+
+
+/***/ },
+
+/***/ 990
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.analyzeWeddingSegments = analyzeWeddingSegments;
+exports.analyzeFaceClusters = analyzeFaceClusters;
+exports.analyzeEmotions = analyzeEmotions;
+exports.analyzeCamera = analyzeCamera;
+exports.analyzeClipIntelligence = analyzeClipIntelligence;
+exports.analyzeTimelineHealth = analyzeTimelineHealth;
+exports.analyzeMusicFile = analyzeMusicFile;
+const GeminiService_1 = __webpack_require__(5449);
+const schemas_1 = __webpack_require__(8156);
+const FrameExtractor_1 = __webpack_require__(8442);
+const perceptionUtils_1 = __webpack_require__(6680);
+async function analyzeWeddingSegments(context, onProgress) {
+    const clips = context.selectedClips;
+    if (clips.length === 0) {
+        return {
+            segments: [],
+            source: (0, perceptionUtils_1.signalSourceLabel)("metadata")
+        };
+    }
+    const results = await (0, perceptionUtils_1.runBatchedGemini)({
+        clips,
+        batchSize: 12,
+        onProgress: ({ completed, total, label }) => onProgress({ completed, total, label: `${label} for Wedding AI` }),
+        buildPrompt: (batch) => [
+            "Classify Indian wedding event segments from timeline metadata only.",
+            "Return JSON array with: id, label, confidence, start, end, source.",
+            "Allowed labels: Haldi, Mehndi, Sangeet, Baraat, Bride Entry, Groom Entry, Varmala, Pheras, Sindoor, Mangalsutra, Vidaai, Reception, Engagement, Ring Ceremony, Unknown.",
+            (0, perceptionUtils_1.buildClipPrompt)(batch)
+        ].join("\n\n"),
+        responseSchema: schemas_1.weddingSegmentsSchema,
+        parse: (text) => (0, perceptionUtils_1.normalizeJson)(text, []).map((item) => normalizeWeddingSegment(item))
+    });
+    return {
+        segments: results.sort((left, right) => left.start - right.start),
+        source: (0, perceptionUtils_1.signalSourceLabel)("metadata")
+    };
+}
+function normalizeWeddingSegment(item) {
+    return {
+        ...item,
+        start: normalizeTimingValue(item.start, `${item.id}:start`),
+        end: normalizeTimingValue(item.end, `${item.id}:end`),
+        source: (0, perceptionUtils_1.signalSourceLabel)("metadata")
+    };
+}
+function normalizeTimingValue(value, label) {
+    if (typeof value === "number" && Number.isFinite(value)) {
+        return value;
+    }
+    if (typeof value === "string") {
+        const parsed = parseTimingString(value);
+        if (parsed !== null) {
+            logTimingNormalization(value, label, parsed);
+            return parsed;
+        }
+    }
+    if (value && typeof value === "object") {
+        const seconds = parsePrimitiveNumber(value.seconds);
+        if (seconds !== null) {
+            logTimingNormalization(value, label, seconds);
+            return seconds;
+        }
+        const ticksNumber = parsePrimitiveNumber(value.ticksNumber);
+        if (ticksNumber !== null) {
+            const normalized = ticksNumber / 254016000000;
+            logTimingNormalization(value, label, normalized);
+            return normalized;
+        }
+        const ticks = parsePrimitiveNumber(value.ticks);
+        if (ticks !== null) {
+            const normalized = ticks / 254016000000;
+            logTimingNormalization(value, label, normalized);
+            return normalized;
+        }
+    }
+    console.warn("[RK Flow] WeddingSegment received invalid timing value.", {
+        field: label,
+        type: typeof value,
+        value
+    });
+    return 0;
+}
+function parseTimingString(value) {
+    const trimmed = value.trim();
+    if (!trimmed) {
+        return null;
+    }
+    const direct = Number(trimmed);
+    if (Number.isFinite(direct)) {
+        return direct;
+    }
+    if (trimmed.endsWith("s")) {
+        const secondsValue = Number.parseFloat(trimmed.slice(0, -1).trim());
+        if (Number.isFinite(secondsValue)) {
+            return secondsValue;
+        }
+    }
+    const parts = trimmed.split(":").map((part) => Number(part));
+    if (parts.some((part) => Number.isNaN(part))) {
+        return null;
+    }
+    if (parts.length === 3) {
+        return parts[0] * 3600 + parts[1] * 60 + parts[2];
+    }
+    if (parts.length === 2) {
+        return parts[0] * 60 + parts[1];
+    }
+    return null;
+}
+function parsePrimitiveNumber(value) {
+    if (typeof value === "number" && Number.isFinite(value)) {
+        return value;
+    }
+    if (typeof value === "string") {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed : null;
+    }
+    return null;
+}
+function logTimingNormalization(value, label, normalized) {
+    console.warn("[RK Flow] Normalized WeddingSegment timing.", {
+        field: label,
+        type: typeof value,
+        value,
+        normalizedSeconds: normalized
+    });
+}
+async function analyzeFaceClusters(context, onProgress) {
+    const clips = context.selectedClips;
+    const visualSummaries = await analyzeVisualPersonBatch(context, clips, onProgress);
+    const fallbackClusters = await (0, perceptionUtils_1.runBatchedGemini)({
+        clips: visualSummaries.metadataOnly,
+        batchSize: 10,
+        onProgress: ({ completed, total, label }) => onProgress({ completed, total, label: `${label} for Face AI metadata fallback` }),
+        buildPrompt: (batch) => [
+            "Infer people clusters from clip metadata only. Return JSON array with: id, label, role, confidence, clipIds, emotionTags, source.",
+            "Roles: bride, groom, family, guest, unknown.",
+            (0, perceptionUtils_1.buildClipPrompt)(batch)
+        ].join("\n\n"),
+        responseSchema: schemas_1.faceClustersSchema,
+        parse: (text) => (0, perceptionUtils_1.normalizeJson)(text, []).map((item) => ({
+            ...item,
+            source: (0, perceptionUtils_1.signalSourceLabel)("metadata")
+        }))
+    });
+    const clusters = [
+        ...aggregateClusters(visualSummaries.visual),
+        ...fallbackClusters
+    ];
+    return {
+        clusters,
+        source: visualSummaries.visual.length > 0
+            ? "visual frame samples + metadata fallback"
+            : (0, perceptionUtils_1.signalSourceLabel)("metadata")
+    };
+}
+async function analyzeEmotions(context, onProgress) {
+    const visual = await analyzeVisualEmotionBatch(context, context.selectedClips, onProgress);
+    const fallback = await (0, perceptionUtils_1.runBatchedGemini)({
+        clips: visual.metadataOnly,
+        batchSize: 12,
+        onProgress: ({ completed, total, label }) => onProgress({ completed, total, label: `${label} for Emotion AI metadata fallback` }),
+        buildPrompt: (batch) => [
+            "Classify clip emotions from timeline metadata only. Multiple tags allowed.",
+            "Return JSON array with: clipId, clipName, emotions, confidence, source.",
+            "Emotion tags: smile, cry, laugh, hug, dance, reaction.",
+            (0, perceptionUtils_1.buildClipPrompt)(batch)
+        ].join("\n\n"),
+        responseSchema: schemas_1.emotionClipsSchema,
+        parse: (text) => (0, perceptionUtils_1.normalizeJson)(text, []).map((item) => ({
+            ...item,
+            source: (0, perceptionUtils_1.signalSourceLabel)("metadata")
+        }))
+    });
+    const results = [...visual.visual, ...fallback];
+    return {
+        clips: results,
+        source: visual.visual.length > 0
+            ? "visual frame samples + metadata fallback"
+            : (0, perceptionUtils_1.signalSourceLabel)("metadata")
+    };
+}
+async function analyzeCamera(context, onProgress) {
+    const visual = await analyzeVisualCameraBatch(context, context.selectedClips, onProgress);
+    const fallback = await (0, perceptionUtils_1.runBatchedGemini)({
+        clips: visual.metadataOnly,
+        batchSize: 12,
+        onProgress: ({ completed, total, label }) => onProgress({ completed, total, label: `${label} for Camera AI metadata fallback` }),
+        buildPrompt: (batch) => [
+            "Infer shot type and movement from clip metadata only.",
+            "Return JSON array with: clipId, clipName, shotType, movement, confidence, source.",
+            "Shot types: drone, gimbal, handheld, tripod, wide, close, detail.",
+            "Movement: static, pan, tilt, push, pull, unknown.",
+            (0, perceptionUtils_1.buildClipPrompt)(batch)
+        ].join("\n\n"),
+        responseSchema: schemas_1.cameraClipsSchema,
+        parse: (text) => (0, perceptionUtils_1.normalizeJson)(text, []).map((item) => ({
+            ...item,
+            source: (0, perceptionUtils_1.signalSourceLabel)("metadata")
+        }))
+    });
+    const results = [...visual.visual, ...fallback];
+    return {
+        clips: results,
+        source: visual.visual.length > 0
+            ? "visual frame samples + metadata fallback"
+            : (0, perceptionUtils_1.signalSourceLabel)("metadata")
+    };
+}
+async function analyzeClipIntelligence(context, onProgress) {
+    onProgress({
+        label: "Extracting sample frames for clip intelligence...",
+        completed: 0,
+        total: Math.max(context.selectedClips.length, 1)
+    });
+    const scores = await analyzeClipTechnicalScores(context, onProgress);
+    return {
+        clips: scores.sort((left, right) => right.aiRating - left.aiRating),
+        formula: "AI Rating = blur 22% + focus 22% + noise 16% + exposure 20% + white balance 20%",
+        source: "metadata-derived fallback (frame extraction unavailable in current Premiere bridge)"
+    };
+}
+async function analyzeTimelineHealth(context, clipScores, onProgress) {
+    onProgress({ label: "Computing timeline health...", completed: 0, total: 1, percent: 0 });
+    const sorted = [...context.selectedClips].sort((left, right) => left.start - right.start);
+    let gapSeconds = 0;
+    const gaps = [];
+    for (let index = 1; index < sorted.length; index += 1) {
+        const previous = sorted[index - 1];
+        const current = sorted[index];
+        const gap = current.start - previous.end;
+        if (gap > 0.1) {
+            gapSeconds += gap;
+            gaps.push({ start: previous.end, end: current.start });
+        }
+    }
+    const duplicates = clipScores?.filter((clip) => clip.duplicateGroup !== null).length ?? 0;
+    const averageDuration = sorted.reduce((sum, clip) => sum + clip.duration, 0) / Math.max(sorted.length, 1);
+    const variance = sorted.reduce((sum, clip) => sum + Math.abs(clip.duration - averageDuration), 0) /
+        Math.max(sorted.length, 1);
+    const score = Math.max(0, Math.round(100 - gaps.length * 8 - gapSeconds * 4 - duplicates * 5 - variance * 3));
+    const issues = [];
+    if (gaps.length > 0) {
+        issues.push({
+            id: "gaps",
+            title: "Timeline gaps detected",
+            detail: `${gaps.length} gaps totaling ${gapSeconds.toFixed(1)}s`,
+            metric: `${gaps.length} gaps`,
+            payload: gaps,
+        });
+    }
+    if (duplicates > 0) {
+        issues.push({
+            id: "duplicates",
+            title: "Duplicate clip names found",
+            detail: `${duplicates} clips share duplicate names or repeated placements.`,
+            metric: `${duplicates} duplicate clips`
+        });
+    }
+    issues.push({
+        id: "variance",
+        title: "Clip length variance",
+        detail: `Average clip variance is ${variance.toFixed(2)} seconds.`,
+        metric: `${variance.toFixed(2)}s variance`
+    });
+    return {
+        score,
+        formula: "100 - (gap count × 8) - (gap seconds × 4) - (duplicate clips × 5) - (avg clip variance × 3)",
+        issues,
+        source: "timeline timings + cached clip intelligence"
+    };
+}
+async function analyzeMusicFile(file, audioBuffer, onProgress) {
+    onProgress({ label: "Decoding waveform...", completed: 1, total: 4, percent: 25 });
+    const channel = audioBuffer.getChannelData(0);
+    const samplesPerChunk = Math.max(1, Math.floor(channel.length / 64));
+    const energyCurve = [];
+    for (let offset = 0; offset < channel.length; offset += samplesPerChunk) {
+        let sum = 0;
+        for (let index = offset; index < Math.min(offset + samplesPerChunk, channel.length); index += 1) {
+            sum += Math.abs(channel[index]);
+        }
+        energyCurve.push(sum / samplesPerChunk);
+    }
+    const beatPositions = estimateBeats(energyCurve, audioBuffer.duration);
+    const bpm = estimateBpm(beatPositions);
+    onProgress({ label: "Extracted waveform energy.", completed: 2, total: 4, percent: 50 });
+    onProgress({ label: "Classifying mood and genre...", completed: 3, total: 4, percent: 75 });
+    const moodGenreText = await (0, GeminiService_1.runGemini)([
+        "Classify mood and genre from music metadata only.",
+        `File name: ${file.name}`,
+        `BPM: ${bpm}`,
+        `Duration: ${audioBuffer.duration.toFixed(2)} seconds`,
+        "Return JSON with mood and genre."
+    ].join("\n"), { json: true });
+    const moodGenre = (0, perceptionUtils_1.normalizeJson)(moodGenreText, {});
+    const sections = deriveSections(audioBuffer.duration);
+    return {
+        fileHash: await hashFile(file),
+        fileName: file.name,
+        bpm,
+        beatPositions,
+        energyCurve,
+        sections,
+        mood: moodGenre.mood ?? "Unknown",
+        genre: moodGenre.genre ?? "Unknown",
+        source: `${(0, perceptionUtils_1.signalSourceLabel)("audio")} + Gemini metadata labels`
+    };
+}
+function boundedScore(value) {
+    return Math.max(0, Math.min(100, Math.round(value)));
+}
+function estimateBeats(energyCurve, duration) {
+    const threshold = energyCurve.reduce((sum, value) => sum + value, 0) / Math.max(energyCurve.length, 1);
+    return energyCurve
+        .map((value, index) => value > threshold * 1.15 ? (index / Math.max(energyCurve.length - 1, 1)) * duration : null)
+        .filter((value) => value !== null);
+}
+function estimateBpm(beatPositions) {
+    if (beatPositions.length < 2) {
+        return 0;
+    }
+    const intervals = [];
+    for (let index = 1; index < beatPositions.length; index += 1) {
+        intervals.push(beatPositions[index] - beatPositions[index - 1]);
+    }
+    const average = intervals.reduce((sum, value) => sum + value, 0) / intervals.length;
+    return average > 0 ? Math.round(60 / average) : 0;
+}
+function deriveSections(duration) {
+    const first = duration * 0.2;
+    const second = duration * 0.55;
+    return [
+        { id: "intro", label: "Intro", start: 0, end: first },
+        { id: "chorus", label: "Chorus", start: first, end: second },
+        { id: "drop", label: "Drop", start: second, end: duration }
+    ];
+}
+async function hashFile(file) {
+    const buffer = await file.arrayBuffer();
+    const digest = await crypto.subtle.digest("SHA-256", buffer);
+    return Array.from(new Uint8Array(digest))
+        .slice(0, 12)
+        .map((value) => value.toString(16).padStart(2, "0"))
+        .join("");
+}
+async function analyzeVisualPersonBatch(context, clips, onProgress) {
+    const visual = [];
+    const metadataOnly = [];
+    for (let index = 0; index < clips.length; index += 4) {
+        const batch = clips.slice(index, index + 4);
+        onProgress({
+            label: `Analyzing clip ${index + 1} of ${clips.length} with visual samples for Face AI`,
+            completed: Math.min(index + 1, clips.length),
+            total: Math.max(clips.length, 1)
+        });
+        for (const clip of batch) {
+            const frameExtractor = (0, FrameExtractor_1.getFrameExtractor)();
+            const sample = await frameExtractor.extractClipSamples(context.sequenceKey, clip);
+            const frames = sample.frames.filter((frame) => frame.ok && frame.base64 && frame.mimeType).slice(0, 3);
+            if (frames.length === 0) {
+                metadataOnly.push(clip);
+                continue;
+            }
+            const text = await (0, GeminiService_1.runGeminiVision)([
+                `Clip: ${clip.name}`,
+                "Identify the primary visible person cluster in these frames.",
+                "Return JSON with keys: label, role, confidence, emotions.",
+                "Role must be one of bride, groom, family, guest, unknown."
+            ].join("\n"), frames.map((frame) => ({ mimeType: frame.mimeType, base64: frame.base64 })), { json: true });
+            const parsed = (0, perceptionUtils_1.normalizeJson)(text, {});
+            visual.push({
+                clipId: clip.id,
+                label: parsed.label ?? clip.name,
+                role: parsed.role ?? "unknown",
+                confidence: parsed.confidence ?? 0.6,
+                emotions: parsed.emotions ?? []
+            });
+        }
+    }
+    return { visual, metadataOnly };
+}
+function aggregateClusters(visual) {
+    const groups = new Map();
+    for (const item of visual) {
+        const key = `${item.role}:${item.label.toLowerCase()}`;
+        const existing = groups.get(key);
+        if (!existing) {
+            groups.set(key, {
+                id: key,
+                label: item.label,
+                role: item.role,
+                confidence: item.confidence,
+                clipIds: [item.clipId],
+                emotionTags: [...item.emotions],
+                source: "visual"
+            });
+            continue;
+        }
+        existing.clipIds.push(item.clipId);
+        existing.confidence = Math.max(existing.confidence, item.confidence);
+        existing.emotionTags = Array.from(new Set([...existing.emotionTags, ...item.emotions]));
+    }
+    return Array.from(groups.values());
+}
+async function analyzeVisualEmotionBatch(context, clips, onProgress) {
+    const visual = [];
+    const metadataOnly = [];
+    for (let index = 0; index < clips.length; index += 4) {
+        const batch = clips.slice(index, index + 4);
+        onProgress({
+            label: `Analyzing clip ${index + 1} of ${clips.length} with visual samples for Emotion AI`,
+            completed: Math.min(index + 1, clips.length),
+            total: Math.max(clips.length, 1)
+        });
+        for (const clip of batch) {
+            const frameExtractor = (0, FrameExtractor_1.getFrameExtractor)();
+            const sample = await frameExtractor.extractClipSamples(context.sequenceKey, clip);
+            const frames = sample.frames.filter((frame) => frame.ok && frame.base64 && frame.mimeType).slice(0, 3);
+            if (frames.length === 0) {
+                metadataOnly.push(clip);
+                continue;
+            }
+            const text = await (0, GeminiService_1.runGeminiVision)([
+                `Clip: ${clip.name}`,
+                "Classify the visible emotions across these frames.",
+                "Return JSON with keys: emotions, confidence."
+            ].join("\n"), frames.map((frame) => ({ mimeType: frame.mimeType, base64: frame.base64 })), { json: true });
+            const parsed = (0, perceptionUtils_1.normalizeJson)(text, {});
+            visual.push({
+                clipId: clip.id,
+                clipName: clip.name,
+                emotions: parsed.emotions ?? [],
+                confidence: parsed.confidence ?? 0.6,
+                source: "visual"
+            });
+        }
+    }
+    return { visual, metadataOnly };
+}
+async function analyzeVisualCameraBatch(context, clips, onProgress) {
+    const visual = [];
+    const metadataOnly = [];
+    for (let index = 0; index < clips.length; index += 4) {
+        const batch = clips.slice(index, index + 4);
+        onProgress({
+            label: `Analyzing clip ${index + 1} of ${clips.length} with visual samples for Camera AI`,
+            completed: Math.min(index + 1, clips.length),
+            total: Math.max(clips.length, 1)
+        });
+        for (const clip of batch) {
+            const frameExtractor = (0, FrameExtractor_1.getFrameExtractor)();
+            const sample = await frameExtractor.extractClipSamples(context.sequenceKey, clip);
+            const frames = sample.frames.filter((frame) => frame.ok && frame.base64 && frame.mimeType).slice(0, 4);
+            if (frames.length === 0) {
+                metadataOnly.push(clip);
+                continue;
+            }
+            const text = await (0, GeminiService_1.runGeminiVision)([
+                `Clip: ${clip.name}`,
+                "Infer shot type and movement from these timeline frames.",
+                "Return JSON with keys: shotType, movement, confidence."
+            ].join("\n"), frames.map((frame) => ({ mimeType: frame.mimeType, base64: frame.base64 })), { json: true });
+            const parsed = (0, perceptionUtils_1.normalizeJson)(text, {});
+            visual.push({
+                clipId: clip.id,
+                clipName: clip.name,
+                shotType: parsed.shotType ?? "unknown",
+                movement: parsed.movement ?? "unknown",
+                confidence: parsed.confidence ?? 0.6,
+                source: "visual"
+            });
+        }
+    }
+    return { visual, metadataOnly };
+}
+async function analyzeClipTechnicalScores(context, onProgress) {
+    const scores = [];
+    const hashes = new Map();
+    for (let index = 0; index < context.selectedClips.length; index += 1) {
+        const clip = context.selectedClips[index];
+        onProgress({
+            label: `Analyzing clip ${index + 1} of ${context.selectedClips.length} with extracted frames`,
+            completed: index + 1,
+            total: Math.max(context.selectedClips.length, 1)
+        });
+        const frameExtractor = (0, FrameExtractor_1.getFrameExtractor)();
+        const sample = await frameExtractor.extractClipSamples(context.sequenceKey, clip);
+        const visualFrames = sample.frames.filter((frame) => frame.ok && frame.path);
+        if (visualFrames.length === 0) {
+            scores.push(metadataFallbackScore(clip));
+            continue;
+        }
+        const stats = await Promise.all(visualFrames.slice(0, 3).map((frame) => analyzeImageFrame(frame.path)));
+        const blur = average(stats.map((item) => item.blur));
+        const focus = average(stats.map((item) => item.focus));
+        const noise = average(stats.map((item) => item.noise));
+        const exposure = average(stats.map((item) => item.exposure));
+        const whiteBalance = average(stats.map((item) => item.whiteBalance));
+        const hash = stats[0]?.averageHash ?? clip.id;
+        const duplicateGroup = hashes.get(hash) ?? null;
+        if (!hashes.has(hash)) {
+            hashes.set(hash, clip.id);
+        }
+        scores.push({
+            clipId: clip.id,
+            clipName: clip.name,
+            blur,
+            focus,
+            noise,
+            exposure,
+            whiteBalance,
+            duplicateGroup,
+            aiRating: Math.round(blur * 0.22 +
+                focus * 0.22 +
+                noise * 0.16 +
+                exposure * 0.2 +
+                whiteBalance * 0.2),
+            source: "visual"
+        });
+    }
+    return scores;
+}
+function metadataFallbackScore(clip) {
+    const blur = boundedScore(72 - clip.track * 3);
+    const focus = boundedScore(70 - clip.track * 2);
+    const noise = boundedScore(64);
+    const exposure = boundedScore(68);
+    const whiteBalance = boundedScore(66);
+    return {
+        clipId: clip.id,
+        clipName: clip.name,
+        blur,
+        focus,
+        noise,
+        exposure,
+        whiteBalance,
+        duplicateGroup: null,
+        aiRating: Math.round(blur * 0.22 +
+            focus * 0.22 +
+            noise * 0.16 +
+            exposure * 0.2 +
+            whiteBalance * 0.2),
+        source: "metadata-only"
+    };
+}
+async function analyzeImageFrame(filePath) {
+    const image = await loadImage(filePath);
+    const canvas = document.createElement("canvas");
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+        return {
+            blur: 60,
+            focus: 60,
+            noise: 60,
+            exposure: 60,
+            whiteBalance: 60,
+            averageHash: "ctx-missing"
+        };
+    }
+    ctx.drawImage(image, 0, 0);
+    const data = ctx.getImageData(0, 0, image.width, image.height).data;
+    const grayscale = [];
+    let totalLuma = 0;
+    let totalR = 0;
+    let totalG = 0;
+    let totalB = 0;
+    for (let index = 0; index < data.length; index += 4) {
+        const r = data[index];
+        const g = data[index + 1];
+        const b = data[index + 2];
+        const luma = 0.299 * r + 0.587 * g + 0.114 * b;
+        grayscale.push(luma);
+        totalLuma += luma;
+        totalR += r;
+        totalG += g;
+        totalB += b;
+    }
+    const mean = totalLuma / grayscale.length;
+    const variance = grayscale.reduce((sum, value) => sum + Math.pow(value - mean, 2), 0) / grayscale.length;
+    const laplacian = estimateLaplacian(grayscale, image.width);
+    const blur = boundedScore(Math.min(100, laplacian / 12));
+    const focus = boundedScore(Math.min(100, variance / 18));
+    const exposure = boundedScore(100 - Math.abs(mean - 128) * 0.7);
+    const avgR = totalR / grayscale.length;
+    const avgG = totalG / grayscale.length;
+    const avgB = totalB / grayscale.length;
+    const whiteBalance = boundedScore(100 - (Math.abs(avgR - avgG) + Math.abs(avgG - avgB)) * 0.4);
+    const noise = boundedScore(100 - Math.min(80, estimateNoise(grayscale) * 4));
+    return {
+        blur,
+        focus,
+        noise,
+        exposure,
+        whiteBalance,
+        averageHash: computeAverageHash(grayscale)
+    };
+}
+function loadImage(filePath) {
+    return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error(`Could not load frame ${filePath}`));
+        image.src = `file://${filePath}`;
+    });
+}
+function estimateLaplacian(values, width) {
+    let total = 0;
+    for (let index = width + 1; index < values.length - width - 1; index += 1) {
+        total += Math.abs(values[index - width] +
+            values[index - 1] -
+            4 * values[index] +
+            values[index + 1] +
+            values[index + width]);
+    }
+    return total / Math.max(values.length, 1);
+}
+function estimateNoise(values) {
+    let total = 0;
+    for (let index = 1; index < values.length; index += 1) {
+        total += Math.abs(values[index] - values[index - 1]);
+    }
+    return total / Math.max(values.length - 1, 1);
+}
+function computeAverageHash(values) {
+    const mean = average(values);
+    return values
+        .slice(0, 64)
+        .map((value) => (value >= mean ? "1" : "0"))
+        .join("");
+}
+function average(values) {
+    return values.reduce((sum, value) => sum + value, 0) / Math.max(values.length, 1);
+}
+
+
+/***/ },
+
+/***/ 6680
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.buildClipPrompt = buildClipPrompt;
+exports.runBatchedGemini = runBatchedGemini;
+exports.normalizeJson = normalizeJson;
+__webpack_unused_export__ = buildSequenceScope;
+exports.signalSourceLabel = signalSourceLabel;
+const GeminiService_1 = __webpack_require__(5449);
+function buildClipPrompt(clips) {
+    return clips
+        .map((clip, index) => [
+        `${index + 1}. ${clip.name}`,
+        `clipId=${clip.id}`,
+        `track=${clip.track}`,
+        `start=${clip.start.toFixed(2)}s`,
+        `duration=${clip.duration.toFixed(2)}s`,
+        `mediaType=${clip.mediaType || "unknown"}`
+    ].join(" | "))
+        .join("\n");
+}
+async function runBatchedGemini({ clips, batchSize, buildPrompt, parse, responseSchema, onProgress }) {
+    const results = [];
+    for (let index = 0; index < clips.length; index += batchSize) {
+        const batch = clips.slice(index, index + batchSize);
+        onProgress?.({
+            completed: Math.min(index + batch.length, clips.length),
+            total: clips.length,
+            label: `Analyzing clip ${index + 1} of ${clips.length}`
+        });
+        if (responseSchema) {
+            const structured = await (0, GeminiService_1.runGeminiStructured)(buildPrompt(batch), responseSchema);
+            results.push(...structured);
+            continue;
+        }
+        const text = await (0, GeminiService_1.runGemini)(buildPrompt(batch), { json: true });
+        results.push(...(parse ? parse(text) : []));
+    }
+    return results;
+}
+function normalizeJson(text, fallback) {
+    try {
+        return JSON.parse(text);
+    }
+    catch {
+        return fallback;
+    }
+}
+function buildSequenceScope(moduleId, context) {
+    return `${moduleId}:${context.sequenceKey}`;
+}
+function signalSourceLabel(mode) {
+    if (mode === "audio") {
+        return "audio-signal analysis";
+    }
+    return "timeline metadata only (clip names, durations, track positions)";
+}
+
+
+/***/ },
+
+/***/ 8936
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.useSequenceAnalysis = useSequenceAnalysis;
+const react_1 = __webpack_require__(6540);
+const brain_1 = __webpack_require__(7021);
+const AICopilot_1 = __webpack_require__(318);
+const contextEngine = new brain_1.ContextEngine();
+const copilot = new AICopilot_1.AICopilot();
+function useSequenceAnalysis({ moduleId, analyze }) {
+    const [context, setContext] = (0, react_1.useState)(null);
+    const [result, setResult] = (0, react_1.useState)(null);
+    const [loading, setLoading] = (0, react_1.useState)(true);
+    const [progress, setProgress] = (0, react_1.useState)({
+        label: "Reading timeline...",
+        completed: 0,
+        total: 1,
+        percent: 0
+    });
+    const [error, setError] = (0, react_1.useState)("");
+    const cacheKey = (0, react_1.useMemo)(() => (context ? `${moduleId}:${context.sequenceKey}` : null), [context, moduleId]);
+    async function load(force = false) {
+        setLoading(true);
+        setError("");
+        setProgress({
+            label: "Reading timeline...",
+            completed: 0,
+            total: 1,
+            percent: 0
+        });
+        try {
+            const nextContext = await contextEngine.readSequenceContext();
+            setContext(nextContext);
+            if (!nextContext) {
+                setResult(null);
+                setLoading(false);
+                return;
+            }
+            const nextCacheKey = `${moduleId}:${nextContext.sequenceKey}`;
+            const resolved = await copilot.resolve({
+                intent: `${moduleId}:analysis`,
+                context: nextContext,
+                memoryScopeKey: nextCacheKey,
+                memoryCacheKey: "result",
+                skipMemory: force,
+                geminiResolver: async () => analyze(nextContext, (nextProgress) => {
+                    setProgress(normalizeProgressInput(nextProgress));
+                })
+            });
+            setResult(resolved.value);
+            setProgress({
+                label: resolved.path === "memory" ? "Loaded cached analysis from MemoryEngine." : "Analysis complete.",
+                completed: 1,
+                total: 1,
+                percent: 100
+            });
+        }
+        catch (cause) {
+            setError(cause instanceof Error ? cause.message : "Analysis failed.");
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+    (0, react_1.useEffect)(() => {
+        void load(false);
+    }, [moduleId]);
+    function clearCache() {
+        if (!cacheKey) {
+            return;
+        }
+        const { MemoryEngine } = __webpack_require__(7021);
+        new MemoryEngine().clearAnalysis(cacheKey, "result");
+    }
+    return {
+        context,
+        result,
+        loading,
+        progress,
+        error,
+        reanalyze: async () => {
+            clearCache();
+            await load(true);
+        }
+    };
+}
+function normalizeProgressInput(input) {
+    if (typeof input === "string") {
+        return {
+            label: input,
+            completed: 0,
+            total: 1,
+            percent: 0
+        };
+    }
+    const total = Math.max(1, input.total ?? 1);
+    const completed = Math.max(0, Math.min(input.completed ?? 0, total));
+    const percent = input.percent !== undefined
+        ? Math.max(0, Math.min(100, input.percent))
+        : Math.round((completed / total) * 100);
+    return {
+        label: input.label,
+        completed,
+        total,
+        percent
+    };
+}
+
+
+/***/ },
+
+/***/ 2232
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = PromptReelScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const AutoEditAssembler_1 = __webpack_require__(5336);
+const promptReelService_1 = __webpack_require__(2541);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const musicAnalysisCache_1 = __webpack_require__(4262);
+const assembler = new AutoEditAssembler_1.AutoEditAssembler();
+function PromptReelScreen() {
+    const [prompt, setPrompt] = (0, react_1.useState)("bhai mast reel bana, bride entry aur varmala pe focus karo, 60 second ka");
+    const [useSelectedClips, setUseSelectedClips] = (0, react_1.useState)(true);
+    const [plan, setPlan] = (0, react_1.useState)(null);
+    const [loading, setLoading] = (0, react_1.useState)(false);
+    const [analyzing, setAnalyzing] = (0, react_1.useState)(false);
+    const [assembling, setAssembling] = (0, react_1.useState)(false);
+    const [progressPercent, setProgressPercent] = (0, react_1.useState)(0);
+    const [progressLabel, setProgressLabel] = (0, react_1.useState)("Enter a creative prompt and generate a reel plan.");
+    const [error, setError] = (0, react_1.useState)("");
+    const [analysisStatus, setAnalysisStatus] = (0, react_1.useState)(null);
+    const [musicOptions, setMusicOptions] = (0, react_1.useState)(() => (0, promptReelService_1.getPromptReelMusicOptions)());
+    const [selectedMusicHash, setSelectedMusicHash] = (0, react_1.useState)(() => (0, promptReelService_1.getPromptReelMusicOptions)()[0]?.fileHash ?? "");
+    const [songLoading, setSongLoading] = (0, react_1.useState)(false);
+    const activeSelectionMode = plan?.selectionMode ?? analysisStatus?.selectionMode;
+    const hasPrompt = prompt.trim().length > 0;
+    const selectedMusic = musicOptions.find((entry) => entry.fileHash === selectedMusicHash) ?? null;
+    const activeModeLabel = (0, react_1.useMemo)(() => {
+        if (activeSelectionMode === "selected") {
+            return "Using selected clips";
+        }
+        if (activeSelectionMode === "sequence-fallback") {
+            return "No selection found. Fell back to all clips in sequence";
+        }
+        if (activeSelectionMode === "sequence") {
+            return "Using all clips in sequence";
+        }
+        return useSelectedClips ? "Selected clips preferred" : "All clips in sequence";
+    }, [activeSelectionMode, useSelectedClips]);
+    async function handleGenerate(skipMemory = false, allowGeneric = false) {
+        if (!prompt.trim()) {
+            setError("Enter a creative prompt before generating.");
+            return;
+        }
+        setLoading(true);
+        setError("");
+        setPlan(null);
+        setProgressPercent(20);
+        setProgressLabel("Reading Premiere context and cached analysis...");
+        try {
+            const nextAnalysisStatus = await (0, promptReelService_1.inspectPromptReelAnalysis)({ useSelectedClips, musicFileHash: selectedMusicHash || undefined });
+            setAnalysisStatus(nextAnalysisStatus);
+            if (nextAnalysisStatus.needsAnalysis && !allowGeneric) {
+                setProgressPercent(0);
+                setProgressLabel("Analysis is missing for most active clips. Analyze now or continue with a generic plan.");
+                return;
+            }
+            setProgressPercent(35);
+            setProgressLabel("Building a reel plan from Premiere context and cached analysis...");
+            const result = await (0, promptReelService_1.generatePromptReelPlan)({
+                prompt: prompt.trim(),
+                useSelectedClips,
+                skipMemory,
+                musicFileHash: selectedMusicHash || undefined
+            });
+            setPlan(result.plan);
+            setProgressLabel(`Plan ready via ${result.plan.resolutionPath}. Assembling a new sequence automatically...`);
+            setLoading(false);
+            await handleAssembly(result.plan);
+        }
+        catch (cause) {
+            setError(cause instanceof Error ? cause.message : "Could not generate a prompt reel.");
+            setPlan(null);
+            setProgressPercent(0);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+    async function handleAnalyzeNow() {
+        setAnalyzing(true);
+        setError("");
+        setPlan(null);
+        setProgressPercent(0);
+        setProgressLabel("Starting Wedding AI, Emotion AI, and Clip Intelligence for the active clips...");
+        try {
+            const nextAnalysisStatus = await (0, promptReelService_1.analyzePromptReelSelection)({
+                useSelectedClips,
+                onProgress: (next) => {
+                    setProgressPercent(next.percent);
+                    setProgressLabel(next.label);
+                }
+            });
+            setAnalysisStatus(await (0, promptReelService_1.inspectPromptReelAnalysis)({ useSelectedClips, musicFileHash: selectedMusicHash || undefined }));
+            setProgressPercent(100);
+            setProgressLabel(nextAnalysisStatus.needsAnalysis
+                ? "Core analysis finished, but some active clips are still missing signals. You can generate anyway."
+                : "Core analysis complete. Generate Reel to build an informed preview.");
+        }
+        catch (cause) {
+            setError(cause instanceof Error ? cause.message : "Could not analyze the active clips.");
+            setProgressPercent(0);
+        }
+        finally {
+            setAnalyzing(false);
+        }
+    }
+    async function handleSongFile(file) {
+        if (!file) {
+            return;
+        }
+        setSongLoading(true);
+        setError("");
+        setPlan(null);
+        setProgressPercent(10);
+        setProgressLabel("Analyzing selected song for beat and energy data...");
+        try {
+            const result = await (0, musicAnalysisCache_1.analyzeAndCacheMusicFile)(file, (next) => {
+                setProgressLabel(next.label);
+                if (next.percent !== undefined) {
+                    setProgressPercent(next.percent);
+                }
+            });
+            const options = (0, promptReelService_1.getPromptReelMusicOptions)();
+            setMusicOptions(options);
+            setSelectedMusicHash(result.fileHash);
+            setAnalysisStatus(null);
+            setProgressPercent(100);
+            setProgressLabel(`Song analysis ready: ${result.fileName}. It will weight the next reel plan.`);
+        }
+        catch (cause) {
+            setError(cause instanceof Error ? cause.message : "Could not analyze the selected song.");
+            setProgressPercent(0);
+        }
+        finally {
+            setSongLoading(false);
+        }
+    }
+    async function handleAssembly(planToAssemble) {
+        setAssembling(true);
+        setError("");
+        setProgressPercent(0);
+        setProgressLabel("Submitting reel plan through the live Premiere executor...");
+        try {
+            const message = await assembler.assembleReelPlan(planToAssemble, { learnedFrom: "Prompt Reel" }, (next) => {
+                setProgressPercent(next.percent);
+                setProgressLabel(`${next.label} (${next.completed}/${next.total})`);
+            });
+            setProgressPercent(100);
+            setProgressLabel(message);
+        }
+        catch (cause) {
+            setError(cause instanceof Error ? cause.message : "Could not assemble the reel.");
+        }
+        finally {
+            setAssembling(false);
+        }
+    }
+    function removeClip(clipId) {
+        setPlan((current) => {
+            if (!current) {
+                return current;
+            }
+            const clips = current.clips.filter((clip) => clip.clipId !== clipId);
+            return {
+                ...current,
+                clips,
+                totalDurationSeconds: clips.reduce((sum, clip) => sum + clip.durationSeconds, 0)
+            };
+        });
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Prompt Reel", subtitle: "Free-text reel planning from Premiere selection, with cached AI analysis and automatic new-sequence assembly.", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: loading ? "Planning" : assembling ? "Assembling" : "Ready", tone: loading || assembling ? "warning" : "success" }), analyzing && (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "Analyzing clips", tone: "warning" }), songLoading && (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "Analyzing song", tone: "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: activeModeLabel, tone: activeSelectionMode === "sequence-fallback" ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: selectedMusic ? `Song: ${selectedMusic.fileName}` : "No song energy", tone: selectedMusic ? "success" : "neutral" }), plan && (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Plan via ${plan.resolutionPath}`, tone: plan.resolutionPath === "gemini" ? "warning" : "success" })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)("label", { htmlFor: "prompt-reel-song", style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: "Song energy" }), (0, jsx_runtime_1.jsxs)("select", { id: "prompt-reel-song", value: selectedMusicHash, onChange: (event) => {
+                                    setSelectedMusicHash(event.target.value);
+                                    setPlan(null);
+                                    setAnalysisStatus(null);
+                                }, disabled: songLoading || loading || analyzing || assembling, children: [(0, jsx_runtime_1.jsx)("option", { value: "", children: "No song selected" }), musicOptions.map((entry) => ((0, jsx_runtime_1.jsxs)("option", { value: entry.fileHash, children: [entry.fileName, " (", entry.bpm, " BPM)"] }, entry.fileHash)))] }), (0, jsx_runtime_1.jsxs)("label", { style: { color: theme_1.colors.inkMuted, fontSize: 13 }, children: ["Analyze a song", (0, jsx_runtime_1.jsx)("input", { type: "file", accept: "audio/*", onChange: (event) => void handleSongFile(event.target.files?.[0] ?? null), disabled: songLoading || loading || analyzing || assembling, style: { marginLeft: theme_1.spacing.xs } })] })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm, marginTop: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsx)("label", { htmlFor: "prompt-reel-input", style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: "Creative prompt" }), (0, jsx_runtime_1.jsx)(primitives_1.Textarea, { id: "prompt-reel-input", rows: 5, value: prompt, onChange: (event) => setPrompt(event.target.value), "aria-describedby": "prompt-reel-help", "aria-invalid": !hasPrompt, placeholder: "Example: bhai mast reel bana, bride entry aur varmala pe focus karo, 60 second ka" }), (0, jsx_runtime_1.jsx)("div", { id: "prompt-reel-help", style: { color: hasPrompt ? theme_1.colors.inkMuted : theme_1.colors.danger, fontSize: 13 }, children: hasPrompt
+                                    ? "Describe the moments, mood, and target duration you want."
+                                    : "Enter a creative prompt to enable reel generation." })] }), (0, jsx_runtime_1.jsxs)("label", { style: {
+                            marginTop: theme_1.spacing.md,
+                            display: "inline-flex",
+                            gap: theme_1.spacing.sm,
+                            alignItems: "center",
+                            color: theme_1.colors.ink
+                        }, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: useSelectedClips, onChange: (event) => {
+                                    setUseSelectedClips(event.target.checked);
+                                    setAnalysisStatus(null);
+                                    setPlan(null);
+                                } }), "Use selected clips first"] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void handleGenerate(false), disabled: !hasPrompt || loading || analyzing || assembling, children: loading ? "Planning..." : "Generate Reel" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void handleGenerate(true), disabled: !hasPrompt || loading || analyzing, children: "Regenerate" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => setPlan(null), disabled: loading || analyzing || !plan, children: "Clear Preview" })] }), analysisStatus?.needsAnalysis && ((0, jsx_runtime_1.jsxs)("div", { role: "alert", style: {
+                            marginTop: theme_1.spacing.md,
+                            border: `1px solid ${theme_1.colors.warning}`,
+                            borderRadius: 12,
+                            background: theme_1.colors.panelMuted,
+                            padding: theme_1.spacing.md,
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: theme_1.spacing.sm,
+                            color: theme_1.colors.ink
+                        }, children: [(0, jsx_runtime_1.jsx)("strong", { style: { color: theme_1.colors.maroonDeep }, children: analysisStatus.message }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted, fontSize: 13 }, children: ["Coverage: ", analysisStatus.analyzedClipCount, "/", analysisStatus.clipCount, " active video clips. Wedding AI ", analysisStatus.weddingClipCount, "/", analysisStatus.clipCount, ", Emotion AI ", analysisStatus.emotionClipCount, "/", analysisStatus.clipCount, ", Clip Intelligence ", analysisStatus.clipIntelligenceClipCount, "/", analysisStatus.clipCount, ". Music AI: ", formatMusicStatus(analysisStatus.musicStatus), "."] }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, fontSize: 13 }, children: "Analyze now runs Wedding AI, Emotion AI, and Clip Intelligence for this clip set. Music AI needs a selected audio file in its own screen before it can contribute an energy curve." }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void handleAnalyzeNow(), disabled: loading || analyzing || assembling, children: analyzing ? "Analyzing..." : "Analyze now" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void handleGenerate(false, true), disabled: !hasPrompt || loading || analyzing || assembling, children: "Generate anyway" })] })] })), (loading || analyzing || assembling || progressPercent > 0) && ((0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md }, children: (0, jsx_runtime_1.jsx)(primitives_1.ProgressBar, { value: progressPercent, label: progressLabel }) })), error && ((0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md, color: theme_1.colors.danger }, children: error }))] }), plan && ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: plan.title, subtitle: plan.intentSummary, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${plan.clips.length} clips`, tone: "success" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${plan.totalDurationSeconds.toFixed(1)}s total` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${plan.targetDurationSeconds.toFixed(0)}s target`, tone: "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: plan.templateName })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.xs, marginTop: theme_1.spacing.md, color: theme_1.colors.inkMuted }, children: [plan.notes.map((note, index) => ((0, jsx_runtime_1.jsx)("div", { children: note }, `${index}-${note.slice(0, 18)}`))), plan.durationQualityWarning && ((0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.warning }, children: [plan.durationQualityWarning, " A warning was added to Developer Center logs."] }))] })] }), (0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Preview Clip Order", subtitle: "The plan remains visible while it assembles into a new Premiere sequence.", children: [(0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: plan.clips.map((clip, index) => ((0, jsx_runtime_1.jsxs)("div", { style: {
+                                        border: `1px solid ${theme_1.colors.border}`,
+                                        borderRadius: 12,
+                                        background: theme_1.colors.white,
+                                        padding: theme_1.spacing.md,
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: theme_1.spacing.sm
+                                    }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: [index + 1, ". ", clip.clipName] }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted, fontSize: 13 }, children: [clip.start.toFixed(1), "s - ", clip.end.toFixed(1), "s source \u2022 ", clip.durationSeconds.toFixed(1), "s in reel"] })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.xs, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: clip.shotType }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Score ${clip.selectionScore.toFixed(2)}`, tone: "success" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "ghost", onClick: () => removeClip(clip.clipId), disabled: assembling, children: "Remove" })] })] }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.ink }, children: clip.reason }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.xs, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Emotion ${clip.emotionWeight.toFixed(2)}` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Music ${clip.musicEnergyWeight.toFixed(2)}` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Shot ${clip.shotWeight.toFixed(2)}` })] })] }, clip.clipId))) }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)("div", { style: { alignSelf: "center", color: assembling ? theme_1.colors.maroonDeep : theme_1.colors.inkMuted }, children: assembling ? "Assembling new sequence..." : "Plans assemble automatically into a new sequence." }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void handleGenerate(true), disabled: loading || analyzing, children: "Regenerate Plan" })] })] })] }))] }));
+}
+function formatMusicStatus(status) {
+    if (status === "available") {
+        return "a single cached song is available";
+    }
+    if (status === "ambiguous") {
+        return "multiple cached songs are not bound to this sequence";
+    }
+    return "no cached song analysis";
+}
+
+
+/***/ },
+
+/***/ 2541
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.inspectPromptReelAnalysis = inspectPromptReelAnalysis;
+exports.analyzePromptReelSelection = analyzePromptReelSelection;
+exports.generatePromptReelPlan = generatePromptReelPlan;
+exports.getPromptReelMusicOptions = getPromptReelMusicOptions;
+const GeminiService_1 = __webpack_require__(5449);
+const AICopilot_1 = __webpack_require__(318);
+const schemas_1 = __webpack_require__(8156);
+const config_1 = __webpack_require__(7028);
+const brain_1 = __webpack_require__(7021);
+const PremiereBridge_1 = __webpack_require__(1862);
+const loggerService_1 = __webpack_require__(2954);
+const templates_1 = __webpack_require__(6552);
+const musicAnalysisCache_1 = __webpack_require__(4262);
+const perceptionAnalyzers_1 = __webpack_require__(990);
+const copilot = new AICopilot_1.AICopilot();
+const memory = new brain_1.MemoryEngine();
+const contextEngine = new brain_1.ContextEngine();
+const bridge = new PremiereBridge_1.PremiereBridge();
+const DEFAULT_TARGET_SECONDS = 60;
+const STANDARD_MIN_CLIP_DURATION_SECONDS = 1.2;
+const RELAXED_MIN_CLIP_DURATION_SECONDS = 0.5;
+const FLAT_DURATION_EPSILON_SECONDS = 0.15;
+const FLAT_DURATION_RATIO = 0.8;
+async function inspectPromptReelAnalysis({ useSelectedClips, musicFileHash }) {
+    const source = await readPromptReelSource(useSelectedClips);
+    return buildAnalysisStatus(source, readCachedAnalysis(source.sequenceContext.sequenceKey, musicFileHash));
+}
+async function analyzePromptReelSelection({ useSelectedClips, onProgress }) {
+    const source = await readPromptReelSource(useSelectedClips);
+    const videoClips = getVideoClips(source.clips);
+    if (videoClips.length === 0) {
+        throw new Error("No video clips are available for Prompt Reel analysis.");
+    }
+    const analysisContext = {
+        ...source.sequenceContext,
+        selectedClips: videoClips
+    };
+    const existing = readCachedAnalysis(source.sequenceContext.sequenceKey);
+    const total = 3;
+    const scope = source.sequenceContext.sequenceKey;
+    onProgress?.({ label: "Starting Wedding AI analysis...", completed: 0, total, percent: 0 });
+    const wedding = await forcePromptReelAnalysis("wedding-ai:analysis", `wedding-ai:${scope}`, analysisContext, perceptionAnalyzers_1.analyzeWeddingSegments, createAnalysisProgressReporter("Wedding AI", 0, total, onProgress));
+    memory.setAnalysis(`wedding-ai:${scope}`, "result", mergeWeddingAnalysis(existing.wedding, wedding));
+    onProgress?.({ label: "Starting Emotion AI analysis...", completed: 1, total, percent: 34 });
+    const emotion = await forcePromptReelAnalysis("emotion-ai:analysis", `emotion-ai:${scope}`, analysisContext, perceptionAnalyzers_1.analyzeEmotions, createAnalysisProgressReporter("Emotion AI", 1, total, onProgress));
+    memory.setAnalysis(`emotion-ai:${scope}`, "result", mergeEmotionAnalysis(existing.emotion, emotion));
+    onProgress?.({ label: "Starting Clip Intelligence analysis...", completed: 2, total, percent: 67 });
+    const intelligence = await forcePromptReelAnalysis("clip-intelligence:analysis", `clip-intelligence:${scope}`, analysisContext, perceptionAnalyzers_1.analyzeClipIntelligence, createAnalysisProgressReporter("Clip Intelligence", 2, total, onProgress));
+    memory.setAnalysis(`clip-intelligence:${scope}`, "result", mergeClipIntelligenceAnalysis(existing.intelligence, intelligence));
+    const status = await inspectPromptReelAnalysis({ useSelectedClips });
+    onProgress?.({ label: "Prompt Reel analysis complete.", completed: total, total, percent: 100 });
+    loggerService_1.loggerService.log(`[Prompt Reel] Core analysis completed for ${status.analyzedClipCount}/${status.clipCount} active video clips.`, "success");
+    return status;
+}
+async function generatePromptReelPlan({ prompt, useSelectedClips, skipMemory = false, musicFileHash }) {
+    const source = await readPromptReelSource(useSelectedClips);
+    const analysis = readCachedAnalysis(source.sequenceContext.sequenceKey, musicFileHash);
+    const intent = parsePromptIntent(prompt);
+    const candidates = buildCandidates(source.clips, analysis, source.sequenceContext, intent);
+    if (candidates.length === 0) {
+        throw new Error("No video clips were available to plan a reel.");
+    }
+    const clipSignature = hashText(candidates.map((clip) => clip.id).join("|"));
+    const analysisSignature = hashText(buildAnalysisSignature(candidates));
+    const memoryScopeKey = `prompt-reel:${source.sequenceContext.sequenceKey}:${source.mode}:${hashText(prompt)}:${clipSignature}:${analysisSignature}`;
+    const hasGeminiKey = Boolean((0, config_1.resolveGeminiConfig)().apiKey);
+    const resolved = await copilot.resolve({
+        intent: "prompt-reel:generate",
+        context: {
+            prompt,
+            mode: source.mode,
+            intent,
+            candidates,
+            sequenceContext: source.sequenceContext,
+            analysisSummary: summarizeAnalysis(analysis)
+        },
+        memoryScopeKey,
+        memoryCacheKey: "result",
+        skipMemory,
+        localResolver: async (_snapshot, rawContext) => {
+            const ctx = rawContext;
+            if (!hasGeminiKey || ctx.intent.genericTemplateOnly) {
+                return buildLocalPlan(ctx.mode, ctx.intent, ctx.candidates, analysis.music);
+            }
+            return null;
+        },
+        geminiResolver: async (_snapshot, rawContext) => {
+            const ctx = rawContext;
+            return (0, GeminiService_1.runGeminiStructured)(buildGeminiPrompt(ctx.prompt, ctx.mode, ctx.intent, ctx.candidates, analysis.music), schemas_1.reelPlanSchema);
+        }
+    });
+    const plan = hydratePlan(resolved.value, candidates, resolved.path, source.mode);
+    if (resolved.path === "gemini" || resolved.path === "cache") {
+        const durationQualityWarning = findFlatGeminiDurationWarning(plan, candidates, intent);
+        if (durationQualityWarning) {
+            plan.durationQualityWarning = durationQualityWarning;
+            loggerService_1.loggerService.log(`[Prompt Reel] ${durationQualityWarning}`, "warn");
+        }
+    }
+    return {
+        sequenceContext: source.sequenceContext,
+        plan
+    };
+}
+async function readPromptReelSource(useSelectedClips) {
+    const sequenceContext = await contextEngine.readSequenceContext();
+    if (!sequenceContext) {
+        throw new Error("Open an active Premiere sequence before generating a prompt reel.");
+    }
+    const hasSelection = useSelectedClips && sequenceContext.selectedClips.length > 0;
+    const chosenClips = hasSelection ? sequenceContext.selectedClips : await readAllSequenceClips();
+    const mode = hasSelection
+        ? "selected"
+        : useSelectedClips
+            ? "sequence-fallback"
+            : "sequence";
+    if (chosenClips.length === 0) {
+        throw new Error("No timeline clips were available to plan a reel.");
+    }
+    const inOutClips = applyInOutRange(chosenClips, sequenceContext.inPoint, sequenceContext.outPoint);
+    return {
+        sequenceContext,
+        clips: inOutClips.length > 0 ? inOutClips : chosenClips,
+        mode
+    };
+}
+async function forcePromptReelAnalysis(intent, memoryScopeKey, context, analyze, onProgress) {
+    const resolved = await copilot.resolve({
+        intent,
+        context,
+        memoryScopeKey,
+        memoryCacheKey: "result",
+        skipMemory: true,
+        geminiResolver: async () => analyze(context, onProgress)
+    });
+    return resolved.value;
+}
+function createAnalysisProgressReporter(moduleLabel, moduleIndex, totalModules, onProgress) {
+    return (progress) => {
+        if (!onProgress) {
+            return;
+        }
+        const currentPercent = normalizeAnalysisPercent(progress);
+        onProgress({
+            label: `${moduleLabel}: ${typeof progress === "string" ? progress : progress.label}`,
+            completed: Math.min(totalModules, moduleIndex + Math.round(currentPercent / 100)),
+            total: totalModules,
+            percent: Math.round(((moduleIndex + currentPercent / 100) / totalModules) * 100)
+        });
+    };
+}
+function normalizeAnalysisPercent(progress) {
+    if (typeof progress === "string") {
+        return 0;
+    }
+    if (progress.percent !== undefined) {
+        return Math.max(0, Math.min(100, progress.percent));
+    }
+    const total = Math.max(1, progress.total ?? 1);
+    return Math.round((Math.max(0, progress.completed ?? 0) / total) * 100);
+}
+function mergeWeddingAnalysis(existing, fresh) {
+    return {
+        ...fresh,
+        segments: mergeAnalysisEntries(existing?.segments ?? [], fresh.segments, (segment) => `${canonicalClipId(segment.id)}:${segment.label}:${segment.start.toFixed(3)}:${segment.end.toFixed(3)}`).sort((left, right) => left.start - right.start)
+    };
+}
+function mergeEmotionAnalysis(existing, fresh) {
+    return {
+        ...fresh,
+        clips: mergeAnalysisEntries(existing?.clips ?? [], fresh.clips, (clip) => canonicalClipId(clip.clipId))
+    };
+}
+function mergeClipIntelligenceAnalysis(existing, fresh) {
+    return {
+        ...fresh,
+        clips: mergeAnalysisEntries(existing?.clips ?? [], fresh.clips, (clip) => canonicalClipId(clip.clipId)).sort((left, right) => right.aiRating - left.aiRating)
+    };
+}
+function mergeAnalysisEntries(existing, fresh, identity) {
+    const merged = new Map();
+    for (const entry of existing) {
+        merged.set(identity(entry), entry);
+    }
+    for (const entry of fresh) {
+        merged.set(identity(entry), entry);
+    }
+    return [...merged.values()];
+}
+function buildAnalysisStatus(source, analysis) {
+    const clips = getVideoClips(source.clips);
+    const weddingClipCount = clips.filter((clip) => hasWeddingAnalysis(clip, analysis)).length;
+    const emotionClipCount = clips.filter((clip) => hasEmotionAnalysis(clip, analysis)).length;
+    const clipIntelligenceClipCount = clips.filter((clip) => hasClipIntelligenceAnalysis(clip, analysis)).length;
+    const analyzedClipCount = clips.filter((clip) => hasWeddingAnalysis(clip, analysis) ||
+        hasEmotionAnalysis(clip, analysis) ||
+        hasClipIntelligenceAnalysis(clip, analysis)).length;
+    const unanalysedClipCount = clips.length - analyzedClipCount;
+    const coverageRatio = clips.length > 0 ? analyzedClipCount / clips.length : 0;
+    const needsAnalysis = clips.length > 0 && unanalysedClipCount / clips.length >= 0.8;
+    return {
+        selectionMode: source.mode,
+        clipCount: clips.length,
+        analyzedClipCount,
+        unanalysedClipCount,
+        coverageRatio,
+        weddingClipCount,
+        emotionClipCount,
+        clipIntelligenceClipCount,
+        musicStatus: analysis.music !== null ? "available" : analysis.musicCacheCount > 1 ? "ambiguous" : "missing",
+        needsAnalysis,
+        message: needsAnalysis
+            ? "No analysis found for these clips yet — results will be generic. Run Wedding AI / Emotion AI first for better clip selection."
+            : null
+    };
+}
+function getVideoClips(clips) {
+    return clips.filter((clip) => clip.mediaType !== "audio" && clip.type !== "audio");
+}
+function hasWeddingAnalysis(clip, analysis) {
+    return (analysis.wedding?.segments ?? []).some((segment) => clipMatchesId(clip, segment.id) || overlapsSegment(clip, segment));
+}
+function hasEmotionAnalysis(clip, analysis) {
+    return (analysis.emotion?.clips ?? []).some((entry) => clipMatchesId(clip, entry.clipId));
+}
+function hasClipIntelligenceAnalysis(clip, analysis) {
+    return (analysis.intelligence?.clips ?? []).some((entry) => clipMatchesId(clip, entry.clipId));
+}
+function buildAnalysisSignature(candidates) {
+    return candidates
+        .map((clip) => [
+        clip.id,
+        clip.weddingLabels.join(","),
+        clip.faceRoles.join(","),
+        clip.emotionTags.join(","),
+        clip.shotType,
+        clip.technicalScore.toFixed(3),
+        clip.musicEnergy.toFixed(3)
+    ].join("~"))
+        .join("|");
+}
+function findFlatGeminiDurationWarning(plan, candidates, intent) {
+    if (plan.clips.length < 2) {
+        return null;
+    }
+    const largestCluster = plan.clips.reduce((largest, anchor) => {
+        const count = plan.clips.filter((clip) => Math.abs(clip.durationSeconds - anchor.durationSeconds) <= FLAT_DURATION_EPSILON_SECONDS).length;
+        return count > largest.count ? { count, duration: anchor.durationSeconds } : largest;
+    }, { count: 0, duration: 0 });
+    const flatRatio = largestCluster.count / plan.clips.length;
+    if (flatRatio < FLAT_DURATION_RATIO) {
+        return null;
+    }
+    const candidateMap = new Map(candidates.map((clip) => [clip.id, clip]));
+    const expectedWeights = plan.clips
+        .map((clip) => candidateMap.get(clip.clipId))
+        .filter((clip) => clip !== undefined)
+        .map((clip) => deriveWeights(clip, intent));
+    const variedSignals = getVariedWeightSignals(expectedWeights);
+    if (variedSignals.length === 0) {
+        return null;
+    }
+    return `Gemini reel plan looks suspiciously flat: ${largestCluster.count}/${plan.clips.length} clips (${Math.round(flatRatio * 100)}%) are within ${FLAT_DURATION_EPSILON_SECONDS.toFixed(2)}s of ${largestCluster.duration.toFixed(2)}s despite varying ${variedSignals.join(", ")} inputs.`;
+}
+function getVariedWeightSignals(weights) {
+    const signals = [
+        ["emotion", weights.map((weight) => weight.emotionWeight)],
+        ["music energy", weights.map((weight) => weight.musicEnergyWeight)],
+        ["shot type", weights.map((weight) => weight.shotWeight)]
+    ];
+    return signals
+        .filter(([, values]) => values.length > 1 && Math.max(...values) - Math.min(...values) >= 0.1)
+        .map(([label]) => label);
+}
+function buildGeminiPrompt(prompt, mode, intent, candidates, music) {
+    return [
+        "Create a Premiere reel plan from the user prompt and candidate clip metadata.",
+        `User prompt: ${prompt}`,
+        `Selection mode: ${mode}`,
+        `Target duration: ${intent.targetDurationSeconds} seconds.`,
+        `Template bias: ${intent.templateName}.`,
+        "Rules:",
+        "- Do not invent clip ids. Use only the candidate clip ids below.",
+        "- Include however many clips fit the target duration and prompt intent. There is no fixed clip-count cap.",
+        "- Each clip must include a short, specific reason that references prompt intent or clip signals.",
+        "- Each clip duration must vary by emotionWeight + musicEnergyWeight + shotWeight. Do not use a flat duration for every clip.",
+        "- Favor the user's requested moments such as bride entry, varmala, family, reactions, dance, emotional beats, or close-ups when present.",
+        music
+            ? "Music AI cache is available. You may use the provided musicEnergy values."
+            : "No reliable Music AI song binding is available for this sequence. Use musicEnergyWeight=0 when not justified.",
+        "",
+        "Candidate clips:",
+        ...candidates.map((clip, index) => [
+            `${index + 1}. clipId=${clip.id}`,
+            `name=${clip.name}`,
+            `start=${clip.start.toFixed(2)} end=${clip.end.toFixed(2)} duration=${clip.duration.toFixed(2)}`,
+            `wedding=${clip.weddingLabels.join(",") || "none"}`,
+            `faces=${clip.faceRoles.join(",") || "none"}`,
+            `emotions=${clip.emotionTags.join(",") || "none"}`,
+            `shotType=${clip.shotType}`,
+            `technicalScore=${clip.technicalScore.toFixed(2)}`,
+            `musicEnergy=${clip.musicEnergy.toFixed(2)}`,
+            `selectionScore=${clip.selectionScore.toFixed(2)}`
+        ].join(" | "))
+    ].join("\n");
+}
+function buildLocalPlan(mode, intent, candidates, music) {
+    const sorted = [...candidates].sort((left, right) => right.selectionScore - left.selectionScore);
+    const standardClips = selectLocalPlanClips(sorted, intent, STANDARD_MIN_CLIP_DURATION_SECONDS, false);
+    const usedRelaxedRetry = standardClips.length === 0;
+    const clips = usedRelaxedRetry
+        ? selectLocalPlanClips(sorted, intent, RELAXED_MIN_CLIP_DURATION_SECONDS, true)
+        : standardClips;
+    if (clips.length === 0 && sorted[0]) {
+        const weights = deriveWeights(sorted[0], intent);
+        const fallbackDuration = deriveLastResortDuration(sorted[0], intent, sorted.length);
+        clips.push({
+            clipId: sorted[0].id,
+            durationSeconds: fallbackDuration,
+            reason: `${buildReason(sorted[0], intent, weights)}; used a target-derived last-resort duration`,
+            emotionWeight: weights.emotionWeight,
+            musicEnergyWeight: weights.musicEnergyWeight,
+            shotWeight: weights.shotWeight
+        });
+    }
+    return {
+        title: `${intent.templateName} Prompt Reel`,
+        templateName: intent.templateName,
+        intentSummary: `${intent.summary} Planned from ${mode === "selected" ? "selected clips" : "sequence clips"} using cached analysis and prompt heuristics.`,
+        targetDurationSeconds: intent.targetDurationSeconds,
+        clips,
+        notes: [
+            `Prompt keywords: ${intent.promptTags.join(", ") || "generic reel request"}.`,
+            music
+                ? "Duration weighting includes a cached Music AI energy proxy."
+                : "No bound Music AI song analysis was available, so music energy weight may remain zero.",
+            ...(usedRelaxedRetry
+                ? ["No standard-duration clip fit the target, so Prompt Reel retried with short-duration pacing before any fallback."]
+                : [])
+        ]
+    };
+}
+function selectLocalPlanClips(sorted, intent, minimumDuration, fitToRemainingBudget) {
+    const clips = [];
+    let total = 0;
+    for (const clip of sorted) {
+        const weights = deriveWeights(clip, intent);
+        const weightedDuration = weightedClipDuration(weights);
+        const remainingBudget = intent.targetDurationSeconds + 0.75 - total;
+        const requestedDuration = fitToRemainingBudget ? Math.min(weightedDuration, remainingBudget) : weightedDuration;
+        const durationSeconds = clampDuration(clip.duration, requestedDuration, minimumDuration);
+        if (total + durationSeconds > intent.targetDurationSeconds + 0.75) {
+            continue;
+        }
+        clips.push({
+            clipId: clip.id,
+            durationSeconds,
+            reason: buildReason(clip, intent, weights),
+            emotionWeight: weights.emotionWeight,
+            musicEnergyWeight: weights.musicEnergyWeight,
+            shotWeight: weights.shotWeight
+        });
+        total += durationSeconds;
+    }
+    return clips;
+}
+function weightedClipDuration(weights) {
+    return (STANDARD_MIN_CLIP_DURATION_SECONDS +
+        weights.emotionWeight * 2.4 +
+        weights.musicEnergyWeight * 1.6 +
+        weights.shotWeight * 1.8);
+}
+function deriveLastResortDuration(clip, intent, candidateCount) {
+    const expectedClipCount = Math.max(1, Math.min(candidateCount, Math.ceil(intent.targetDurationSeconds / 2.5)));
+    const targetDerivedDuration = intent.targetDurationSeconds / expectedClipCount;
+    return clampDuration(clip.duration, targetDerivedDuration, RELAXED_MIN_CLIP_DURATION_SECONDS);
+}
+function hydratePlan(generated, candidates, resolutionPath, selectionMode) {
+    const candidateMap = new Map(candidates.map((clip) => [clip.id, clip]));
+    const clips = [];
+    for (const item of generated.clips) {
+        const clip = candidateMap.get(item.clipId);
+        if (!clip) {
+            continue;
+        }
+        clips.push({
+            clipId: clip.id,
+            clipName: clip.name,
+            start: clip.start,
+            end: clip.end,
+            sourceDuration: clip.duration,
+            durationSeconds: clampDuration(clip.duration, item.durationSeconds),
+            track: clip.track,
+            mediaType: clip.mediaType,
+            mediaPath: clip.mediaPath,
+            projectItemId: clip.projectItemId,
+            shotType: clip.shotType,
+            emotionWeight: normalizeWeight(item.emotionWeight),
+            musicEnergyWeight: normalizeWeight(item.musicEnergyWeight),
+            shotWeight: normalizeWeight(item.shotWeight),
+            selectionScore: clip.selectionScore,
+            reason: item.reason.trim(),
+            promptTags: [...clip.weddingLabels, ...clip.emotionTags, ...clip.faceRoles].filter(Boolean)
+        });
+    }
+    const totalDurationSeconds = clips.reduce((sum, clip) => sum + clip.durationSeconds, 0);
+    return {
+        title: generated.title,
+        templateName: generated.templateName,
+        intentSummary: generated.intentSummary,
+        targetDurationSeconds: generated.targetDurationSeconds,
+        totalDurationSeconds,
+        selectionMode,
+        resolutionPath,
+        clips,
+        notes: generated.notes
+    };
+}
+function getPromptReelMusicOptions() {
+    return (0, musicAnalysisCache_1.listCachedMusicAnalyses)();
+}
+function readCachedAnalysis(sequenceKey, musicFileHash) {
+    const musicEntries = (0, musicAnalysisCache_1.listCachedMusicAnalyses)();
+    const music = musicFileHash
+        ? musicEntries.find((entry) => entry.fileHash === musicFileHash) ?? null
+        : musicEntries.length === 1
+            ? musicEntries[0]
+            : null;
+    return {
+        wedding: memory.getAnalysis(`wedding-ai:${sequenceKey}`, "result"),
+        face: memory.getAnalysis(`face-ai:${sequenceKey}`, "result"),
+        emotion: memory.getAnalysis(`emotion-ai:${sequenceKey}`, "result"),
+        camera: memory.getAnalysis(`camera-ai:${sequenceKey}`, "result"),
+        intelligence: memory.getAnalysis(`clip-intelligence:${sequenceKey}`, "result"),
+        music,
+        musicCacheCount: musicEntries.length
+    };
+}
+function summarizeAnalysis(analysis) {
+    return {
+        weddingSegments: analysis.wedding?.segments.length ?? 0,
+        faceClusters: analysis.face?.clusters.length ?? 0,
+        emotionClips: analysis.emotion?.clips.length ?? 0,
+        cameraClips: analysis.camera?.clips.length ?? 0,
+        clipScores: analysis.intelligence?.clips.length ?? 0,
+        musicAnalyzed: Boolean(analysis.music)
+    };
+}
+function buildCandidates(clips, analysis, context, intent) {
+    return clips
+        .filter((clip) => clip.mediaType !== "audio" && clip.type !== "audio")
+        .map((clip) => {
+        const weddingLabels = (analysis.wedding?.segments ?? [])
+            .filter((segment) => clipMatchesId(clip, segment.id) || overlapsSegment(clip, segment))
+            .map((segment) => segment.label);
+        const faceRoles = (analysis.face?.clusters ?? [])
+            .filter((cluster) => cluster.clipIds.some((clipId) => clipMatchesId(clip, clipId)))
+            .flatMap((cluster) => [cluster.role, cluster.label]);
+        const emotionTags = analysis.emotion?.clips.find((entry) => clipMatchesId(clip, entry.clipId))?.emotions ?? [];
+        const shotType = analysis.camera?.clips.find((entry) => clipMatchesId(clip, entry.clipId))?.shotType ?? inferShotTypeFromName(clip.name);
+        const technicalScore = normalizeWeight((analysis.intelligence?.clips.find((entry) => clipMatchesId(clip, entry.clipId))?.aiRating ?? 55) / 100);
+        const musicEnergy = resolveMusicEnergy(analysis.music, clip, context.duration);
+        const selectionScore = scoreClip({
+            clip,
+            weddingLabels,
+            faceRoles,
+            emotionTags,
+            shotType,
+            technicalScore,
+            musicEnergy,
+            intent
+        });
+        return {
+            ...clip,
+            weddingLabels,
+            faceRoles,
+            emotionTags,
+            shotType,
+            technicalScore,
+            musicEnergy,
+            selectionScore
+        };
+    });
+}
+function parsePromptIntent(prompt) {
+    const text = prompt.toLowerCase();
+    const durationMatch = text.match(/(\d+)\s*(?:sec|second|seconds|s)\b/) ??
+        text.match(/(\d+)\s*(?:min|minute|minutes|m)\b/);
+    const requestedSeconds = durationMatch
+        ? durationMatch[0].includes("min")
+            ? Number(durationMatch[1]) * 60
+            : Number(durationMatch[1])
+        : null;
+    const promptTags = extractPromptTags(text);
+    const energetic = /(mast|energetic|dance|party|sangeet|fast|hype|celebrat)/.test(text);
+    const emotional = /(emotional|family|reaction|cry|hug|vidaai|sentimental|soft)/.test(text);
+    const familyFocus = /(family|parents|relatives|guests)/.test(text);
+    const templateName = matchTemplate(text, requestedSeconds);
+    const genericTemplateOnly = promptTags.length === 0 &&
+        /(make|bana|create).*(reel|short|highlight|teaser)|\b(reel|highlight|shorts|teaser)\b/.test(text);
+    return {
+        targetDurationSeconds: requestedSeconds ??
+            (0, templates_1.parseDurationSeconds)(resolveTemplate(templateName).targetDuration) ??
+            DEFAULT_TARGET_SECONDS,
+        templateName,
+        summary: buildIntentSummary(promptTags, requestedSeconds, templateName, energetic, emotional, familyFocus),
+        focusTags: promptTags,
+        promptTags,
+        energetic,
+        emotional,
+        familyFocus,
+        genericTemplateOnly
+    };
+}
+function buildIntentSummary(promptTags, requestedSeconds, templateName, energetic, emotional, familyFocus) {
+    const parts = [`Template ${templateName}`];
+    if (requestedSeconds) {
+        parts.push(`${requestedSeconds}s target`);
+    }
+    if (promptTags.length > 0) {
+        parts.push(`focus on ${promptTags.join(", ")}`);
+    }
+    if (energetic) {
+        parts.push("energetic pacing");
+    }
+    if (emotional) {
+        parts.push("emotion-led pacing");
+    }
+    if (familyFocus) {
+        parts.push("family moments");
+    }
+    return parts.join(" • ");
+}
+function matchTemplate(text, requestedSeconds) {
+    if (/shorts?\b/.test(text)) {
+        return "Shorts";
+    }
+    if (/teaser/.test(text)) {
+        return "Teaser";
+    }
+    if (/highlight/.test(text)) {
+        return "Highlight";
+    }
+    if (/trailer/.test(text)) {
+        return "Trailer";
+    }
+    if (/documentary/.test(text)) {
+        return "Documentary";
+    }
+    if (requestedSeconds !== null && requestedSeconds <= 35) {
+        return "Shorts";
+    }
+    if (requestedSeconds !== null && requestedSeconds <= 50) {
+        return "Teaser";
+    }
+    if (requestedSeconds !== null && requestedSeconds <= 75) {
+        return "Reel";
+    }
+    return "Reel";
+}
+function resolveTemplate(name) {
+    return templates_1.AUTO_EDIT_TEMPLATES.find((template) => template.name === name) ?? templates_1.AUTO_EDIT_TEMPLATES[0];
+}
+function extractPromptTags(text) {
+    const tags = [];
+    const map = [
+        [/(bride entry|entry shot)/, "Bride Entry"],
+        [/(varmala|jaimala)/, "Varmala"],
+        [/(pheras|phere)/, "Pheras"],
+        [/(vidaai|vidai)/, "Vidaai"],
+        [/(family|parents|mother|father)/, "family"],
+        [/(reaction|smile|laugh|cry|hug)/, "reaction"],
+        [/(dance|sangeet|party)/, "dance"],
+        [/(groom)/, "groom"],
+        [/(bride)/, "bride"],
+        [/(close[- ]?up|detail)/, "detail"],
+        [/(drone|wide)/, "wide"]
+    ];
+    for (const [pattern, label] of map) {
+        if (pattern.test(text)) {
+            tags.push(label);
+        }
+    }
+    return Array.from(new Set(tags));
+}
+function scoreClip({ clip, weddingLabels, faceRoles, emotionTags, shotType, technicalScore, musicEnergy, intent }) {
+    let score = technicalScore * 0.22 + normalizeWeight(clip.duration / Math.max(intent.targetDurationSeconds, 1)) * 0.08;
+    const haystack = [
+        clip.name.toLowerCase(),
+        weddingLabels.join(" ").toLowerCase(),
+        faceRoles.join(" ").toLowerCase(),
+        emotionTags.join(" ").toLowerCase(),
+        shotType.toLowerCase()
+    ].join(" ");
+    for (const tag of intent.focusTags) {
+        if (haystack.includes(tag.toLowerCase())) {
+            score += 0.22;
+        }
+    }
+    if (intent.emotional && emotionTags.some((tag) => ["cry", "hug", "reaction", "smile"].includes(tag))) {
+        score += 0.18;
+    }
+    if (intent.energetic && (emotionTags.includes("dance") || /wide|drone|gimbal/.test(shotType))) {
+        score += 0.16;
+    }
+    if (intent.familyFocus && faceRoles.some((role) => /family|guest/.test(role))) {
+        score += 0.14;
+    }
+    if (musicEnergy > 0.65 && intent.energetic) {
+        score += 0.1;
+    }
+    if (weddingLabels.length === 0 && faceRoles.length === 0 && emotionTags.length === 0) {
+        score -= 0.08;
+    }
+    return score;
+}
+function deriveWeights(clip, intent) {
+    const emotionWeight = normalizeWeight(clip.emotionTags.length > 0
+        ? clip.emotionTags.some((tag) => intent.emotional && ["cry", "hug", "reaction", "smile"].includes(tag))
+            ? 0.95
+            : clip.emotionTags.includes("dance")
+                ? 0.8
+                : 0.62
+        : 0.35);
+    const musicEnergyWeight = normalizeWeight(intent.energetic ? clip.musicEnergy : clip.musicEnergy * 0.7);
+    const shotWeight = normalizeWeight(/close|detail/.test(clip.shotType) && (intent.emotional || intent.focusTags.includes("detail"))
+        ? 0.92
+        : /wide|drone/.test(clip.shotType) && intent.energetic
+            ? 0.84
+            : /gimbal|handheld/.test(clip.shotType)
+                ? 0.66
+                : 0.48);
+    return { emotionWeight, musicEnergyWeight, shotWeight };
+}
+function buildReason(clip, intent, weights) {
+    const reasons = [];
+    if (intent.focusTags.some((tag) => clip.weddingLabels.join(" ").toLowerCase().includes(tag.toLowerCase()))) {
+        reasons.push(`matches ${clip.weddingLabels.join("/")}`);
+    }
+    if (intent.familyFocus && clip.faceRoles.some((role) => /family|guest/.test(role))) {
+        reasons.push("supports family focus");
+    }
+    if (intent.emotional && clip.emotionTags.length > 0) {
+        reasons.push(`emotional tags ${clip.emotionTags.join(", ")}`);
+    }
+    if (intent.energetic && clip.musicEnergy > 0.5) {
+        reasons.push(`tracks strong music energy (${clip.musicEnergy.toFixed(2)})`);
+    }
+    reasons.push(`shot type ${clip.shotType}`);
+    reasons.push(`duration weighted by emotion ${weights.emotionWeight.toFixed(2)}, music ${weights.musicEnergyWeight.toFixed(2)}, shot ${weights.shotWeight.toFixed(2)}`);
+    return reasons.join("; ");
+}
+function resolveMusicEnergy(music, clip, sequenceDuration) {
+    if (!music || music.energyCurve.length === 0 || sequenceDuration <= 0) {
+        return 0;
+    }
+    const midpoint = clip.start + clip.duration / 2;
+    const index = Math.max(0, Math.min(music.energyCurve.length - 1, Math.floor((midpoint / sequenceDuration) * music.energyCurve.length)));
+    return normalizeWeight(music.energyCurve[index] ?? 0);
+}
+async function readAllSequenceClips() {
+    const timeline = await bridge.readTimeline();
+    if (!timeline) {
+        return [];
+    }
+    const clips = [...timeline.videoTracks, ...timeline.audioTracks].flatMap((track) => track.clips.map((clip, index) => toBrainClip(track.type, clip, index)));
+    return clips;
+}
+function toBrainClip(trackType, clip, index) {
+    return {
+        id: buildClipId(clip.name, clip.start, clip.trackIndex, index),
+        name: clip.name,
+        start: clip.start,
+        end: clip.end,
+        duration: clip.duration,
+        track: clip.trackIndex,
+        mediaType: trackType,
+        type: trackType,
+        projectItemId: clip.projectItemId
+    };
+}
+function applyInOutRange(clips, inPoint, outPoint) {
+    if (outPoint <= inPoint) {
+        return clips;
+    }
+    return clips.filter((clip) => clip.end >= inPoint && clip.start <= outPoint);
+}
+function clipMatchesId(clip, otherId) {
+    return canonicalClipId(clip.id) === canonicalClipId(otherId);
+}
+function canonicalClipId(id) {
+    return id.split("::").slice(0, 3).join("::");
+}
+function overlapsSegment(clip, segment) {
+    return clip.end >= segment.start && clip.start <= segment.end;
+}
+function inferShotTypeFromName(name) {
+    const text = name.toLowerCase();
+    if (/(drone|wide)/.test(text)) {
+        return "wide";
+    }
+    if (/(close|detail|macro)/.test(text)) {
+        return "detail";
+    }
+    if (/(gimbal|steady)/.test(text)) {
+        return "gimbal";
+    }
+    if (/(handheld|cam)/.test(text)) {
+        return "handheld";
+    }
+    return "unknown";
+}
+function buildClipId(name, start, track, index) {
+    return `${name}::${track}::${start.toFixed(3)}::${index}`;
+}
+function clampDuration(sourceDuration, requestedDuration, minimumDuration = STANDARD_MIN_CLIP_DURATION_SECONDS) {
+    const safeMinimum = Math.max(0, minimumDuration);
+    const safeSourceDuration = Number.isFinite(sourceDuration) ? Math.max(0, sourceDuration) : 0;
+    const maxDuration = Math.max(safeMinimum, safeSourceDuration);
+    return Math.max(safeMinimum, Math.min(maxDuration, requestedDuration));
+}
+function normalizeWeight(value) {
+    if (!Number.isFinite(value)) {
+        return 0;
+    }
+    return Math.max(0, Math.min(1, value));
+}
+function hashText(value) {
+    let hash = 0;
+    for (let index = 0; index < value.length; index += 1) {
+        hash = (hash * 31 + value.charCodeAt(index)) >>> 0;
+    }
+    return hash.toString(16);
+}
+
+
+/***/ },
+
+/***/ 2394
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.ReferenceAnalyzer = void 0;
+const AICopilot_1 = __webpack_require__(318);
+const GeminiService_1 = __webpack_require__(5449);
+const generative_ai_1 = __webpack_require__(6445);
+const copilot = new AICopilot_1.AICopilot();
+const referenceProfileSchema = {
+    type: generative_ai_1.SchemaType.OBJECT,
+    properties: {
+        cutPacing: { type: generative_ai_1.SchemaType.STRING },
+        storyStructure: { type: generative_ai_1.SchemaType.STRING },
+        motion: { type: generative_ai_1.SchemaType.STRING },
+        effects: { type: generative_ai_1.SchemaType.STRING },
+        fonts: { type: generative_ai_1.SchemaType.STRING },
+        musicMood: { type: generative_ai_1.SchemaType.STRING },
+        colorGrade: { type: generative_ai_1.SchemaType.STRING },
+        summary: { type: generative_ai_1.SchemaType.STRING }
+    },
+    required: ["cutPacing", "storyStructure", "motion", "effects", "fonts", "musicMood", "colorGrade", "summary"]
+};
+class ReferenceAnalyzer {
+    async analyze(input) {
+        if (input.startsWith("http://") || input.startsWith("https://")) {
+            const resolved = await copilot.resolve({
+                intent: "reference-ai:analyze",
+                context: { input },
+                memoryScopeKey: `reference-ai:${input}`,
+                memoryCacheKey: "result",
+                geminiResolver: async () => (0, GeminiService_1.runGeminiStructured)(`Analyze the following video content from ${input} for cut pacing, story structure, motion, effects, fonts, music mood, and color grade.`, referenceProfileSchema)
+            });
+            return {
+                ...resolved.value,
+                signalSource: `URL: ${input}`,
+                resolutionPath: resolved.path
+            };
+        }
+        else {
+            return {
+                summary: "Local file style analysis requires extracted frames plus a Gemini Vision request. That execution path is not wired in this workspace yet, so only URL text analysis is currently available.",
+                signalSource: `Local File: ${input}`,
+                requiresManualFrameExtraction: true
+            };
+        }
+    }
+}
+exports.ReferenceAnalyzer = ReferenceAnalyzer;
+
+
+/***/ },
+
+/***/ 9255
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = ReferenceAIScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const AutoEditAssembler_1 = __webpack_require__(5336);
+const ReferenceAnalyzer_1 = __webpack_require__(2394);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+function ReferenceAIScreen() {
+    const [inputSource, setInputSource] = (0, react_1.useState)("");
+    const [analysisResult, setAnalysisResult] = (0, react_1.useState)(null);
+    const [isAnalyzing, setIsAnalyzing] = (0, react_1.useState)(false);
+    const [signalSourceUsed, setSignalSourceUsed] = (0, react_1.useState)("");
+    async function handleAnalyze() {
+        setIsAnalyzing(true);
+        setAnalysisResult(null);
+        setSignalSourceUsed("");
+        try {
+            const analyzer = new ReferenceAnalyzer_1.ReferenceAnalyzer();
+            const result = await analyzer.analyze(inputSource);
+            setAnalysisResult(result);
+            if (!result.error) {
+                setSignalSourceUsed(String(result.signalSource ||
+                    (inputSource.startsWith("http") ? `URL: ${inputSource}` : `Local File: ${inputSource}`)));
+            }
+        }
+        finally {
+            setIsAnalyzing(false);
+        }
+    }
+    async function handleRecreateStyle() {
+        try {
+            const assembler = new AutoEditAssembler_1.AutoEditAssembler();
+            const result = await assembler.assemble("Reel", [], analysisResult ?? undefined);
+            alert(result);
+        }
+        catch (error) {
+            alert(error instanceof Error ? error.message : "Failed to recreate style.");
+        }
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Reference AI", subtitle: "Analyze a reel or source clip and map its storytelling signature into RK Flow.", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)("label", { htmlFor: "reference-ai-source", style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: "Source URL or media path" }), (0, jsx_runtime_1.jsx)("input", { id: "reference-ai-source", type: "text", value: inputSource, onChange: (event) => setInputSource(event.target.value), placeholder: "Instagram Reel, YouTube URL, or local file path", style: {
+                                    width: "100%",
+                                    boxSizing: "border-box",
+                                    borderRadius: 10,
+                                    border: `1px solid ${theme_1.colors.border}`,
+                                    background: theme_1.colors.white,
+                                    color: theme_1.colors.ink,
+                                    padding: "10px 12px"
+                                } })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap", marginTop: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: isAnalyzing ? "Analyzing" : "Ready", tone: isAnalyzing ? "warning" : "success" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void handleAnalyze(), disabled: isAnalyzing || inputSource.trim().length === 0, children: isAnalyzing ? "Analyzing..." : "Analyze Reference" })] }), signalSourceUsed && ((0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, color: theme_1.colors.inkMuted }, children: ["Signal source used: ", (0, jsx_runtime_1.jsx)("strong", { children: signalSourceUsed })] }))] }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Style Profile Card", subtitle: "Structured output from the Phase 3 reference analysis path.", children: !analysisResult ? ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "Run an analysis to inspect the generated style profile and recreate it with Auto Edit." })) : analysisResult.error ? ((0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.danger }, children: ["Error: ", String(analysisResult.error)] })) : ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [Object.entries(analysisResult).map(([key, value]) => ((0, jsx_runtime_1.jsxs)("div", { style: {
+                                borderRadius: 10,
+                                border: `1px solid ${theme_1.colors.border}`,
+                                background: theme_1.colors.white,
+                                padding: theme_1.spacing.sm
+                            }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: key.replace(/([A-Z])/g, " $1").replace(/^./, (letter) => letter.toUpperCase()) }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, marginTop: theme_1.spacing.xs, wordBreak: "break-word" }, children: typeof value === "string" ? value : JSON.stringify(value) })] }, key))), (0, jsx_runtime_1.jsx)("div", { children: (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void handleRecreateStyle(), children: "Recreate This Style" }) })] })) })] }));
+}
+
+
+/***/ },
+
+/***/ 3094
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = TeamWorkspaceScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const PremiereBridge_1 = __webpack_require__(1862);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const teamWorkspaceStore_1 = __webpack_require__(9347);
+const bridge = new PremiereBridge_1.PremiereBridge();
+const STATUSES = ["Pending", "Approved", "Changes Requested"];
+function TeamWorkspaceScreen() {
+    const [timeline, setTimeline] = (0, react_1.useState)(null);
+    const [commentText, setCommentText] = (0, react_1.useState)("");
+    const [author, setAuthor] = (0, react_1.useState)("Rohit");
+    const [selectedClipId, setSelectedClipId] = (0, react_1.useState)("");
+    const [workspace, setWorkspace] = (0, react_1.useState)((0, teamWorkspaceStore_1.loadWorkspace)());
+    const [versionNote, setVersionNote] = (0, react_1.useState)("");
+    const [versionStatus, setVersionStatus] = (0, react_1.useState)("Pending");
+    const [selectedCompareIds, setSelectedCompareIds] = (0, react_1.useState)([]);
+    (0, react_1.useEffect)(() => {
+        void bridge.readTimeline().then((next) => setTimeline(next));
+    }, []);
+    const sequenceKey = timeline?.sequenceName || "No active sequence";
+    const allClips = (0, react_1.useMemo)(() => [...(timeline?.videoTracks ?? []), ...(timeline?.audioTracks ?? [])].flatMap((track) => track.clips.map((clip) => ({
+        ...clip,
+        compoundId: `${track.type}:${track.id}:${clip.id}`,
+        label: `${clip.name} • ${track.name} • ${clip.start.toFixed(2)}s-${clip.end.toFixed(2)}s`
+    }))), [timeline]);
+    const comments = workspace.comments.filter((comment) => comment.sequenceKey === sequenceKey);
+    const versions = workspace.versions.filter((version) => version.sequenceKey === sequenceKey);
+    const comparison = (0, react_1.useMemo)(() => {
+        if (selectedCompareIds.length !== 2) {
+            return null;
+        }
+        const left = versions.find((version) => version.id === selectedCompareIds[0]);
+        const right = versions.find((version) => version.id === selectedCompareIds[1]);
+        return left && right ? { left, right, diff: (0, teamWorkspaceStore_1.compareVersions)(left, right) } : null;
+    }, [selectedCompareIds, versions]);
+    function refreshWorkspace() {
+        setWorkspace((0, teamWorkspaceStore_1.loadWorkspace)());
+    }
+    function submitComment() {
+        if (!selectedClipId || !commentText.trim()) {
+            return;
+        }
+        (0, teamWorkspaceStore_1.saveComment)({
+            sequenceKey,
+            clipId: selectedClipId,
+            author: author.trim() || "Reviewer",
+            text: commentText.trim(),
+            status: "Pending"
+        });
+        setCommentText("");
+        refreshWorkspace();
+    }
+    function snapshotVersion() {
+        if (!timeline) {
+            return;
+        }
+        (0, teamWorkspaceStore_1.saveVersion)({
+            sequenceKey,
+            sequenceName: timeline.sequenceName,
+            status: versionStatus,
+            note: versionNote.trim(),
+            snapshot: timeline
+        });
+        setVersionNote("");
+        setVersionStatus("Pending");
+        refreshWorkspace();
+    }
+    function toggleCompare(versionId) {
+        setSelectedCompareIds((current) => {
+            if (current.includes(versionId)) {
+                return current.filter((id) => id !== versionId);
+            }
+            if (current.length === 2) {
+                return [current[1], versionId];
+            }
+            return [...current, versionId];
+        });
+    }
+    const exportJson = JSON.stringify((0, teamWorkspaceStore_1.buildReviewExport)(sequenceKey), null, 2);
+    const exportMarkdown = (0, teamWorkspaceStore_1.buildReviewMarkdown)(sequenceKey);
+    if (!timeline) {
+        return (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Team Workspace", children: "Open a sequence to review comments and save local versions." });
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Team Workspace", subtitle: "LOCAL-ONLY review data stored in MemoryEngine. No real-time sync or shared backend is configured.", children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Sequence ${timeline.sequenceName}`, tone: "success" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `${allClips.length} clips in snapshot` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "Local-only collaboration", tone: "warning" })] }) }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexWrap: "wrap", gap: theme_1.spacing.md, alignItems: "flex-start" }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Comments", subtitle: "Thread comments against current timeline clips.", style: { flex: "1 1 420px" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Input, { placeholder: "Reviewer name", value: author, onChange: (event) => setAuthor(event.target.value) }), (0, jsx_runtime_1.jsxs)("select", { value: selectedClipId, onChange: (event) => setSelectedClipId(event.target.value), style: {
+                                            width: "100%",
+                                            boxSizing: "border-box",
+                                            borderRadius: 10,
+                                            border: `1px solid ${theme_1.colors.border}`,
+                                            background: theme_1.colors.white,
+                                            color: theme_1.colors.ink,
+                                            padding: "10px 12px"
+                                        }, children: [(0, jsx_runtime_1.jsx)("option", { value: "", children: "Select clip" }), allClips.map((clip) => ((0, jsx_runtime_1.jsx)("option", { value: clip.compoundId, children: clip.label }, clip.compoundId)))] }), (0, jsx_runtime_1.jsx)(primitives_1.Input, { multiline: true, rows: 4, placeholder: "Add a review note...", value: commentText, onChange: (event) => setCommentText(event.target.value) }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: submitComment, disabled: !selectedClipId || !commentText.trim(), children: "Save Comment" })] }), (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm, marginTop: theme_1.spacing.md }, children: comments.length === 0 ? ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "No comments saved for this sequence yet." })) : (comments.map((comment) => ((0, jsx_runtime_1.jsx)(CommentCard, { comment: comment, onStatusChange: (status) => {
+                                        (0, teamWorkspaceStore_1.updateCommentStatus)(comment.id, status);
+                                        refreshWorkspace();
+                                    } }, comment.id)))) })] }), (0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Version History", subtitle: "Save and compare local snapshots of the current sequence structure.", style: { flex: "1 1 420px" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)("select", { value: versionStatus, onChange: (event) => setVersionStatus(event.target.value), style: {
+                                            width: "100%",
+                                            boxSizing: "border-box",
+                                            borderRadius: 10,
+                                            border: `1px solid ${theme_1.colors.border}`,
+                                            background: theme_1.colors.white,
+                                            color: theme_1.colors.ink,
+                                            padding: "10px 12px"
+                                        }, children: STATUSES.map((status) => ((0, jsx_runtime_1.jsx)("option", { value: status, children: status }, status))) }), (0, jsx_runtime_1.jsx)(primitives_1.Input, { placeholder: "Optional version note", value: versionNote, onChange: (event) => setVersionNote(event.target.value) }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: snapshotVersion, children: "Save Version Snapshot" })] }), (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm, marginTop: theme_1.spacing.md }, children: versions.length === 0 ? ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "No local versions saved yet." })) : (versions.map((version) => ((0, jsx_runtime_1.jsx)(VersionCard, { version: version, checked: selectedCompareIds.includes(version.id), onCompareToggle: () => toggleCompare(version.id), onStatusChange: (status) => {
+                                        (0, teamWorkspaceStore_1.updateVersionStatus)(version.id, status);
+                                        refreshWorkspace();
+                                    } }, version.id)))) })] })] }), (0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Review Mode Export", subtitle: "Portable summary output for another editor to import locally.", children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, marginBottom: theme_1.spacing.md }, children: "This is a static local export only. No live shared session or sync transport exists in this repo today." }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexWrap: "wrap", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { flex: "1 1 320px" }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700, marginBottom: theme_1.spacing.xs }, children: "JSON" }), (0, jsx_runtime_1.jsx)("pre", { style: exportStyle, children: exportJson })] }), (0, jsx_runtime_1.jsxs)("div", { style: { flex: "1 1 320px" }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700, marginBottom: theme_1.spacing.xs }, children: "Markdown" }), (0, jsx_runtime_1.jsx)("pre", { style: exportStyle, children: exportMarkdown })] })] })] }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Version Compare", subtitle: "Diff the clip structure between two saved local versions.", children: !comparison ? ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: "Select two versions above to compare them." })) : ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: [comparison.left.createdAt, " \u2192 ", comparison.right.createdAt] }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted }, children: ["Clip count: ", comparison.diff.leftClipCount, " \u2192 ", comparison.diff.rightClipCount] }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted }, children: ["Added: ", comparison.diff.added.length ? comparison.diff.added.join(", ") : "None"] }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted }, children: ["Removed: ", comparison.diff.removed.length ? comparison.diff.removed.join(", ") : "None"] })] })) })] }));
+}
+function CommentCard({ comment, onStatusChange }) {
+    return ((0, jsx_runtime_1.jsxs)("div", { style: boxStyle, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: comment.author }), (0, jsx_runtime_1.jsx)(StatusPicker, { value: comment.status, onChange: onStatusChange })] }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, marginTop: theme_1.spacing.xs }, children: comment.clipId }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.sm }, children: comment.text })] }));
+}
+function VersionCard({ version, checked, onCompareToggle, onStatusChange }) {
+    const clipCount = [...version.snapshot.videoTracks, ...version.snapshot.audioTracks].reduce((count, track) => count + track.clips.length, 0);
+    return ((0, jsx_runtime_1.jsxs)("div", { style: boxStyle, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: [version.sequenceName, " \u2022 ", new Date(version.createdAt).toLocaleString()] }), (0, jsx_runtime_1.jsx)(StatusPicker, { value: version.status, onChange: onStatusChange })] }), (0, jsx_runtime_1.jsxs)("div", { style: { color: theme_1.colors.inkMuted, marginTop: theme_1.spacing.xs }, children: [clipCount, " clips \u2022 ", version.note || "No note"] }), (0, jsx_runtime_1.jsxs)("label", { style: { display: "inline-flex", alignItems: "center", gap: theme_1.spacing.xs, marginTop: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: checked, onChange: onCompareToggle }), "Compare"] })] }));
+}
+function StatusPicker({ value, onChange }) {
+    return ((0, jsx_runtime_1.jsx)("select", { value: value, onChange: (event) => onChange(event.target.value), style: {
+            borderRadius: 10,
+            border: `1px solid ${theme_1.colors.border}`,
+            background: theme_1.colors.white,
+            color: theme_1.colors.ink,
+            padding: "6px 10px"
+        }, children: STATUSES.map((status) => ((0, jsx_runtime_1.jsx)("option", { value: status, children: status }, status))) }));
+}
+const boxStyle = {
+    border: `1px solid ${theme_1.colors.border}`,
+    borderRadius: 10,
+    background: theme_1.colors.white,
+    padding: theme_1.spacing.sm
+};
+const exportStyle = {
+    background: theme_1.colors.white,
+    border: `1px solid ${theme_1.colors.border}`,
+    borderRadius: 10,
+    padding: theme_1.spacing.sm,
+    whiteSpace: "pre-wrap",
+    wordBreak: "break-word",
+    maxHeight: 240,
+    overflow: "auto"
+};
+
+
+/***/ },
+
+/***/ 9347
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.loadWorkspace = loadWorkspace;
+exports.saveComment = saveComment;
+exports.updateCommentStatus = updateCommentStatus;
+exports.saveVersion = saveVersion;
+exports.updateVersionStatus = updateVersionStatus;
+exports.buildReviewExport = buildReviewExport;
+exports.buildReviewMarkdown = buildReviewMarkdown;
+exports.compareVersions = compareVersions;
+const brain_1 = __webpack_require__(7021);
+const memory = new brain_1.MemoryEngine();
+const SCOPE = "team-workspace";
+const KEY = "local-review";
+function loadWorkspace() {
+    return (memory.getAnalysis(SCOPE, KEY) ?? {
+        comments: [],
+        versions: []
+    });
+}
+function saveComment(comment) {
+    const snapshot = loadWorkspace();
+    snapshot.comments = [
+        {
+            ...comment,
+            id: `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+            createdAt: new Date().toISOString()
+        },
+        ...snapshot.comments
+    ];
+    persist(snapshot);
+}
+function updateCommentStatus(commentId, status) {
+    const snapshot = loadWorkspace();
+    snapshot.comments = snapshot.comments.map((comment) => comment.id === commentId ? { ...comment, status } : comment);
+    persist(snapshot);
+}
+function saveVersion(args) {
+    const workspace = loadWorkspace();
+    workspace.versions = [
+        {
+            id: `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+            ...args,
+            createdAt: new Date().toISOString()
+        },
+        ...workspace.versions
+    ];
+    persist(workspace);
+}
+function updateVersionStatus(versionId, status) {
+    const snapshot = loadWorkspace();
+    snapshot.versions = snapshot.versions.map((version) => version.id === versionId ? { ...version, status } : version);
+    persist(snapshot);
+}
+function buildReviewExport(sequenceKey) {
+    const snapshot = loadWorkspace();
+    return {
+        exportedAt: new Date().toISOString(),
+        localOnly: true,
+        sequenceKey,
+        comments: snapshot.comments.filter((comment) => comment.sequenceKey === sequenceKey),
+        versions: snapshot.versions.filter((version) => version.sequenceKey === sequenceKey)
+    };
+}
+function buildReviewMarkdown(sequenceKey) {
+    const data = buildReviewExport(sequenceKey);
+    const lines = [
+        "# RK Flow Team Workspace Review",
+        "",
+        `Sequence Key: ${sequenceKey}`,
+        `Exported At: ${data.exportedAt}`,
+        "Mode: LOCAL-ONLY (no real-time sync)",
+        "",
+        "## Comments"
+    ];
+    if (data.comments.length === 0) {
+        lines.push("- None");
+    }
+    else {
+        for (const comment of data.comments) {
+            lines.push(`- [${comment.status}] ${comment.author} on ${comment.clipId}: ${comment.text}`);
+        }
+    }
+    lines.push("", "## Versions");
+    if (data.versions.length === 0) {
+        lines.push("- None");
+    }
+    else {
+        for (const version of data.versions) {
+            lines.push(`- [${version.status}] ${version.sequenceName} @ ${version.createdAt} (${flattenClipCount(version.snapshot)} clips)${version.note ? ` — ${version.note}` : ""}`);
+        }
+    }
+    return lines.join("\n");
+}
+function compareVersions(left, right) {
+    const leftIds = flattenClipIds(left.snapshot);
+    const rightIds = flattenClipIds(right.snapshot);
+    return {
+        added: rightIds.filter((id) => !leftIds.includes(id)),
+        removed: leftIds.filter((id) => !rightIds.includes(id)),
+        leftClipCount: leftIds.length,
+        rightClipCount: rightIds.length
+    };
+}
+function flattenClipIds(snapshot) {
+    return [...snapshot.videoTracks, ...snapshot.audioTracks].flatMap((track) => track.clips.map((clip) => `${track.type}:${track.id}:${clip.id}:${clip.start.toFixed(3)}:${clip.end.toFixed(3)}`));
+}
+function flattenClipCount(snapshot) {
+    return flattenClipIds(snapshot).length;
+}
+function persist(snapshot) {
+    memory.setAnalysis(SCOPE, KEY, snapshot);
+}
+
+
+/***/ },
+
+/***/ 3658
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.ConfirmActionModal = ConfirmActionModal;
+const jsx_runtime_1 = __webpack_require__(4848);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+function ConfirmActionModal({ issue, onConfirm, onCancel }) {
+    return ((0, jsx_runtime_1.jsx)("div", { style: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+        }, children: (0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: `Confirm: ${issue.title}`, children: [(0, jsx_runtime_1.jsx)("p", { style: { color: theme_1.colors.ink, margin: `0 0 ${theme_1.spacing.md} 0` }, children: issue.detail }), (0, jsx_runtime_1.jsx)("p", { style: { color: theme_1.colors.inkMuted, margin: `0 0 ${theme_1.spacing.lg} 0` }, children: "Are you sure you want to apply this fix? This action can be undone with Ctrl+Z." }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, justifyContent: "flex-end" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: onCancel, children: "Cancel" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: onConfirm, children: "Confirm" })] })] }) }));
+}
+
+
+/***/ },
+
+/***/ 5760
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.TimelineAIExecution = void 0;
+const Command_1 = __webpack_require__(111);
+const TimelineReader_1 = __webpack_require__(824);
+const PremiereBridge_1 = __webpack_require__(1862);
+const PremiereExecutor_1 = __webpack_require__(7365);
+function formatFailures(results) {
+    return results
+        .filter((result) => !result.success)
+        .map((result) => result.error ?? "Unknown execution failure.")
+        .join(" ");
+}
+class TimelineAIExecution {
+    executor = new PremiereExecutor_1.PremiereExecutor();
+    timelineReader = new TimelineReader_1.TimelineReader(new PremiereBridge_1.PremiereBridge());
+    async autoTrim() {
+        const clips = await this.getSelectedVideoClips();
+        const results = clips.length > 0
+            ? await this.executor.runBatch(clips.map((clip) => (0, Command_1.createCommand)("AUTO_TRIM", {
+                clipId: clip.id,
+                start: clip.start,
+                end: clip.end
+            })))
+            : [await this.executor.runAction("AUTO_TRIM")];
+        return summarize("Auto Trim", results);
+    }
+    async beatCut() {
+        const clips = await this.getSelectedVideoClips();
+        const results = clips.length > 0
+            ? await this.executor.runBatch(clips.map((clip) => (0, Command_1.createCommand)("BEAT_CUT", { clipId: clip.id, start: clip.start, end: clip.end })))
+            : [await this.executor.runAction("BEAT_CUT")];
+        return summarize("Beat Cut", results);
+    }
+    async silenceRemove() {
+        const clips = await this.getSelectedAudioClips();
+        const results = clips.length > 0
+            ? await this.executor.runBatch(clips.map((clip) => (0, Command_1.createCommand)("SILENCE_REMOVE", {
+                clipId: clip.id,
+                start: clip.start,
+                end: clip.end
+            })))
+            : [await this.executor.runAction("SILENCE_REMOVE")];
+        return summarize("Silence Remove", results);
+    }
+    async gapRemove(gaps) {
+        const ranges = gaps && gaps.length > 0 ? gaps : await this.getRangeFromInOut();
+        const results = await this.executor.runBatch(ranges.map((gap) => (0, Command_1.createCommand)("RIPPLE_DELETE", gap)));
+        return summarize("Gap Remove", results);
+    }
+    async rippleDelete(start, end) {
+        const fallback = await this.getRangeFromInOut();
+        const range = start !== undefined && end !== undefined ? [{ start, end }] : fallback;
+        const results = await this.executor.runBatch(range.map((item) => (0, Command_1.createCommand)("RIPPLE_DELETE", item)));
+        return summarize("Ripple Delete", results);
+    }
+    async speedRamp(from = 100, to = 180) {
+        const clips = await this.getSelectedVideoClips();
+        const results = await this.executor.runBatch(clips.map((clip) => (0, Command_1.createCommand)("SPEED_RAMP", { clipId: clip.id, from, to })));
+        return summarize("Speed Ramp", results, clips.length === 0);
+    }
+    async autoZoom(start = 0, end = 1) {
+        const clips = await this.getSelectedVideoClips();
+        const results = await this.executor.runBatch(clips.map((clip) => (0, Command_1.createCommand)("AUTO_ZOOM", { clipId: clip.id, start, end })));
+        return summarize("Auto Zoom", results, clips.length === 0);
+    }
+    async reframe() {
+        const clips = await this.getSelectedVideoClips();
+        const results = await this.executor.runBatch(clips.map((clip) => (0, Command_1.createCommand)("REFRAME", { clipId: clip.id })));
+        return summarize("Reframe", results, clips.length === 0);
+    }
+    async getSelectedVideoClips() {
+        const clips = await this.timelineReader.getSelectedClips();
+        return clips.filter((clip) => clip.trackIndex >= 0);
+    }
+    async getSelectedAudioClips() {
+        return this.timelineReader.getSelectedClips();
+    }
+    async getRangeFromInOut() {
+        const range = await this.timelineReader.getInOut();
+        if (range === null || range.inPoint >= range.outPoint) {
+            return [];
+        }
+        return [{ start: range.inPoint, end: range.outPoint }];
+    }
+}
+exports.TimelineAIExecution = TimelineAIExecution;
+function summarize(label, results, missingSelection = false) {
+    if (missingSelection) {
+        return `${label} requires a selected clip or a valid In/Out range in Premiere.`;
+    }
+    if (results.length === 0) {
+        return `${label} requires a selected clip or a valid In/Out range in Premiere.`;
+    }
+    const failures = formatFailures(results);
+    if (failures.length > 0) {
+        return `${label} submitted with ${results.length} action(s), but Premiere reported: ${failures}`;
+    }
+    return `${label} submitted to Premiere with ${results.length} action(s).`;
+}
+
+
+/***/ },
+
+/***/ 4667
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = TimelineAIScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const brain_1 = __webpack_require__(7021);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const perceptionAnalyzers_1 = __webpack_require__(990);
+const useSequenceAnalysis_1 = __webpack_require__(8936);
+const ConfirmActionModal_1 = __webpack_require__(3658);
+const TimelineAIExecution_1 = __webpack_require__(5760);
+const memory = new brain_1.MemoryEngine();
+const timelineExecution = new TimelineAIExecution_1.TimelineAIExecution();
+function TimelineAIScreen() {
+    const [confirmingIssue, setConfirmingIssue] = (0, react_1.useState)(null);
+    const { context, result, loading, progress, error, reanalyze } = (0, useSequenceAnalysis_1.useSequenceAnalysis)({
+        moduleId: "timeline-ai",
+        analyze: async (sequenceContext, onProgress) => {
+            const cachedClipScores = memory.getAnalysis(`clip-intelligence:${sequenceContext.sequenceKey}`, "result");
+            const clipScores = cachedClipScores?.clips ??
+                (await (0, perceptionAnalyzers_1.analyzeClipIntelligence)(sequenceContext, onProgress)).clips;
+            return (0, perceptionAnalyzers_1.analyzeTimelineHealth)(sequenceContext, clipScores, onProgress);
+        },
+    });
+    const healthTone = (0, react_1.useMemo)(() => {
+        if (!result) {
+            return "neutral";
+        }
+        return result.score >= 75
+            ? "success"
+            : result.score >= 45
+                ? "warning"
+                : "danger";
+    }, [result]);
+    const handlePreviewFix = (issue) => {
+        // For now, we directly show the confirmation.
+        // A future step could highlight the area on the timeline first.
+        setConfirmingIssue(issue);
+    };
+    const handleCancelConfirm = () => {
+        setConfirmingIssue(null);
+    };
+    const handleConfirmFix = async () => {
+        if (!confirmingIssue)
+            return;
+        if (confirmingIssue.id === "gaps") {
+            const gaps = confirmingIssue.payload;
+            await timelineExecution.gapRemove(gaps);
+        }
+        setConfirmingIssue(null);
+        // In a real app, we'd show a toast here.
+        // And ideally, re-run the analysis.
+        reanalyze();
+    };
+    if (!context) {
+        return (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Timeline AI", children: "Open a sequence to analyze." });
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [confirmingIssue && ((0, jsx_runtime_1.jsx)(ConfirmActionModal_1.ConfirmActionModal, { issue: confirmingIssue, onConfirm: handleConfirmFix, onCancel: handleCancelConfirm })), (0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Timeline AI", subtitle: result?.source ?? "Read-only analysis", children: [(0, jsx_runtime_1.jsxs)("div", { style: {
+                            display: "flex",
+                            justifyContent: "space-between",
+                            gap: theme_1.spacing.sm,
+                            flexWrap: "wrap",
+                        }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: result ? `Health ${result.score}` : "No score yet", tone: healthTone }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void reanalyze(), disabled: loading, children: "Re-analyze" })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void timelineExecution.autoTrim(), style: { marginRight: theme_1.spacing.sm }, children: "Auto Trim" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void timelineExecution.beatCut(), style: { marginRight: theme_1.spacing.sm }, children: "Beat Cut" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void timelineExecution.silenceRemove(), style: { marginRight: theme_1.spacing.sm }, children: "Silence Remove" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void timelineExecution.gapRemove(), style: { marginRight: theme_1.spacing.sm }, children: "Gap Remove" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void timelineExecution.rippleDelete(), style: { marginRight: theme_1.spacing.sm }, children: "Ripple Delete" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void timelineExecution.speedRamp(), style: { marginRight: theme_1.spacing.sm }, children: "Speed Ramp" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void timelineExecution.autoZoom(), style: { marginRight: theme_1.spacing.sm }, children: "Auto Zoom" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void timelineExecution.reframe(), children: "Reframe" })] }), (0, jsx_runtime_1.jsxs)("div", { style: {
+                            marginTop: theme_1.spacing.md,
+                            color: error ? theme_1.colors.danger : theme_1.colors.inkMuted,
+                        }, children: [loading && (0, jsx_runtime_1.jsx)(primitives_1.ProgressBar, { value: progress.percent, label: `${progress.completed}/${progress.total} steps` }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: loading ? theme_1.spacing.xs : 0 }, children: error || progress.label })] }), result && ((0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, color: theme_1.colors.inkMuted }, children: ["Formula: ", result.formula] }))] }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Issues Found", children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: (result?.issues ?? []).map((issue) => {
+                        const isFixable = issue.id === "gaps"; // Only gaps are fixable for now
+                        return ((0, jsx_runtime_1.jsxs)("div", { style: {
+                                border: `1px solid ${theme_1.colors.border}`,
+                                borderRadius: 10,
+                                padding: theme_1.spacing.sm,
+                            }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: issue.title }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, marginTop: theme_1.spacing.xs }, children: issue.detail }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.sm }, children: (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => handlePreviewFix(issue), disabled: !isFixable || loading, title: isFixable ? "Fix this issue" : "Auto-fix not available for this issue type", children: "Preview Fix" }) })] }, issue.id));
+                    }) }) })] }));
+}
+
+
+/***/ },
+
+/***/ 5522
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = WeddingAIScreen;
+const jsx_runtime_1 = __webpack_require__(4848);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const perceptionAnalyzers_1 = __webpack_require__(990);
+const useSequenceAnalysis_1 = __webpack_require__(8936);
+function WeddingAIScreen() {
+    const { context, result, loading, progress, error, reanalyze } = (0, useSequenceAnalysis_1.useSequenceAnalysis)({
+        moduleId: "wedding-ai",
+        analyze: perceptionAnalyzers_1.analyzeWeddingSegments
+    });
+    const segments = (result?.segments ?? []).map((segment) => normalizeSegmentForRender(segment));
+    if (!context) {
+        return (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Wedding AI", children: "Open a sequence to analyze." });
+    }
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Wedding AI", subtitle: result?.source ?? "Timeline metadata analysis", children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: loading ? "Analyzing..." : `${result?.segments.length ?? 0} segments`, tone: loading ? "warning" : "success" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void reanalyze(), disabled: loading, children: "Re-analyze" })] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [loading && (0, jsx_runtime_1.jsx)(primitives_1.ProgressBar, { value: progress.percent, label: `${progress.completed}/${progress.total} steps` }), (0, jsx_runtime_1.jsx)("div", { style: { color: error ? theme_1.colors.danger : theme_1.colors.inkMuted }, children: error || progress.label })] })] }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Event Timeline", children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", gap: 2, minHeight: 52, overflow: "hidden", borderRadius: 10 }, children: segments.map((segment) => ((0, jsx_runtime_1.jsxs)("button", { type: "button", style: {
+                            flex: `${Math.max(segment.end - segment.start, 0.5)} 0 auto`,
+                            border: "none",
+                            background: segment.confidence >= 0.75 ? theme_1.colors.maroon : theme_1.colors.gold,
+                            color: theme_1.colors.white,
+                            padding: theme_1.spacing.sm,
+                            textAlign: "left",
+                            cursor: "pointer"
+                        }, title: `${segment.label} • ${(segment.confidence * 100).toFixed(0)}% • ${segment.start.toFixed(1)}s-${segment.end.toFixed(1)}s`, children: [(0, jsx_runtime_1.jsx)("div", { children: segment.label }), (0, jsx_runtime_1.jsxs)("div", { style: { fontSize: 12 }, children: [(segment.confidence * 100).toFixed(0), "%"] })] }, segment.id))) }) })] }));
+}
+function normalizeSegmentForRender(segment) {
+    const start = normalizeTimingValue(segment.start, `${segment.id}:start`);
+    const end = normalizeTimingValue(segment.end, `${segment.id}:end`);
+    return {
+        ...segment,
+        start,
+        end: end >= start ? end : start
+    };
+}
+function normalizeTimingValue(value, label) {
+    if (typeof value === "number" && Number.isFinite(value)) {
+        return value;
+    }
+    if (value && typeof value === "object" && "seconds" in value) {
+        const secondsValue = value.seconds;
+        if (typeof secondsValue === "number" && Number.isFinite(secondsValue)) {
+            console.warn("[RK Flow] WeddingAIScreen received TickTime-like segment timing.", {
+                field: label,
+                type: typeof value,
+                value
+            });
+            return secondsValue;
+        }
+    }
+    console.warn("[RK Flow] WeddingAIScreen received non-numeric segment timing.", {
+        field: label,
+        type: typeof value,
+        value
+    });
+    return 0;
+}
+
+
+/***/ },
+
+/***/ 3900
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(4848);
+const client_1 = __importDefault(__webpack_require__(5338));
+const App_1 = __importDefault(__webpack_require__(8577));
 const root = document.getElementById("root");
 if (!root) {
     document.body.innerHTML = "<h1 style='color:red'>ROOT NOT FOUND</h1>";
@@ -2345,7 +9789,428 @@ else {
 
 /***/ },
 
-/***/ 878
+/***/ 7664
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = AppShell;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const AIChatPanel_1 = __importDefault(__webpack_require__(602));
+const LearnStyleComponent_1 = __importDefault(__webpack_require__(7689));
+const AutoEditComponent_1 = __importDefault(__webpack_require__(1161));
+const ColorAIComponent_1 = __importDefault(__webpack_require__(8947));
+const MotionAIComponent_1 = __importDefault(__webpack_require__(4038));
+const AudioAIComponent_1 = __importDefault(__webpack_require__(4198));
+const CaptionAIComponent_1 = __importDefault(__webpack_require__(4238));
+const brain_1 = __webpack_require__(7021);
+const ai_director_1 = __importDefault(__webpack_require__(7896));
+const analytics_1 = __importDefault(__webpack_require__(3675));
+const asset_ai_1 = __importDefault(__webpack_require__(6830));
+const camera_ai_1 = __importDefault(__webpack_require__(5187));
+const clip_intelligence_1 = __importDefault(__webpack_require__(2917));
+const emotion_ai_1 = __importDefault(__webpack_require__(6175));
+const export_ai_1 = __importDefault(__webpack_require__(3254));
+const face_ai_1 = __importDefault(__webpack_require__(9209));
+const developer_center_1 = __importDefault(__webpack_require__(3453));
+const music_ai_1 = __importDefault(__webpack_require__(6609));
+const prompt_reel_1 = __importDefault(__webpack_require__(2232));
+const reference_ai_1 = __importDefault(__webpack_require__(9255));
+const SettingsPage_1 = __importDefault(__webpack_require__(1742));
+const timeline_ai_1 = __importDefault(__webpack_require__(4667));
+const team_workspace_1 = __importDefault(__webpack_require__(3094));
+const wedding_ai_1 = __importDefault(__webpack_require__(5522));
+const premiereService_1 = __webpack_require__(3763);
+const systemStats_1 = __webpack_require__(1125);
+const ExecutionPreviewModal_1 = __importDefault(__webpack_require__(1257));
+const ErrorBoundary_1 = __importDefault(__webpack_require__(560));
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const activity_mjs_1 = __importDefault(__webpack_require__(7720));
+const aperture_mjs_1 = __importDefault(__webpack_require__(2731));
+const audio_lines_mjs_1 = __importDefault(__webpack_require__(5337));
+const badge_indian_rupee_mjs_1 = __importDefault(__webpack_require__(4288));
+const bot_mjs_1 = __importDefault(__webpack_require__(622));
+const camera_mjs_1 = __importDefault(__webpack_require__(6666));
+const captions_mjs_1 = __importDefault(__webpack_require__(7937));
+const clapperboard_mjs_1 = __importDefault(__webpack_require__(7146));
+const download_mjs_1 = __importDefault(__webpack_require__(7379));
+const film_mjs_1 = __importDefault(__webpack_require__(6913));
+const folder_kanban_mjs_1 = __importDefault(__webpack_require__(3705));
+const heart_handshake_mjs_1 = __importDefault(__webpack_require__(5905));
+const layout_dashboard_mjs_1 = __importDefault(__webpack_require__(2654));
+const mic_vocal_mjs_1 = __importDefault(__webpack_require__(1696));
+const monitor_cog_mjs_1 = __importDefault(__webpack_require__(5205));
+const music_4_mjs_1 = __importDefault(__webpack_require__(307));
+const palette_mjs_1 = __importDefault(__webpack_require__(5832));
+const scan_face_mjs_1 = __importDefault(__webpack_require__(7002));
+const scissors_mjs_1 = __importDefault(__webpack_require__(5758));
+const settings_mjs_1 = __importDefault(__webpack_require__(3588));
+const sparkles_mjs_1 = __importDefault(__webpack_require__(5654));
+const timer_reset_mjs_1 = __importDefault(__webpack_require__(692));
+const users_mjs_1 = __importDefault(__webpack_require__(1085));
+const waves_horizontal_mjs_1 = __importDefault(__webpack_require__(9404));
+const MODULE_GROUPS = [
+    {
+        label: "AI Core",
+        items: [
+            { id: "dashboard", title: "Dashboard", phase: 1, icon: (0, jsx_runtime_1.jsx)(layout_dashboard_mjs_1.default, { size: 16 }), description: "Studio overview and project pulse." },
+            { id: "ai-director", title: "AI Director", phase: 3, icon: (0, jsx_runtime_1.jsx)(bot_mjs_1.default, { size: 16 }), description: "Full autonomous wedding-film creation." },
+            { id: "reference-ai", title: "Reference AI", phase: 3, icon: (0, jsx_runtime_1.jsx)(film_mjs_1.default, { size: 16 }), description: "Analyze reels and recreate style." }
+        ]
+    },
+    {
+        label: "Timeline",
+        items: [
+            { id: "timeline-ai", title: "Timeline AI", phase: 2, icon: (0, jsx_runtime_1.jsx)(clapperboard_mjs_1.default, { size: 16 }), description: "Timeline health, cleanup, and execution." },
+            { id: "auto-edit", title: "Auto Edit", phase: 3, icon: (0, jsx_runtime_1.jsx)(scissors_mjs_1.default, { size: 16 }), description: "One-click reels, highlights, and teasers." },
+            { id: "prompt-reel", title: "Prompt Reel", phase: 3, icon: (0, jsx_runtime_1.jsx)(sparkles_mjs_1.default, { size: 16 }), description: "Free-text reel generation from Premiere clips." },
+            { id: "voice-chat", title: "Voice / Chat", phase: 3, icon: (0, jsx_runtime_1.jsx)(mic_vocal_mjs_1.default, { size: 16 }), description: "Natural-language edit commands." }
+        ]
+    },
+    {
+        label: "Wedding",
+        items: [
+            { id: "wedding-ai", title: "Wedding AI", phase: 2, icon: (0, jsx_runtime_1.jsx)(sparkles_mjs_1.default, { size: 16 }), description: "Indian wedding event detection." },
+            { id: "learn-style", title: "Learn My Style", phase: 3, icon: (0, jsx_runtime_1.jsx)(heart_handshake_mjs_1.default, { size: 16 }), description: "Capture Rohit's edit patterns." },
+            { id: "director-learn", title: "Templates", phase: 1, icon: (0, jsx_runtime_1.jsx)(badge_indian_rupee_mjs_1.default, { size: 16 }), description: "Preset-driven wedding storytelling." }
+        ]
+    },
+    {
+        label: "Vision",
+        items: [
+            { id: "face-ai", title: "Face AI", phase: 2, icon: (0, jsx_runtime_1.jsx)(scan_face_mjs_1.default, { size: 16 }), description: "Bride, groom, family, guest search." },
+            { id: "emotion-ai", title: "Emotion AI", phase: 2, icon: (0, jsx_runtime_1.jsx)(heart_handshake_mjs_1.default, { size: 16 }), description: "Emotion and reaction scoring." },
+            { id: "camera-ai", title: "Camera AI", phase: 2, icon: (0, jsx_runtime_1.jsx)(camera_mjs_1.default, { size: 16 }), description: "Shot type and motion classification." },
+            { id: "clip-intelligence", title: "Clip Intelligence", phase: 2, icon: (0, jsx_runtime_1.jsx)(aperture_mjs_1.default, { size: 16 }), description: "Blur, exposure, and AI rating." }
+        ]
+    },
+    {
+        label: "Music / Audio",
+        items: [
+            { id: "music-ai", title: "Music AI", phase: 2, icon: (0, jsx_runtime_1.jsx)(music_4_mjs_1.default, { size: 16 }), description: "Beat, BPM, mood, and chorus detection." },
+            { id: "audio-ai", title: "Audio AI", phase: 3, icon: (0, jsx_runtime_1.jsx)(audio_lines_mjs_1.default, { size: 16 }), description: "Denoise, ducking, voice cleanup." },
+            { id: "caption-ai", title: "Caption AI", phase: 3, icon: (0, jsx_runtime_1.jsx)(captions_mjs_1.default, { size: 16 }), description: "Hindi, English, and Hinglish captions." }
+        ]
+    },
+    {
+        label: "Color / Motion",
+        items: [
+            { id: "color-ai", title: "Color AI", phase: 3, icon: (0, jsx_runtime_1.jsx)(palette_mjs_1.default, { size: 16 }), description: "Film look, skin protection, match." },
+            { id: "motion-ai", title: "Motion AI", phase: 3, icon: (0, jsx_runtime_1.jsx)(waves_horizontal_mjs_1.default, { size: 16 }), description: "Pan, zoom, parallax, blur helpers." }
+        ]
+    },
+    {
+        label: "Assets / Export",
+        items: [
+            { id: "asset-ai", title: "Asset AI", phase: 4, icon: (0, jsx_runtime_1.jsx)(folder_kanban_mjs_1.default, { size: 16 }), description: "Smart media search and collections." },
+            { id: "export-ai", title: "Export AI", phase: 4, icon: (0, jsx_runtime_1.jsx)(download_mjs_1.default, { size: 16 }), description: "Preset exports and queue." }
+        ]
+    },
+    {
+        label: "Team / Ops",
+        items: [
+            { id: "team-workspace", title: "Team Workspace", phase: 4, icon: (0, jsx_runtime_1.jsx)(users_mjs_1.default, { size: 16 }), description: "Comments, approvals, versioning." },
+            { id: "analytics", title: "Analytics", phase: 4, icon: (0, jsx_runtime_1.jsx)(activity_mjs_1.default, { size: 16 }), description: "AI usage and performance telemetry." },
+            { id: "developer-center", title: "Developer Center", phase: 4, icon: (0, jsx_runtime_1.jsx)(monitor_cog_mjs_1.default, { size: 16 }), description: "Logs, prompts, and diagnostics." },
+            { id: "settings", title: "Settings", phase: 1, icon: (0, jsx_runtime_1.jsx)(settings_mjs_1.default, { size: 16 }), description: "Gemini key and provider setup." }
+        ]
+    }
+];
+const QUICK_ACTIONS = [
+    "Summarize current sequence",
+    "Plan a 45-second wedding reel",
+    "Check timeline health",
+    "Suggest next module"
+];
+const RECENT_PROJECTS = [
+    "Baby Shower Highlights",
+    "Sangeet Master Sequence",
+    "Vidaai Short Reel"
+];
+const memory = new brain_1.MemoryEngine();
+const NAV_ITEM_COUNT = MODULE_GROUPS.reduce((count, group) => count + group.items.length, 0);
+const IS_DEV = (/* unused pure expression or super */ null && ("production" !== "production"));
+function AppShell() {
+    const [activeModule, setActiveModule] = (0, react_1.useState)("dashboard");
+    const [timelineInfo, setTimelineInfo] = (0, react_1.useState)(null);
+    const [shellWidth, setShellWidth] = (0, react_1.useState)(() => readPanelWidth());
+    const [navCollapsed, setNavCollapsed] = (0, react_1.useState)(false);
+    const [assistantOpen, setAssistantOpen] = (0, react_1.useState)(true);
+    const [assistantLog, setAssistantLog] = (0, react_1.useState)([]);
+    (0, react_1.useEffect)(() => {
+        console.log("[RK Flow] Active module:", activeModule);
+    }, [activeModule]);
+    (0, react_1.useEffect)(() => {
+        const syncLayout = () => {
+            const width = readPanelWidth();
+            setShellWidth((current) => (current === width ? current : width));
+            setNavCollapsed((current) => {
+                const next = width < 900;
+                return current === next ? current : next;
+            });
+            setAssistantOpen((current) => {
+                const next = width >= 960;
+                return current === next ? current : next;
+            });
+        };
+        syncLayout();
+        window.addEventListener("resize", syncLayout);
+        return () => window.removeEventListener("resize", syncLayout);
+    }, []);
+    (0, react_1.useEffect)(() => {
+        void premiereService_1.premiereService.getTimelineInfo().then(setTimelineInfo);
+    }, []);
+    const activeConfig = (0, react_1.useMemo)(() => {
+        for (const group of MODULE_GROUPS) {
+            const found = group.items.find((item) => item.id === activeModule);
+            if (found) {
+                return found;
+            }
+        }
+        return MODULE_GROUPS[0].items[0];
+    }, [activeModule]);
+    const systemStats = (0, systemStats_1.getSystemStats)();
+    const shellPadding = shellWidth > 0 && shellWidth < 480 ? theme_1.spacing.sm : theme_1.spacing.lg;
+    const assistantActions = (0, react_1.useMemo)(() => {
+        const perModule = {
+            dashboard: QUICK_ACTIONS,
+            "wedding-ai": ["Detect Haldi and Sangeet segments", "Label Bride Entry", "Show event timeline"],
+            "face-ai": ["Find all Bride clips", "List family appearances", "Rename person cluster"],
+            "emotion-ai": ["Filter smile clips", "Show reaction moments", "Find dance shots"],
+            "camera-ai": ["Filter drone shots", "Show handheld clips", "List static shots"],
+            "clip-intelligence": ["Sort by AI rating", "Show duplicate clips", "Explain low scores"],
+            "music-ai": ["Show me the chorus sections", "Estimate BPM", "Overlay beat markers"],
+            "timeline-ai": ["Score timeline health", "Find gaps", "Suggest cleanup report"],
+            settings: ["Test Gemini connection", "Explain model setup", "Show active provider"]
+        };
+        return perModule[activeModule] ?? [
+            `Explain ${activeConfig.title}`,
+            `What lands in Phase ${activeConfig.phase}?`,
+            "Suggest the next best action"
+        ];
+    }, [activeConfig.phase, activeConfig.title, activeModule]);
+    const handleToggleNav = (0, react_1.useCallback)(() => {
+        setNavCollapsed((value) => !value);
+    }, []);
+    const handleSelectModule = (0, react_1.useCallback)((moduleId) => {
+        if (false) // removed by dead control flow
+{}
+        setActiveModule((current) => (current === moduleId ? current : moduleId));
+    }, []);
+    const handleAssistantOpen = (0, react_1.useCallback)(() => {
+        setAssistantOpen(true);
+    }, []);
+    const handleAssistantAction = (0, react_1.useCallback)((value) => {
+        setAssistantLog((current) => [value, ...current].slice(0, 6));
+    }, []);
+    return ((0, jsx_runtime_1.jsxs)("div", { style: {
+            height: "100vh",
+            width: "100vw",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+            background: `linear-gradient(180deg, ${theme_1.colors.ivory} 0%, ${theme_1.colors.panelMuted} 100%)`,
+            color: theme_1.colors.ink,
+            fontFamily: theme_1.typography.body
+        }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { flex: "1 1 auto", minHeight: 0, display: "flex", minWidth: 0 }, children: [(0, jsx_runtime_1.jsx)(LeftNav, { activeModule: activeModule, navCollapsed: navCollapsed, onSelectModule: handleSelectModule, onToggleNav: handleToggleNav }), (0, jsx_runtime_1.jsx)("main", { style: { flex: "1 1 auto", minWidth: 0, minHeight: 0, padding: shellPadding, boxSizing: "border-box" }, children: (0, jsx_runtime_1.jsxs)("div", { style: {
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "stretch",
+                                gap: theme_1.spacing.lg,
+                                height: "100%",
+                                minHeight: 0
+                            }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { flex: "1 1 auto", minWidth: 0, minHeight: 0, display: "flex", flexDirection: "column", gap: theme_1.spacing.lg }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { style: { background: theme_1.colors.panel, boxShadow: theme_1.shadows.raised }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.gold, fontSize: theme_1.typography.sizes.xs, fontWeight: 700, textTransform: "uppercase" }, children: "Monday, August 3, 2026" }), (0, jsx_runtime_1.jsx)("h1", { style: { margin: `${theme_1.spacing.xs}px 0 0`, fontFamily: theme_1.typography.heading, fontSize: theme_1.typography.sizes.xxl, color: theme_1.colors.maroonDeep }, children: activeConfig.title }), (0, jsx_runtime_1.jsx)("p", { style: { margin: `${theme_1.spacing.xs}px 0 0`, color: theme_1.colors.inkMuted }, children: activeConfig.description })] }), !assistantOpen && ((0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: handleAssistantOpen, children: "Open Assistant" }))] }) }), (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: { minHeight: 0 }, children: (0, jsx_runtime_1.jsx)(ErrorBoundary_1.default, { resetKey: activeModule, children: (0, jsx_runtime_1.jsx)(WorkspacePanel, { moduleId: activeModule, timelineInfo: timelineInfo }) }) })] }), assistantOpen && ((0, jsx_runtime_1.jsx)("div", { style: { flex: "0 0 340px", width: 340, minWidth: 300, minHeight: 0 }, children: (0, jsx_runtime_1.jsx)(AIChatPanel_1.default, { title: "AI Assistant", suggestedActions: assistantActions, onAction: handleAssistantAction }) }))] }) })] }), (0, jsx_runtime_1.jsxs)("footer", { style: {
+                    flex: "0 0 auto",
+                    borderTop: `1px solid ${theme_1.colors.border}`,
+                    background: theme_1.colors.panel,
+                    padding: `${theme_1.spacing.xs}px ${shellPadding}px`,
+                    display: "flex",
+                    gap: theme_1.spacing.md,
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                    boxSizing: "border-box"
+                }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "AI Ready", tone: "success" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `GPU ${systemStats.gpu}` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `RAM ${systemStats.ram}` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Timeline ${timelineInfo?.duration ?? "--"}` }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: timelineInfo?.sequenceName || "No active sequence" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Render Queue ${assistantLog.length}`, tone: "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Panel ${shellWidth}px` })] }), (0, jsx_runtime_1.jsx)(ExecutionPreviewModal_1.default, {})] }));
+}
+function readPanelWidth() {
+    if (typeof window !== "undefined" && typeof window.innerWidth === "number" && Number.isFinite(window.innerWidth) && window.innerWidth > 0) {
+        return Math.round(window.innerWidth);
+    }
+    if (typeof document !== "undefined") {
+        const rootWidth = document.documentElement?.clientWidth;
+        if (typeof rootWidth === "number" && Number.isFinite(rootWidth) && rootWidth > 0) {
+            return rootWidth;
+        }
+        const bodyWidth = document.body?.clientWidth;
+        if (typeof bodyWidth === "number" && Number.isFinite(bodyWidth) && bodyWidth > 0) {
+            return bodyWidth;
+        }
+    }
+    return 0;
+}
+const LeftNav = (0, react_1.memo)(function LeftNav({ activeModule, navCollapsed, onSelectModule, onToggleNav }) {
+    (0, react_1.useEffect)(() => {
+        if (false) // removed by dead control flow
+{}
+    }, []);
+    return ((0, jsx_runtime_1.jsxs)("aside", { style: {
+            width: navCollapsed ? 76 : 284,
+            flex: "0 0 auto",
+            borderRight: `1px solid ${theme_1.colors.border}`,
+            background: theme_1.colors.panel,
+            padding: theme_1.spacing.md,
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            gap: theme_1.spacing.md
+        }, children: [(0, jsx_runtime_1.jsxs)("div", { style: {
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                    gap: theme_1.spacing.sm,
+                    paddingBottom: theme_1.spacing.sm,
+                    borderBottom: `1px solid ${theme_1.colors.border}`
+                }, children: [!navCollapsed && ((0, jsx_runtime_1.jsxs)("div", { style: { minWidth: 0 }, children: [(0, jsx_runtime_1.jsx)("div", { style: { fontFamily: theme_1.typography.heading, fontSize: theme_1.typography.sizes.xl, color: theme_1.colors.maroonDeep }, children: "RK Flow" }), (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, fontSize: theme_1.typography.sizes.xs, marginTop: 2 }, children: "AI Studio" })] })), (0, jsx_runtime_1.jsx)(primitives_1.IconButton, { onClick: onToggleNav, "aria-label": "Toggle navigation", children: (0, jsx_runtime_1.jsx)(timer_reset_mjs_1.default, { size: 16 }) })] }), (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: { flex: "1 1 auto" }, children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md, paddingTop: theme_1.spacing.xs }, children: MODULE_GROUPS.map((group) => ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.xs }, children: [!navCollapsed && ((0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.gold, fontSize: theme_1.typography.sizes.xs, fontWeight: 700, textTransform: "uppercase" }, children: group.label })), group.items.map((item) => {
+                                const active = item.id === activeModule;
+                                return ((0, jsx_runtime_1.jsxs)(primitives_1.Button, { variant: active ? "secondary" : "ghost", onClick: () => onSelectModule(item.id), title: item.title, style: {
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: theme_1.spacing.sm,
+                                        width: "100%",
+                                        minHeight: 44,
+                                        padding: navCollapsed ? theme_1.spacing.xs : theme_1.spacing.sm,
+                                        justifyContent: navCollapsed ? "center" : "flex-start",
+                                        borderRadius: 10,
+                                        border: `1px solid ${active ? theme_1.colors.gold : theme_1.colors.border}`,
+                                        background: active ? theme_1.colors.panelMuted : theme_1.colors.white,
+                                        color: active ? theme_1.colors.maroonDeep : theme_1.colors.ink,
+                                        boxSizing: "border-box",
+                                        boxShadow: active ? theme_1.shadows.soft : "none"
+                                    }, children: [(0, jsx_runtime_1.jsx)("span", { style: {
+                                                width: 28,
+                                                height: 28,
+                                                borderRadius: 8,
+                                                display: "inline-flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                background: active ? theme_1.colors.cream : theme_1.colors.white,
+                                                color: active ? theme_1.colors.maroon : theme_1.colors.inkMuted,
+                                                border: `1px solid ${active ? theme_1.colors.goldSoft : theme_1.colors.border}`
+                                            }, children: item.icon }), !navCollapsed && ((0, jsx_runtime_1.jsxs)("span", { style: { textAlign: "left", minWidth: 0, display: "flex", flexDirection: "column", gap: theme_1.spacing.xs }, children: [(0, jsx_runtime_1.jsx)("span", { style: { display: "block", fontWeight: 700 }, children: item.title }), (0, jsx_runtime_1.jsx)("span", { style: { display: "inline-flex" }, children: (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Phase ${item.phase}`, tone: active ? "warning" : "neutral" }) })] }))] }, item.id));
+                            })] }, group.label))) }) })] }));
+});
+function WorkspacePanel({ moduleId, timelineInfo }) {
+    if (moduleId === "dashboard") {
+        return (0, jsx_runtime_1.jsx)(DashboardPanel, { timelineInfo: timelineInfo });
+    }
+    if (moduleId === "settings") {
+        return (0, jsx_runtime_1.jsx)(SettingsPage_1.default, {});
+    }
+    if (moduleId === "wedding-ai") {
+        return (0, jsx_runtime_1.jsx)(wedding_ai_1.default, {});
+    }
+    if (moduleId === "face-ai") {
+        return (0, jsx_runtime_1.jsx)(face_ai_1.default, {});
+    }
+    if (moduleId === "emotion-ai") {
+        return (0, jsx_runtime_1.jsx)(emotion_ai_1.default, {});
+    }
+    if (moduleId === "camera-ai") {
+        return (0, jsx_runtime_1.jsx)(camera_ai_1.default, {});
+    }
+    if (moduleId === "clip-intelligence") {
+        return (0, jsx_runtime_1.jsx)(clip_intelligence_1.default, {});
+    }
+    if (moduleId === "music-ai") {
+        return (0, jsx_runtime_1.jsx)(music_ai_1.default, {});
+    }
+    if (moduleId === "timeline-ai") {
+        return (0, jsx_runtime_1.jsx)(timeline_ai_1.default, {});
+    }
+    if (moduleId === "ai-director") {
+        return (0, jsx_runtime_1.jsx)(ai_director_1.default, {});
+    }
+    if (moduleId === "reference-ai") {
+        return (0, jsx_runtime_1.jsx)(reference_ai_1.default, {});
+    }
+    if (moduleId === "learn-style") {
+        return (0, jsx_runtime_1.jsx)(LearnStyleComponent_1.default, {});
+    }
+    if (moduleId === "auto-edit") {
+        return (0, jsx_runtime_1.jsx)(AutoEditComponent_1.default, {});
+    }
+    if (moduleId === "prompt-reel") {
+        return (0, jsx_runtime_1.jsx)(prompt_reel_1.default, {});
+    }
+    if (moduleId === "color-ai") {
+        return (0, jsx_runtime_1.jsx)(ColorAIComponent_1.default, {});
+    }
+    if (moduleId === "motion-ai") {
+        return (0, jsx_runtime_1.jsx)(MotionAIComponent_1.default, {});
+    }
+    if (moduleId === "audio-ai") {
+        return (0, jsx_runtime_1.jsx)(AudioAIComponent_1.default, {});
+    }
+    if (moduleId === "caption-ai") {
+        return (0, jsx_runtime_1.jsx)(CaptionAIComponent_1.default, {});
+    }
+    if (moduleId === "asset-ai") {
+        return (0, jsx_runtime_1.jsx)(asset_ai_1.default, {});
+    }
+    if (moduleId === "export-ai") {
+        return (0, jsx_runtime_1.jsx)(export_ai_1.default, {});
+    }
+    if (moduleId === "team-workspace") {
+        return (0, jsx_runtime_1.jsx)(team_workspace_1.default, {});
+    }
+    if (moduleId === "analytics") {
+        return (0, jsx_runtime_1.jsx)(analytics_1.default, {});
+    }
+    if (moduleId === "developer-center") {
+        return (0, jsx_runtime_1.jsx)(developer_center_1.default, {});
+    }
+    const module = MODULE_GROUPS.flatMap((group) => group.items).find((item) => item.id === moduleId);
+    if (!module) {
+        return null;
+    }
+    return ((0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: module.title, subtitle: `Coming in Phase ${module.phase}`, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, lineHeight: 1.7 }, children: module.description }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md }, children: (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Phase ${module.phase} placeholder` }) })] }));
+}
+function DashboardPanel({ timelineInfo }) {
+    const scopeKey = timelineInfo?.sequenceName ? `face-ai:No Project::${timelineInfo.sequenceName}` : "";
+    const faceResult = scopeKey ? memory.getAnalysis(scopeKey, "result") : null;
+    const musicKeys = Object.keys(memory.load().analysis).filter((key) => key.startsWith("music-ai:file:"));
+    const health = timelineInfo?.connected ? 82 : 18;
+    const brideFound = (faceResult?.clusters ?? []).some((cluster) => cluster.role === "bride");
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.lg }, children: [(0, jsx_runtime_1.jsxs)("div", { style: {
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: theme_1.spacing.md
+                }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "AI Ready", subtitle: "Gemini assistant", style: { flex: "1 1 180px" }, children: (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: "Connected", tone: "success" }) }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Bride Found", subtitle: "Face AI cluster result", style: { flex: "1 1 180px" }, children: (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: brideFound ? "Detected" : "Not detected yet", tone: brideFound ? "success" : "warning" }) }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Music Ready", subtitle: "Beat engine", style: { flex: "1 1 180px" }, children: (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: musicKeys.length > 0 ? "Analyzed" : "Awaiting analysis", tone: musicKeys.length > 0 ? "success" : "warning" }) })] }), (0, jsx_runtime_1.jsxs)("div", { style: {
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: theme_1.spacing.md
+                }, children: [(0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Timeline Health", subtitle: "Read directly from the active Premiere sequence.", style: { flex: "1 1 360px" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.ProgressBar, { value: health, label: timelineInfo?.sequenceName || "No active sequence" }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md, color: theme_1.colors.inkMuted, lineHeight: 1.6 }, children: timelineInfo?.connected
+                                    ? `Sequence duration ${timelineInfo.duration}, with ${timelineInfo.videoTracks} video tracks and ${timelineInfo.audioTracks} audio tracks.`
+                                    : "Premiere sequence not connected yet." })] }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Quick Actions", subtitle: "Phase 1 launch shortcuts.", style: { flex: "1 1 280px" }, children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: QUICK_ACTIONS.map((action) => ((0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", style: { justifyContent: "flex-start", textAlign: "left" }, children: action }, action))) }) })] }), (0, jsx_runtime_1.jsxs)("div", { style: {
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: theme_1.spacing.md
+                }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Wedding Summary", subtitle: "RK Brain foundation overview.", style: { flex: "1 1 360px" }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm, color: theme_1.colors.inkMuted }, children: [(0, jsx_runtime_1.jsx)("div", { children: "Event style: Indian wedding storytelling." }), (0, jsx_runtime_1.jsx)("div", { children: "Preferred pacing: emotional build to celebration finish." }), (0, jsx_runtime_1.jsx)("div", { children: "Context engine status: ready for Phase 2 perception modules." })] }) }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Recent Projects", subtitle: "Local workspace list.", style: { flex: "1 1 280px" }, children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: RECENT_PROJECTS.map((project) => ((0, jsx_runtime_1.jsx)("div", { style: {
+                                    padding: theme_1.spacing.sm,
+                                    borderRadius: 10,
+                                    border: `1px solid ${theme_1.colors.border}`,
+                                    background: theme_1.colors.white
+                                }, children: project }, project))) }) })] })] }));
+}
+
+
+/***/ },
+
+/***/ 7878
 (__unused_webpack_module, exports) {
 
 var __webpack_unused_export__;
@@ -2376,7 +10241,7 @@ exports.ClipController = ClipController;
 
 /***/ },
 
-/***/ 622
+/***/ 2622
 (__unused_webpack_module, exports) {
 
 var __webpack_unused_export__;
@@ -2401,7 +10266,7 @@ exports.ExportController = ExportController;
 
 /***/ },
 
-/***/ 778
+/***/ 4778
 (__unused_webpack_module, exports) {
 
 var __webpack_unused_export__;
@@ -2425,17 +10290,23 @@ exports.MarkerController = MarkerController;
 
 /***/ },
 
-/***/ 862
-(__unused_webpack_module, exports) {
+/***/ 1862
+(__unused_webpack_module, exports, __webpack_require__) {
 
-var __webpack_unused_export__;
 
-__webpack_unused_export__ = ({ value: true });
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PremiereBridge = void 0;
+const TransactionManager_1 = __importDefault(__webpack_require__(1375));
 class PremiereBridge {
     host;
+    transactionManager;
     constructor(host) {
         this.host = host === undefined ? this.resolveHost() : host;
+        const ppro = this.host?.app;
+        this.transactionManager = ppro ? new TransactionManager_1.default(ppro) : null;
     }
     isConnected() {
         return this.host !== null;
@@ -2448,107 +10319,175 @@ class PremiereBridge {
         if (sequence === null) {
             return null;
         }
-        console.log("===== RKFLOW SEQUENCE =====");
-        console.log(sequence);
-        console.log("Sequence methods:");
-        console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(sequence)));
-        try {
-            const track = await sequence.getVideoTrack(0);
-            console.log("===== VIDEO TRACK =====");
-            console.log(track);
-            console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(track)));
-            const PPRO = globalThis.require("premierepro");
-            console.log("PPRO Constants:", PPRO.Constants);
-            const clips = await track.getTrackItems(PPRO.Constants.TrackItemType.CLIP, false);
-            console.log("===== TRACK CLIPS =====");
-            console.log(clips);
-            console.log("Clip count:", clips.length);
-            if (clips.length > 0) {
-                console.log("===== FIRST CLIP =====");
-                console.log(clips[0]);
-                console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(clips[0])));
-                console.log("Clip Name:", await clips[0].getName());
-                console.log("Start:", await clips[0].getStartTime());
-                console.log("End:", await clips[0].getEndTime());
-                console.log("Duration:", await clips[0].getDuration());
-                console.log("In:", await clips[0].getInPoint());
-                console.log("Out:", await clips[0].getOutPoint());
-                console.log("Selected:", await clips[0].getIsSelected());
-                console.log("Track Index:", await clips[0].getTrackIndex());
-                const projectItem = await clips[0].getProjectItem();
-                console.log("===== PROJECT ITEM =====");
-                console.log(projectItem);
-                console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(projectItem)));
-                const media = await projectItem.getMedia?.();
-                console.log("===== MEDIA =====");
-                console.log(media);
-                if (media) {
-                    console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(media)));
-                }
-                const chain = await clips[0].getComponentChain();
-                console.log("===== COMPONENT CHAIN =====");
-                console.log(chain);
-                console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(chain)));
-                const count = await chain.getComponentCount();
-                console.log("Component Count:", count);
-                if (count > 0) {
-                    const c = await chain.getComponentAtIndex(0);
-                    console.log("===== FIRST COMPONENT =====");
-                    console.log(c);
-                    console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(c)));
-                    const paramCount = await c.getParamCount();
-                    console.log("Param Count:", paramCount);
-                    for (let i = 0; i < paramCount; i++) {
-                        const param = await c.getParam(i);
-                        console.log("===== PARAM", i, "=====");
-                        console.log(param);
-                        console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(param)));
-                    }
-                }
-            }
-        }
-        catch (e) {
-            console.error("Track Error:", e);
-        }
-        const [videoTrackCount, audioTrackCount, duration, inPoint, outPoint, playhead, settings] = await Promise.all([
+        const [videoTrackCount, audioTrackCount, duration, inPoint, outPoint, playhead, settings, videoTracks, audioTracks] = await Promise.all([
             sequence.getVideoTrackCount(),
             sequence.getAudioTrackCount(),
             sequence.getEndTime(),
             sequence.getInPoint(),
             sequence.getOutPoint(),
             sequence.getPlayerPosition(),
-            sequence.getSettings()
+            sequence.getSettings(),
+            this.readTracks(sequence, "video"),
+            this.readTracks(sequence, "audio")
         ]);
         return {
-            sequenceName: sequence.name,
+            sequenceName: normalizeTextValue(sequence.name, ""),
             fps: await getFrameRate(settings),
             duration: duration.seconds,
             playhead: playhead.seconds,
             inPoint: inPoint.seconds,
             outPoint: outPoint.seconds,
-            videoTracks: createTracks("video", videoTrackCount),
-            audioTracks: createTracks("audio", audioTrackCount),
-            // Marker and clip enumeration are added only after the read-only snapshot
-            // is verified in Premiere.
+            videoTracks: videoTracks.length > 0 ? videoTracks : createTracks("video", videoTrackCount),
+            audioTracks: audioTracks.length > 0 ? audioTracks : createTracks("audio", audioTrackCount),
             markers: []
         };
     }
     async execute(action, payload = {}) {
+        const handler = ACTION_HANDLERS[action];
+        if (handler) {
+            try {
+                const result = await handler(this, payload);
+                if (!result.success) {
+                    console.error(`[RK Flow][PremiereBridge] ${action} returned failure.`, { payload, result });
+                }
+                return result;
+            }
+            catch (error) {
+                console.error(`[RK Flow][PremiereBridge] ${action} threw.`, { payload, error });
+                return {
+                    success: false,
+                    message: `${action} failed.`,
+                    error: error instanceof Error ? error.message : String(error)
+                };
+            }
+        }
         if (this.host?.execute !== undefined) {
             return this.executeWithHost(action, payload);
         }
-        return {
-            success: false,
-            message: `${action} is not enabled in the read-only UXP bridge.`,
-            error: "ACTION_NOT_IMPLEMENTED"
-        };
+        return unsupported(action, "No local PremiereBridge handler exists and no writable host.execute bridge is attached.");
+    }
+    async createSequence(name) {
+        return this.withProjectAction("CREATE_SEQUENCE", async (project) => {
+            if (project.createSequence === undefined) {
+                throw new Error("Project.createSequence() is not available in this Premiere runtime.");
+            }
+            const sequence = await project.createSequence(name);
+            if (!sequence) {
+                throw new Error("Premiere did not return the created sequence.");
+            }
+            if (project.setActiveSequence) {
+                const activated = await project.setActiveSequence(sequence);
+                if (!activated) {
+                    throw new Error("Premiere created the sequence but could not make it active for assembly.");
+                }
+            }
+            console.log("[RK Flow][CREATE_SEQUENCE] Created and activated sequence.", {
+                requestedName: name,
+                sequenceName: sequence.name
+            });
+            return sequence;
+        });
+    }
+    async addTransition(type, start, duration) {
+        return this.withTransaction("ADD_TRANSITION", async () => {
+            const clip = await this.findVideoClipByTime(start);
+            if (clip?.createAddVideoTransitionAction === undefined) {
+                throw new Error("TrackItem.createAddVideoTransitionAction() is not available.");
+            }
+            return clip.createAddVideoTransitionAction(type, duration ?? 0.5);
+        }, projectHint(projectAvailable(this.host)));
+    }
+    async applyPanAndZoom(clipId, preset) {
+        const [x, y, scale] = panAndZoomPreset(preset);
+        return this.setMotionProperties(clipId, { position: [x, y], scale });
+    }
+    async autoZoom(clipId, start, end) {
+        const from = typeof start === "number" ? start : 0;
+        const to = typeof end === "number" ? end : 1;
+        const scale = 100 + Math.max(0, to - from) * 18;
+        return this.setMotionProperties(clipId, { scale });
+    }
+    async applyParallax(clipId) {
+        return this.setMotionProperties(clipId, { position: [0.54, 0.5], scale: 108 });
+    }
+    async applyMotionBlur(_clipId, _amount) {
+        return unsupported("APPLY_MOTION_BLUR", "The discovered UXP API in this workspace does not expose a confirmed native motion-blur effect insertion or parameter transaction path.");
+    }
+    async reframe(_clipId) {
+        return this.withProjectAction("REFRAME", async () => {
+            const sequence = await this.getActiveSequence();
+            if (sequence === null) {
+                throw new Error("No active sequence is available.");
+            }
+            const autoReframe = sequence.autoReframeSequence;
+            if (typeof autoReframe !== "function") {
+                throw new Error("Sequence.autoReframeSequence() is not available in this Premiere runtime.");
+            }
+            return autoReframe.call(sequence, 9, 16, false, `${sequence.name} Auto Reframe`, true);
+        });
+    }
+    async rippleDelete(_start, _end) {
+        return unsupported("RIPPLE_DELETE", "SequenceEditor.createRemoveItemsAction() exists, but the required writable selection/remove parameter contract was not confirmed in this workspace.");
+    }
+    async importMedia(mediaPath) {
+        return this.withProjectAction("IMPORT_MEDIA", async (project) => {
+            if (project.importFiles === undefined) {
+                throw new Error("Project.importFiles() is not available in this Premiere runtime.");
+            }
+            return project.importFiles([mediaPath]);
+        });
+    }
+    async addClipToSequence(_payload) {
+        return this.insertProjectItemToSequence("ADD_CLIP_TO_SEQUENCE", _payload, "video");
+    }
+    async addAudioToSequence(_payload) {
+        return this.insertProjectItemToSequence("ADD_AUDIO_TO_SEQUENCE", _payload, "audio");
+    }
+    async autoTrim(_clipId) {
+        return unsupported("AUTO_TRIM", "The local Premiere UXP API surface here does not expose a confirmed auto-trim analysis/action API.");
+    }
+    async beatCut(_clipId) {
+        return unsupported("BEAT_CUT", "Beat detection and cut-placement APIs are not exposed by the discovered Premiere scripting surface in this workspace.");
+    }
+    async silenceRemove(_clipId) {
+        return unsupported("SILENCE_REMOVE", "No confirmed Premiere UXP silence-analysis or automatic silence-removal transaction API is available here.");
+    }
+    async speedRamp(_clipId, _from, _to) {
+        return unsupported("SPEED_RAMP", "The discovered local UXP API here exposes TrackItem.getSpeed() but no confirmed writable speed-ramp transaction method.");
+    }
+    async applyColorMatch(_sourceClipId, _targetClipId) {
+        return unsupported("APPLY_COLOR_MATCH", "No confirmed Lumetri color-match transaction or documented effect-parameter mapping exists in this workspace.");
+    }
+    async applySkinToneProtection(_clipId) {
+        return unsupported("APPLY_SKIN_TONE_PROTECTION", "Skin-tone protection would require a confirmed Lumetri/effect parameter map that is not present in this workspace.");
+    }
+    async applyFilmLut(_clipId, _lut) {
+        return unsupported("APPLY_FILM_LUT", "The local reference shows ClipProjectItem.createSetInputLUTIDAction(), but there is no confirmed LUT-ID discovery path wired in this workspace.");
+    }
+    async autoGrade(_clipId) {
+        return unsupported("AUTO_GRADE", "Auto-grade would require a grading algorithm plus confirmed writable Lumetri parameter bindings, neither of which is present here.");
+    }
+    async removeNoise(_clipId) {
+        return unsupported("REMOVE_NOISE", "No confirmed native audio-effect insertion/parameter transaction path is exposed in the discovered UXP API here.");
+    }
+    async enhanceVoice(_clipId) {
+        return unsupported("ENHANCE_VOICE", "No confirmed Speech/Essential Sound transaction API is exposed in this workspace.");
+    }
+    async autoDuck(_mainClipId, _musicClipId) {
+        return unsupported("AUTO_DUCK", "No confirmed Essential Sound auto-duck transaction API is exposed in the discovered local Premiere surface.");
+    }
+    async cleanupSpeech(_clipId) {
+        return unsupported("CLEANUP_SPEECH", "No confirmed speech cleanup/audio restoration transaction API is exposed in this workspace.");
+    }
+    async insertCaptions(_captions) {
+        return unsupported("INSERT_CAPTIONS", "No confirmed caption-track creation or caption-item insertion API is exposed in the discovered local UXP surface here.");
     }
     async executeWithHost(action, payload) {
         try {
             const data = await this.host?.execute?.(action, payload);
             return {
                 success: true,
-                message: `${action} executed.`,
+                message: `${action} executed by host bridge.`,
                 data
             };
         }
@@ -2560,12 +10499,376 @@ class PremiereBridge {
             };
         }
     }
-    async getActiveSequence() {
+    async withProjectAction(action, callback) {
+        const project = await this.getActiveProject();
+        if (project === null) {
+            return unsupported(action, "No active Premiere project is available.");
+        }
+        try {
+            const data = await callback(project);
+            return { success: true, message: `${action} executed.`, data };
+        }
+        catch (error) {
+            return {
+                success: false,
+                message: `${action} failed.`,
+                error: error instanceof Error ? error.message : String(error)
+            };
+        }
+    }
+    async withTransaction(action, actionBuilder, unsupportedReason) {
+        if (this.transactionManager === null) {
+            return unsupported(action, unsupportedReason);
+        }
+        try {
+            const executed = await this.transactionManager.executeAction(actionBuilder);
+            return {
+                success: executed,
+                message: executed ? `${action} executed.` : `${action} did not complete.`
+            };
+        }
+        catch (error) {
+            return {
+                success: false,
+                message: `${action} failed.`,
+                error: error instanceof Error ? error.message : String(error)
+            };
+        }
+    }
+    async setMotionProperties(clipId, { position, scale }) {
+        return this.withProjectAction("APPLY_PAN_AND_ZOOM", async (project) => {
+            if (project.lockedAccess === undefined || project.executeTransaction === undefined) {
+                throw new Error("Project transaction APIs are not available.");
+            }
+            return project.lockedAccess(async () => {
+                const clip = await this.findClipById(clipId);
+                if (clip === null) {
+                    throw new Error(`Clip "${clipId}" was not found on the active timeline.`);
+                }
+                const chain = await clip.getComponentChain?.();
+                if (!chain) {
+                    throw new Error("Clip component chain is not available.");
+                }
+                const motion = await chain.getComponentAtIndex?.(1);
+                if (!motion) {
+                    throw new Error("Motion component is not available.");
+                }
+                const actions = [];
+                if (position) {
+                    const positionParam = await motion.getParam?.(0);
+                    if (positionParam?.createKeyframe === undefined || positionParam.createSetValueAction === undefined) {
+                        throw new Error("Motion position parameter is not writable.");
+                    }
+                    const point = this.createPoint(position[0], position[1]);
+                    const keyframe = positionParam.createKeyframe(point);
+                    keyframe.value.value = [position[0], position[1]];
+                    actions.push(positionParam.createSetValueAction(keyframe, true));
+                }
+                if (scale !== undefined) {
+                    const scaleParam = await motion.getParam?.(1);
+                    if (scaleParam?.createKeyframe === undefined || scaleParam.createSetValueAction === undefined) {
+                        throw new Error("Motion scale parameter is not writable.");
+                    }
+                    const keyframe = scaleParam.createKeyframe(scale);
+                    keyframe.value.value = scale;
+                    actions.push(scaleParam.createSetValueAction(keyframe, true));
+                }
+                return project.executeTransaction?.((compoundAction) => {
+                    for (const action of actions) {
+                        compoundAction.addAction(action);
+                    }
+                });
+            });
+        });
+    }
+    async getActiveProject() {
         if (this.host?.app === undefined) {
             return null;
         }
-        const project = await this.host.app.Project.getActiveProject();
+        return this.host.app.Project.getActiveProject();
+    }
+    async getActiveSequence() {
+        const project = await this.getActiveProject();
         return project === null ? null : project.getActiveSequence();
+    }
+    async readTracks(sequence, type) {
+        const count = type === "video"
+            ? await sequence.getVideoTrackCount()
+            : await sequence.getAudioTrackCount();
+        const tracks = [];
+        for (let index = 0; index < count; index += 1) {
+            const trackReader = type === "video" ? sequence.getVideoTrack?.bind(sequence) : sequence.getAudioTrack?.bind(sequence);
+            if (!trackReader) {
+                break;
+            }
+            const track = await trackReader(index);
+            const clips = await this.readTrackClips(track);
+            tracks.push({
+                id: `${type}-${index + 1}`,
+                name: `${type === "video" ? "Video" : "Audio"} ${index + 1}`,
+                type,
+                clips
+            });
+        }
+        return tracks;
+    }
+    async readTrackClips(track) {
+        if (track?.getTrackItems === undefined) {
+            return [];
+        }
+        const clipType = this.host?.app?.Constants?.TrackItemType?.CLIP;
+        const items = await track.getTrackItems(clipType, false);
+        return Promise.all((items ?? []).map(async (clip, index) => {
+            const projectItem = await tryPremiereValue(() => clip.getProjectItem?.(), null);
+            return {
+                id: await tryPremiereValue(() => clip.getName?.(), `clip-${index}`),
+                name: await tryPremiereValue(() => clip.getName?.(), `Clip ${index + 1}`),
+                start: (await tryPremiereValue(() => clip.getStartTime?.(), { seconds: 0 })).seconds ?? 0,
+                end: (await tryPremiereValue(() => clip.getEndTime?.(), { seconds: 0 })).seconds ?? 0,
+                duration: (await tryPremiereValue(() => clip.getDuration?.(), { seconds: 0 })).seconds ?? 0,
+                trackIndex: await tryPremiereValue(() => clip.getTrackIndex?.(), 0),
+                selected: await tryPremiereValue(() => clip.getIsSelected?.(), false),
+                mediaPath: await this.readMediaPath(clip),
+                projectItemId: await getProjectItemId(projectItem)
+            };
+        }));
+    }
+    async readMediaPath(clip) {
+        const projectItem = await tryPremiereValue(() => clip.getProjectItem?.(), null);
+        const media = await tryPremiereValue(() => projectItem?.getMedia?.(), null);
+        if (media?.getMediaFilePath) {
+            return media.getMediaFilePath();
+        }
+        if (projectItem?.getMediaFilePath) {
+            return projectItem.getMediaFilePath();
+        }
+        return undefined;
+    }
+    async findClipById(clipId) {
+        const sequence = await this.getActiveSequence();
+        if (sequence === null) {
+            return null;
+        }
+        for (const type of ["video", "audio"]) {
+            const count = type === "video"
+                ? await sequence.getVideoTrackCount()
+                : await sequence.getAudioTrackCount();
+            for (let trackIndex = 0; trackIndex < count; trackIndex += 1) {
+                const track = type === "video"
+                    ? await sequence.getVideoTrack?.(trackIndex)
+                    : await sequence.getAudioTrack?.(trackIndex);
+                const items = await track?.getTrackItems?.(this.host?.app?.Constants?.TrackItemType?.CLIP, false);
+                for (const item of items ?? []) {
+                    const name = await tryPremiereValue(() => item.getName?.(), "");
+                    if (name === clipId) {
+                        return item;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    async findVideoClipByTime(time) {
+        const sequence = await this.getActiveSequence();
+        if (sequence === null || sequence.getVideoTrack === undefined) {
+            return null;
+        }
+        const videoTrackCount = await sequence.getVideoTrackCount();
+        const targetTime = typeof time === "number" ? time : null;
+        for (let trackIndex = 0; trackIndex < videoTrackCount; trackIndex += 1) {
+            const track = await sequence.getVideoTrack(trackIndex);
+            const items = await track?.getTrackItems?.(this.host?.app?.Constants?.TrackItemType?.CLIP, false);
+            for (const item of items ?? []) {
+                if (targetTime === null) {
+                    const selected = await tryPremiereValue(() => item.getIsSelected?.(), false);
+                    if (selected) {
+                        return item;
+                    }
+                    continue;
+                }
+                const start = (await tryPremiereValue(() => item.getStartTime?.(), { seconds: 0 })).seconds ?? 0;
+                const end = (await tryPremiereValue(() => item.getEndTime?.(), { seconds: 0 })).seconds ?? 0;
+                if (start <= targetTime && targetTime <= end) {
+                    return item;
+                }
+            }
+        }
+        return null;
+    }
+    createPoint(x, y) {
+        const PointCtor = this.host?.app?.PointF;
+        if (PointCtor) {
+            const point = new PointCtor();
+            point.x = x;
+            point.y = y;
+            return point;
+        }
+        return { x, y };
+    }
+    createTickTime(seconds) {
+        const TickTimeCtor = this.host?.app?.TickTime;
+        if (TickTimeCtor && typeof TickTimeCtor.createWithSeconds === "function") {
+            return TickTimeCtor.createWithSeconds(seconds);
+        }
+        throw new Error("TickTime.createWithSeconds() is not available in this Premiere runtime.");
+    }
+    async insertProjectItemToSequence(action, payload, mediaType) {
+        return this.withProjectAction(action, async (project) => {
+            const attempt = {
+                action,
+                mediaType,
+                clipId: asString(payload.clipId),
+                projectItemId: asString(payload.projectItemId),
+                mediaPath: asString(payload.mediaPath),
+                start: asNumber(payload.start) ?? 0
+            };
+            console.log(`[RK Flow][${action}] Starting insertion attempt.`, attempt);
+            try {
+                const sequence = await project.getActiveSequence();
+                if (sequence === null) {
+                    throw new Error("No active sequence is available.");
+                }
+                if (project.lockedAccess === undefined || project.executeTransaction === undefined) {
+                    throw new Error("Project transaction APIs are not available for clip insertion in this Premiere runtime.");
+                }
+                const editor = await this.host?.app?.SequenceEditor?.getEditor?.(sequence);
+                const createInsertProjectItemAction = editor?.createInsertProjectItemAction;
+                if (typeof createInsertProjectItemAction !== "function") {
+                    throw new Error("SequenceEditor.createInsertProjectItemAction() is not available in this Premiere runtime.");
+                }
+                const startSeconds = asNumber(payload.start) ?? 0;
+                const videoTrackIndex = asNumber(payload.videoTrackIndex) ?? asNumber(payload.targetTrackIndex) ?? 0;
+                const audioTrackIndex = asNumber(payload.audioTrackIndex) ?? asNumber(payload.targetTrackIndex) ?? 0;
+                let projectItem = await this.findProjectItemForPayload(project, payload);
+                if (projectItem === null && typeof payload.mediaPath === "string" && project.importFiles) {
+                    await project.importFiles([payload.mediaPath]);
+                    projectItem = await this.findProjectItemForPayload(project, payload);
+                }
+                if (projectItem === null) {
+                    throw new Error("Project item could not be resolved for clip/audio insertion.");
+                }
+                const insertionTime = this.createTickTime(startSeconds);
+                const beforeItemCount = await this.countSequenceItems(sequence, mediaType);
+                console.log(`[RK Flow][${action}] Resolved project item and transaction inputs.`, {
+                    ...attempt,
+                    itemName: await getProjectItemName(projectItem),
+                    resolvedProjectItemId: await getProjectItemId(projectItem),
+                    beforeItemCount,
+                    videoTrackIndex: mediaType === "video" ? videoTrackIndex : -1,
+                    audioTrackIndex,
+                    limitShift: true
+                });
+                const transactionCommitted = await project.lockedAccess(async () => project.executeTransaction?.((compoundAction) => {
+                    const insertAction = createInsertProjectItemAction.call(editor, projectItem, insertionTime, mediaType === "video" ? videoTrackIndex : -1, audioTrackIndex, true);
+                    if (!insertAction || compoundAction.addAction(insertAction) === false) {
+                        throw new Error("Premiere rejected the insert-project-item action.");
+                    }
+                }));
+                if (!transactionCommitted) {
+                    throw new Error("Premiere did not commit the insert-project-item transaction.");
+                }
+                const afterItemCount = await this.countSequenceItems(sequence, mediaType);
+                if (afterItemCount <= beforeItemCount) {
+                    throw new Error(`Premiere committed the insert transaction but ${mediaType} item count did not increase (${beforeItemCount} -> ${afterItemCount}).`);
+                }
+                console.log(`[RK Flow][${action}] Insertion succeeded.`, {
+                    ...attempt,
+                    beforeItemCount,
+                    afterItemCount,
+                    transactionCommitted
+                });
+                return {
+                    inserted: true,
+                    mediaType,
+                    startSeconds,
+                    itemName: await getProjectItemName(projectItem),
+                    videoTrackIndex: mediaType === "video" ? videoTrackIndex : -1,
+                    audioTrackIndex
+                };
+            }
+            catch (error) {
+                console.error(`[RK Flow][${action}] Insertion failed.`, { ...attempt, error });
+                throw error;
+            }
+        });
+    }
+    async countSequenceItems(sequence, mediaType) {
+        const count = mediaType === "video"
+            ? await sequence.getVideoTrackCount()
+            : await sequence.getAudioTrackCount();
+        const getTrack = mediaType === "video" ? sequence.getVideoTrack?.bind(sequence) : sequence.getAudioTrack?.bind(sequence);
+        if (!getTrack) {
+            return 0;
+        }
+        let itemCount = 0;
+        for (let index = 0; index < count; index += 1) {
+            const track = await getTrack(index);
+            const items = await track?.getTrackItems?.(this.host?.app?.Constants?.TrackItemType?.CLIP, false);
+            itemCount += Array.isArray(items) ? items.length : 0;
+        }
+        return itemCount;
+    }
+    async findProjectItemForPayload(project, payload) {
+        const candidates = [
+            asString(payload.projectItemId),
+            asString(payload.clipId),
+            asString(payload.assetId),
+            asString(payload.mediaPath)
+        ].filter((value) => Boolean(value));
+        for (const candidate of candidates) {
+            const timelineMatch = await this.findProjectItemInSequences(project, candidate);
+            if (timelineMatch) {
+                return timelineMatch;
+            }
+            const root = await project.getRootItem?.();
+            if (!root) {
+                continue;
+            }
+            const match = await this.findProjectItemRecursive(root, candidate);
+            if (match) {
+                return match;
+            }
+        }
+        return null;
+    }
+    async findProjectItemInSequences(project, candidate) {
+        const sequences = await project.getSequences?.();
+        const clipType = this.host?.app?.Constants?.TrackItemType?.CLIP;
+        for (const sequence of sequences ?? []) {
+            const trackCount = await sequence.getVideoTrackCount();
+            for (let trackIndex = 0; trackIndex < trackCount; trackIndex += 1) {
+                const track = await sequence.getVideoTrack?.(trackIndex);
+                const items = await tryPremiereValue(() => track?.getTrackItems?.(clipType, false), []);
+                for (const clip of items ?? []) {
+                    const projectItem = await tryPremiereValue(() => clip.getProjectItem?.(), null);
+                    if (await projectItemMatches(projectItem, candidate)) {
+                        console.log("[RK Flow][ADD_CLIP_TO_SEQUENCE] Resolved project item from source sequence.", {
+                            candidate,
+                            sourceSequence: sequence.name,
+                            sourceTrackIndex: trackIndex
+                        });
+                        return projectItem;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    async findProjectItemRecursive(rootItem, candidate) {
+        // UXP FolderItem exposes child project items through getItems(), not CEP's children collection.
+        const items = await rootItem?.getItems?.();
+        for (const item of items ?? []) {
+            if (await projectItemMatches(item, candidate)) {
+                return item;
+            }
+            if (typeof item?.getItems === "function") {
+                const nested = await this.findProjectItemRecursive(item, candidate);
+                if (nested) {
+                    return nested;
+                }
+            }
+        }
+        return null;
     }
     resolveHost() {
         const moduleRequire = globalThis.require;
@@ -2582,6 +10885,41 @@ class PremiereBridge {
     }
 }
 exports.PremiereBridge = PremiereBridge;
+function normalizeTextValue(value, fallback) {
+    if (typeof value === "string") {
+        return value;
+    }
+    if (typeof value === "number" || typeof value === "boolean") {
+        return String(value);
+    }
+    return fallback;
+}
+const ACTION_HANDLERS = {
+    CREATE_SEQUENCE: (bridge, payload) => bridge.createSequence(String(payload.name ?? "")),
+    IMPORT_MEDIA: (bridge, payload) => bridge.importMedia(String(payload.mediaPath ?? "")),
+    ADD_TRANSITION: (bridge, payload) => bridge.addTransition(String(payload.type ?? "cross_dissolve"), asNumber(payload.start), asNumber(payload.duration)),
+    AUTO_ZOOM: (bridge, payload) => bridge.autoZoom(String(payload.clipId ?? ""), payload.start, payload.end),
+    APPLY_PAN_AND_ZOOM: (bridge, payload) => bridge.applyPanAndZoom(String(payload.clipId ?? ""), String(payload.preset ?? "")),
+    APPLY_PARALLAX: (bridge, payload) => bridge.applyParallax(String(payload.clipId ?? "")),
+    APPLY_MOTION_BLUR: (bridge, payload) => bridge.applyMotionBlur(String(payload.clipId ?? ""), String(payload.amount ?? "")),
+    REFRAME: (bridge, payload) => bridge.reframe(String(payload.clipId ?? "")),
+    RIPPLE_DELETE: (bridge, payload) => bridge.rippleDelete(asNumber(payload.start) ?? 0, asNumber(payload.end) ?? 0),
+    ADD_CLIP_TO_SEQUENCE: (bridge, payload) => bridge.addClipToSequence(payload),
+    ADD_AUDIO_TO_SEQUENCE: (bridge, payload) => bridge.addAudioToSequence(payload),
+    AUTO_TRIM: (bridge, payload) => bridge.autoTrim(asString(payload.clipId)),
+    BEAT_CUT: (bridge, payload) => bridge.beatCut(asString(payload.clipId)),
+    SILENCE_REMOVE: (bridge, payload) => bridge.silenceRemove(asString(payload.clipId)),
+    SPEED_RAMP: (bridge, payload) => bridge.speedRamp(String(payload.clipId ?? ""), asNumber(payload.from) ?? 0, asNumber(payload.to) ?? 0),
+    APPLY_COLOR_MATCH: (bridge, payload) => bridge.applyColorMatch(String(payload.sourceClipId ?? ""), String(payload.targetClipId ?? "")),
+    APPLY_SKIN_TONE_PROTECTION: (bridge, payload) => bridge.applySkinToneProtection(String(payload.clipId ?? "")),
+    APPLY_FILM_LUT: (bridge, payload) => bridge.applyFilmLut(String(payload.clipId ?? ""), String(payload.lut ?? "")),
+    AUTO_GRADE: (bridge, payload) => bridge.autoGrade(String(payload.clipId ?? "")),
+    REMOVE_NOISE: (bridge, payload) => bridge.removeNoise(String(payload.clipId ?? "")),
+    ENHANCE_VOICE: (bridge, payload) => bridge.enhanceVoice(String(payload.clipId ?? "")),
+    AUTO_DUCK: (bridge, payload) => bridge.autoDuck(String(payload.mainClipId ?? ""), String(payload.musicClipId ?? "")),
+    CLEANUP_SPEECH: (bridge, payload) => bridge.cleanupSpeech(String(payload.clipId ?? "")),
+    INSERT_CAPTIONS: (bridge, payload) => bridge.insertCaptions(String(payload.captions ?? ""))
+};
 async function getFrameRate(settings) {
     if (settings.getVideoFrameRate === undefined) {
         return 0;
@@ -2596,11 +10934,92 @@ function createTracks(type, count) {
         clips: []
     }));
 }
+function unsupported(action, reason) {
+    return {
+        success: false,
+        message: `${action} is not supported by the local PremiereBridge implementation.`,
+        error: reason
+    };
+}
+function panAndZoomPreset(preset) {
+    switch (preset) {
+        case "slow_zoom_in":
+            return [0.5, 0.5, 112];
+        case "pan_left_to_right":
+            return [0.68, 0.5, 105];
+        default:
+            return [0.5, 0.5, 105];
+    }
+}
+function asNumber(value) {
+    return typeof value === "number" && Number.isFinite(value) ? value : undefined;
+}
+function asString(value) {
+    return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+async function projectItemMatches(item, candidate) {
+    if (!item) {
+        return false;
+    }
+    if (String(item.nodeId ?? "") === candidate) {
+        return true;
+    }
+    if ((await getProjectItemId(item)) === candidate) {
+        return true;
+    }
+    if (String(item.name ?? "") === candidate) {
+        return true;
+    }
+    const mediaPath = await getProjectItemMediaPath(item);
+    return mediaPath === candidate;
+}
+async function getProjectItemId(item) {
+    try {
+        const id = await item?.getId?.();
+        return typeof id === "string" && id.length > 0 ? id : undefined;
+    }
+    catch {
+        return undefined;
+    }
+}
+async function getProjectItemMediaPath(item) {
+    if (typeof item.getMediaFilePath === "function") {
+        return item.getMediaFilePath();
+    }
+    const media = await tryPremiereValue(() => item?.getMedia?.(), null);
+    if (media?.getMediaFilePath) {
+        return media.getMediaFilePath();
+    }
+    return undefined;
+}
+async function tryPremiereValue(callback, fallback) {
+    try {
+        const value = await callback();
+        return value ?? fallback;
+    }
+    catch {
+        return fallback;
+    }
+}
+async function getProjectItemName(item) {
+    if (typeof item.getName === "function") {
+        return item.getName();
+    }
+    return String(item.name ?? "Unknown Item");
+}
+function projectAvailable(host) {
+    return host?.app?.Project?.getActiveProject !== undefined;
+}
+function projectHint(available) {
+    return available
+        ? "Premiere transaction APIs are available, but this action requires a confirmed writable transaction contract."
+        : "No active writable Premiere project/transaction runtime is attached.";
+}
 
 
 /***/ },
 
-/***/ 857
+/***/ 4857
 (__unused_webpack_module, exports) {
 
 var __webpack_unused_export__;
@@ -2617,6 +11036,9 @@ class SequenceController {
     }
     async importMedia(mediaPath, binPath) {
         return this.bridge.execute("IMPORT_MEDIA", { mediaPath, binPath });
+    }
+    async rippleDelete(start, end) {
+        return this.bridge.execute("RIPPLE_DELETE", { start, end });
     }
 }
 exports.SequenceController = SequenceController;
@@ -2666,105 +11088,511 @@ exports.TimelineReader = TimelineReader;
 
 /***/ },
 
-/***/ 373
+/***/ 9585
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.EffectsController = void 0;
+class EffectsController {
+    bridge;
+    constructor(bridge) {
+        this.bridge = bridge;
+    }
+    autoTrim(clipId) {
+        return this.bridge.execute("AUTO_TRIM", { clipId });
+    }
+    beatCut(clipId) {
+        return this.bridge.execute("BEAT_CUT", { clipId });
+    }
+    silenceRemove(clipId) {
+        return this.bridge.execute("SILENCE_REMOVE", { clipId });
+    }
+    speedRamp(clipId, from, to) {
+        return this.bridge.execute("SPEED_RAMP", { clipId, from, to });
+    }
+    autoZoom(clipId, start, end) {
+        return this.bridge.execute("AUTO_ZOOM", { clipId, start, end });
+    }
+    reframe(clipId) {
+        return this.bridge.execute("REFRAME", { clipId });
+    }
+}
+exports.EffectsController = EffectsController;
+
+
+/***/ },
+
+/***/ 868
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const generative_ai_1 = __webpack_require__(445);
-const config_1 = __webpack_require__(28);
-class RKPlanner {
-    model;
+exports.premiereAPI = exports.PremiereAPI = void 0;
+const MotionEngine_1 = __importDefault(__webpack_require__(2318));
+class PremiereAPI {
+    PPRO;
+    motion;
     constructor() {
-        const ai = new generative_ai_1.GoogleGenerativeAI((0, config_1.resolveGeminiConfig)().apiKey);
-        this.model = ai.getGenerativeModel({
-            model: "gemini-3.6-flash"
-        });
+        this.PPRO = window.PPRO;
+        this.motion = new MotionEngine_1.default(this.PPRO);
     }
-    async create(prompt) {
+    getPPRO() {
+        return this.PPRO;
+    }
+    async getCurrentProject() {
+        return await this.PPRO.Project.getActiveProject();
+    }
+    async getActiveSequence() {
+        const project = await this.getCurrentProject();
+        return project ? await project.getActiveSequence() : null;
+    }
+    async getTimelineContext() {
+        const project = await this.getCurrentProject();
+        if (!project)
+            return null;
+        const sequence = await this.getActiveSequence();
+        if (!sequence)
+            return null;
         return {
-            id: "rk-test",
-            action: "READ_TIMELINE",
-            payload: {},
-            timestamp: Date.now()
-        };
-        // removed by dead control flow
-
-        // removed by dead control flow
-
-        // removed by dead control flow
-
-    }
-}
-exports["default"] = RKPlanner;
-
-
-/***/ },
-
-/***/ 284
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const RKPlanner_1 = __importDefault(__webpack_require__(373));
-const RKExecutor_1 = __importDefault(__webpack_require__(597));
-class RKDispatcher {
-    planner = new RKPlanner_1.default();
-    executor = new RKExecutor_1.default();
-    async dispatch(prompt) {
-        const command = await this.planner.create(prompt);
-        return await this.executor.execute(command);
-    }
-}
-exports["default"] = RKDispatcher;
-
-
-/***/ },
-
-/***/ 597
-(__unused_webpack_module, exports, __webpack_require__) {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const CommandExecutor_1 = __webpack_require__(779);
-class RKExecutor {
-    executor = new CommandExecutor_1.CommandExecutor();
-    async execute(command) {
-        const result = await this.executor.execute({
-            id: command.id,
-            action: command.action,
-            payload: command.payload,
-            timestamp: command.timestamp
-        });
-        return {
-            success: result.success,
-            message: result.message,
-            data: result.data,
-            error: result.error
+            projectName: project.name,
+            sequenceName: sequence.name,
+            videoTracks: await sequence.getVideoTrackCount(),
+            audioTracks: await sequence.getAudioTrackCount(),
+            frameSize: await sequence.getFrameSize(),
+            timebase: await sequence.getTimebase(),
+            selection: await sequence.getSelection()
         };
     }
+    async getProjectInfo() {
+        return await this.getTimelineContext();
+    }
+    async center() {
+        return await this.motion.center();
+    }
+    async left() {
+        return await this.motion.left();
+    }
+    async right() {
+        return await this.motion.right();
+    }
+    async top() {
+        return await this.motion.top();
+    }
+    async bottom() {
+        return await this.motion.bottom();
+    }
+    async setPosition(x, y) {
+        return await this.motion.setPosition(x, y);
+    }
 }
-exports["default"] = RKExecutor;
+exports.PremiereAPI = PremiereAPI;
+exports.premiereAPI = new PremiereAPI();
 
 
 /***/ },
 
-/***/ 477
+/***/ 2954
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.loggerService = __webpack_unused_export__ = void 0;
+class LoggerService {
+    entries = [];
+    listeners = new Set();
+    log(message, severity = 'info') {
+        this.entries.push({
+            id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+            severity,
+            message,
+            timestamp: new Date().toLocaleTimeString(),
+        });
+        console.info(`[RK Flow] ${severity.toUpperCase()}: ${message}`);
+        this.emit();
+    }
+    getEntries() {
+        return [...this.entries];
+    }
+    subscribe(listener) {
+        this.listeners.add(listener);
+        listener(this.getEntries());
+        return () => {
+            this.listeners.delete(listener);
+        };
+    }
+    clear() {
+        this.entries.length = 0;
+        this.emit();
+    }
+    emit() {
+        const snapshot = this.getEntries();
+        this.listeners.forEach((listener) => listener(snapshot));
+    }
+}
+__webpack_unused_export__ = LoggerService;
+exports.loggerService = new LoggerService();
+
+
+/***/ },
+
+/***/ 8442
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+__webpack_unused_export__ = void 0;
+exports.getFrameExtractor = getFrameExtractor;
+class FrameExtractor {
+    async extractFrame(sequenceId, timecode) {
+        const runtime = this.resolveRuntime();
+        if (!runtime.ppro || !runtime.fs || !runtime.path) {
+            return {
+                ok: false,
+                source: "metadata-only",
+                error: "Premiere frame exporter is unavailable in this panel runtime.",
+                timecode
+            };
+        }
+        const cacheDirectory = this.resolveCacheDirectory(runtime);
+        if (!cacheDirectory) {
+            return {
+                ok: false,
+                source: "metadata-only",
+                error: "No writable frame cache directory is available in this host.",
+                timecode
+            };
+        }
+        const project = await runtime.ppro.Project.getActiveProject();
+        const sequence = project ? await project.getActiveSequence() : null;
+        if (!sequence) {
+            return {
+                ok: false,
+                source: "metadata-only",
+                error: "No active sequence.",
+                timecode
+            };
+        }
+        const activeSequenceId = String(sequence.guid ?? sequence.name ?? "active-sequence");
+        const effectiveSequenceId = sequenceId || activeSequenceId;
+        const cachePath = this.getFramePath(runtime, cacheDirectory, effectiveSequenceId, timecode);
+        try {
+            runtime.fs.mkdirSync(cacheDirectory, { recursive: true });
+        }
+        catch (error) {
+            return {
+                ok: false,
+                source: "metadata-only",
+                error: error instanceof Error ? error.message : String(error),
+                timecode
+            };
+        }
+        if (runtime.fs.existsSync(cachePath)) {
+            return this.readFrame(runtime, cachePath, timecode);
+        }
+        try {
+            const position = runtime.ppro.TickTime &&
+                typeof runtime.ppro.TickTime.createWithSeconds === "function"
+                ? runtime.ppro.TickTime.createWithSeconds(Number(timecode))
+                : await sequence.getPlayerPosition();
+            const size = await sequence.getFrameSize();
+            const filename = runtime.path.basename(cachePath);
+            const returned = await runtime.ppro.Exporter.exportSequenceFrame(sequence, position, filename, cacheDirectory, size.width, size.height);
+            const finalPath = runtime.path.join(cacheDirectory, filename);
+            if (!runtime.fs.existsSync(finalPath)) {
+                return {
+                    ok: false,
+                    source: "metadata-only",
+                    error: `Frame export returned ${JSON.stringify(returned)} but no file was written.`,
+                    timecode
+                };
+            }
+            return this.readFrame(runtime, finalPath, timecode);
+        }
+        catch (error) {
+            return {
+                ok: false,
+                source: "metadata-only",
+                error: error instanceof Error ? error.message : String(error),
+                timecode
+            };
+        }
+    }
+    async extractClipSamples(sequenceId, clip) {
+        const duration = Math.max(clip.duration, 0.25);
+        const epsilon = Math.min(0.04, duration / 10);
+        const sampleTimes = [
+            clip.start,
+            clip.start + duration * 0.25,
+            clip.start + duration * 0.5,
+            clip.start + duration * 0.75,
+            Math.max(clip.start, clip.end - epsilon)
+        ];
+        const frames = [];
+        for (const timecode of sampleTimes) {
+            frames.push(await this.extractFrame(sequenceId, timecode));
+        }
+        const source = frames.some((frame) => frame.ok) ? "visual" : "metadata-only";
+        return {
+            clipId: clip.id,
+            clipName: clip.name,
+            frames,
+            source
+        };
+    }
+    resolveRuntime() {
+        return {
+            ppro: resolveModule("premierepro"),
+            fs: resolveModule("fs"),
+            path: resolveModule("path"),
+            os: resolveModule("os"),
+            processRef: typeof process !== "undefined"
+                ? process
+                : (typeof globalThis !== "undefined" ? globalThis.process : null)
+        };
+    }
+    resolveCacheDirectory(runtime) {
+        const { fs, path, os, processRef } = runtime;
+        if (!fs || !path) {
+            return null;
+        }
+        const candidates = [
+            safeTempDirFromOs(os),
+            safeEnv(processRef, "RKFLOW_FRAME_CACHE_DIR"),
+            safeEnv(processRef, "TMPDIR"),
+            safeEnv(processRef, "TMP"),
+            safeEnv(processRef, "TEMP"),
+            safeCwd(processRef)
+        ].filter((value) => typeof value === "string" && value.length > 0);
+        for (const candidate of candidates) {
+            const folder = path.join(candidate, "rkflow-frame-cache");
+            try {
+                fs.mkdirSync(folder, { recursive: true });
+                return folder;
+            }
+            catch { }
+        }
+        return null;
+    }
+    getFramePath(runtime, cacheDirectory, sequenceId, timecode) {
+        const safeSequence = sequenceId.replace(/[^a-zA-Z0-9_-]/g, "_");
+        const safeTime = timecode.toFixed(3).replace(/\./g, "_");
+        return runtime.path.join(cacheDirectory, `${safeSequence}_${safeTime}.png`);
+    }
+    readFrame(runtime, filePath, timecode) {
+        const base64 = runtime.fs.readFileSync(filePath).toString("base64");
+        return {
+            ok: true,
+            path: filePath,
+            mimeType: "image/png",
+            base64,
+            source: "visual",
+            timecode
+        };
+    }
+}
+__webpack_unused_export__ = FrameExtractor;
+let frameExtractorSingleton = null;
+function getFrameExtractor() {
+    if (frameExtractorSingleton === null) {
+        frameExtractorSingleton = new FrameExtractor();
+    }
+    return frameExtractorSingleton;
+}
+function resolveModule(name) {
+    const requireFn = (typeof globalThis !== "undefined" ? globalThis.require : undefined) ||
+        (typeof window !== "undefined" ? window.require : undefined);
+    if (typeof requireFn !== "function") {
+        return null;
+    }
+    try {
+        return requireFn(name);
+    }
+    catch {
+        return null;
+    }
+}
+function safeTempDirFromOs(osModule) {
+    try {
+        if (osModule && typeof osModule.tmpdir === "function") {
+            return osModule.tmpdir();
+        }
+    }
+    catch { }
+    return "";
+}
+function safeEnv(processRef, key) {
+    try {
+        return String(processRef?.env?.[key] ?? "");
+    }
+    catch {
+        return "";
+    }
+}
+function safeCwd(processRef) {
+    try {
+        if (processRef && typeof processRef.cwd === "function") {
+            return processRef.cwd();
+        }
+    }
+    catch { }
+    return "";
+}
+
+
+/***/ },
+
+/***/ 2276
 (__unused_webpack_module, exports, __webpack_require__) {
 
+var __webpack_unused_export__;
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+__webpack_unused_export__ = ({ value: true });
+exports.clipManager = __webpack_unused_export__ = void 0;
+const PremiereAPI_1 = __webpack_require__(868);
+class ClipManager {
+    async getSelectedClips() {
+        const sequence = await PremiereAPI_1.premiereAPI.getActiveSequence();
+        if (!sequence)
+            return [];
+        const selection = await sequence.getSelection();
+        const items = await selection.getItems();
+        const result = [];
+        for (const clip of items) {
+            const start = await clip.getStartTime();
+            const end = await clip.getEndTime();
+            const duration = await clip.getDuration();
+            result.push({
+                name: await clip.getName(),
+                start: start?.seconds ?? 0,
+                end: end?.seconds ?? 0,
+                duration: duration?.seconds ?? 0,
+                track: await clip.getTrackIndex(),
+                mediaType: await clip.getMediaType(),
+                type: await clip.getType(),
+                projectItem: await clip.getProjectItem(),
+                raw: clip
+            });
+        }
+        return result;
+    }
+    async getSelectedClipNames() {
+        const clips = await this.getSelectedClips();
+        return clips.map(c => c.name);
+    }
+    async hasSelection() {
+        return (await this.getSelectedClips()).length > 0;
+    }
+}
+__webpack_unused_export__ = ClipManager;
+exports.clipManager = new ClipManager();
+
+
+/***/ },
+
+/***/ 3763
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.premiereService = __webpack_unused_export__ = void 0;
+const PremiereBridge_1 = __webpack_require__(1862);
+class PremiereService {
+    bridge = new PremiereBridge_1.PremiereBridge();
+    async getTimelineInfo() {
+        if (!this.bridge.isConnected()) {
+            return emptyTimelineInfo(false);
+        }
+        try {
+            const timeline = await this.bridge.readTimeline();
+            if (timeline === null) {
+                return emptyTimelineInfo(true);
+            }
+            return {
+                connected: true,
+                projectName: "",
+                sequenceName: normalizeLabelText(timeline.sequenceName, ""),
+                videoTracks: timeline.videoTracks.length,
+                audioTracks: timeline.audioTracks.length,
+                frameSize: null,
+                timebase: timeline.fps || null,
+                duration: formatDuration(timeline.duration)
+            };
+        }
+        catch (error) {
+            console.error("[RK Flow] Could not read the active Premiere timeline.", error);
+            return emptyTimelineInfo(false);
+        }
+    }
+}
+__webpack_unused_export__ = PremiereService;
+function normalizeLabelText(value, fallback) {
+    if (typeof value === "string") {
+        return value;
+    }
+    if (typeof value === "number" || typeof value === "boolean") {
+        return String(value);
+    }
+    return fallback;
+}
+function emptyTimelineInfo(connected) {
+    return {
+        connected,
+        projectName: "",
+        sequenceName: "",
+        videoTracks: 0,
+        audioTracks: 0,
+        frameSize: null,
+        timebase: null,
+        duration: "--"
+    };
+}
+function formatDuration(totalSeconds) {
+    const seconds = Math.max(0, Math.floor(totalSeconds));
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    return [hours, minutes, remainingSeconds]
+        .map((value) => String(value).padStart(2, "0"))
+        .join(":");
+}
+exports.premiereService = new PremiereService();
+
+
+/***/ },
+
+/***/ 1125
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.getSystemStats = getSystemStats;
+const SHARED_SYSTEM_STATS = {
+    gpu: "—",
+    ram: "—"
 };
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.runRKFlow = runRKFlow;
-const RKDispatcher_1 = __importDefault(__webpack_require__(284));
-const dispatcher = new RKDispatcher_1.default();
-async function runRKFlow(prompt) {
-    return await dispatcher.dispatch(prompt);
+function getSystemStats() {
+    return {
+        gpu: normalizeSystemStat(SHARED_SYSTEM_STATS.gpu),
+        ram: normalizeSystemStat(SHARED_SYSTEM_STATS.ram)
+    };
+}
+function normalizeSystemStat(value) {
+    if (typeof value === "string") {
+        return value;
+    }
+    if (typeof value === "number" || typeof value === "boolean") {
+        return String(value);
+    }
+    return "—";
 }
 
 
@@ -2777,7 +11605,7 @@ var __webpack_unused_export__;
 
 __webpack_unused_export__ = ({ value: true });
 exports.COMMAND_ACTIONS = void 0;
-__webpack_unused_export__ = createCommand;
+exports.createCommand = createCommand;
 exports.COMMAND_ACTIONS = [
     "READ_TIMELINE",
     "READ_SELECTED_CLIPS",
@@ -2792,7 +11620,29 @@ exports.COMMAND_ACTIONS = [
     "CREATE_SEQUENCE",
     "IMPORT_MEDIA",
     "EXPORT_SEQUENCE",
-    "CREATE_REEL"
+    "CREATE_REEL",
+    "RIPPLE_DELETE",
+    "AUTO_TRIM",
+    "BEAT_CUT",
+    "SILENCE_REMOVE",
+    "SPEED_RAMP",
+    "AUTO_ZOOM",
+    "REFRAME",
+    "ADD_CLIP_TO_SEQUENCE",
+    "ADD_AUDIO_TO_SEQUENCE",
+    "ADD_TRANSITION",
+    "APPLY_COLOR_MATCH",
+    "APPLY_SKIN_TONE_PROTECTION",
+    "APPLY_FILM_LUT",
+    "AUTO_GRADE",
+    "APPLY_PAN_AND_ZOOM",
+    "APPLY_PARALLAX",
+    "APPLY_MOTION_BLUR",
+    "REMOVE_NOISE",
+    "ENHANCE_VOICE",
+    "AUTO_DUCK",
+    "CLEANUP_SPEECH",
+    "INSERT_CAPTIONS"
 ];
 let commandCounter = 0;
 function createCommand(action, payload = {}) {
@@ -2808,116 +11658,1523 @@ function createCommand(action, payload = {}) {
 
 /***/ },
 
-/***/ 750
+/***/ 1820
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = App;
-const jsx_runtime_1 = __webpack_require__(848);
-const AppShell_1 = __importDefault(__webpack_require__(559));
-function App() {
-    return (0, jsx_runtime_1.jsx)(AppShell_1.default, {});
+exports["default"] = ClipGrid;
+const jsx_runtime_1 = __webpack_require__(4848);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+function ClipGrid({ items, emptyLabel }) {
+    if (items.length === 0) {
+        return ((0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "No clips", children: (0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted }, children: emptyLabel }) }));
+    }
+    return ((0, jsx_runtime_1.jsx)("div", { style: {
+            display: "flex",
+            flexWrap: "wrap",
+            gap: theme_1.spacing.md
+        }, children: items.map((item) => ((0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: item.title, subtitle: item.subtitle, style: { flex: "1 1 240px" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.xs, flexWrap: "wrap" }, children: [item.badges.map((badge) => ((0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: badge }, badge))), item.score !== undefined && ((0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `AI Rating ${item.score}`, tone: item.score >= 70 ? "success" : item.score >= 45 ? "warning" : "danger" }))] }), item.detail && ((0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md, color: theme_1.colors.inkMuted, fontSize: theme_1.typography.sizes.sm }, children: item.detail }))] }, item.id))) }));
 }
 
 
 /***/ },
 
-/***/ 988
+/***/ 560
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = AICommandConsole;
-const jsx_runtime_1 = __webpack_require__(848);
-const react_1 = __webpack_require__(540);
-const rkflow_v2_1 = __webpack_require__(477);
-function AICommandConsole() {
-    const [prompt, setPrompt] = (0, react_1.useState)("");
-    const [output, setOutput] = (0, react_1.useState)("");
-    async function run() {
-        try {
-            setOutput("Running...");
-            const result = await (0, rkflow_v2_1.runRKFlow)(prompt);
-            setOutput(JSON.stringify(result, null, 2));
-        }
-        catch (err) {
-            console.error(err);
-            setOutput(err?.stack ||
-                err?.message ||
-                JSON.stringify(err, null, 2));
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+class ErrorBoundary extends react_1.Component {
+    state = {
+        error: null
+    };
+    static getDerivedStateFromError(error) {
+        return { error };
+    }
+    componentDidCatch(error, info) {
+        console.error("[RK Flow] Screen crashed.", {
+            message: error.message,
+            stack: error.stack,
+            componentStack: info.componentStack
+        });
+    }
+    componentDidUpdate(prevProps) {
+        if (this.state.error &&
+            this.props.resetKey &&
+            this.props.resetKey !== prevProps.resetKey) {
+            this.setState({ error: null });
         }
     }
-    return ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("textarea", { value: prompt, onChange: (e) => setPrompt(e.target.value), placeholder: "Type command here...", style: {
-                    width: "100%",
-                    height: 220,
-                    backgroundColor: "#11161D",
-                    color: "#FFFFFF",
-                    border: "2px solid #333",
-                    borderRadius: 12,
-                    padding: 16,
-                    fontSize: 16,
-                    resize: "none",
-                    outline: "none",
-                    appearance: "none",
-                    WebkitAppearance: "none"
-                } }), (0, jsx_runtime_1.jsx)("button", { onClick: run, style: {
-                    width: "100%",
-                    marginTop: 16,
-                    height: 52,
-                    background: "#2563EB",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: 12,
-                    fontWeight: 700
-                }, children: "Run RK Flow" }), (0, jsx_runtime_1.jsx)("pre", { style: {
-                    marginTop: 20,
-                    minHeight: 300,
-                    background: "#111",
-                    color: "#7DD3FC",
-                    padding: 16,
-                    overflow: "auto"
-                }, children: output })] }));
+    render() {
+        if (!this.state.error) {
+            return this.props.children;
+        }
+        return ((0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "This screen hit an error", subtitle: this.state.error.message, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.inkMuted, lineHeight: 1.6 }, children: "The rest of the panel is still available. Switch modules or retry this screen after fixing the underlying data or code path." }), (0, jsx_runtime_1.jsx)("div", { style: { marginTop: theme_1.spacing.md }, children: (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => this.setState({ error: null }), children: "Retry Screen" }) })] }));
+    }
+}
+exports["default"] = ErrorBoundary;
+
+
+/***/ },
+
+/***/ 1257
+(__unused_webpack_module, exports, __webpack_require__) {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = ExecutionPreviewModal;
+const jsx_runtime_1 = __webpack_require__(4848);
+const react_1 = __webpack_require__(6540);
+const PreviewGate_1 = __webpack_require__(1016);
+const primitives_1 = __webpack_require__(5613);
+const theme_1 = __webpack_require__(3877);
+const DESTRUCTIVE_NOTES = "This will send Premiere actions through the live executor. Review before continuing.";
+function ExecutionPreviewModal() {
+    const [request, setRequest] = (0, react_1.useState)(null);
+    (0, react_1.useEffect)(() => {
+        return (0, PreviewGate_1.subscribeExecutionPreview)(setRequest);
+    }, []);
+    if (!request) {
+        return null;
+    }
+    return ((0, jsx_runtime_1.jsx)("div", { style: {
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1200,
+            padding: theme_1.spacing.lg
+        }, children: (0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: `Preview: ${request.summary}`, subtitle: DESTRUCTIVE_NOTES, style: { width: "min(640px, 100%)" }, children: [(0, jsx_runtime_1.jsx)("div", { style: {
+                        maxHeight: 320,
+                        overflow: "auto",
+                        borderRadius: 10,
+                        border: `1px solid ${theme_1.colors.border}`,
+                        background: theme_1.colors.white,
+                        padding: theme_1.spacing.sm
+                    }, children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: request.commands.map((command) => ((0, jsx_runtime_1.jsxs)("div", { style: {
+                                borderBottom: `1px solid ${theme_1.colors.border}`,
+                                paddingBottom: theme_1.spacing.sm
+                            }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.maroonDeep, fontWeight: 700 }, children: command.action }), (0, jsx_runtime_1.jsx)("pre", { style: {
+                                        margin: `${theme_1.spacing.xs}px 0 0`,
+                                        color: theme_1.colors.inkMuted,
+                                        fontSize: theme_1.typography.sizes.xs,
+                                        whiteSpace: "pre-wrap",
+                                        wordBreak: "break-word"
+                                    }, children: JSON.stringify(command.payload, null, 2) })] }, command.id))) }) }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "flex-end", gap: theme_1.spacing.sm, marginTop: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: PreviewGate_1.rejectExecutionPreview, children: "Cancel" }), (0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: PreviewGate_1.approveExecutionPreview, children: "Confirm" })] })] }) }));
 }
 
 
 /***/ },
 
-/***/ 559
+/***/ 3877
 (__unused_webpack_module, exports, __webpack_require__) {
 
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = AppShell;
-const jsx_runtime_1 = __webpack_require__(848);
-const Workspace_1 = __importDefault(__webpack_require__(614));
-function AppShell() {
-    return (0, jsx_runtime_1.jsx)(Workspace_1.default, {});
+__exportStar(__webpack_require__(5491), exports);
+
+
+/***/ },
+
+/***/ 5613
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.Card = Card;
+exports.Button = Button;
+exports.IconButton = IconButton;
+exports.StatusChip = StatusChip;
+exports.ProgressBar = ProgressBar;
+exports.Input = Input;
+exports.Textarea = Textarea;
+exports.Tabs = Tabs;
+__webpack_unused_export__ = Modal;
+exports.ScrollArea = ScrollArea;
+const jsx_runtime_1 = __webpack_require__(4848);
+const tokens_1 = __webpack_require__(5491);
+function Card({ title, subtitle, children, style }) {
+    return ((0, jsx_runtime_1.jsxs)("section", { style: {
+            background: tokens_1.colors.panel,
+            border: `1px solid ${tokens_1.colors.border}`,
+            borderRadius: tokens_1.radius.lg,
+            boxShadow: tokens_1.shadows.soft,
+            padding: tokens_1.spacing.lg,
+            minWidth: 0,
+            ...style
+        }, children: [title && ((0, jsx_runtime_1.jsx)("h3", { style: {
+                    margin: 0,
+                    color: tokens_1.colors.maroonDeep,
+                    fontFamily: tokens_1.typography.heading,
+                    fontSize: tokens_1.typography.sizes.lg
+                }, children: title })), subtitle && ((0, jsx_runtime_1.jsx)("p", { style: {
+                    margin: `${tokens_1.spacing.xs}px 0 0`,
+                    color: tokens_1.colors.inkMuted,
+                    fontSize: tokens_1.typography.sizes.sm
+                }, children: subtitle })), children && (0, jsx_runtime_1.jsx)("div", { style: { marginTop: title || subtitle ? tokens_1.spacing.md : 0 }, children: children })] }));
+}
+function Button({ children, variant = "primary", style, ...props }) {
+    const variants = {
+        primary: {
+            background: tokens_1.colors.maroon,
+            color: tokens_1.colors.white,
+            border: `1px solid ${tokens_1.colors.maroon}`
+        },
+        secondary: {
+            background: tokens_1.colors.panelMuted,
+            color: tokens_1.colors.maroonDeep,
+            border: `1px solid ${tokens_1.colors.border}`
+        },
+        ghost: {
+            background: "transparent",
+            color: tokens_1.colors.ink,
+            border: `1px solid ${tokens_1.colors.border}`
+        }
+    };
+    return ((0, jsx_runtime_1.jsx)("button", { ...props, style: {
+            borderRadius: tokens_1.radius.md,
+            padding: `${tokens_1.spacing.sm}px ${tokens_1.spacing.md}px`,
+            fontSize: tokens_1.typography.sizes.sm,
+            fontWeight: 600,
+            cursor: props.disabled ? "not-allowed" : "pointer",
+            boxSizing: "border-box",
+            ...variants[variant],
+            ...style
+        }, children: children }));
+}
+function IconButton({ children, ...props }) {
+    return ((0, jsx_runtime_1.jsx)(Button, { ...props, variant: "ghost", style: {
+            width: 40,
+            height: 40,
+            padding: 0,
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            ...props.style
+        }, children: children }));
+}
+function StatusChip({ label, tone = "neutral" }) {
+    const toneMap = {
+        neutral: { bg: tokens_1.colors.panelMuted, fg: tokens_1.colors.ink },
+        success: { bg: "#E5F5EC", fg: tokens_1.colors.success },
+        warning: { bg: "#FAF0D8", fg: tokens_1.colors.warning },
+        danger: { bg: "#F8E0DE", fg: tokens_1.colors.danger }
+    };
+    return ((0, jsx_runtime_1.jsx)("span", { style: {
+            display: "inline-flex",
+            alignItems: "center",
+            gap: tokens_1.spacing.xs,
+            borderRadius: tokens_1.radius.pill,
+            padding: "6px 10px",
+            background: toneMap[tone].bg,
+            color: toneMap[tone].fg,
+            fontSize: tokens_1.typography.sizes.xs,
+            fontWeight: 700
+        }, children: normalizeChipLabel(label) }));
+}
+function ProgressBar({ value, label }) {
+    return ((0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: tokens_1.spacing.xs }, children: [label && ((0, jsx_runtime_1.jsx)("div", { style: { color: tokens_1.colors.inkMuted, fontSize: tokens_1.typography.sizes.sm }, children: label })), (0, jsx_runtime_1.jsx)("div", { style: {
+                    height: 10,
+                    background: tokens_1.colors.cream,
+                    borderRadius: tokens_1.radius.pill,
+                    overflow: "hidden"
+                }, children: (0, jsx_runtime_1.jsx)("div", { style: {
+                        width: `${Math.max(0, Math.min(100, value))}%`,
+                        height: "100%",
+                        background: `linear-gradient(90deg, ${tokens_1.colors.gold}, ${tokens_1.colors.maroon})`
+                    } }) })] }));
+}
+function normalizeChipLabel(value) {
+    return typeof value === "string" ? value : String(value);
+}
+function Input(props) {
+    const common = {
+        width: "100%",
+        boxSizing: "border-box",
+        borderRadius: tokens_1.radius.md,
+        border: `1px solid ${tokens_1.colors.border}`,
+        background: tokens_1.colors.white,
+        color: tokens_1.colors.ink,
+        padding: `${tokens_1.spacing.sm}px ${tokens_1.spacing.md}px`,
+        fontSize: tokens_1.typography.sizes.sm
+    };
+    if (props.multiline) {
+        return (0, jsx_runtime_1.jsx)("textarea", { ...props, style: { ...common, resize: "vertical", ...props.style } });
+    }
+    return (0, jsx_runtime_1.jsx)("input", { ...props, style: { ...common, ...props.style } });
+}
+function Textarea({ rows = 5, style, ...props }) {
+    return ((0, jsx_runtime_1.jsx)("textarea", { ...props, rows: rows, style: {
+            display: "block",
+            width: "100%",
+            minHeight: 128,
+            boxSizing: "border-box",
+            borderRadius: tokens_1.radius.md,
+            border: `1px solid ${tokens_1.colors.border}`,
+            background: tokens_1.colors.white,
+            color: tokens_1.colors.ink,
+            padding: `${tokens_1.spacing.sm}px ${tokens_1.spacing.md}px`,
+            fontSize: tokens_1.typography.sizes.sm,
+            fontFamily: "inherit",
+            lineHeight: 1.5,
+            resize: "vertical",
+            ...style
+        } }));
+}
+function Tabs({ items, active, onChange }) {
+    return ((0, jsx_runtime_1.jsx)("div", { style: { display: "flex", gap: tokens_1.spacing.xs, flexWrap: "wrap" }, children: items.map((item) => ((0, jsx_runtime_1.jsx)(Button, { variant: item.id === active ? "primary" : "secondary", onClick: () => onChange(item.id), children: item.label }, item.id))) }));
+}
+function Modal({ open, title, children }) {
+    if (!open) {
+        return null;
+    }
+    return ((0, jsx_runtime_1.jsx)("div", { style: {
+            position: "fixed",
+            inset: 0,
+            background: "rgba(43,35,32,0.24)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: tokens_1.spacing.lg
+        }, children: (0, jsx_runtime_1.jsx)(Card, { title: title, style: { width: "min(560px, 100%)" }, children: children }) }));
+}
+function ScrollArea({ children, style }) {
+    return ((0, jsx_runtime_1.jsx)("div", { style: {
+            overflow: "auto",
+            minWidth: 0,
+            minHeight: 0,
+            ...style
+        }, children: children }));
 }
 
 
 /***/ },
 
-/***/ 614
-(__unused_webpack_module, exports, __webpack_require__) {
+/***/ 5491
+(__unused_webpack_module, exports) {
 
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports["default"] = Workspace;
-const jsx_runtime_1 = __webpack_require__(848);
-const AICommandConsole_1 = __importDefault(__webpack_require__(988));
-function Workspace() {
-    return ((0, jsx_runtime_1.jsx)("div", { style: { padding: 20 }, children: (0, jsx_runtime_1.jsx)("div", { style: { width: 700 }, children: (0, jsx_runtime_1.jsx)(AICommandConsole_1.default, {}) }) }));
+exports.typography = exports.shadows = exports.radius = exports.spacing = exports.colors = void 0;
+exports.colors = {
+    ivory: "#F7F1E8",
+    cream: "#EFE4D2",
+    parchment: "#E3D2BA",
+    maroon: "#6C2230",
+    maroonDeep: "#4A1621",
+    gold: "#B28A4A",
+    goldSoft: "#D6BC84",
+    ink: "#2B2320",
+    inkMuted: "#5A4B44",
+    border: "#D9C9B4",
+    panel: "#FFF9F2",
+    panelMuted: "#F6EEE3",
+    white: "#FFFFFF",
+    success: "#2E7D5B",
+    warning: "#A06C16",
+    danger: "#A23A35",
+    shadow: "rgba(78, 46, 32, 0.12)",
+    shadowHeavy: "rgba(78, 46, 32, 0.18)"
+};
+exports.spacing = {
+    xxs: 4,
+    xs: 8,
+    sm: 12,
+    md: 16,
+    lg: 24,
+    xl: 32,
+    xxl: 40
+};
+exports.radius = {
+    sm: 8,
+    md: 10,
+    lg: 12,
+    xl: 18,
+    pill: 999
+};
+exports.shadows = {
+    soft: `0 8px 24px ${exports.colors.shadow}`,
+    raised: `0 14px 32px ${exports.colors.shadowHeavy}`
+};
+exports.typography = {
+    heading: "\"Iowan Old Style\", \"Palatino Linotype\", \"Book Antiqua\", Georgia, serif",
+    body: "\"Avenir Next\", \"Segoe UI\", Helvetica, Arial, sans-serif",
+    sizes: {
+        xs: 12,
+        sm: 13,
+        md: 15,
+        lg: 18,
+        xl: 24,
+        xxl: 32
+    }
+};
+
+
+/***/ },
+
+/***/ 8244
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  A: () => (/* binding */ createLucideIcon)
+});
+
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(6540);
+;// ./node_modules/lucide-react/dist/esm/shared/src/utils/mergeClasses.mjs
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const mergeClasses = (...classes) => classes.filter((className, index, array) => {
+  return Boolean(className) && className.trim() !== "" && array.indexOf(className) === index;
+}).join(" ").trim();
+
+
+//# sourceMappingURL=mergeClasses.mjs.map
+
+;// ./node_modules/lucide-react/dist/esm/shared/src/utils/toKebabCase.mjs
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+
+
+//# sourceMappingURL=toKebabCase.mjs.map
+
+;// ./node_modules/lucide-react/dist/esm/shared/src/utils/toCamelCase.mjs
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const toCamelCase = (string) => string.replace(
+  /^([A-Z])|[\s-_]+(\w)/g,
+  (match, p1, p2) => p2 ? p2.toUpperCase() : p1.toLowerCase()
+);
+
+
+//# sourceMappingURL=toCamelCase.mjs.map
+
+;// ./node_modules/lucide-react/dist/esm/shared/src/utils/toPascalCase.mjs
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const toPascalCase = (string) => {
+  const camelCase = toCamelCase(string);
+  return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
+};
+
+
+//# sourceMappingURL=toPascalCase.mjs.map
+
+;// ./node_modules/lucide-react/dist/esm/defaultAttributes.mjs
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+var defaultAttributes = {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: 24,
+  height: 24,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2,
+  strokeLinecap: "round",
+  strokeLinejoin: "round"
+};
+
+
+//# sourceMappingURL=defaultAttributes.mjs.map
+
+;// ./node_modules/lucide-react/dist/esm/shared/src/utils/hasA11yProp.mjs
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const hasA11yProp = (props) => {
+  for (const prop in props) {
+    if (prop.startsWith("aria-") || prop === "role" || prop === "title") {
+      return true;
+    }
+  }
+  return false;
+};
+
+
+//# sourceMappingURL=hasA11yProp.mjs.map
+
+;// ./node_modules/lucide-react/dist/esm/context.mjs
+/* unused harmony import specifier */ var useMemo;
+/* unused harmony import specifier */ var createElement;
+
+"use client";
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const LucideContext = (0,react.createContext)({});
+function LucideProvider({
+  children,
+  size,
+  color,
+  strokeWidth,
+  absoluteStrokeWidth,
+  className
+}) {
+  const value = useMemo(
+    () => ({
+      size,
+      color,
+      strokeWidth,
+      absoluteStrokeWidth,
+      className
+    }),
+    [size, color, strokeWidth, absoluteStrokeWidth, className]
+  );
+  return createElement(LucideContext.Provider, { value }, children);
 }
+const useLucideContext = () => (0,react.useContext)(LucideContext);
+
+
+//# sourceMappingURL=context.mjs.map
+
+;// ./node_modules/lucide-react/dist/esm/Icon.mjs
+
+"use client";
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+
+
+
+
+const Icon = (0,react.forwardRef)(
+  ({ color, size, strokeWidth, absoluteStrokeWidth, className = "", children, iconNode, ...rest }, ref) => {
+    const {
+      size: contextSize = 24,
+      strokeWidth: contextStrokeWidth = 2,
+      absoluteStrokeWidth: contextAbsoluteStrokeWidth = false,
+      color: contextColor = "currentColor",
+      className: contextClass = ""
+    } = useLucideContext() ?? {};
+    const calculatedStrokeWidth = absoluteStrokeWidth ?? contextAbsoluteStrokeWidth ? Number(strokeWidth ?? contextStrokeWidth) * 24 / Number(size ?? contextSize) : strokeWidth ?? contextStrokeWidth;
+    return (0,react.createElement)(
+      "svg",
+      {
+        ref,
+        ...defaultAttributes,
+        width: size ?? contextSize ?? defaultAttributes.width,
+        height: size ?? contextSize ?? defaultAttributes.height,
+        stroke: color ?? contextColor,
+        strokeWidth: calculatedStrokeWidth,
+        className: mergeClasses("lucide", contextClass, className),
+        ...!children && !hasA11yProp(rest) && { "aria-hidden": "true" },
+        ...rest
+      },
+      [
+        ...iconNode.map(([tag, attrs]) => (0,react.createElement)(tag, attrs)),
+        ...Array.isArray(children) ? children : [children]
+      ]
+    );
+  }
+);
+
+
+//# sourceMappingURL=Icon.mjs.map
+
+;// ./node_modules/lucide-react/dist/esm/createLucideIcon.mjs
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+
+
+
+
+const createLucideIcon = (iconName, iconNode) => {
+  const Component = (0,react.forwardRef)(
+    ({ className, ...props }, ref) => (0,react.createElement)(Icon, {
+      ref,
+      iconNode,
+      className: mergeClasses(
+        `lucide-${toKebabCase(toPascalCase(iconName))}`,
+        `lucide-${iconName}`,
+        className
+      ),
+      ...props
+    })
+  );
+  Component.displayName = toPascalCase(iconName);
+  return Component;
+};
+
+
+//# sourceMappingURL=createLucideIcon.mjs.map
+
+
+/***/ },
+
+/***/ 7720
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  [
+    "path",
+    {
+      d: "M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2",
+      key: "169zse"
+    }
+  ]
+];
+const Activity = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("activity", __iconNode);
+
+
+//# sourceMappingURL=activity.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Activity
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 2731
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["path", { d: "m14.31 8 5.74 9.94", key: "1y6ab4" }],
+  ["path", { d: "M9.69 8h11.48", key: "1wxppr" }],
+  ["path", { d: "m7.38 12 5.74-9.94", key: "1grp0k" }],
+  ["path", { d: "M9.69 16 3.95 6.06", key: "libnyf" }],
+  ["path", { d: "M14.31 16H2.83", key: "x5fava" }],
+  ["path", { d: "m16.62 12-5.74 9.94", key: "1vwawt" }]
+];
+const Aperture = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("aperture", __iconNode);
+
+
+//# sourceMappingURL=aperture.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Aperture
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 5337
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "M2 10v3", key: "1fnikh" }],
+  ["path", { d: "M6 6v11", key: "11sgs0" }],
+  ["path", { d: "M10 3v18", key: "yhl04a" }],
+  ["path", { d: "M14 8v7", key: "3a1oy3" }],
+  ["path", { d: "M18 5v13", key: "123xd1" }],
+  ["path", { d: "M22 10v3", key: "154ddg" }]
+];
+const AudioLines = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("audio-lines", __iconNode);
+
+
+//# sourceMappingURL=audio-lines.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ AudioLines
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 4288
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  [
+    "path",
+    {
+      d: "M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z",
+      key: "3c2336"
+    }
+  ],
+  ["path", { d: "M8 8h8", key: "1bis0t" }],
+  ["path", { d: "M8 12h8", key: "1wcyev" }],
+  ["path", { d: "m13 17-5-1h1a4 4 0 0 0 0-8", key: "nu2bwa" }]
+];
+const BadgeIndianRupee = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("badge-indian-rupee", __iconNode);
+
+
+//# sourceMappingURL=badge-indian-rupee.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ BadgeIndianRupee
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 622
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "M12 8V4H8", key: "hb8ula" }],
+  ["rect", { width: "16", height: "12", x: "4", y: "8", rx: "2", key: "enze0r" }],
+  ["path", { d: "M2 14h2", key: "vft8re" }],
+  ["path", { d: "M20 14h2", key: "4cs60a" }],
+  ["path", { d: "M15 13v2", key: "1xurst" }],
+  ["path", { d: "M9 13v2", key: "rq6x2g" }]
+];
+const Bot = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("bot", __iconNode);
+
+
+//# sourceMappingURL=bot.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Bot
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 6666
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  [
+    "path",
+    {
+      d: "M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z",
+      key: "18u6gg"
+    }
+  ],
+  ["circle", { cx: "12", cy: "13", r: "3", key: "1vg3eu" }]
+];
+const Camera = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("camera", __iconNode);
+
+
+//# sourceMappingURL=camera.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Camera
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 7937
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["rect", { width: "18", height: "14", x: "3", y: "5", rx: "2", ry: "2", key: "12ruh7" }],
+  ["path", { d: "M7 15h4M15 15h2M7 11h2M13 11h4", key: "1ueiar" }]
+];
+const Captions = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("captions", __iconNode);
+
+
+//# sourceMappingURL=captions.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Captions
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 7146
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "m12.296 3.464 3.02 3.956", key: "qash78" }],
+  [
+    "path",
+    { d: "M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z", key: "1h7j8b" }
+  ],
+  ["path", { d: "M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z", key: "4lm6w1" }],
+  ["path", { d: "m6.18 5.276 3.1 3.899", key: "zjj9t3" }]
+];
+const Clapperboard = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("clapperboard", __iconNode);
+
+
+//# sourceMappingURL=clapperboard.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Clapperboard
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 7379
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "M12 15V3", key: "m9g1x1" }],
+  ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
+  ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
+];
+const Download = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("download", __iconNode);
+
+
+//# sourceMappingURL=download.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Download
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 6913
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", key: "afitv7" }],
+  ["path", { d: "M7 3v18", key: "bbkbws" }],
+  ["path", { d: "M3 7.5h4", key: "zfgn84" }],
+  ["path", { d: "M3 12h18", key: "1i2n21" }],
+  ["path", { d: "M3 16.5h4", key: "1230mu" }],
+  ["path", { d: "M17 3v18", key: "in4fa5" }],
+  ["path", { d: "M17 7.5h4", key: "myr1c1" }],
+  ["path", { d: "M17 16.5h4", key: "go4c1d" }]
+];
+const Film = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("film", __iconNode);
+
+
+//# sourceMappingURL=film.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Film
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 3705
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  [
+    "path",
+    {
+      d: "M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z",
+      key: "1fr9dc"
+    }
+  ],
+  ["path", { d: "M8 10v4", key: "tgpxqk" }],
+  ["path", { d: "M12 10v2", key: "hh53o1" }],
+  ["path", { d: "M16 10v6", key: "1d6xys" }]
+];
+const FolderKanban = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("folder-kanban", __iconNode);
+
+
+//# sourceMappingURL=folder-kanban.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ FolderKanban
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 5905
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  [
+    "path",
+    {
+      d: "M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762",
+      key: "17lmqv"
+    }
+  ]
+];
+const HeartHandshake = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("heart-handshake", __iconNode);
+
+
+//# sourceMappingURL=heart-handshake.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ HeartHandshake
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 2654
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
+  ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
+  ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
+  ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
+];
+const LayoutDashboard = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("layout-dashboard", __iconNode);
+
+
+//# sourceMappingURL=layout-dashboard.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ LayoutDashboard
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 1696
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  [
+    "path",
+    {
+      d: "m11 7.601-5.994 8.19a1 1 0 0 0 .1 1.298l.817.818a1 1 0 0 0 1.314.087L15.09 12",
+      key: "80a601"
+    }
+  ],
+  [
+    "path",
+    {
+      d: "M16.5 21.174C15.5 20.5 14.372 20 13 20c-2.058 0-3.928 2.356-6 2-2.072-.356-2.775-3.369-1.5-4.5",
+      key: "j0ngtp"
+    }
+  ],
+  ["circle", { cx: "16", cy: "7", r: "5", key: "d08jfb" }]
+];
+const MicVocal = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("mic-vocal", __iconNode);
+
+
+//# sourceMappingURL=mic-vocal.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ MicVocal
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 5205
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "M12 17v4", key: "1riwvh" }],
+  ["path", { d: "m14.305 7.53.923-.382", key: "1mlnsw" }],
+  ["path", { d: "m15.228 4.852-.923-.383", key: "82mpwg" }],
+  ["path", { d: "m16.852 3.228-.383-.924", key: "ln4sir" }],
+  ["path", { d: "m16.852 8.772-.383.923", key: "1dejw0" }],
+  ["path", { d: "m19.148 3.228.383-.924", key: "192kgf" }],
+  ["path", { d: "m19.53 9.696-.382-.924", key: "fiavlr" }],
+  ["path", { d: "m20.772 4.852.924-.383", key: "1j8mgp" }],
+  ["path", { d: "m20.772 7.148.924.383", key: "zix9be" }],
+  ["path", { d: "M22 13v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7", key: "1tnzv8" }],
+  ["path", { d: "M8 21h8", key: "1ev6f3" }],
+  ["circle", { cx: "18", cy: "6", r: "3", key: "1h7g24" }]
+];
+const MonitorCog = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("monitor-cog", __iconNode);
+
+
+//# sourceMappingURL=monitor-cog.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ MonitorCog
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 307
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "M9 18V5l12-2v13", key: "1jmyc2" }],
+  ["path", { d: "m9 9 12-2", key: "1e64n2" }],
+  ["circle", { cx: "6", cy: "18", r: "3", key: "fqmcym" }],
+  ["circle", { cx: "18", cy: "16", r: "3", key: "1hluhg" }]
+];
+const Music4 = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("music-4", __iconNode);
+
+
+//# sourceMappingURL=music-4.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Music4
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 5832
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  [
+    "path",
+    {
+      d: "M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z",
+      key: "e79jfc"
+    }
+  ],
+  ["circle", { cx: "13.5", cy: "6.5", r: ".5", fill: "currentColor", key: "1okk4w" }],
+  ["circle", { cx: "17.5", cy: "10.5", r: ".5", fill: "currentColor", key: "f64h9f" }],
+  ["circle", { cx: "6.5", cy: "12.5", r: ".5", fill: "currentColor", key: "qy21gx" }],
+  ["circle", { cx: "8.5", cy: "7.5", r: ".5", fill: "currentColor", key: "fotxhn" }]
+];
+const Palette = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("palette", __iconNode);
+
+
+//# sourceMappingURL=palette.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Palette
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 7002
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "M3 7V5a2 2 0 0 1 2-2h2", key: "aa7l1z" }],
+  ["path", { d: "M17 3h2a2 2 0 0 1 2 2v2", key: "4qcy5o" }],
+  ["path", { d: "M21 17v2a2 2 0 0 1-2 2h-2", key: "6vwrx8" }],
+  ["path", { d: "M7 21H5a2 2 0 0 1-2-2v-2", key: "ioqczr" }],
+  ["path", { d: "M8 14s1.5 2 4 2 4-2 4-2", key: "1y1vjs" }],
+  ["path", { d: "M9 9h.01", key: "1q5me6" }],
+  ["path", { d: "M15 9h.01", key: "x1ddxp" }]
+];
+const ScanFace = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("scan-face", __iconNode);
+
+
+//# sourceMappingURL=scan-face.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ ScanFace
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 5758
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["circle", { cx: "6", cy: "6", r: "3", key: "1lh9wr" }],
+  ["path", { d: "M8.12 8.12 12 12", key: "1alkpv" }],
+  ["path", { d: "M20 4 8.12 15.88", key: "xgtan2" }],
+  ["circle", { cx: "6", cy: "18", r: "3", key: "fqmcym" }],
+  ["path", { d: "M14.8 14.8 20 20", key: "ptml3r" }]
+];
+const Scissors = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("scissors", __iconNode);
+
+
+//# sourceMappingURL=scissors.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Scissors
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 8993
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  [
+    "path",
+    {
+      d: "M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z",
+      key: "1ffxy3"
+    }
+  ],
+  ["path", { d: "m21.854 2.147-10.94 10.939", key: "12cjpa" }]
+];
+const Send = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("send", __iconNode);
+
+
+//# sourceMappingURL=send.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Send
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 3588
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  [
+    "path",
+    {
+      d: "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915",
+      key: "1i5ecw"
+    }
+  ],
+  ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
+];
+const Settings = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("settings", __iconNode);
+
+
+//# sourceMappingURL=settings.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Settings
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 5654
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  [
+    "path",
+    {
+      d: "M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z",
+      key: "1s2grr"
+    }
+  ],
+  ["path", { d: "M20 2v4", key: "1rf3ol" }],
+  ["path", { d: "M22 4h-4", key: "gwowj6" }],
+  ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
+];
+const Sparkles = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("sparkles", __iconNode);
+
+
+//# sourceMappingURL=sparkles.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Sparkles
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 692
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "M10 2h4", key: "n1abiw" }],
+  ["path", { d: "M12 14v-4", key: "1evpnu" }],
+  ["path", { d: "M4 13a8 8 0 0 1 8-7 8 8 0 1 1-5.3 14L4 17.6", key: "1ts96g" }],
+  ["path", { d: "M9 17H4v5", key: "8t5av" }]
+];
+const TimerReset = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("timer-reset", __iconNode);
+
+
+//# sourceMappingURL=timer-reset.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ TimerReset
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 1085
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
+  ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
+  ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
+  ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
+];
+const Users = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("users", __iconNode);
+
+
+//# sourceMappingURL=users.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ Users
+/* harmony export */ ]);
+
+
+/***/ },
+
+/***/ 9404
+(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8244);
+/**
+ * @license lucide-react v1.27.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const __iconNode = [
+  ["path", { d: "M2 12q2.5 2 5 0t5 0 5 0 5 0", key: "8ddzzs" }],
+  ["path", { d: "M2 19q2.5 2 5 0t5 0 5 0 5 0", key: "1wj4st" }],
+  ["path", { d: "M2 5q2.5 2 5 0t5 0 5 0 5 0", key: "69x50u" }]
+];
+const WavesHorizontal = (0,_createLucideIcon_mjs__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .A)("waves-horizontal", __iconNode);
+
+
+//# sourceMappingURL=waves-horizontal.mjs.map
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, [
+/* harmony export */   "__iconNode", 0, /* binding */ __iconNode,
+/* harmony export */   "default", 0, /* binding */ WavesHorizontal
+/* harmony export */ ]);
 
 
 /***/ }
@@ -2949,11 +13206,55 @@ function Workspace() {
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter/value functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			if(Array.isArray(definition)) {
+/******/ 				var i = 0;
+/******/ 				while(i < definition.length) {
+/******/ 					var key = definition[i++];
+/******/ 					var binding = definition[i++];
+/******/ 					if(!__webpack_require__.o(exports, key)) {
+/******/ 						if(binding === 0) {
+/******/ 							Object.defineProperty(exports, key, { enumerable: true, value: definition[i++] });
+/******/ 						} else {
+/******/ 							Object.defineProperty(exports, key, { enumerable: true, get: binding });
+/******/ 						}
+/******/ 					} else if(binding === 0) { i++; }
+/******/ 				}
+/******/ 			} else {
+/******/ 				for(var key in definition) {
+/******/ 					if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 						Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 					}
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	let __webpack_exports__ = __webpack_require__(900);
+/******/ 	let __webpack_exports__ = __webpack_require__(3900);
 /******/ 	
 /******/ })()
 ;

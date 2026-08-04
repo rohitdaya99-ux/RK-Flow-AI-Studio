@@ -29,7 +29,7 @@ export class PremiereService {
       return {
         connected: true,
         projectName: "",
-        sequenceName: timeline.sequenceName,
+        sequenceName: normalizeLabelText(timeline.sequenceName, ""),
         videoTracks: timeline.videoTracks.length,
         audioTracks: timeline.audioTracks.length,
         frameSize: null,
@@ -41,6 +41,18 @@ export class PremiereService {
       return emptyTimelineInfo(false);
     }
   }
+}
+
+function normalizeLabelText(value: unknown, fallback: string): string {
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  return fallback;
 }
 
 function emptyTimelineInfo(connected: boolean): TimelineInfo {

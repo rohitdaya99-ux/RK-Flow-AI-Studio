@@ -83,10 +83,66 @@ export class CommandValidator {
       case "CREATE_REEL":
         requireFiniteNumber(payload, "duration", errors);
         break;
+      case "RIPPLE_DELETE":
+        requireFiniteNumber(payload, "start", errors);
+        requireFiniteNumber(payload, "end", errors);
+        break;
+      case "ADD_CLIP_TO_SEQUENCE":
+        if (
+          typeof payload.clipId !== "string" &&
+          typeof payload.mediaPath !== "string"
+        ) {
+          errors.push("clipId or mediaPath must be provided.");
+        }
+        requireFiniteNumber(payload, "start", errors);
+        break;
+      case "ADD_AUDIO_TO_SEQUENCE":
+        if (
+          typeof payload.clipId !== "string" &&
+          typeof payload.mediaPath !== "string" &&
+          typeof payload.assetId !== "string"
+        ) {
+          errors.push("clipId, mediaPath, or assetId must be provided.");
+        }
+        requireFiniteNumber(payload, "start", errors);
+        break;
+      case "ADD_TRANSITION":
+        requireNonEmptyString(payload, "type", errors);
+        requireFiniteNumber(payload, "start", errors);
+        requireFiniteNumber(payload, "duration", errors);
+        break;
+      case "APPLY_COLOR_MATCH":
+        requireNonEmptyString(payload, "sourceClipId", errors);
+        requireNonEmptyString(payload, "targetClipId", errors);
+        break;
+      case "APPLY_SKIN_TONE_PROTECTION":
+      case "APPLY_FILM_LUT":
+      case "AUTO_GRADE":
+      case "APPLY_PAN_AND_ZOOM":
+      case "APPLY_PARALLAX":
+      case "APPLY_MOTION_BLUR":
+      case "REMOVE_NOISE":
+      case "ENHANCE_VOICE":
+      case "CLEANUP_SPEECH":
+        requireNonEmptyString(payload, "clipId", errors);
+        break;
+      case "AUTO_DUCK":
+        requireNonEmptyString(payload, "mainClipId", errors);
+        requireNonEmptyString(payload, "musicClipId", errors);
+        break;
+      case "INSERT_CAPTIONS":
+        requireNonEmptyString(payload, "captions", errors);
+        break;
       case "READ_TIMELINE":
       case "READ_SELECTED_CLIPS":
       case "GET_IN_OUT":
       case "GET_PLAYHEAD":
+      case "AUTO_TRIM":
+      case "BEAT_CUT":
+      case "SILENCE_REMOVE":
+      case "SPEED_RAMP":
+      case "AUTO_ZOOM":
+      case "REFRAME":
         break;
     }
   }

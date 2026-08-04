@@ -1,0 +1,9 @@
+{
+  "event": "mehndi",
+  "tone": "graceful",
+  "music": "light festive",
+  "color": "green warm",
+  "sfx": ["sparkle", "soft whoosh"],
+  "shotPriority": ["hands", "closeups", "decor", "smiles"],
+  "exportProfile": "vertical_reel"
+}

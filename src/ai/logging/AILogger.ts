@@ -1,13 +1,15 @@
+import { loggerService } from "../../services/loggerService";
+
 export class AILogger {
   info(message: string): void {
-    console.log("[AI]", message);
+    loggerService.log(`[AI] ${message}`, "info");
   }
 
   warn(message: string): void {
-    console.warn("[AI]", message);
+    loggerService.log(`[AI] ${message}`, "warn");
   }
 
   error(message: string): void {
-    console.error("[AI]", message);
+    loggerService.log(`[AI] ${message}`, "error");
   }
 }

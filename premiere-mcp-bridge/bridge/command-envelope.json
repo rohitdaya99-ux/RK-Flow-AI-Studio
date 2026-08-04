@@ -1,0 +1,12 @@
+{
+  "id": "job_001",
+  "tool": "project.open",
+  "args": {
+    "path": "/path/to/project.prproj"
+  },
+  "meta": {
+    "prompt": "open project",
+    "source": "gemini",
+    "dryRun": false
+  }
+}

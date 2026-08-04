@@ -13,23 +13,28 @@ export const AI_PROVIDERS: ProviderInfo[] = [
     enabled: true,
   },
   {
-    id: "openai",
-    label: "OpenAI",
-    enabled: true,
+    id: "chatgpt",
+    label: "ChatGPT",
+    enabled: false,
   },
   {
     id: "claude",
     label: "Claude",
-    enabled: true,
+    enabled: false,
   },
   {
     id: "grok",
     label: "Grok",
-    enabled: true,
+    enabled: false,
   },
   {
     id: "kimi",
     label: "Kimi",
-    enabled: true,
+    enabled: false,
   },
+  {
+    id: "ollama",
+    label: "Ollama",
+    enabled: false,
+  }
 ];

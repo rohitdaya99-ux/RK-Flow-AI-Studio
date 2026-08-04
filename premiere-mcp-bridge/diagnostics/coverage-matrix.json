@@ -1,0 +1,10 @@
+{
+  "project": ["create", "open", "save", "saveAs", "inspect", "createSequence", "createSequenceFromMedia", "importFiles", "importSequences", "getActiveProject"],
+  "sequence": ["create", "createFromPreset", "getActive", "list", "setActive", "duplicate", "delete", "getSettings", "updateSettings", "autoReframe", "addMarker", "listMarkers"],
+  "timeline": ["insertClip", "overwriteClip", "removeClip", "rippleDelete", "moveClip", "trimClip", "splitClip", "duplicateClip", "enableDisableClip", "reverseClip", "addMarker", "listMarkers"],
+  "effects": ["applyVideoEffect", "applyAudioEffect", "removeEffect", "getClipEffects", "setEffectEnabled", "setEffectProperty", "applyTransition", "addKeyframe", "getKeyframes", "setKeyframeInterpolation"],
+  "export": ["sequenceMediaEncoder", "sequenceDirect", "frameCapture", "aaf", "omf", "edl", "finalCutXml", "captions", "getEncoderPresets"],
+  "face": ["createBinFromPhoto", "collectAllClips", "sortByEmotion"],
+  "reel": ["matchReference", "autoSfx", "applyReferenceEnergy"],
+  "diagnostics": ["runBridgeDoctor", "checkConnection", "coverage", "dumpState"]
+}
