@@ -1,4 +1,4 @@
-import type { AutoReelExtractionRequest, AutoReelExtractionResult, VisionBatchAnalysis, VisionCapabilities } from "./models";
+import type { AutoReelExtractionRequest, AutoReelExtractionResult, VisionBatchAnalysis, VisionCapabilities, EmotionCapabilities, EmotionReport, FaceCapabilities, FaceReport } from "./models";
 
 const SIDECAR_HOST = "127.0.0.1";
 const SIDECAR_START_TIMEOUT_MS = 7000;
@@ -157,6 +157,56 @@ export class AutoReelSidecarClient {
       for (;;) {
         if (aborted || options.signal?.aborted) throw new AutoReelSidecarCancelledError("Auto Reel Vision analysis was cancelled.");
         const result = await this.requestJson<VisionBatchAnalysis>(this.session, `/vision/jobs/${encodeURIComponent(submit.jobId)}`);
+        options.onProgress?.(result);
+        if (result.status === "completed" || result.status === "cancelled" || result.status === "failed" || result.status === "sidecar-unavailable") return result;
+        await delay(SIDECAR_POLL_INTERVAL_MS);
+      }
+    } finally { options.signal?.removeEventListener("abort", abortHandler); }
+  }
+
+  public async getFaceCapabilities(): Promise<FaceCapabilities> {
+    const health = await this.ensureReady();
+    if (!health.available || !this.session) throw new AutoReelSidecarUnavailableError(health.reason || "Local Face sidecar is unavailable.");
+    return this.requestJson<FaceCapabilities>(this.session, "/face/capabilities");
+  }
+
+  public async runFaceJob(request: unknown, options: { signal?: AbortSignal; onProgress?: (result: FaceReport) => void } = {}): Promise<FaceReport> {
+    const health = await this.ensureReady();
+    if (!health.available || !this.session) throw new AutoReelSidecarUnavailableError(health.reason || "Local Face sidecar is unavailable.");
+    const submit = await this.requestJson<{ jobId: string }>(this.session, "/face/jobs", { method: "POST", body: JSON.stringify(request) });
+    if (!submit.jobId) throw new AutoReelSidecarUnavailableError("Local sidecar did not return a Face job ID.");
+    let aborted = false;
+    const abortHandler = () => { aborted = true; void this.requestJson(this.session!, `/face/jobs/${encodeURIComponent(submit.jobId)}/cancel`, { method: "POST" }).catch(() => undefined); };
+    options.signal?.addEventListener("abort", abortHandler, { once: true });
+    try {
+      for (;;) {
+        if (aborted || options.signal?.aborted) throw new AutoReelSidecarCancelledError("Auto Reel Face analysis was cancelled.");
+        const result = await this.requestJson<FaceReport>(this.session, `/face/jobs/${encodeURIComponent(submit.jobId)}`);
+        options.onProgress?.(result);
+        if (result.status === "completed" || result.status === "cancelled" || result.status === "failed" || result.status === "sidecar-unavailable") return result;
+        await delay(SIDECAR_POLL_INTERVAL_MS);
+      }
+    } finally { options.signal?.removeEventListener("abort", abortHandler); }
+  }
+  
+  public async getEmotionCapabilities(): Promise<EmotionCapabilities> {
+    const health = await this.ensureReady();
+    if (!health.available || !this.session) throw new AutoReelSidecarUnavailableError(health.reason || "Local Emotion sidecar is unavailable.");
+    return this.requestJson<EmotionCapabilities>(this.session, "/emotion/capabilities");
+  }
+
+  public async runEmotionJob(request: unknown, options: { signal?: AbortSignal; onProgress?: (result: EmotionReport) => void } = {}): Promise<EmotionReport> {
+    const health = await this.ensureReady();
+    if (!health.available || !this.session) throw new AutoReelSidecarUnavailableError(health.reason || "Local Emotion sidecar is unavailable.");
+    const submit = await this.requestJson<{ jobId: string }>(this.session, "/emotion/jobs", { method: "POST", body: JSON.stringify(request) });
+    if (!submit.jobId) throw new AutoReelSidecarUnavailableError("Local sidecar did not return an Emotion job ID.");
+    let aborted = false;
+    const abortHandler = () => { aborted = true; void this.requestJson(this.session!, `/emotion/jobs/${encodeURIComponent(submit.jobId)}/cancel`, { method: "POST" }).catch(() => undefined); };
+    options.signal?.addEventListener("abort", abortHandler, { once: true });
+    try {
+      for (;;) {
+        if (aborted || options.signal?.aborted) throw new AutoReelSidecarCancelledError("Auto Reel Emotion analysis was cancelled.");
+        const result = await this.requestJson<EmotionReport>(this.session, `/emotion/jobs/${encodeURIComponent(submit.jobId)}`);
         options.onProgress?.(result);
         if (result.status === "completed" || result.status === "cancelled" || result.status === "failed" || result.status === "sidecar-unavailable") return result;
         await delay(SIDECAR_POLL_INTERVAL_MS);

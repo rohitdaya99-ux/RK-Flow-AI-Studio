@@ -13,6 +13,8 @@ import {
 } from "./autoReelExtractionService";
 import { isAutoReelScanCancelledError, scanAutoReelTimeline } from "./autoReelScanner";
 import { runVisionPipeline, VisionPipelineCancelledError } from "./visionPipeline";
+import { runFacePipeline, FacePipelineCancelledError } from "./facePipeline";
+import { runEmotionPipeline, EmotionPipelineCancelledError } from "./emotionPipeline";
 import {
   AutoReelJob,
   AutoReelJobProgress,
@@ -390,8 +392,49 @@ export async function runAutoReelSetup(args: {
     });
     job = saveJob(job, { vision, visionSignals: toVisionSignals(vision), warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...vision.warnings]), progress: progress(vision.progress.completedFrames, Math.max(1, vision.progress.totalFrames), vision.status === "completed" ? "Vision analysis complete" : vision.warnings[0] || "Vision analysis unavailable") });
     log.push(...vision.warnings.map((warning) => `Vision warning: ${warning}`));
-    job = updateJob(job, "awaiting_review", job.progress, log, vision.status === "completed" ? "Phase 5 Vision analysis complete. Face AI, Wedding AI, Emotion AI, Music AI, scoring, story building, planning, execution, and export remain not started." : "Phase 5 Vision analysis is unavailable; its truthful capability reason is retained. Later phases remain not started.");
-    emitProgress(args.onProgress, job, log, vision.status === "completed" ? "Vision frame analysis complete. No Face, Wedding, Emotion, Music, or Story AI has run." : vision.warnings[0] || "Vision analysis is unavailable.");
+
+    job = updateJob(job, "analyzing_faces", progress(0, Math.max(1, vision.clips.flatMap(c => c.frames).length), "Starting local Face analysis"), log, "Starting Phase 6 Face analysis.");
+    emitProgress(args.onProgress, job, log, "Face analysis is local-only and uses vision analysis results.");
+    const face = await runFacePipeline({
+      job,
+      signal: args.signal,
+      onProgress: (analysis) => {
+        job = saveJob(job, {
+          face: analysis,
+          warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...vision.warnings, ...analysis.warnings]),
+          progress: progress(analysis.progress.completedFrames || 0, Math.max(1, analysis.progress.totalFrames || 0), `Face: ${analysis.progress.currentFrameSampleId || "preparing"}. Cache ${analysis.cacheHits} hit / ${analysis.cacheMisses} miss.`)
+        });
+        emitProgress(args.onProgress, job, log, "Face analysis is running locally.");
+      }
+    });
+    job = saveJob(job, { face, warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...vision.warnings, ...face.warnings]), progress: progress(face.progress.completedFrames || 0, Math.max(1, face.progress.totalFrames || 0), face.status === "completed" ? "Face analysis complete" : face.warnings[0] || "Face analysis unavailable") });
+    log.push(...face.warnings.map((warning) => `Face warning: ${warning}`));
+    if (face.status === 'completed') {
+      log.push(`Face analysis found ${face.faces.length} faces in ${face.clusters.length} clusters.`);
+    }
+
+    job = updateJob(job, "analyzing_emotion", progress(0, Math.max(1, (face.clusters || []).length), "Starting local Emotion analysis"), log, "Starting Phase 8 Emotion analysis.");
+    emitProgress(args.onProgress, job, log, "Emotion analysis is local-only and uses face analysis results.");
+    const emotion = await runEmotionPipeline({
+      job,
+      signal: args.signal,
+      onProgress: (analysis) => {
+        job = saveJob(job, {
+          emotion: analysis,
+          warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...vision.warnings, ...face.warnings, ...analysis.warnings]),
+          progress: progress(analysis.progress.completed_clips, Math.max(1, analysis.progress.total_clips), `Emotion: ${analysis.progress.current_clip_id || "preparing"}.`)
+        });
+        emitProgress(args.onProgress, job, log, "Emotion analysis is running locally.");
+      }
+    });
+    job = saveJob(job, { emotion, warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...vision.warnings, ...face.warnings, ...emotion.warnings]), progress: progress(emotion.progress.completed_clips, Math.max(1, emotion.progress.total_clips), emotion.status === "completed" ? "Emotion analysis complete" : emotion.warnings[0] || "Emotion analysis unavailable") });
+    log.push(...emotion.warnings.map((warning) => `Emotion warning: ${warning}`));
+    if (emotion.status === 'completed') {
+      log.push(`Emotion analysis processed ${emotion.clips.length} clips.`);
+    }
+
+    job = updateJob(job, "awaiting_review", job.progress, log, "Analysis complete. Music AI, scoring, story building, planning, execution, and export remain not started.");
+    emitProgress(args.onProgress, job, log, "Core analysis phases complete. No Music, Story, or final planning has run.");
 
     persistSetupDraft({
       projectId: args.projectId,
@@ -408,6 +451,8 @@ export async function runAutoReelSetup(args: {
     });
     memory.setAnalysis(`auto-reel:extraction:${job.id}`, "result", extractionStage.extraction);
     memory.setAnalysis(`auto-reel:vision:${job.id}`, "result", vision);
+    memory.setAnalysis(`auto-reel:face:${job.id}`, "result", face);
+    memory.setAnalysis(`auto-reel:emotion:${job.id}`, "result", emotion);
 
     return {
       job,
@@ -417,10 +462,10 @@ export async function runAutoReelSetup(args: {
       planningText: extractionStage.planningText
     };
   } catch (error: unknown) {
-    if (isAutoReelScanCancelledError(error) || isAutoReelExtractionCancelledError(error) || error instanceof VisionPipelineCancelledError) {
-      log.push("Auto Reel scan, extraction, or Vision analysis was cancelled before later phases.");
-      job = updateJob(job, "cancelled", progress(job.progress.current, Math.max(1, job.progress.total), "Analysis cancelled"), log, "Auto Reel analysis cancelled before Face, Wedding, Emotion, Music, scoring, story building, or planning.");
-      emitProgress(args.onProgress, job, log, "Auto Reel Vision analysis cancelled. No later AI phase ran.");
+    if (isAutoReelScanCancelledError(error) || isAutoReelExtractionCancelledError(error) || error instanceof VisionPipelineCancelledError || error instanceof FacePipelineCancelledError || error instanceof EmotionPipelineCancelledError) {
+      log.push("Auto Reel analysis was cancelled.");
+      job = updateJob(job, "cancelled", progress(job.progress.current, Math.max(1, job.progress.total), "Analysis cancelled"), log, "Auto Reel analysis cancelled.");
+      emitProgress(args.onProgress, job, log, "Auto Reel analysis cancelled.");
     }
     throw error;
   }

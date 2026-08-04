@@ -60,6 +60,7 @@ const {
   mapSidecarHealthResponse
 } = require("../src/features/auto-reel/autoReelSidecarClient.ts");
 const { runVisionPipeline } = require("../src/features/auto-reel/visionPipeline.ts");
+const { LocalCueProvider, DedicatedWeddingModelProvider, confirmWeddingEvent } = require("../src/features/auto-reel/weddingEvidence.ts");
 const { AUTO_REEL_LAYOUT_FIXTURE_WIDTHS } = require("../src/features/auto-reel/AutoReelLayoutFixture.tsx");
 const {
   formatModuleNavLabel,
@@ -804,4 +805,15 @@ test("Phase 5 Vision pipeline sends only available extracted frames to the exist
   assert.equal(sent.frames.length, 1);
   assert.equal(sent.frames[0].contentHash, "frame-fingerprint");
   assert.equal(sent.approvedRoots[0], "/approved/cache");
+});
+
+test("Phase 7 wedding evidence stays an unverified local-cue suggestion", () => {
+  const frame = { frameSampleId: "f1", sourceTimeSeconds: 2, contentHash: "fp", saturation: 150, whiteBalanceEstimate: { temperatureK: 3500 }, sceneEstimate: { droneLikelihood: .7, shotType: "wide", indoorOutdoor: "outdoor" } };
+  const report = new LocalCueProvider().analyze({ visionVersion: "v", clips: [{ clipId: "clip-1", frames: [frame] }] });
+  assert.equal(report.suggestions[0].status, "suggested");
+  assert.ok(report.suggestions[0].confidence < .5);
+  assert.match(report.warnings[0], /Dedicated commercial/);
+  const confirmed = confirmWeddingEvent(report.suggestions[0], "venue", "user_confirmed");
+  assert.equal(confirmed.status, "user_confirmed");
+  assert.equal(new DedicatedWeddingModelProvider().enabled, false);
 });

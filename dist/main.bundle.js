@@ -6841,7 +6841,7 @@ function MusicSourcePicker({ context, state, fieldBasis, loading, running, error
                                         }, disabled: loading || running })] }) })), state.musicSourceMode === "project-item" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Premiere project item", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsxs)("select", { value: state.musicProjectItemId, onChange: (event) => onPatchState({ musicProjectItemId: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: [(0, jsx_runtime_1.jsx)("option", { value: "", children: "Select audio project item" }), context?.musicOptions.filter((option) => option.source === "project-item").map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option.id, children: option.label }, option.id)))] }) })), state.musicSourceMode === "authorized-direct-url" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Authorized direct URL", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.musicDirectUrl, onChange: (event) => onPatchState({ musicDirectUrl: event.target.value }), placeholder: "https://example.com/music-track.mp3", disabled: loading || running }) })), state.musicSourceMode === "social-reference" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Social link reference-only", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.musicSocialReferenceUrl, onChange: (event) => onPatchState({ musicSocialReferenceUrl: event.target.value }), placeholder: "https://instagram.com/reel/... or https://youtube.com/shorts/...", disabled: loading || running }) }))] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", flexWrap: "wrap", gap: theme_1.spacing.sm, alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: state.extractClipAudio, onChange: (event) => onPatchState({ extractClipAudio: event.target.checked }), disabled: loading || running }), (0, jsx_runtime_1.jsx)("span", { children: "Also extract clip audio proxies for selected clips." })] }), (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: state.copyrightNoticeAccepted, onChange: (event) => onPatchState({ copyrightNoticeAccepted: event.target.checked }), disabled: loading || running }), (0, jsx_runtime_1.jsx)("span", { children: "I confirm that any uploaded or linked music is licensed or reference-only." })] })] }), (0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.helperTextStyle, children: "Direct URLs must point to authorized media files. Social links are stored as reference-only and are never treated as a licensed source track by this Phase 4 workflow. Clip-audio extraction runs only when explicitly requested." })] }) }));
 }
 function PersonReferenceManager({ state, layoutMode, loading, running, onUpdateReference, onAddCustomReference, onRemoveReference }) {
-    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "PersonReferenceManager", subtitle: "Select bride, groom, family, or custom reference images. No face processing is performed in Phase 4.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [state.references.map((reference) => ((0, jsx_runtime_1.jsxs)("div", { style: (0, AutoReelUi_1.referenceCardStyle)(layoutMode === "wide"), children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.xs, minWidth: 0 }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: "#4A1621", fontWeight: 700 }, children: reference.label }), (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.helperTextStyle, children: [(0, AutoReelUi_1.titleCase)(reference.role), " reference"] })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.uploadLabelStyle, children: [(0, jsx_runtime_1.jsx)("span", { children: reference.fileName || "Select image" }), (0, jsx_runtime_1.jsx)("input", { type: "file", accept: "image/*", style: { display: "none" }, onChange: (event) => {
+    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "PersonReferenceManager", subtitle: "Reference matching unavailable: commercial recognition model not configured. Reference images remain local and are not uploaded or embedded.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [state.references.map((reference) => ((0, jsx_runtime_1.jsxs)("div", { style: (0, AutoReelUi_1.referenceCardStyle)(layoutMode === "wide"), children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.xs, minWidth: 0 }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: "#4A1621", fontWeight: 700 }, children: reference.label }), (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.helperTextStyle, children: [(0, AutoReelUi_1.titleCase)(reference.role), " reference"] })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.uploadLabelStyle, children: [(0, jsx_runtime_1.jsx)("span", { children: reference.fileName || "Select image" }), (0, jsx_runtime_1.jsx)("input", { type: "file", accept: "image/*", style: { display: "none" }, onChange: (event) => {
                                                             const file = event.target.files?.[0];
                                                             onUpdateReference(reference.id, {
                                                                 fileName: file?.name ?? "",
@@ -8232,6 +8232,8 @@ const AutoReelJobMemory_1 = __webpack_require__(8542);
 const autoReelExtractionService_1 = __webpack_require__(578);
 const autoReelScanner_1 = __webpack_require__(9652);
 const visionPipeline_1 = __webpack_require__(8961);
+const facePipeline_1 = __webpack_require__(3688);
+const emotionPipeline_1 = __webpack_require__(3020);
 const autoReelSetupConfig_1 = __webpack_require__(8489);
 const validation_1 = __webpack_require__(3492);
 const models_1 = __webpack_require__(5225);
@@ -8461,8 +8463,46 @@ async function runAutoReelSetup(args) {
         });
         job = saveJob(job, { vision, visionSignals: toVisionSignals(vision), warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...vision.warnings]), progress: progress(vision.progress.completedFrames, Math.max(1, vision.progress.totalFrames), vision.status === "completed" ? "Vision analysis complete" : vision.warnings[0] || "Vision analysis unavailable") });
         log.push(...vision.warnings.map((warning) => `Vision warning: ${warning}`));
-        job = updateJob(job, "awaiting_review", job.progress, log, vision.status === "completed" ? "Phase 5 Vision analysis complete. Face AI, Wedding AI, Emotion AI, Music AI, scoring, story building, planning, execution, and export remain not started." : "Phase 5 Vision analysis is unavailable; its truthful capability reason is retained. Later phases remain not started.");
-        emitProgress(args.onProgress, job, log, vision.status === "completed" ? "Vision frame analysis complete. No Face, Wedding, Emotion, Music, or Story AI has run." : vision.warnings[0] || "Vision analysis is unavailable.");
+        job = updateJob(job, "analyzing_faces", progress(0, Math.max(1, vision.clips.flatMap(c => c.frames).length), "Starting local Face analysis"), log, "Starting Phase 6 Face analysis.");
+        emitProgress(args.onProgress, job, log, "Face analysis is local-only and uses vision analysis results.");
+        const face = await (0, facePipeline_1.runFacePipeline)({
+            job,
+            signal: args.signal,
+            onProgress: (analysis) => {
+                job = saveJob(job, {
+                    face: analysis,
+                    warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...vision.warnings, ...analysis.warnings]),
+                    progress: progress(analysis.progress.completedFrames || 0, Math.max(1, analysis.progress.totalFrames || 0), `Face: ${analysis.progress.currentFrameSampleId || "preparing"}. Cache ${analysis.cacheHits} hit / ${analysis.cacheMisses} miss.`)
+                });
+                emitProgress(args.onProgress, job, log, "Face analysis is running locally.");
+            }
+        });
+        job = saveJob(job, { face, warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...vision.warnings, ...face.warnings]), progress: progress(face.progress.completedFrames || 0, Math.max(1, face.progress.totalFrames || 0), face.status === "completed" ? "Face analysis complete" : face.warnings[0] || "Face analysis unavailable") });
+        log.push(...face.warnings.map((warning) => `Face warning: ${warning}`));
+        if (face.status === 'completed') {
+            log.push(`Face analysis found ${face.faces.length} faces in ${face.clusters.length} clusters.`);
+        }
+        job = updateJob(job, "analyzing_emotion", progress(0, Math.max(1, (face.clusters || []).length), "Starting local Emotion analysis"), log, "Starting Phase 8 Emotion analysis.");
+        emitProgress(args.onProgress, job, log, "Emotion analysis is local-only and uses face analysis results.");
+        const emotion = await (0, emotionPipeline_1.runEmotionPipeline)({
+            job,
+            signal: args.signal,
+            onProgress: (analysis) => {
+                job = saveJob(job, {
+                    emotion: analysis,
+                    warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...vision.warnings, ...face.warnings, ...analysis.warnings]),
+                    progress: progress(analysis.progress.completed_clips, Math.max(1, analysis.progress.total_clips), `Emotion: ${analysis.progress.current_clip_id || "preparing"}.`)
+                });
+                emitProgress(args.onProgress, job, log, "Emotion analysis is running locally.");
+            }
+        });
+        job = saveJob(job, { emotion, warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...vision.warnings, ...face.warnings, ...emotion.warnings]), progress: progress(emotion.progress.completed_clips, Math.max(1, emotion.progress.total_clips), emotion.status === "completed" ? "Emotion analysis complete" : emotion.warnings[0] || "Emotion analysis unavailable") });
+        log.push(...emotion.warnings.map((warning) => `Emotion warning: ${warning}`));
+        if (emotion.status === 'completed') {
+            log.push(`Emotion analysis processed ${emotion.clips.length} clips.`);
+        }
+        job = updateJob(job, "awaiting_review", job.progress, log, "Analysis complete. Music AI, scoring, story building, planning, execution, and export remain not started.");
+        emitProgress(args.onProgress, job, log, "Core analysis phases complete. No Music, Story, or final planning has run.");
         persistSetupDraft({
             projectId: args.projectId,
             sequenceId: args.sequenceId,
@@ -8478,6 +8518,8 @@ async function runAutoReelSetup(args) {
         });
         memory.setAnalysis(`auto-reel:extraction:${job.id}`, "result", extractionStage.extraction);
         memory.setAnalysis(`auto-reel:vision:${job.id}`, "result", vision);
+        memory.setAnalysis(`auto-reel:face:${job.id}`, "result", face);
+        memory.setAnalysis(`auto-reel:emotion:${job.id}`, "result", emotion);
         return {
             job,
             context,
@@ -8487,10 +8529,10 @@ async function runAutoReelSetup(args) {
         };
     }
     catch (error) {
-        if ((0, autoReelScanner_1.isAutoReelScanCancelledError)(error) || (0, autoReelExtractionService_1.isAutoReelExtractionCancelledError)(error) || error instanceof visionPipeline_1.VisionPipelineCancelledError) {
-            log.push("Auto Reel scan, extraction, or Vision analysis was cancelled before later phases.");
-            job = updateJob(job, "cancelled", progress(job.progress.current, Math.max(1, job.progress.total), "Analysis cancelled"), log, "Auto Reel analysis cancelled before Face, Wedding, Emotion, Music, scoring, story building, or planning.");
-            emitProgress(args.onProgress, job, log, "Auto Reel Vision analysis cancelled. No later AI phase ran.");
+        if ((0, autoReelScanner_1.isAutoReelScanCancelledError)(error) || (0, autoReelExtractionService_1.isAutoReelExtractionCancelledError)(error) || error instanceof visionPipeline_1.VisionPipelineCancelledError || error instanceof facePipeline_1.FacePipelineCancelledError || error instanceof emotionPipeline_1.EmotionPipelineCancelledError) {
+            log.push("Auto Reel analysis was cancelled.");
+            job = updateJob(job, "cancelled", progress(job.progress.current, Math.max(1, job.progress.total), "Analysis cancelled"), log, "Auto Reel analysis cancelled.");
+            emitProgress(args.onProgress, job, log, "Auto Reel analysis cancelled.");
         }
         throw error;
     }
@@ -8926,6 +8968,68 @@ class AutoReelSidecarClient {
             options.signal?.removeEventListener("abort", abortHandler);
         }
     }
+    async getFaceCapabilities() {
+        const health = await this.ensureReady();
+        if (!health.available || !this.session)
+            throw new AutoReelSidecarUnavailableError(health.reason || "Local Face sidecar is unavailable.");
+        return this.requestJson(this.session, "/face/capabilities");
+    }
+    async runFaceJob(request, options = {}) {
+        const health = await this.ensureReady();
+        if (!health.available || !this.session)
+            throw new AutoReelSidecarUnavailableError(health.reason || "Local Face sidecar is unavailable.");
+        const submit = await this.requestJson(this.session, "/face/jobs", { method: "POST", body: JSON.stringify(request) });
+        if (!submit.jobId)
+            throw new AutoReelSidecarUnavailableError("Local sidecar did not return a Face job ID.");
+        let aborted = false;
+        const abortHandler = () => { aborted = true; void this.requestJson(this.session, `/face/jobs/${encodeURIComponent(submit.jobId)}/cancel`, { method: "POST" }).catch(() => undefined); };
+        options.signal?.addEventListener("abort", abortHandler, { once: true });
+        try {
+            for (;;) {
+                if (aborted || options.signal?.aborted)
+                    throw new AutoReelSidecarCancelledError("Auto Reel Face analysis was cancelled.");
+                const result = await this.requestJson(this.session, `/face/jobs/${encodeURIComponent(submit.jobId)}`);
+                options.onProgress?.(result);
+                if (result.status === "completed" || result.status === "cancelled" || result.status === "failed" || result.status === "sidecar-unavailable")
+                    return result;
+                await delay(SIDECAR_POLL_INTERVAL_MS);
+            }
+        }
+        finally {
+            options.signal?.removeEventListener("abort", abortHandler);
+        }
+    }
+    async getEmotionCapabilities() {
+        const health = await this.ensureReady();
+        if (!health.available || !this.session)
+            throw new AutoReelSidecarUnavailableError(health.reason || "Local Emotion sidecar is unavailable.");
+        return this.requestJson(this.session, "/emotion/capabilities");
+    }
+    async runEmotionJob(request, options = {}) {
+        const health = await this.ensureReady();
+        if (!health.available || !this.session)
+            throw new AutoReelSidecarUnavailableError(health.reason || "Local Emotion sidecar is unavailable.");
+        const submit = await this.requestJson(this.session, "/emotion/jobs", { method: "POST", body: JSON.stringify(request) });
+        if (!submit.jobId)
+            throw new AutoReelSidecarUnavailableError("Local sidecar did not return an Emotion job ID.");
+        let aborted = false;
+        const abortHandler = () => { aborted = true; void this.requestJson(this.session, `/emotion/jobs/${encodeURIComponent(submit.jobId)}/cancel`, { method: "POST" }).catch(() => undefined); };
+        options.signal?.addEventListener("abort", abortHandler, { once: true });
+        try {
+            for (;;) {
+                if (aborted || options.signal?.aborted)
+                    throw new AutoReelSidecarCancelledError("Auto Reel Emotion analysis was cancelled.");
+                const result = await this.requestJson(this.session, `/emotion/jobs/${encodeURIComponent(submit.jobId)}`);
+                options.onProgress?.(result);
+                if (result.status === "completed" || result.status === "cancelled" || result.status === "failed" || result.status === "sidecar-unavailable")
+                    return result;
+                await delay(SIDECAR_POLL_INTERVAL_MS);
+            }
+        }
+        finally {
+            options.signal?.removeEventListener("abort", abortHandler);
+        }
+    }
     async fetchHealth(session) {
         try {
             const payload = await this.requestJson(session, "/health");
@@ -9158,6 +9262,191 @@ function toPromptReelPlan(plan) {
             promptTags: []
         })),
         notes: plan.warnings
+    };
+}
+
+
+/***/ },
+
+/***/ 3020
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.EmotionPipelineCancelledError = exports.$ = void 0;
+exports.runEmotionPipeline = runEmotionPipeline;
+const autoReelSidecarClient_1 = __webpack_require__(7950);
+exports.$ = "phase-8-emotion-v1";
+class EmotionPipelineCancelledError extends Error {
+    constructor() {
+        super("Auto Reel Emotion analysis was cancelled.");
+        this.name = "EmotionPipelineCancelledError";
+    }
+}
+exports.EmotionPipelineCancelledError = EmotionPipelineCancelledError;
+async function runEmotionPipeline(args) {
+    const { job, signal, onProgress, client: clientArg } = args;
+    const client = clientArg ?? new autoReelSidecarClient_1.AutoReelSidecarClient();
+    if (!job.face || job.face.status !== "completed") {
+        return unavailableBatch(job, "Emotion analysis requires a completed Face analysis report, which is not available.");
+    }
+    try {
+        const capabilities = await client.getEmotionCapabilities();
+        if (!capabilities.available) {
+            return unavailableBatch(job, capabilities.reason || "Local Emotion capabilities are unavailable.", capabilities);
+        }
+        const approvedRoots = unique(job.request.mediaSelection.clipIds
+            .map(id => job.clips.find(c => c.id === id)?.mediaPath)
+            .filter((path) => !!path)
+            .map(parentPath));
+        const request = {
+            schemaVersion: 1,
+            jobId: job.id,
+            requestId: `${job.request.id}:emotion`,
+            requestedAt: new Date().toISOString(),
+            approvedRoots,
+            faceReport: job.face,
+            cache: {
+                rootName: "rkflow-cache",
+                extractorVersion: "phase-4-extraction-v1", // Or appropriate version
+                ttlSeconds: 86400,
+                maxBytes: 536870912,
+            },
+            limits: {
+                concurrency: 2,
+                retryLimit: 1,
+            },
+        };
+        return await client.runEmotionJob(request, { signal, onProgress });
+    }
+    catch (error) {
+        if (error instanceof autoReelSidecarClient_1.AutoReelSidecarCancelledError || signal?.aborted) {
+            throw new EmotionPipelineCancelledError();
+        }
+        return unavailableBatch(job, error instanceof Error ? error.message : "Local Emotion sidecar is unavailable.");
+    }
+}
+function unique(values) {
+    return [...new Set(values.filter(Boolean))];
+}
+function parentPath(path) {
+    const normalized = path.replace(/\\/g, "/");
+    const index = normalized.lastIndexOf("/");
+    return index > 0 ? normalized.slice(0, index) : normalized;
+}
+function unavailableBatch(job, reason, capabilities) {
+    const now = new Date().toISOString();
+    return {
+        jobId: job.id,
+        requestId: `${job.request.id}:emotion`,
+        status: "sidecar-unavailable",
+        sidecar: { status: "unavailable", reason },
+        emotionModelVersion: exports.$,
+        capabilities: capabilities || { available: false, version: exports.$, providers: [], reason },
+        progress: { completed_clips: 0, total_clips: 0 },
+        clips: [],
+        failures: [],
+        warnings: [reason],
+        startedAt: now,
+        completedAt: now,
+    };
+}
+
+
+/***/ },
+
+/***/ 3688
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.FacePipelineCancelledError = exports.n = void 0;
+exports.runFacePipeline = runFacePipeline;
+const autoReelSidecarClient_1 = __webpack_require__(7950);
+exports.n = "phase-6-anonymous-opencv-haar-v1";
+class FacePipelineCancelledError extends Error {
+    constructor() {
+        super("Auto Reel Face analysis was cancelled.");
+        this.name = "FacePipelineCancelledError";
+    }
+}
+exports.FacePipelineCancelledError = FacePipelineCancelledError;
+async function runFacePipeline(args) {
+    const { job, signal, onProgress, client: clientArg } = args;
+    const client = clientArg ?? new autoReelSidecarClient_1.AutoReelSidecarClient();
+    const vision = job.vision;
+    if (!vision || vision.status !== "completed") {
+        return unavailableBatch(job, "Face analysis requires a completed Vision analysis report, which is not available.");
+    }
+    try {
+        const capabilities = await client.getFaceCapabilities();
+        if (!capabilities.available) {
+            return unavailableBatch(job, capabilities.reason || "Local Face capabilities are unavailable.", capabilities);
+        }
+        const frames = job.frameSamples.filter(f => f.extractionStatus === 'available');
+        const approvedRoots = unique(frames.map((frame) => parentPath(frame.imagePath)));
+        const request = {
+            schemaVersion: 1,
+            jobId: job.id,
+            requestId: `${job.request.id}:face`,
+            requestedAt: new Date().toISOString(),
+            approvedRoots,
+            visionVersion: vision.visionVersion,
+            frames: frames.map(f => ({
+                frameSampleId: f.id,
+                clipId: f.clipId,
+                imagePath: f.imagePath,
+                contentHash: f.contentHash,
+            })),
+            cache: {
+                rootName: "rkflow-cache",
+                extractorVersion: "phase-4-extraction-v1",
+                ttlSeconds: 86400,
+                maxBytes: 536870912,
+            },
+            limits: {
+                concurrency: 2,
+                retryLimit: 1,
+            },
+        };
+        return await client.runFaceJob(request, { signal, onProgress });
+    }
+    catch (error) {
+        if (error instanceof autoReelSidecarClient_1.AutoReelSidecarCancelledError || signal?.aborted) {
+            throw new FacePipelineCancelledError();
+        }
+        return unavailableBatch(job, error instanceof Error ? error.message : "Local Face sidecar is unavailable.");
+    }
+}
+function unique(values) {
+    return [...new Set(values.filter(Boolean))];
+}
+function parentPath(path) {
+    const normalized = path.replace(/\\/g, "/");
+    const index = normalized.lastIndexOf("/");
+    return index > 0 ? normalized.slice(0, index) : normalized;
+}
+function unavailableBatch(job, reason, capabilities) {
+    const now = new Date().toISOString();
+    return {
+        schemaVersion: 1,
+        jobId: job.id,
+        requestId: `${job.request.id}:face`,
+        status: "sidecar-unavailable",
+        sidecar: { status: "unavailable", reason },
+        faceModelVersion: exports.n,
+        capabilities: capabilities || { available: false, detector: "unknown", landmarksAvailable: false, embeddingProviderEnabled: false, reason },
+        progress: {},
+        faces: [],
+        clusters: [],
+        timeline: [],
+        cacheHits: 0,
+        cacheMisses: 0,
+        warnings: [reason],
+        startedAt: now,
+        completedAt: now,
     };
 }
 

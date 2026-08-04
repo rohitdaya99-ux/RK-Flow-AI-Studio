@@ -158,8 +158,15 @@ AutoReelScreen -> runAutoReelSetup -> extraction result FrameSample[]
 - ONNX Runtime is capability-probed only; no ONNX model is loaded. Therefore
   Phase 5 correctly reports CPU execution rather than claiming GPU analysis.
 
-Still not started: Face AI, Wedding AI, Emotion AI, Music AI, scoring, Story
-Builder, reel planning, Premiere execution, and export.
+## Limited Phase 6 Anonymous Face Foundation
+
+The existing localhost sidecar now exposes an anonymous Face report that consumes extracted-frame paths only. It uses local OpenCV detection, generic face quality signals, clip-local anonymous tracking and stable anonymous cluster IDs. Landmarks, embeddings, identity/reference matching, and permanent biometric persistence remain disabled with capability reasons. No Face result labels a person.
+
+Still not started: identity recognition/reference matching, Wedding AI, Emotion AI, Music AI, scoring, Story Builder, reel planning, Premiere execution, and export.
+
+## Limited Phase 7 Wedding Event Evidence Foundation
+
+Phase 7 adds a local evidence provider over existing Vision data. It creates capped, explicitly unverified event suggestions and preserves `unknown`; only explicit user confirmation or correction may create a confirmed label. No dedicated wedding-event classifier, identity inference, cloud processing, or model retraining is used.
 
 ## Retirement Candidates
 

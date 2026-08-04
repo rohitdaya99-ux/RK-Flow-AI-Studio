@@ -22,6 +22,7 @@ to a cloud service.
 | OpenCV (`opencv-python-headless`) | `4.10.0.84` | Apache-2.0 | N/A | Permissive code license | Pinned Python sidecar dependency | Include Apache notice; unavailable means full Vision frame analysis is disabled. |
 | Pillow | `11.3.0` | HPND | N/A | Permissive | Pinned Python sidecar dependency | Used only for capability probing and image-format support; OpenCV is the required analyzer. |
 | ONNX Runtime | `1.19.2` | MIT | No model weights bundled | Permissive | Pinned optional Python sidecar dependency | Provider probe only in Phase 5; no ONNX model is loaded. CPU remains required fallback. |
+| OpenCV Zoo YuNet | `face_detection_yunet_2023mar.onnx` | MIT | MIT | Commercial use permitted | Optional local sidecar artifact; never auto-downloaded | Artifact is documented but not bundled; OpenCV Haar is the local fallback. |
 | MediaPipe Tasks | Not selected | Apache-2.0 | Verify task-model package before pinning | Conditional pending model review | Runtime model download or bundled model, decision pending | Include notices and user consent for its telemetry; fallback is face detection unavailable. |
 | librosa | Not selected | ISC | N/A | Permissive | Python sidecar dependency | Include ISC notice; fallback is no local music analysis. |
 | FFmpeg/ffprobe | User-installed initially | LGPL/GPL depends on build configuration | N/A | Conditional | External executables, not bundled in this repository | Do not distribute until codec/build license review. Fallback is no frame/audio extraction. |
@@ -43,6 +44,8 @@ to a cloud service.
 - No cloud frame/audio upload without an explicit user opt-in per project.
 - Phase 4 extraction accepts only user-approved local filesystem roots collected from verified Premiere media paths or explicit local-song paths. Remote URLs and social links remain unavailable/reference-only.
 - Phase 5 Vision accepts only extracted frame paths produced by the existing extraction cache. It does not read the Premiere timeline, decode source media, run face recognition, classify weddings, infer emotion, analyze music, or build a story.
+- Limited Phase 6 runs local anonymous face detection/tracking/clustering only. Its current OpenCV Haar fallback is bundled with OpenCV; YuNet is accepted only when an administrator provisions the exact MIT artifact locally. MediaPipe Tasks is not enabled because an exact Face Landmarker artifact license and local provisioning record have not been added. No embeddings, names, reference matching, cloud uploads, or permanent biometric storage are created.
+- Limited Phase 7 uses only existing local Vision cues. Grounding DINO is not enabled: no exact local weight artifact, hash, or license record is configured. Ultralytics YOLO is not enabled because its AGPL obligations have not been accepted and no enterprise license is configured. No weights are downloaded automatically.
 - The Phase 4 sidecar uses a dedicated RK Flow cache root under the local temp directory unless `RKFLOW_CACHE_ROOT` is set, tracks cache size, applies TTL cleanup, and refuses deletion outside that cache root.
 - Face references and embeddings remain local, are deletable, and require user
   confirmation before bride/groom labels are used.

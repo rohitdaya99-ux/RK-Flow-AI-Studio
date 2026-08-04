@@ -19,104 +19,6 @@ export const AUTO_REEL_JOB_STATES = [
   "failed"
 ] as const;
 
-export type AutoReelJobState = (typeof AUTO_REEL_JOB_STATES)[number];
-
-export type MediaSelectionMode =
-  | "selected-clips"
-  | "active-sequence"
-  | "in-out-range"
-  | "project-items"
-  | "manual-selection";
-
-export type AutoReelAspectRatio = "9:16" | "16:9" | "1:1" | "4:5" | "custom";
-export type AutoReelTuningLevel = "low" | "balanced" | "high";
-export type AutoReelBalanceTarget = "bride" | "groom" | "family" | "balanced";
-export type AutoReelEmotionPriority = "low" | "balanced" | "high";
-export type AutoReelEnergyLevel = "calm" | "balanced" | "high";
-export type AutoReelCutDensity = "sparse" | "balanced" | "rapid";
-export type AutoReelStoryMode = "story" | "emotion" | "music" | "viral" | "documentary" | "cinematic";
-export type AutoReelMusicMode =
-  | "none"
-  | "local-file"
-  | "project-item"
-  | "authorized-direct-url"
-  | "social-reference";
-export type AutoReelPersonRole = "bride" | "groom" | "family" | "custom";
-export type AutoReelReferenceReelMode = "url" | "local-file";
-
-export interface AutoReelClipFilterConfig {
-  includeLockedTracks: boolean;
-  includeDisabledClips: boolean;
-  includeAudioOnlyItems: boolean;
-  includeStillItems: boolean;
-  minimumClipCount: number;
-  maximumClipCount: number;
-}
-
-export interface AutoReelMusicSourceConfig {
-  mode: AutoReelMusicMode;
-  fileName?: string;
-  filePath?: string;
-  projectItemId?: string;
-  directUrl?: string;
-  socialReferenceUrl?: string;
-  cachedMusicId?: string;
-  extractClipAudio: boolean;
-  copyrightNoticeAccepted: boolean;
-}
-
-export interface AutoReelReferencePerson {
-  id: string;
-  role: AutoReelPersonRole;
-  label: string;
-  fileName?: string;
-}
-
-export interface AutoReelReferenceReelConfig {
-  mode: AutoReelReferenceReelMode;
-  url?: string;
-  localFileName?: string;
-}
-
-export interface AutoReelSetupConfig {
-  sourceMode: MediaSelectionMode;
-  clipFilter: AutoReelClipFilterConfig;
-  aspectRatio: AutoReelAspectRatio;
-  reelType: string;
-  style: string;
-  storyMode: AutoReelStoryMode;
-  emotionPriority: AutoReelEmotionPriority;
-  balanceTarget: AutoReelBalanceTarget;
-  energy: AutoReelEnergyLevel;
-  cutDensity: AutoReelCutDensity;
-  transitionIntensity: AutoReelTuningLevel;
-  motionIntensity: AutoReelTuningLevel;
-  sfxIntensity: AutoReelTuningLevel;
-  colorIntensity: AutoReelTuningLevel;
-  outputSequenceName: string;
-  createNewSequence: true;
-  musicSource: AutoReelMusicSourceConfig;
-  references: AutoReelReferencePerson[];
-  referenceReel?: AutoReelReferenceReelConfig;
-  selectedProjectItemIds: string[];
-  manualClipIds: string[];
-}
-
-export type ClipMediaType = "video" | "audio" | "still" | "unknown";
-export type SignalSource = "measured" | "ai" | "metadata" | "user";
-export type AutoReelMetadataStatus = "host-verified" | "metadata-fallback" | "unavailable";
-
-export interface AutoReelCapabilityNote {
-  field: string;
-  source: AutoReelMetadataStatus;
-  reason: string;
-}
-
-export interface AutoReelFrameSize {
-  width: number;
-  height: number;
-}
-
 export interface MediaSelection {
   mode: MediaSelectionMode;
   projectId?: string;
@@ -272,6 +174,77 @@ export interface VisionCapabilities {
   onnxRuntimeProviders: string[]; openVinoAvailable: boolean; modules: string[]; features: string[]; reason?: string;
 }
 
+export interface FaceCapabilities {
+  available: boolean;
+  detector: string;
+  detectorArtifact?: string;
+  landmarksAvailable: boolean;
+  embeddingProviderEnabled: boolean;
+  reason?: string;
+}
+
+export interface DetectedFace {
+  id: string;
+  frameSampleId: string;
+  clipId: string;
+  boundingBox: { x: number; y: number; width: number; height: number };
+  confidence: number;
+  landmarks: any[];
+  yaw?: number;
+  pitch?: number;
+  roll?: number;
+  faceSize: number;
+  frontalScore: number;
+  eyeVisibility: number;
+  occlusionEstimate: number;
+  blur: number;
+  lighting: number;
+  qualityScore: number;
+  rejectScore: number;
+  capabilityReasons: string[];
+}
+
+export interface FaceCluster {
+  id: string;
+  faceIds: string[];
+  clipIds: string[];
+  bestFrameSampleId?: string;
+  coverageSeconds: number;
+}
+
+export interface FaceTimeline {
+  clipId: string;
+  frameSampleId: string;
+  timestampSeconds: number;
+  clusterId: string;
+  faceId: string;
+  confidence: number;
+}
+
+export interface FaceReport {
+  schemaVersion: 1;
+  jobId: string;
+  requestId: string;
+  status: "running" | "completed" | "cancelled" | "failed" | "sidecar-unavailable";
+  sidecar: { status: "available" | "unavailable"; baseUrl?: string; version?: string; reason?: string };
+  faceModelVersion: string;
+  capabilities: FaceCapabilities;
+  progress: {
+    completedFrames?: number;
+    totalFrames?: number;
+    currentFrameSampleId?: string;
+  };
+  faces: DetectedFace[];
+  clusters: FaceCluster[];
+  timeline: FaceTimeline[];
+  cacheHits: number;
+  cacheMisses: number;
+  warnings: string[];
+  startedAt: string;
+  completedAt?: string;
+}
+
+
 export interface FaceDetection {
   faceId: string;
   frameSampleId: string;
@@ -290,6 +263,125 @@ export interface FaceSignals {
   brideVisible: boolean;
   groomVisible: boolean;
   referenceMatchAllowed: boolean;
+}
+
+export type ExpressionLabel =
+  | "smiling"
+  | "neutral"
+  | "surprised"
+  | "sad-looking"
+  | "tense"
+  | "laughing"
+  | "eyes-closed"
+  | "uncertain";
+
+export type ClipMoodLabel =
+  | "joyful"
+  | "romantic"
+  | "emotional"
+  | "energetic"
+  | "calm"
+  | "celebratory"
+  | "humorous"
+  | "tense"
+  | "neutral"
+  | "uncertain";
+
+export type EditorialRecommendation =
+  | "longer_hold"
+  | "normal"
+  | "fast_reaction"
+  | "avoid"
+  | "uncertain";
+
+export interface ExpressionProviderStatus {
+  name: string;
+  enabled: boolean;
+  reason?: string;
+}
+
+export interface EmotionCapabilities {
+  available: boolean;
+  version: string;
+  providers: ExpressionProviderStatus[];
+  reason?: string;
+}
+
+export interface EmotionEvidence {
+  source:
+    | "facial_expression"
+    | "face_count"
+    | "vision_motion"
+    | "lighting"
+    | "shot_type"
+    | "wedding_event"
+    | "temporal_context"
+    | "filename_fallback";
+  confidence: number;
+  details: string;
+}
+
+export interface FacialExpressionEstimate {
+  label: ExpressionLabel;
+  confidence: number;
+  faceId: string;
+  provider: string;
+  quality_warning?: string;
+  uncertainty_reason?: string;
+}
+
+export interface FaceExpressionFrame {
+  frameSampleId: string;
+  timestamp: number;
+  expressions: FacialExpressionEstimate[];
+}
+
+export interface EmotionTimelineEntry {
+  // ...
+}
+
+export interface ClipExpressionSummary {
+  dominantExpression: ExpressionLabel;
+  secondaryExpression?: ExpressionLabel;
+  smileScore: number; // 0-100
+  expressionScore: number; // 0-100
+  consistency: number; // 0-1
+}
+
+export interface ClipMoodEstimate {
+  dominant_mood: ClipMoodLabel;
+  secondary_mood?: ClipMoodLabel;
+  confidence: number;
+  evidence: EmotionEvidence[];
+  usableForEdit: boolean;
+  recommendedHandling: EditorialRecommendation;
+  uncertainty_reason?: string;
+}
+
+export interface EmotionClipReport {
+  clipId: string;
+  expressionSummary?: ClipExpressionSummary;
+  moodEstimate: ClipMoodEstimate;
+  faceExpressions: FacialExpressionEstimate[];
+}
+
+export interface EmotionReport {
+  jobId: string;
+  requestId: string;
+  status: "running" | "completed" | "cancelled" | "failed" | "sidecar-unavailable";
+  sidecar: { status: "available" | "unavailable"; baseUrl?: string; version?: string; reason?: string };
+  emotionModelVersion: string;
+  capabilities: EmotionCapabilities;
+  progress: {
+    completedClips: number;
+    totalClips: number;
+    currentClipId?: string;
+  };
+  clips: EmotionClipReport[];
+  failures: any[];
+  warnings: string[];
+  startedAt: string;
+  completedAt?: string;
 }
 
 export interface ExpressionSignals {
@@ -647,6 +739,8 @@ export interface AutoReelJob {
   audioAnalysis?: AudioAnalysis;
   extraction?: AutoReelExtractionResult;
   vision?: VisionBatchAnalysis;
+  face?: FaceReport;
+  emotion?: EmotionReport;
   extractionFailures: AutoReelExtractionFailure[];
   scoreBreakdowns: ClipScoreBreakdown[];
   storyBeats: StoryBeat[];

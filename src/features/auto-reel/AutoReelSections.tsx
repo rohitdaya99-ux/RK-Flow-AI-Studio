@@ -408,7 +408,7 @@ export function PersonReferenceManager({
 }) {
   return (
     <div style={sectionWrapStyle}>
-      <Card title="PersonReferenceManager" subtitle="Select bride, groom, family, or custom reference images. No face processing is performed in Phase 4." style={{ ...glassCardStyle, flex: "1 1 100%", minWidth: 0 }}>
+      <Card title="PersonReferenceManager" subtitle="Reference matching unavailable: commercial recognition model not configured. Reference images remain local and are not uploaded or embedded." style={{ ...glassCardStyle, flex: "1 1 100%", minWidth: 0 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: spacing.md }}>
           {state.references.map((reference) => (
             <div key={reference.id} style={referenceCardStyle(layoutMode === "wide")}>
