@@ -553,11 +553,13 @@ export function AutoReelRequestPreview({
 }) {
   const progressPercent = !job || job.progress.total <= 0 ? 0 : Math.round((job.progress.current / job.progress.total) * 100);
   const extraction = job?.extraction;
+  const vision = job?.vision;
   const currentClip = extraction?.progress.currentClipName || extraction?.progress.currentClipId || "None";
+  const currentFrame = vision?.progress.currentFrameSampleId || "None";
   const remainingClips = extraction?.progress.remainingClips ?? 0;
   return (
     <div style={sectionWrapStyle}>
-      <Card title="Progress Panel" subtitle="Real extraction progress, live log, warnings, and serialized AutoReelRequest preview." style={{ ...glassCardStyle, flex: "1 1 100%", minWidth: 0 }}>
+      <Card title="Progress Panel" subtitle="Real extraction and local Vision progress, warnings, cache status, and serialized AutoReelRequest preview." style={{ ...glassCardStyle, flex: "1 1 100%", minWidth: 0 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: spacing.md }}>
           <div style={{ display: "flex", flexDirection: "column", gap: spacing.xs }}>
             <div style={helperTextStyle}>{job?.progress.message || "Setup has not started yet."}</div>
@@ -574,6 +576,10 @@ export function AutoReelRequestPreview({
             <StatusChip label={extraction ? `${extraction.progress.cacheHits} cache hits` : "0 cache hits"} tone={extraction?.progress.cacheHits ? "success" : "neutral"} />
             <StatusChip label={extraction ? `${extraction.progress.cacheMisses} cache misses` : "0 cache misses"} tone={extraction?.progress.cacheMisses ? "warning" : "neutral"} />
             <StatusChip label={extraction?.sidecar.status === "available" ? "Sidecar available" : "Sidecar unavailable"} tone={extraction?.sidecar.status === "available" ? "success" : "danger"} />
+            <StatusChip label={vision ? `Vision ${vision.status}` : "Vision pending"} tone={vision?.status === "completed" ? "success" : vision ? "warning" : "neutral"} />
+            <StatusChip label={`Current frame ${currentFrame}`} tone={vision?.progress.currentFrameSampleId ? "warning" : "neutral"} />
+            <StatusChip label={vision ? `${vision.progress.completedFrames}/${Math.max(1, vision.progress.totalFrames)} frames` : "0/0 frames"} tone={vision ? "success" : "neutral"} />
+            <StatusChip label={vision ? `Vision cache ${vision.progress.cacheHits} hit / ${vision.progress.cacheMisses} miss` : "Vision cache pending"} tone={vision?.progress.cacheHits ? "success" : "neutral"} />
             <StatusChip label={`Panel width ${panelWidth}px`} tone="neutral" />
           </div>
           {job?.warnings.length ? (
@@ -585,6 +591,13 @@ export function AutoReelRequestPreview({
                   </div>
                 ))}
                 {job.warnings.length > 8 ? <div style={helperTextStyle}>{job.warnings.length - 8} more warnings are retained in the job state.</div> : null}
+              </div>
+            </Card>
+          ) : null}
+          {vision?.clips.length ? (
+            <Card title="Vision Quality Summary" subtitle="Measured generic frame-quality signals. These are not face, wedding, or emotion results." style={nestedCardStyle}>
+              <div style={{ display: "flex", flexDirection: "column", gap: spacing.sm }}>
+                {vision.clips.map((clip) => <div key={clip.clipId} style={logEntryStyle(false)}>{clip.clipName}: quality {clip.qualityScore.toFixed(1)}, reject {clip.rejectScore.toFixed(1)}, confidence {clip.confidence.toFixed(2)}{clip.warnings.length ? ` • ${clip.warnings.map((warning) => warning.label).join(", ")}` : ""}</div>)}
               </div>
             </Card>
           ) : null}
@@ -600,7 +613,7 @@ export function AutoReelRequestPreview({
                 </div>
               </ScrollArea>
             </Card>
-            <Card title="Serialized AutoReelRequest" subtitle="Phase 4 request preview before later AI analysis phases." style={{ ...nestedCardStyle, flex: "1 1 22rem", minWidth: 0 }}>
+            <Card title="Serialized AutoReelRequest" subtitle="Request preview; Vision results are persisted separately through AutoReelJobMemory." style={{ ...nestedCardStyle, flex: "1 1 22rem", minWidth: 0 }}>
               <ScrollArea style={{ minWidth: 0 }}>
                 <pre style={codeBlockStyle}>{requestPreview}</pre>
               </ScrollArea>

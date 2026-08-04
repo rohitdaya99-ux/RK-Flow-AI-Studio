@@ -6509,6 +6509,7 @@ const primitives_1 = __webpack_require__(5613);
 const theme_1 = __webpack_require__(3877);
 const autoReelExtractionService_1 = __webpack_require__(578);
 const autoReelScanner_1 = __webpack_require__(9652);
+const visionPipeline_1 = __webpack_require__(8961);
 const autoReelSetupConfig_1 = __webpack_require__(8489);
 const autoReelSetupService_1 = __webpack_require__(1676);
 const AutoReelSections_1 = __webpack_require__(716);
@@ -6522,7 +6523,7 @@ function AutoReelScreen() {
     const [state, setState] = (0, react_1.useState)(() => (0, autoReelSetupConfig_1.createDefaultAutoReelSetupState)());
     const [job, setJob] = (0, react_1.useState)(null);
     const [requestPreview, setRequestPreview] = (0, react_1.useState)("");
-    const [planningText, setPlanningText] = (0, react_1.useState)("Idle. Configure Auto Reel setup to serialize a request for Phase 4 extraction.");
+    const [planningText, setPlanningText] = (0, react_1.useState)("Idle. Configure Auto Reel setup to run extraction followed by local Vision analysis of extracted frames.");
     const [log, setLog] = (0, react_1.useState)(["Waiting for Premiere context..."]);
     const [loading, setLoading] = (0, react_1.useState)(true);
     const [running, setRunning] = (0, react_1.useState)(false);
@@ -6649,7 +6650,7 @@ function AutoReelScreen() {
         }
         setRunning(true);
         setError("");
-        setPlanningText("Preparing Phase 4 real timeline/media scan and extraction.");
+        setPlanningText("Preparing real timeline/media scan, extraction, and local Vision analysis of extracted frames.");
         setLog(["Starting real timeline/media scan..."]);
         const controller = new AbortController();
         runAbortRef.current = controller;
@@ -6673,9 +6674,9 @@ function AutoReelScreen() {
             setPlanningText(result.planningText);
         }
         catch (cause) {
-            if ((0, autoReelScanner_1.isAutoReelScanCancelledError)(cause) || (0, autoReelExtractionService_1.isAutoReelExtractionCancelledError)(cause)) {
+            if ((0, autoReelScanner_1.isAutoReelScanCancelledError)(cause) || (0, autoReelExtractionService_1.isAutoReelExtractionCancelledError)(cause) || cause instanceof visionPipeline_1.VisionPipelineCancelledError) {
                 setError("");
-                setPlanningText("Auto Reel extraction cancelled before later analysis phases.");
+                setPlanningText("Auto Reel analysis cancelled. No later AI phase ran.");
             }
             else {
                 const message = cause instanceof Error ? cause.message : "Auto Reel setup failed.";
@@ -6692,7 +6693,7 @@ function AutoReelScreen() {
     function handleCancelRun() {
         runAbortRef.current?.abort();
     }
-    return ((0, jsx_runtime_1.jsxs)("div", { ref: rootRef, style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.lg, minWidth: 0, width: "100%" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Auto Reel", subtitle: "Phase 4 frame/audio extraction inside the existing workstation. This screen reads truthful host metadata, runs local-only extraction when approved paths exist, and stops before Vision AI, Music AI, planning, or execution.", style: AutoReelUi_1.glassCardStyle, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: loading ? "Loading context" : context?.connected ? "Premiere connected" : "Premiere not ready", tone: loading ? "warning" : context?.connected ? "success" : "danger" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: context?.projectName || "No active project", tone: context?.projectName ? "neutral" : "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: context?.sequenceName || "No active sequence", tone: context?.sequenceName ? "neutral" : "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Layout ${layoutMode}`, tone: "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job ? `Setup ${job.state}` : "Setup idle", tone: job ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job?.extraction?.sidecar.status === "available" ? "Sidecar available" : "Sidecar unavailable", tone: job?.extraction?.sidecar.status === "available" ? "success" : "danger" })] }) }), (0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelSourceSection, { context: context, projectId: projectId, sequenceId: sequenceId, state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onProjectId: setProjectId, onSequenceId: setSequenceId, onPatchState: patchState, onToggleListValue: toggleListValue }) }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelConfigurationSection, { state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.MusicSourcePicker, { context: context, state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.PersonReferenceManager, { state: state, layoutMode: layoutMode, loading: loading, running: running, onUpdateReference: updateReference, onAddCustomReference: addCustomReference, onRemoveReference: removeReference }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.ReferenceReelInput, { state: state, fieldBasis: fieldBasis, loading: loading, running: running, error: errors.fields.referenceReel, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelPlanningPanel, { planningText: planningText, phases: buildPhaseRows(job, running, error), error: error }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelRequestPreview, { job: job, panelWidth: workspaceWidth, requestPreview: requestPreview, log: log }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void handleRunSetup(), disabled: loading || running || !context?.connected, children: running ? "Running Extraction..." : "Start Auto Reel Extraction" }), running && ((0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: handleCancelRun, children: "Cancel Extraction" })), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void refreshContext(), disabled: loading || running, children: "Refresh Premiere Context" })] })] }));
+    return ((0, jsx_runtime_1.jsxs)("div", { ref: rootRef, style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.lg, minWidth: 0, width: "100%" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Auto Reel", subtitle: "Extraction and Phase 5 local Vision analysis inside the existing workstation. Vision reads extracted frames only and stops before Face, Wedding, Emotion, Music, Story, planning, or execution.", style: AutoReelUi_1.glassCardStyle, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: loading ? "Loading context" : context?.connected ? "Premiere connected" : "Premiere not ready", tone: loading ? "warning" : context?.connected ? "success" : "danger" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: context?.projectName || "No active project", tone: context?.projectName ? "neutral" : "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: context?.sequenceName || "No active sequence", tone: context?.sequenceName ? "neutral" : "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Layout ${layoutMode}`, tone: "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job ? `Setup ${job.state}` : "Setup idle", tone: job ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job?.extraction?.sidecar.status === "available" ? "Sidecar available" : "Sidecar unavailable", tone: job?.extraction?.sidecar.status === "available" ? "success" : "danger" })] }) }), (0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelSourceSection, { context: context, projectId: projectId, sequenceId: sequenceId, state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onProjectId: setProjectId, onSequenceId: setSequenceId, onPatchState: patchState, onToggleListValue: toggleListValue }) }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelConfigurationSection, { state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.MusicSourcePicker, { context: context, state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.PersonReferenceManager, { state: state, layoutMode: layoutMode, loading: loading, running: running, onUpdateReference: updateReference, onAddCustomReference: addCustomReference, onRemoveReference: removeReference }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.ReferenceReelInput, { state: state, fieldBasis: fieldBasis, loading: loading, running: running, error: errors.fields.referenceReel, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelPlanningPanel, { planningText: planningText, phases: buildPhaseRows(job, running, error), error: error }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelRequestPreview, { job: job, panelWidth: workspaceWidth, requestPreview: requestPreview, log: log }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void handleRunSetup(), disabled: loading || running || !context?.connected, children: running ? "Running Vision Pipeline..." : "Start Auto Reel Vision Pipeline" }), running && ((0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: handleCancelRun, children: "Cancel Analysis" })), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void refreshContext(), disabled: loading || running, children: "Refresh Premiere Context" })] })] }));
 }
 function buildRequestBase(state, context) {
     return {
@@ -6738,22 +6739,23 @@ function buildPlanningText(state, context, status) {
         return `${base} Real timeline/media scanning and approved-path extraction are running with truthful host metadata only.`;
     }
     if (status === "success") {
-        return `${base} Real scanning and extraction completed successfully. Vision AI, Music AI, and planning are still pending approval and have not run yet.`;
+        return `${base} Real scanning, extraction, and generic local Vision analysis completed. Face, Wedding, Emotion, Music, Story, planning, and execution remain disabled.`;
     }
     if (status === "error") {
-        return `${base} Scanning or extraction is blocked by validation or runtime errors. No later analysis results were generated.`;
+        return `${base} Scanning, extraction, or Vision analysis is blocked by validation or runtime errors. No later analysis results were generated.`;
     }
-    return `${base} No real scan has run yet. This panel prepares the Phase 4 extraction request and setup state.`;
+    return `${base} No real scan has run yet. This panel prepares the existing extraction request and Phase 5 Vision stage.`;
 }
 function buildPhaseRows(job, running, error) {
     const state = job?.state ?? "idle";
     return [
         phaseRow("Setup Validation", running || state !== "idle" ? (error ? "error" : state === "idle" ? "idle" : "success") : "idle", "Validates durations, URLs, clip-count rules, and source choices."),
-        phaseRow("Timeline Scan", state === "scanning" ? "loading" : state === "extracting" || state === "awaiting_review" ? "success" : "idle", "Reads selected clips, sequence clips, In/Out overlaps, and project-item matches from the active Premiere host."),
-        phaseRow("Descriptor Capture", state === "extracting" || state === "awaiting_review" ? "success" : running ? "loading" : "idle", "Serializes truthful ClipDescriptor and MediaSelection output with capability notes and cache keys."),
-        phaseRow("Frame / Audio Extraction", state === "extracting" ? "loading" : state === "awaiting_review" ? "success" : "idle", "Extracts sampled frames and audio proxies only from approved verified local paths, with truthful cache and fallback reporting."),
+        phaseRow("Timeline Scan", state === "scanning" ? "loading" : state === "extracting" || state === "analyzing_vision" || state === "awaiting_review" ? "success" : "idle", "Reads selected clips, sequence clips, In/Out overlaps, and project-item matches from the active Premiere host."),
+        phaseRow("Descriptor Capture", state === "extracting" || state === "analyzing_vision" || state === "awaiting_review" ? "success" : running ? "loading" : "idle", "Serializes truthful ClipDescriptor and MediaSelection output with capability notes and cache keys."),
+        phaseRow("Frame / Audio Extraction", state === "extracting" ? "loading" : state === "analyzing_vision" || state === "awaiting_review" ? "success" : "idle", "Extracts sampled frames and audio proxies only from approved verified local paths, with truthful cache and fallback reporting."),
         phaseRow("Reference Capture", job ? "success" : "idle", "Stores music, people, and reference-reel metadata only. No face, emotion, wedding, music, scoring, or planning analysis runs yet."),
-        phaseRow("Phase 5+ Analysis", state === "awaiting_review" ? "idle" : "idle", "Not started in this phase.")
+        phaseRow("Vision Analysis", state === "analyzing_vision" ? "loading" : job?.vision?.status === "completed" ? "success" : job?.vision ? "error" : "idle", "Measures generic visual quality and scene cues from extracted frames only, with per-metric confidence and cache reporting."),
+        phaseRow("Face / Wedding / Emotion / Music / Story", "idle", "Not started in Phase 5.")
     ];
 }
 function phaseRow(title, status, detail) {
@@ -6861,9 +6863,11 @@ function AutoReelPlanningPanel({ planningText, phases, error }) {
 function AutoReelRequestPreview({ job, panelWidth, requestPreview, log }) {
     const progressPercent = !job || job.progress.total <= 0 ? 0 : Math.round((job.progress.current / job.progress.total) * 100);
     const extraction = job?.extraction;
+    const vision = job?.vision;
     const currentClip = extraction?.progress.currentClipName || extraction?.progress.currentClipId || "None";
+    const currentFrame = vision?.progress.currentFrameSampleId || "None";
     const remainingClips = extraction?.progress.remainingClips ?? 0;
-    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Progress Panel", subtitle: "Real extraction progress, live log, warnings, and serialized AutoReelRequest preview.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.xs }, children: [(0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.helperTextStyle, children: job?.progress.message || "Setup has not started yet." }), (0, jsx_runtime_1.jsx)("div", { style: { height: 10, borderRadius: 999, overflow: "hidden", background: "#EFE4D2" }, children: (0, jsx_runtime_1.jsx)("div", { style: { width: `${progressPercent}%`, height: "100%", background: "linear-gradient(90deg, #B28A4A, #6C2230)" } }) })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job ? `${job.progress.current}/${job.progress.total} steps` : "0/0 steps", tone: job ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job?.state || "idle", tone: job ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Current clip ${currentClip}`, tone: extraction?.progress.currentClipName ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction ? `${extraction.progress.completedClips}/${Math.max(1, extraction.progress.totalClips)} clips complete` : "0/0 clips", tone: extraction ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction ? `${remainingClips} clips remaining` : "0 remaining", tone: "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction ? `${extraction.progress.cacheHits} cache hits` : "0 cache hits", tone: extraction?.progress.cacheHits ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction ? `${extraction.progress.cacheMisses} cache misses` : "0 cache misses", tone: extraction?.progress.cacheMisses ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction?.sidecar.status === "available" ? "Sidecar available" : "Sidecar unavailable", tone: extraction?.sidecar.status === "available" ? "success" : "danger" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Panel width ${panelWidth}px`, tone: "neutral" })] }), job?.warnings.length ? ((0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Warnings / Errors", subtitle: "Truthful extraction blockers and fallback reasons.", style: AutoReelUi_1.nestedCardStyle, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [job.warnings.slice(0, 8).map((entry, index) => ((0, jsx_runtime_1.jsx)("div", { style: (0, AutoReelUi_1.logEntryStyle)(index !== Math.min(job.warnings.length, 8) - 1), children: entry }, `${index}-${entry}`))), job.warnings.length > 8 ? (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.helperTextStyle, children: [job.warnings.length - 8, " more warnings are retained in the job state."] }) : null] }) })) : null, (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "stretch" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Live Planning Log", subtitle: "Readable progress and fallback notes only.", style: { ...AutoReelUi_1.nestedCardStyle, flex: "1 1 22rem", minWidth: 0 }, children: (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: { minWidth: 0 }, children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: log.map((entry, index) => ((0, jsx_runtime_1.jsx)("div", { style: (0, AutoReelUi_1.logEntryStyle)(index !== log.length - 1), children: entry }, `${index}-${entry}`))) }) }) }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Serialized AutoReelRequest", subtitle: "Phase 4 request preview before later AI analysis phases.", style: { ...AutoReelUi_1.nestedCardStyle, flex: "1 1 22rem", minWidth: 0 }, children: (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: { minWidth: 0 }, children: (0, jsx_runtime_1.jsx)("pre", { style: AutoReelUi_1.codeBlockStyle, children: requestPreview }) }) })] })] }) }) }));
+    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Progress Panel", subtitle: "Real extraction and local Vision progress, warnings, cache status, and serialized AutoReelRequest preview.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.xs }, children: [(0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.helperTextStyle, children: job?.progress.message || "Setup has not started yet." }), (0, jsx_runtime_1.jsx)("div", { style: { height: 10, borderRadius: 999, overflow: "hidden", background: "#EFE4D2" }, children: (0, jsx_runtime_1.jsx)("div", { style: { width: `${progressPercent}%`, height: "100%", background: "linear-gradient(90deg, #B28A4A, #6C2230)" } }) })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job ? `${job.progress.current}/${job.progress.total} steps` : "0/0 steps", tone: job ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job?.state || "idle", tone: job ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Current clip ${currentClip}`, tone: extraction?.progress.currentClipName ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction ? `${extraction.progress.completedClips}/${Math.max(1, extraction.progress.totalClips)} clips complete` : "0/0 clips", tone: extraction ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction ? `${remainingClips} clips remaining` : "0 remaining", tone: "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction ? `${extraction.progress.cacheHits} cache hits` : "0 cache hits", tone: extraction?.progress.cacheHits ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction ? `${extraction.progress.cacheMisses} cache misses` : "0 cache misses", tone: extraction?.progress.cacheMisses ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: extraction?.sidecar.status === "available" ? "Sidecar available" : "Sidecar unavailable", tone: extraction?.sidecar.status === "available" ? "success" : "danger" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: vision ? `Vision ${vision.status}` : "Vision pending", tone: vision?.status === "completed" ? "success" : vision ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Current frame ${currentFrame}`, tone: vision?.progress.currentFrameSampleId ? "warning" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: vision ? `${vision.progress.completedFrames}/${Math.max(1, vision.progress.totalFrames)} frames` : "0/0 frames", tone: vision ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: vision ? `Vision cache ${vision.progress.cacheHits} hit / ${vision.progress.cacheMisses} miss` : "Vision cache pending", tone: vision?.progress.cacheHits ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Panel width ${panelWidth}px`, tone: "neutral" })] }), job?.warnings.length ? ((0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Warnings / Errors", subtitle: "Truthful extraction blockers and fallback reasons.", style: AutoReelUi_1.nestedCardStyle, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: [job.warnings.slice(0, 8).map((entry, index) => ((0, jsx_runtime_1.jsx)("div", { style: (0, AutoReelUi_1.logEntryStyle)(index !== Math.min(job.warnings.length, 8) - 1), children: entry }, `${index}-${entry}`))), job.warnings.length > 8 ? (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.helperTextStyle, children: [job.warnings.length - 8, " more warnings are retained in the job state."] }) : null] }) })) : null, vision?.clips.length ? ((0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Vision Quality Summary", subtitle: "Measured generic frame-quality signals. These are not face, wedding, or emotion results.", style: AutoReelUi_1.nestedCardStyle, children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: vision.clips.map((clip) => (0, jsx_runtime_1.jsxs)("div", { style: (0, AutoReelUi_1.logEntryStyle)(false), children: [clip.clipName, ": quality ", clip.qualityScore.toFixed(1), ", reject ", clip.rejectScore.toFixed(1), ", confidence ", clip.confidence.toFixed(2), clip.warnings.length ? ` • ${clip.warnings.map((warning) => warning.label).join(", ")}` : ""] }, clip.clipId)) }) })) : null, (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "stretch" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Live Planning Log", subtitle: "Readable progress and fallback notes only.", style: { ...AutoReelUi_1.nestedCardStyle, flex: "1 1 22rem", minWidth: 0 }, children: (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: { minWidth: 0 }, children: (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: log.map((entry, index) => ((0, jsx_runtime_1.jsx)("div", { style: (0, AutoReelUi_1.logEntryStyle)(index !== log.length - 1), children: entry }, `${index}-${entry}`))) }) }) }), (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Serialized AutoReelRequest", subtitle: "Request preview; Vision results are persisted separately through AutoReelJobMemory.", style: { ...AutoReelUi_1.nestedCardStyle, flex: "1 1 22rem", minWidth: 0 }, children: (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: { minWidth: 0 }, children: (0, jsx_runtime_1.jsx)("pre", { style: AutoReelUi_1.codeBlockStyle, children: requestPreview }) }) })] })] }) }) }));
 }
 
 
@@ -8227,6 +8231,7 @@ const promptReelService_1 = __webpack_require__(2541);
 const AutoReelJobMemory_1 = __webpack_require__(8542);
 const autoReelExtractionService_1 = __webpack_require__(578);
 const autoReelScanner_1 = __webpack_require__(9652);
+const visionPipeline_1 = __webpack_require__(8961);
 const autoReelSetupConfig_1 = __webpack_require__(8489);
 const validation_1 = __webpack_require__(3492);
 const models_1 = __webpack_require__(5225);
@@ -8439,8 +8444,25 @@ async function runAutoReelSetup(args) {
             progress: progress(extractionStage.extraction.progress.completedClips + extractionStage.extraction.progress.completedAudioTasks, Math.max(1, extractionStage.extraction.progress.totalClips + extractionStage.extraction.progress.totalAudioTasks), (0, autoReelExtractionService_1.buildExtractionProgressMessage)(extractionStage.extraction))
         });
         emitProgress(args.onProgress, job, log, extractionStage.planningText);
-        job = updateJob(job, "awaiting_review", progress(1, 1, "Extraction complete. Waiting for Phase 4 approval"), log, "Phase 4 extraction complete. Vision AI, Music AI analysis, scoring, story building, planning, execution, and export have not started.");
-        emitProgress(args.onProgress, job, log, extractionStage.planningText);
+        job = updateJob(job, "analyzing_vision", progress(0, Math.max(1, extractionStage.frameSamples.filter((frame) => frame.extractionStatus === "available").length), "Starting local Vision analysis"), log, "Starting Phase 5 Vision analysis using extracted frames only.");
+        emitProgress(args.onProgress, job, log, "Vision analysis is local-only and uses extracted frames only. Face, wedding, emotion, Music AI, and story building are not included.");
+        const vision = await (0, visionPipeline_1.runVisionPipeline)({
+            job,
+            signal: args.signal,
+            onProgress: (analysis) => {
+                job = saveJob(job, {
+                    vision: analysis,
+                    visionSignals: toVisionSignals(analysis),
+                    warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...analysis.warnings]),
+                    progress: progress(analysis.progress.completedFrames, Math.max(1, analysis.progress.totalFrames), `Vision: ${analysis.progress.currentClipName || analysis.progress.currentFrameSampleId || "preparing"}. Cache ${analysis.progress.cacheHits} hit / ${analysis.progress.cacheMisses} miss.`)
+                });
+                emitProgress(args.onProgress, job, log, "Vision analysis is measuring extracted frames locally.");
+            }
+        });
+        job = saveJob(job, { vision, visionSignals: toVisionSignals(vision), warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...vision.warnings]), progress: progress(vision.progress.completedFrames, Math.max(1, vision.progress.totalFrames), vision.status === "completed" ? "Vision analysis complete" : vision.warnings[0] || "Vision analysis unavailable") });
+        log.push(...vision.warnings.map((warning) => `Vision warning: ${warning}`));
+        job = updateJob(job, "awaiting_review", job.progress, log, vision.status === "completed" ? "Phase 5 Vision analysis complete. Face AI, Wedding AI, Emotion AI, Music AI, scoring, story building, planning, execution, and export remain not started." : "Phase 5 Vision analysis is unavailable; its truthful capability reason is retained. Later phases remain not started.");
+        emitProgress(args.onProgress, job, log, vision.status === "completed" ? "Vision frame analysis complete. No Face, Wedding, Emotion, Music, or Story AI has run." : vision.warnings[0] || "Vision analysis is unavailable.");
         persistSetupDraft({
             projectId: args.projectId,
             sequenceId: args.sequenceId,
@@ -8455,6 +8477,7 @@ async function runAutoReelSetup(args) {
             warnings: combinedWarnings
         });
         memory.setAnalysis(`auto-reel:extraction:${job.id}`, "result", extractionStage.extraction);
+        memory.setAnalysis(`auto-reel:vision:${job.id}`, "result", vision);
         return {
             job,
             context,
@@ -8464,10 +8487,10 @@ async function runAutoReelSetup(args) {
         };
     }
     catch (error) {
-        if ((0, autoReelScanner_1.isAutoReelScanCancelledError)(error) || (0, autoReelExtractionService_1.isAutoReelExtractionCancelledError)(error)) {
-            log.push("Auto Reel scan/extraction was cancelled before later analysis phases.");
-            job = updateJob(job, "cancelled", progress(job.progress.current, Math.max(1, job.progress.total), "Extraction cancelled"), log, "Auto Reel scan/extraction cancelled before later analysis phases.");
-            emitProgress(args.onProgress, job, log, "Auto Reel extraction cancelled before Vision AI, Music AI, or planning.");
+        if ((0, autoReelScanner_1.isAutoReelScanCancelledError)(error) || (0, autoReelExtractionService_1.isAutoReelExtractionCancelledError)(error) || error instanceof visionPipeline_1.VisionPipelineCancelledError) {
+            log.push("Auto Reel scan, extraction, or Vision analysis was cancelled before later phases.");
+            job = updateJob(job, "cancelled", progress(job.progress.current, Math.max(1, job.progress.total), "Analysis cancelled"), log, "Auto Reel analysis cancelled before Face, Wedding, Emotion, Music, scoring, story building, or planning.");
+            emitProgress(args.onProgress, job, log, "Auto Reel Vision analysis cancelled. No later AI phase ran.");
         }
         throw error;
     }
@@ -8506,6 +8529,26 @@ function updateJob(job, nextState, nextProgress, log, line) {
 }
 function progress(current, total, message) {
     return { current, total, message };
+}
+function toVisionSignals(analysis) {
+    return analysis.clips.map((clip) => ({
+        clipId: clip.clipId,
+        source: "measured",
+        confidence: clip.confidence,
+        sharpness: average(clip.frames.map((frame) => frame.sharpness)),
+        blur: average(clip.frames.map((frame) => frame.blurScore)),
+        exposure: average(clip.frames.map((frame) => frame.exposure)),
+        noise: average(clip.frames.map((frame) => frame.noiseScore)),
+        cameraShake: average(clip.frames.map((frame) => frame.cameraShake)),
+        motion: average(clip.frames.map((frame) => frame.motionEstimate)),
+        framing: average(clip.frames.map((frame) => frame.compositionEstimate)),
+        shotType: clip.frames[0]?.sceneEstimate.shotType,
+        compositionNotes: clip.frames.flatMap((frame) => frame.sceneEstimate.notes),
+        frameSampleIds: clip.frames.map((frame) => frame.frameSampleId)
+    }));
+}
+function average(values) {
+    return values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : undefined;
 }
 async function readSequenceOptions(project, activeSequenceId, activeSequenceName) {
     if (!isRecord(project) || typeof project.getSequences !== "function") {
@@ -8851,6 +8894,37 @@ class AutoReelSidecarClient {
         await this.requestJson(this.session, `/extraction/jobs/${encodeURIComponent(jobId)}/cancel`, {
             method: "POST"
         });
+    }
+    async getVisionCapabilities() {
+        const health = await this.ensureReady();
+        if (!health.available || !this.session)
+            throw new AutoReelSidecarUnavailableError(health.reason || "Local Vision sidecar is unavailable.");
+        return this.requestJson(this.session, "/vision/capabilities");
+    }
+    async runVisionJob(request, options = {}) {
+        const health = await this.ensureReady();
+        if (!health.available || !this.session)
+            throw new AutoReelSidecarUnavailableError(health.reason || "Local Vision sidecar is unavailable.");
+        const submit = await this.requestJson(this.session, "/vision/jobs", { method: "POST", body: JSON.stringify(request) });
+        if (!submit.jobId)
+            throw new AutoReelSidecarUnavailableError("Local sidecar did not return a Vision job ID.");
+        let aborted = false;
+        const abortHandler = () => { aborted = true; void this.requestJson(this.session, `/vision/jobs/${encodeURIComponent(submit.jobId)}/cancel`, { method: "POST" }).catch(() => undefined); };
+        options.signal?.addEventListener("abort", abortHandler, { once: true });
+        try {
+            for (;;) {
+                if (aborted || options.signal?.aborted)
+                    throw new AutoReelSidecarCancelledError("Auto Reel Vision analysis was cancelled.");
+                const result = await this.requestJson(this.session, `/vision/jobs/${encodeURIComponent(submit.jobId)}`);
+                options.onProgress?.(result);
+                if (result.status === "completed" || result.status === "cancelled" || result.status === "failed" || result.status === "sidecar-unavailable")
+                    return result;
+                await delay(SIDECAR_POLL_INTERVAL_MS);
+            }
+        }
+        finally {
+            options.signal?.removeEventListener("abort", abortHandler);
+        }
     }
     async fetchHealth(session) {
         try {
@@ -9654,6 +9728,58 @@ function requirePositiveNumber(record, field, issues) {
 }
 function prefixIssues(prefix, issues) {
     return issues.map((issue) => ({ path: `${prefix}.${issue.path}`, message: issue.message }));
+}
+
+
+/***/ },
+
+/***/ 8961
+(__unused_webpack_module, exports, __webpack_require__) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.VisionPipelineCancelledError = exports.m = void 0;
+exports.runVisionPipeline = runVisionPipeline;
+const autoReelSidecarClient_1 = __webpack_require__(7950);
+exports.m = "phase-5-vision-v1";
+class VisionPipelineCancelledError extends Error {
+    constructor() { super("Auto Reel Vision analysis was cancelled."); this.name = "VisionPipelineCancelledError"; }
+}
+exports.VisionPipelineCancelledError = VisionPipelineCancelledError;
+async function runVisionPipeline(args) {
+    const frames = args.job.frameSamples.filter(isExtractedFrame);
+    const client = args.client ?? new autoReelSidecarClient_1.AutoReelSidecarClient();
+    if (frames.length === 0)
+        return unavailableBatch(args.job, "Vision analysis requires extracted image frames. No available extracted frames were produced by the existing extraction pipeline.");
+    try {
+        const capabilities = await client.getVisionCapabilities();
+        if (!capabilities.available)
+            return unavailableBatch(args.job, capabilities.reason || "Local Vision capabilities are unavailable.", capabilities);
+        const approvedRoots = unique(frames.map((frame) => parentPath(frame.imagePath)));
+        return await client.runVisionJob({
+            schemaVersion: 1, jobId: args.job.id, requestId: `${args.job.request.id}:vision`, requestedAt: new Date().toISOString(),
+            approvedRoots, visionVersion: exports.m,
+            frames: frames.map((frame) => ({ frameSampleId: frame.id, clipId: frame.clipId, clipName: clipName(args.job, frame.clipId), imagePath: frame.imagePath, contentHash: frame.contentHash, extractorVersion: "phase-4-extraction-v1", sampleKind: frame.sampleKind, sourceTimeSeconds: frame.sourceTimeSeconds, width: frame.width, height: frame.height, extractorCacheKey: frame.cacheKey || "" })),
+            parameters: { maxDimension: 512, letterboxSize: 512, normalizeHistogram: true, brightnessNormalize: true },
+            cache: { rootName: "rkflow-cache", extractorVersion: "phase-4-extraction-v1", ttlSeconds: 86400, maxBytes: 536870912 },
+            limits: { concurrency: 2, retryLimit: 1 }
+        }, { signal: args.signal, onProgress: args.onProgress });
+    }
+    catch (error) {
+        if (error instanceof autoReelSidecarClient_1.AutoReelSidecarCancelledError || args.signal?.aborted)
+            throw new VisionPipelineCancelledError();
+        return unavailableBatch(args.job, error instanceof Error ? error.message : "Local Vision sidecar is unavailable.");
+    }
+}
+function isExtractedFrame(frame) {
+    return frame.extractionStatus === "available" && typeof frame.imagePath === "string" && frame.imagePath.length > 0 && typeof frame.contentHash === "string" && frame.contentHash.length > 0;
+}
+function clipName(job, id) { return job.clips.find((clip) => clip.id === id)?.name || id; }
+function unique(values) { return [...new Set(values.filter(Boolean))]; }
+function parentPath(path) { const normalized = path.replace(/\\/g, "/"); const index = normalized.lastIndexOf("/"); return index > 0 ? normalized.slice(0, index) : normalized; }
+function unavailableBatch(job, reason, capabilities) {
+    return { schemaVersion: 1, jobId: job.id, requestId: `${job.request.id}:vision`, status: "sidecar-unavailable", sidecar: { status: "unavailable", reason }, visionVersion: exports.m, gpuAccelerated: capabilities?.gpuAccelerated || false, progress: { completedFrames: 0, totalFrames: 0, completedClips: 0, totalClips: 0, cacheHits: 0, cacheMisses: 0 }, clips: [], failures: [], warnings: [reason], startedAt: new Date().toISOString(), completedAt: new Date().toISOString() };
 }
 
 

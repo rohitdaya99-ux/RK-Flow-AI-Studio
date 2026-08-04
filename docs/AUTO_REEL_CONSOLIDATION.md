@@ -133,6 +133,34 @@ Current Phase 4 truth labels:
   story building, planning, Premiere execution, and export remain not started by
   this phase.
 
+## Phase 5 Vision AI Foundation
+
+Phase 5 extends the same Phase 4 extraction boundary. Its active path is:
+
+```text
+AutoReelScreen -> runAutoReelSetup -> extraction result FrameSample[]
+  -> VisionPipeline -> AutoReelSidecarClient -> local FastAPI VisionService
+  -> ImagePreprocessor -> VisionAnalyzer -> existing RK Flow cache
+  -> VisionBatchAnalysis persisted through AutoReelJobMemory + MemoryEngine
+```
+
+- Vision accepts only `FrameSample` records whose existing extraction status is
+  `available`, with an image path and extraction content hash. It never reads a
+  Premiere timeline or source media directly.
+- The cache key includes the frame content fingerprint, extractor version,
+  Vision version, and preprocessing parameters.
+- OpenCV measurements provide generic image quality, composition, horizon,
+  foreground/background, and cautious scene estimates with individual metric
+  confidence. An unavailable OpenCV runtime or absent extracted frames produces
+  a specific capability reason instead of a substitute result.
+- The UI retains the current Auto Reel panels and adds Vision phase, current
+  frame, cache hit/miss, warnings, cancellation, and quality summary display.
+- ONNX Runtime is capability-probed only; no ONNX model is loaded. Therefore
+  Phase 5 correctly reports CPU execution rather than claiming GPU analysis.
+
+Still not started: Face AI, Wedding AI, Emotion AI, Music AI, scoring, Story
+Builder, reel planning, Premiere execution, and export.
+
 ## Retirement Candidates
 
 | System | Files | Evidence | Phase 0 action |

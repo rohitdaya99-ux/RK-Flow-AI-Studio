@@ -59,6 +59,7 @@ const {
   AutoReelSidecarUnavailableError,
   mapSidecarHealthResponse
 } = require("../src/features/auto-reel/autoReelSidecarClient.ts");
+const { runVisionPipeline } = require("../src/features/auto-reel/visionPipeline.ts");
 const { AUTO_REEL_LAYOUT_FIXTURE_WIDTHS } = require("../src/features/auto-reel/AutoReelLayoutFixture.tsx");
 const {
   formatModuleNavLabel,
@@ -780,4 +781,27 @@ test("Phase 4 audio metadata serialization validator accepts extracted audio pay
   };
 
   assert.equal(validateAutoReelAudioExtraction(audio).valid, true);
+});
+
+test("Phase 5 Vision pipeline reports a truthful reason when extraction has no frames", async () => {
+  const job = createAutoReelJob(request(), "vision-empty");
+  const result = await runVisionPipeline({ job });
+  assert.equal(result.status, "sidecar-unavailable");
+  assert.match(result.warnings[0], /extracted image frames/);
+  assert.equal(JSON.parse(JSON.stringify(result)).visionVersion, "phase-5-vision-v1");
+});
+
+test("Phase 5 Vision pipeline sends only available extracted frames to the existing sidecar", async () => {
+  const job = createAutoReelJob(request(), "vision-frame");
+  job.clips = [{ id: "clip-1", name: "Clip 1", mediaType: "video", mediaPath: "/approved/source.mp4", sourceInSeconds: 0, sourceOutSeconds: 2, speed: 1, disabled: false, selected: true, linkedClipIds: null, mediaFingerprint: "fp", cacheKey: "clip-cache", metadataStatus: "host-verified", capabilityNotes: [] }];
+  job.frameSamples = [{ id: "sample-1", clipId: "clip-1", sourceTimeSeconds: 1, sampleKind: "middle", imagePath: "/approved/cache/sample.jpg", contentHash: "frame-fingerprint", cacheKey: "extract-cache", extractionStatus: "available", capturedAt: "2026-08-04T00:00:00.000Z" }, { id: "missing", clipId: "clip-1", sourceTimeSeconds: 2, sampleKind: "end", extractionStatus: "unavailable", capturedAt: "2026-08-04T00:00:00.000Z" }];
+  let sent;
+  const result = await runVisionPipeline({ job, client: {
+    getVisionCapabilities: async () => ({ available: true, version: "v", gpuAccelerated: false, cpuFallback: true, opencvVersion: "x", numpyVersion: "x", pillowVersion: "x", onnxRuntimeProviders: [], openVinoAvailable: false, modules: ["opencv"], features: [], reason: undefined }),
+    runVisionJob: async (payload) => { sent = payload; return { schemaVersion: 1, jobId: job.id, requestId: "r", status: "completed", sidecar: { status: "available" }, visionVersion: "phase-5-vision-v1", gpuAccelerated: false, progress: { completedFrames: 1, totalFrames: 1, completedClips: 1, totalClips: 1, cacheHits: 0, cacheMisses: 1 }, clips: [], failures: [], warnings: [], startedAt: "2026-08-04T00:00:00.000Z", completedAt: "2026-08-04T00:00:01.000Z" }; }
+  }});
+  assert.equal(result.status, "completed");
+  assert.equal(sent.frames.length, 1);
+  assert.equal(sent.frames[0].contentHash, "frame-fingerprint");
+  assert.equal(sent.approvedRoots[0], "/approved/cache");
 });

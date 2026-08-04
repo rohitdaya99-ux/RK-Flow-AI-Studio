@@ -30,6 +30,11 @@ class CacheStore:
         path.parent.mkdir(parents=True, exist_ok=True)
         return path
 
+    def vision_output_path(self, cache_key: str) -> Path:
+        path = self.root / "vision" / "analysis" / f"{cache_key}.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        return path
+
     def contains(self, path: Path) -> bool:
         try:
             path.resolve(strict=False).relative_to(self.root)

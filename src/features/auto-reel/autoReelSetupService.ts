@@ -12,11 +12,14 @@ import {
   runAutoReelExtractionStage
 } from "./autoReelExtractionService";
 import { isAutoReelScanCancelledError, scanAutoReelTimeline } from "./autoReelScanner";
+import { runVisionPipeline, VisionPipelineCancelledError } from "./visionPipeline";
 import {
   AutoReelJob,
   AutoReelJobProgress,
   AutoReelRequest,
-  MediaSelection
+  MediaSelection,
+  VisionBatchAnalysis,
+  VisionSignals
 } from "./models";
 import {
   AutoReelSetupState,
@@ -370,14 +373,25 @@ export async function runAutoReelSetup(args: {
     });
     emitProgress(args.onProgress, job, log, extractionStage.planningText);
 
-    job = updateJob(
+    job = updateJob(job, "analyzing_vision", progress(0, Math.max(1, extractionStage.frameSamples.filter((frame) => frame.extractionStatus === "available").length), "Starting local Vision analysis"), log, "Starting Phase 5 Vision analysis using extracted frames only.");
+    emitProgress(args.onProgress, job, log, "Vision analysis is local-only and uses extracted frames only. Face, wedding, emotion, Music AI, and story building are not included.");
+    const vision = await runVisionPipeline({
       job,
-      "awaiting_review",
-      progress(1, 1, "Extraction complete. Waiting for Phase 4 approval"),
-      log,
-      "Phase 4 extraction complete. Vision AI, Music AI analysis, scoring, story building, planning, execution, and export have not started."
-    );
-    emitProgress(args.onProgress, job, log, extractionStage.planningText);
+      signal: args.signal,
+      onProgress: (analysis) => {
+        job = saveJob(job, {
+          vision: analysis,
+          visionSignals: toVisionSignals(analysis),
+          warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...analysis.warnings]),
+          progress: progress(analysis.progress.completedFrames, Math.max(1, analysis.progress.totalFrames), `Vision: ${analysis.progress.currentClipName || analysis.progress.currentFrameSampleId || "preparing"}. Cache ${analysis.progress.cacheHits} hit / ${analysis.progress.cacheMisses} miss.`)
+        });
+        emitProgress(args.onProgress, job, log, "Vision analysis is measuring extracted frames locally.");
+      }
+    });
+    job = saveJob(job, { vision, visionSignals: toVisionSignals(vision), warnings: dedupeStrings([...combinedWarnings, ...extractionStage.warnings, ...vision.warnings]), progress: progress(vision.progress.completedFrames, Math.max(1, vision.progress.totalFrames), vision.status === "completed" ? "Vision analysis complete" : vision.warnings[0] || "Vision analysis unavailable") });
+    log.push(...vision.warnings.map((warning) => `Vision warning: ${warning}`));
+    job = updateJob(job, "awaiting_review", job.progress, log, vision.status === "completed" ? "Phase 5 Vision analysis complete. Face AI, Wedding AI, Emotion AI, Music AI, scoring, story building, planning, execution, and export remain not started." : "Phase 5 Vision analysis is unavailable; its truthful capability reason is retained. Later phases remain not started.");
+    emitProgress(args.onProgress, job, log, vision.status === "completed" ? "Vision frame analysis complete. No Face, Wedding, Emotion, Music, or Story AI has run." : vision.warnings[0] || "Vision analysis is unavailable.");
 
     persistSetupDraft({
       projectId: args.projectId,
@@ -393,6 +407,7 @@ export async function runAutoReelSetup(args: {
       warnings: combinedWarnings
     });
     memory.setAnalysis(`auto-reel:extraction:${job.id}`, "result", extractionStage.extraction);
+    memory.setAnalysis(`auto-reel:vision:${job.id}`, "result", vision);
 
     return {
       job,
@@ -402,10 +417,10 @@ export async function runAutoReelSetup(args: {
       planningText: extractionStage.planningText
     };
   } catch (error: unknown) {
-    if (isAutoReelScanCancelledError(error) || isAutoReelExtractionCancelledError(error)) {
-      log.push("Auto Reel scan/extraction was cancelled before later analysis phases.");
-      job = updateJob(job, "cancelled", progress(job.progress.current, Math.max(1, job.progress.total), "Extraction cancelled"), log, "Auto Reel scan/extraction cancelled before later analysis phases.");
-      emitProgress(args.onProgress, job, log, "Auto Reel extraction cancelled before Vision AI, Music AI, or planning.");
+    if (isAutoReelScanCancelledError(error) || isAutoReelExtractionCancelledError(error) || error instanceof VisionPipelineCancelledError) {
+      log.push("Auto Reel scan, extraction, or Vision analysis was cancelled before later phases.");
+      job = updateJob(job, "cancelled", progress(job.progress.current, Math.max(1, job.progress.total), "Analysis cancelled"), log, "Auto Reel analysis cancelled before Face, Wedding, Emotion, Music, scoring, story building, or planning.");
+      emitProgress(args.onProgress, job, log, "Auto Reel Vision analysis cancelled. No later AI phase ran.");
     }
     throw error;
   }
@@ -456,6 +471,28 @@ function updateJob(
 
 function progress(current: number, total: number, message: string): AutoReelJobProgress {
   return { current, total, message };
+}
+
+function toVisionSignals(analysis: VisionBatchAnalysis): VisionSignals[] {
+  return analysis.clips.map((clip) => ({
+    clipId: clip.clipId,
+    source: "measured",
+    confidence: clip.confidence,
+    sharpness: average(clip.frames.map((frame) => frame.sharpness)),
+    blur: average(clip.frames.map((frame) => frame.blurScore)),
+    exposure: average(clip.frames.map((frame) => frame.exposure)),
+    noise: average(clip.frames.map((frame) => frame.noiseScore)),
+    cameraShake: average(clip.frames.map((frame) => frame.cameraShake)),
+    motion: average(clip.frames.map((frame) => frame.motionEstimate)),
+    framing: average(clip.frames.map((frame) => frame.compositionEstimate)),
+    shotType: clip.frames[0]?.sceneEstimate.shotType,
+    compositionNotes: clip.frames.flatMap((frame) => frame.sceneEstimate.notes),
+    frameSampleIds: clip.frames.map((frame) => frame.frameSampleId)
+  }));
+}
+
+function average(values: number[]): number | undefined {
+  return values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : undefined;
 }
 
 async function readSequenceOptions(

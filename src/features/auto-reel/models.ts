@@ -216,6 +216,62 @@ export interface VisionSignals {
   frameSampleIds: string[];
 }
 
+export interface VisionWarning {
+  code: string;
+  label: string;
+  severity: "info" | "warning" | "reject";
+  reason: string;
+}
+
+export interface VisionMetricConfidence {
+  sharpness: number; blur: number; noise: number; exposure: number; brightness: number;
+  contrast: number; saturation: number; whiteBalance: number; motion: number; cameraShake: number;
+  edgeDensity: number; composition: number; ruleOfThirds: number; horizon: number;
+  foregroundBackground: number; scene: number;
+}
+
+export interface VisionFrameAnalysis {
+  frameSampleId: string; clipId: string; clipName: string; sampleKind: FrameSample["sampleKind"];
+  sourceTimeSeconds: number; contentHash: string; visionVersion: string; processedAt: string;
+  cacheKey: string; cacheStatus: "hit" | "miss" | "unavailable";
+  sharpness: number; blurScore: number; noiseScore: number; exposure: number; brightness: number;
+  contrast: number; saturation: number;
+  whiteBalanceEstimate: { temperatureK?: number; tint: number; neutral: boolean; confidence: number };
+  motionEstimate: number; cameraShake: number; edgeDensity: number; compositionEstimate: number;
+  ruleOfThirdsEstimate: number;
+  horizonEstimate: { angleDegrees?: number; present: boolean; confidence: number; note: string };
+  foregroundRatio: number; backgroundRatio: number;
+  sceneEstimate: {
+    indoorOutdoor: "indoor" | "outdoor" | "unknown"; dayNight: "day" | "night" | "unknown";
+    shotType: "wide" | "medium" | "close" | "detail" | "unknown"; droneLikelihood: number;
+    confidence: number; notes: string[];
+  };
+  qualityScore: number; rejectScore: number; warnings: VisionWarning[];
+  confidence: VisionMetricConfidence; capabilities: string[]; fallbackReason?: string; error?: string;
+}
+
+export interface VisionClipAnalysis {
+  clipId: string; clipName: string; frameCount: number; qualityScore: number; rejectScore: number;
+  bestFrameSampleId?: string; worstFrameSampleId?: string; warnings: VisionWarning[];
+  frames: VisionFrameAnalysis[]; confidence: number; source: "measured" | "partial" | "unavailable";
+  fallbackReason?: string;
+}
+
+export interface VisionBatchAnalysis {
+  schemaVersion: 1; jobId: string; requestId: string;
+  status: "running" | "completed" | "cancelled" | "failed" | "sidecar-unavailable";
+  sidecar: { status: "available" | "unavailable"; baseUrl?: string; version?: string; reason?: string }; visionVersion: string; gpuAccelerated: boolean;
+  progress: { currentFrameSampleId?: string; currentClipId?: string; currentClipName?: string; completedFrames: number; totalFrames: number; completedClips: number; totalClips: number; cacheHits: number; cacheMisses: number };
+  clips: VisionClipAnalysis[]; failures: Array<{ taskId: string; frameSampleId?: string; clipId?: string; status: "unavailable" | "failed" | "cancelled"; message: string; attempts: number; recordedAt: string }>;
+  warnings: string[]; startedAt: string; completedAt?: string;
+}
+
+export interface VisionCapabilities {
+  available: boolean; version: string; gpuAccelerated: boolean; cpuFallback: boolean;
+  opencvVersion: string; numpyVersion: string; pillowVersion: string; onnxRuntimeVersion?: string;
+  onnxRuntimeProviders: string[]; openVinoAvailable: boolean; modules: string[]; features: string[]; reason?: string;
+}
+
 export interface FaceDetection {
   faceId: string;
   frameSampleId: string;
@@ -590,6 +646,7 @@ export interface AutoReelJob {
   weddingEventSignals: WeddingEventSignals[];
   audioAnalysis?: AudioAnalysis;
   extraction?: AutoReelExtractionResult;
+  vision?: VisionBatchAnalysis;
   extractionFailures: AutoReelExtractionFailure[];
   scoreBreakdowns: ClipScoreBreakdown[];
   storyBeats: StoryBeat[];

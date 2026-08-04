@@ -4,6 +4,7 @@ import { spacing } from "../../ui/theme";
 import { AutoReelJob } from "./models";
 import { isAutoReelExtractionCancelledError } from "./autoReelExtractionService";
 import { isAutoReelScanCancelledError } from "./autoReelScanner";
+import { VisionPipelineCancelledError } from "./visionPipeline";
 import {
   AutoReelReferenceFileState,
   AutoReelSetupState,
@@ -41,7 +42,7 @@ export default function AutoReelScreen() {
   const [state, setState] = useState<AutoReelSetupState>(() => createDefaultAutoReelSetupState());
   const [job, setJob] = useState<AutoReelJob | null>(null);
   const [requestPreview, setRequestPreview] = useState<string>("");
-  const [planningText, setPlanningText] = useState("Idle. Configure Auto Reel setup to serialize a request for Phase 4 extraction.");
+  const [planningText, setPlanningText] = useState("Idle. Configure Auto Reel setup to run extraction followed by local Vision analysis of extracted frames.");
   const [log, setLog] = useState<string[]>(["Waiting for Premiere context..."]);
   const [loading, setLoading] = useState(true);
   const [running, setRunning] = useState(false);
@@ -203,7 +204,7 @@ export default function AutoReelScreen() {
 
     setRunning(true);
     setError("");
-    setPlanningText("Preparing Phase 4 real timeline/media scan and extraction.");
+    setPlanningText("Preparing real timeline/media scan, extraction, and local Vision analysis of extracted frames.");
     setLog(["Starting real timeline/media scan..."]);
 
     const controller = new AbortController();
@@ -228,9 +229,9 @@ export default function AutoReelScreen() {
       setRequestPreview(JSON.stringify(result.request, null, 2));
       setPlanningText(result.planningText);
     } catch (cause) {
-      if (isAutoReelScanCancelledError(cause) || isAutoReelExtractionCancelledError(cause)) {
+      if (isAutoReelScanCancelledError(cause) || isAutoReelExtractionCancelledError(cause) || cause instanceof VisionPipelineCancelledError) {
         setError("");
-        setPlanningText("Auto Reel extraction cancelled before later analysis phases.");
+        setPlanningText("Auto Reel analysis cancelled. No later AI phase ran.");
       } else {
         const message = cause instanceof Error ? cause.message : "Auto Reel setup failed.";
         setError(message);
@@ -251,7 +252,7 @@ export default function AutoReelScreen() {
     <div ref={rootRef} style={{ display: "flex", flexDirection: "column", gap: spacing.lg, minWidth: 0, width: "100%" }}>
       <Card
         title="Auto Reel"
-        subtitle="Phase 4 frame/audio extraction inside the existing workstation. This screen reads truthful host metadata, runs local-only extraction when approved paths exist, and stops before Vision AI, Music AI, planning, or execution."
+        subtitle="Extraction and Phase 5 local Vision analysis inside the existing workstation. Vision reads extracted frames only and stops before Face, Wedding, Emotion, Music, Story, planning, or execution."
         style={glassCardStyle}
       >
         <div style={{ display: "flex", gap: spacing.sm, flexWrap: "wrap", alignItems: "center" }}>
@@ -303,11 +304,11 @@ export default function AutoReelScreen() {
 
       <div style={{ display: "flex", gap: spacing.sm, flexWrap: "wrap" }}>
         <Button onClick={() => void handleRunSetup()} disabled={loading || running || !context?.connected}>
-          {running ? "Running Extraction..." : "Start Auto Reel Extraction"}
+          {running ? "Running Vision Pipeline..." : "Start Auto Reel Vision Pipeline"}
         </Button>
         {running && (
           <Button variant="secondary" onClick={handleCancelRun}>
-            Cancel Extraction
+            Cancel Analysis
           </Button>
         )}
         <Button variant="secondary" onClick={() => void refreshContext()} disabled={loading || running}>
@@ -368,23 +369,24 @@ function buildPlanningText(
     return `${base} Real timeline/media scanning and approved-path extraction are running with truthful host metadata only.`;
   }
   if (status === "success") {
-    return `${base} Real scanning and extraction completed successfully. Vision AI, Music AI, and planning are still pending approval and have not run yet.`;
+    return `${base} Real scanning, extraction, and generic local Vision analysis completed. Face, Wedding, Emotion, Music, Story, planning, and execution remain disabled.`;
   }
   if (status === "error") {
-    return `${base} Scanning or extraction is blocked by validation or runtime errors. No later analysis results were generated.`;
+    return `${base} Scanning, extraction, or Vision analysis is blocked by validation or runtime errors. No later analysis results were generated.`;
   }
-  return `${base} No real scan has run yet. This panel prepares the Phase 4 extraction request and setup state.`;
+  return `${base} No real scan has run yet. This panel prepares the existing extraction request and Phase 5 Vision stage.`;
 }
 
 function buildPhaseRows(job: AutoReelJob | null, running: boolean, error: string) {
   const state = job?.state ?? "idle";
   return [
     phaseRow("Setup Validation", running || state !== "idle" ? (error ? "error" : state === "idle" ? "idle" : "success") : "idle", "Validates durations, URLs, clip-count rules, and source choices."),
-    phaseRow("Timeline Scan", state === "scanning" ? "loading" : state === "extracting" || state === "awaiting_review" ? "success" : "idle", "Reads selected clips, sequence clips, In/Out overlaps, and project-item matches from the active Premiere host."),
-    phaseRow("Descriptor Capture", state === "extracting" || state === "awaiting_review" ? "success" : running ? "loading" : "idle", "Serializes truthful ClipDescriptor and MediaSelection output with capability notes and cache keys."),
-    phaseRow("Frame / Audio Extraction", state === "extracting" ? "loading" : state === "awaiting_review" ? "success" : "idle", "Extracts sampled frames and audio proxies only from approved verified local paths, with truthful cache and fallback reporting."),
+    phaseRow("Timeline Scan", state === "scanning" ? "loading" : state === "extracting" || state === "analyzing_vision" || state === "awaiting_review" ? "success" : "idle", "Reads selected clips, sequence clips, In/Out overlaps, and project-item matches from the active Premiere host."),
+    phaseRow("Descriptor Capture", state === "extracting" || state === "analyzing_vision" || state === "awaiting_review" ? "success" : running ? "loading" : "idle", "Serializes truthful ClipDescriptor and MediaSelection output with capability notes and cache keys."),
+    phaseRow("Frame / Audio Extraction", state === "extracting" ? "loading" : state === "analyzing_vision" || state === "awaiting_review" ? "success" : "idle", "Extracts sampled frames and audio proxies only from approved verified local paths, with truthful cache and fallback reporting."),
     phaseRow("Reference Capture", job ? "success" : "idle", "Stores music, people, and reference-reel metadata only. No face, emotion, wedding, music, scoring, or planning analysis runs yet."),
-    phaseRow("Phase 5+ Analysis", state === "awaiting_review" ? "idle" : "idle", "Not started in this phase.")
+    phaseRow("Vision Analysis", state === "analyzing_vision" ? "loading" : job?.vision?.status === "completed" ? "success" : job?.vision ? "error" : "idle", "Measures generic visual quality and scene cues from extracted frames only, with per-metric confidence and cache reporting."),
+    phaseRow("Face / Wedding / Emotion / Music / Story", "idle", "Not started in Phase 5.")
   ];
 }
 

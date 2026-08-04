@@ -1,8 +1,8 @@
 # Third-Party AI Modules
 
-Status: Phase 0 inventory. No analysis-sidecar dependency has been installed.
-Every candidate remains blocked until a version or immutable commit, its model
-weights, redistribution terms, and notices are recorded here.
+Status: Phase 5 Vision AI foundation. The local-only sidecar uses the pinned,
+code-only modules listed below. It downloads no model weights and sends no media
+to a cloud service.
 
 ## Existing Runtime Dependencies
 
@@ -18,8 +18,10 @@ weights, redistribution terms, and notices are recorded here.
 | FastAPI | `0.115.0` | MIT | N/A | Permissive | Python sidecar dependency | Include MIT notice; fallback is no sidecar/metadata-only extraction. |
 | Pydantic | `2.9.2` | MIT | N/A | Permissive | Python sidecar dependency | Include MIT notice; fallback is manual JSON validation disabled. |
 | Uvicorn | `0.30.6` | BSD-3-Clause | N/A | Permissive | Python sidecar dependency | Include BSD notice; fallback is no sidecar server. |
-| NumPy | Not selected | BSD-3-Clause | N/A | Permissive | Python sidecar dependency | Include BSD notice; fallback is reduced pure-Python metrics. |
-| OpenCV | Not selected | Apache-2.0 | N/A | Permissive code license | Python sidecar dependency | Include Apache notice; use measured OpenCV signals only. |
+| NumPy | `2.0.2` | BSD-3-Clause | N/A | Permissive | Pinned Python sidecar dependency | Include BSD notice; unavailable means Vision analysis reports its capability reason. |
+| OpenCV (`opencv-python-headless`) | `4.10.0.84` | Apache-2.0 | N/A | Permissive code license | Pinned Python sidecar dependency | Include Apache notice; unavailable means full Vision frame analysis is disabled. |
+| Pillow | `11.3.0` | HPND | N/A | Permissive | Pinned Python sidecar dependency | Used only for capability probing and image-format support; OpenCV is the required analyzer. |
+| ONNX Runtime | `1.19.2` | MIT | No model weights bundled | Permissive | Pinned optional Python sidecar dependency | Provider probe only in Phase 5; no ONNX model is loaded. CPU remains required fallback. |
 | MediaPipe Tasks | Not selected | Apache-2.0 | Verify task-model package before pinning | Conditional pending model review | Runtime model download or bundled model, decision pending | Include notices and user consent for its telemetry; fallback is face detection unavailable. |
 | librosa | Not selected | ISC | N/A | Permissive | Python sidecar dependency | Include ISC notice; fallback is no local music analysis. |
 | FFmpeg/ffprobe | User-installed initially | LGPL/GPL depends on build configuration | N/A | Conditional | External executables, not bundled in this repository | Do not distribute until codec/build license review. Fallback is no frame/audio extraction. |
@@ -40,6 +42,7 @@ weights, redistribution terms, and notices are recorded here.
 - The current implementation binds specifically to `127.0.0.1` and rejects non-localhost health states.
 - No cloud frame/audio upload without an explicit user opt-in per project.
 - Phase 4 extraction accepts only user-approved local filesystem roots collected from verified Premiere media paths or explicit local-song paths. Remote URLs and social links remain unavailable/reference-only.
+- Phase 5 Vision accepts only extracted frame paths produced by the existing extraction cache. It does not read the Premiere timeline, decode source media, run face recognition, classify weddings, infer emotion, analyze music, or build a story.
 - The Phase 4 sidecar uses a dedicated RK Flow cache root under the local temp directory unless `RKFLOW_CACHE_ROOT` is set, tracks cache size, applies TTL cleanup, and refuses deletion outside that cache root.
 - Face references and embeddings remain local, are deletable, and require user
   confirmation before bride/groom labels are used.

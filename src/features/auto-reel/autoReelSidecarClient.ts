@@ -1,4 +1,4 @@
-import type { AutoReelExtractionRequest, AutoReelExtractionResult } from "./models";
+import type { AutoReelExtractionRequest, AutoReelExtractionResult, VisionBatchAnalysis, VisionCapabilities } from "./models";
 
 const SIDECAR_HOST = "127.0.0.1";
 const SIDECAR_START_TIMEOUT_MS = 7000;
@@ -137,6 +137,31 @@ export class AutoReelSidecarClient {
     await this.requestJson(this.session, `/extraction/jobs/${encodeURIComponent(jobId)}/cancel`, {
       method: "POST"
     });
+  }
+
+  public async getVisionCapabilities(): Promise<VisionCapabilities> {
+    const health = await this.ensureReady();
+    if (!health.available || !this.session) throw new AutoReelSidecarUnavailableError(health.reason || "Local Vision sidecar is unavailable.");
+    return this.requestJson<VisionCapabilities>(this.session, "/vision/capabilities");
+  }
+
+  public async runVisionJob(request: unknown, options: { signal?: AbortSignal; onProgress?: (result: VisionBatchAnalysis) => void } = {}): Promise<VisionBatchAnalysis> {
+    const health = await this.ensureReady();
+    if (!health.available || !this.session) throw new AutoReelSidecarUnavailableError(health.reason || "Local Vision sidecar is unavailable.");
+    const submit = await this.requestJson<{ jobId: string }>(this.session, "/vision/jobs", { method: "POST", body: JSON.stringify(request) });
+    if (!submit.jobId) throw new AutoReelSidecarUnavailableError("Local sidecar did not return a Vision job ID.");
+    let aborted = false;
+    const abortHandler = () => { aborted = true; void this.requestJson(this.session!, `/vision/jobs/${encodeURIComponent(submit.jobId)}/cancel`, { method: "POST" }).catch(() => undefined); };
+    options.signal?.addEventListener("abort", abortHandler, { once: true });
+    try {
+      for (;;) {
+        if (aborted || options.signal?.aborted) throw new AutoReelSidecarCancelledError("Auto Reel Vision analysis was cancelled.");
+        const result = await this.requestJson<VisionBatchAnalysis>(this.session, `/vision/jobs/${encodeURIComponent(submit.jobId)}`);
+        options.onProgress?.(result);
+        if (result.status === "completed" || result.status === "cancelled" || result.status === "failed" || result.status === "sidecar-unavailable") return result;
+        await delay(SIDECAR_POLL_INTERVAL_MS);
+      }
+    } finally { options.signal?.removeEventListener("abort", abortHandler); }
   }
 
   private async fetchHealth(session: SidecarSession): Promise<AutoReelSidecarHealth> {

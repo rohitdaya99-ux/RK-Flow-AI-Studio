@@ -6,6 +6,7 @@ import uvicorn
 
 from app.server import create_app
 from app.service import ExtractionService
+from app.vision_service import VisionService
 
 
 def main() -> None:
@@ -16,8 +17,9 @@ def main() -> None:
     args = parser.parse_args()
 
     base_url = f"http://{args.host}:{args.port}"
-    service = ExtractionService(bind=args.host, base_url=base_url, version="phase-4-sidecar-v1")
-    app = create_app(service, args.token)
+    service = ExtractionService(bind=args.host, base_url=base_url, version="phase-5-sidecar-v1")
+    vision_service = VisionService(bind=args.host, base_url=base_url, version="phase-5-sidecar-v1")
+    app = create_app(service, vision_service, args.token)
     uvicorn.run(app, host=args.host, port=args.port, log_level="warning")
 
 
