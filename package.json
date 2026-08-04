@@ -4,7 +4,8 @@
   "main": "index.html",
   "scripts": {
     "build": "webpack --mode production",
-    "dev": "webpack --mode development --watch"
+    "dev": "webpack --mode development --watch",
+    "test:auto-reel": "node --test tests/autoReelPhase1.test.cjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
