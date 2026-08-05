@@ -1,6 +1,6 @@
 # Third-Party AI Modules
 
-Status: Phase 5 Vision AI foundation. The local-only sidecar uses the pinned,
+Status: Phase 9 Music AI foundation. The local-only sidecar uses the pinned,
 code-only modules listed below. It downloads no model weights and sends no media
 to a cloud service.
 
@@ -24,7 +24,27 @@ to a cloud service.
 | ONNX Runtime | `1.19.2` | MIT | No model weights bundled | Permissive | Pinned optional Python sidecar dependency | Provider probe only in Phase 5; no ONNX model is loaded. CPU remains required fallback. |
 | OpenCV Zoo YuNet | `face_detection_yunet_2023mar.onnx` | MIT | MIT | Commercial use permitted | Optional local sidecar artifact; never auto-downloaded | Artifact is documented but not bundled; OpenCV Haar is the local fallback. |
 | MediaPipe Tasks | Not selected | Apache-2.0 | Verify task-model package before pinning | Conditional pending model review | Runtime model download or bundled model, decision pending | Include notices and user consent for its telemetry; fallback is face detection unavailable. |
-| librosa | Not selected | ISC | N/A | Permissive | Python sidecar dependency | Include ISC notice; fallback is no local music analysis. |
+| librosa | `0.10.2` | ISC | N/A | Permissive | Pinned Python sidecar dependency | Include ISC notice; unavailable means no local music analysis. |
+| SciPy | `1.13.1` | BSD-3-Clause | N/A | Permissive | Pinned Python sidecar dependency | Include BSD notice; unavailable means no advanced music analysis. |
+| soundfile | `0.12.1` | BSD-3-Clause | N/A | Permissive | Pinned Python sidecar dependency | Include BSD notice; unavailable means no audio file reading. |
+| FFmpeg/ffprobe | User-installed initially | LGPL/GPL depends on build configuration | N/A | Conditional | External executables, not bundled in this repository | Do not distribute until codec/build license review. Fallback is no frame/audio extraction. |
+
+## Music AI Specifics
+
+- **FFmpeg/ffprobe**: Used for audio probing (duration, codec, etc.) and extraction. It is assumed to be user-installed. The sidecar will check for its availability.
+- **librosa**: Used for core music analysis, including BPM, beat detection, onset detection, and energy curve generation.
+- **NumPy/SciPy**: Core dependencies for numerical operations within librosa and other analysis components.
+- **soundfile**: Used for reading audio files into NumPy arrays for processing by librosa.
+
+## Music Catalog Providers
+
+- **LocalMusicLibraryProvider**: Scans user-specified local directories for audio files.
+- **PremiereProjectMusicProvider**: Accesses audio from Premiere project items, provided a local media path is available.
+- **LicensedCatalogProvider**: Disabled by default. This is a placeholder for future integration with licensed music libraries, pending commercial license review and explicit approval.
+- **DisabledMusicCatalogProvider**: Returns a truthful capability reason if no other catalog provider is enabled.
+
+No specific copyrighted songs are recommended unless they already exist in the user’s approved local library or a configured licensed provider.
+
 | FFmpeg/ffprobe | User-installed initially | LGPL/GPL depends on build configuration | N/A | Conditional | External executables, not bundled in this repository | Do not distribute until codec/build license review. Fallback is no frame/audio extraction. |
 
 ## Explicitly Blocked Candidates
@@ -48,6 +68,7 @@ to a cloud service.
 - Limited Phase 7 uses only existing local Vision cues. Grounding DINO is not enabled: no exact local weight artifact, hash, or license record is configured. Ultralytics YOLO is not enabled because its AGPL obligations have not been accepted and no enterprise license is configured. No weights are downloaded automatically.
 - The Phase 4 sidecar uses a dedicated RK Flow cache root under the local temp directory unless `RKFLOW_CACHE_ROOT` is set, tracks cache size, applies TTL cleanup, and refuses deletion outside that cache root.
 - Face references and embeddings remain local, are deletable, and require user
+- Phase 9 Music AI uses `ffprobe` for audio metadata and `librosa` for analysis. It does not download audio from social platforms.
   confirmation before bride/groom labels are used.
 - Social links are metadata/style references only. RK Flow must not download
   copyrighted Instagram or YouTube media/audio.

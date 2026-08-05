@@ -1,3 +1,4 @@
+
 import type { AutoReelSetupContext } from "./autoReelSetupService";
 import type {
   AutoReelAudioExtraction,
@@ -9,14 +10,17 @@ import type {
   AutoReelJob,
   AutoReelRequest,
   ClipDescriptor,
-  FrameSample
+  FrameSample,
 } from "./models";
 import {
-  AutoReelSidecarCancelledError,
   AutoReelSidecarClient,
-  AutoReelSidecarUnavailableError
+  isAutoReelSidecarCancelledError,
+  isAutoReelSidecarUnavailableError,
 } from "./autoReelSidecarClient";
-import { buildExtractionCacheKey, buildFrameSamplePlan } from "./autoReelExtractionUtils";
+import {
+  buildExtractionCacheKey,
+  buildFrameSamplePlan,
+} from "./autoReelExtractionUtils";
 
 const EXTRACTION_VERSION = "phase-4-extraction-v1";
 const CACHE_TTL_SECONDS = 60 * 60 * 24 * 7;
@@ -62,12 +66,21 @@ export async function runAutoReelExtractionStage(args: {
     job: args.job,
     request: args.request,
     clips: args.clips,
-    context: args.context
+    context: args.context,
   });
   const client = args.client ?? new AutoReelSidecarClient();
 
-  if (preflight.request.frameTasks.length === 0 && preflight.request.audioTasks.length === 0) {
-    const fallback = buildImmediateExtractionResult(preflight, args.job, args.request, "completed", "No eligible verified local media paths were available for extraction.");
+  if (
+    preflight.request.frameTasks.length === 0 &&
+    preflight.request.audioTasks.length === 0
+  ) {
+    const fallback = buildImmediateExtractionResult(
+      preflight,
+      args.job,
+      args.request,
+      "completed",
+      "No eligible verified local media paths were available for extraction."
+    );
     args.onProgress?.(fallback);
     return toStageResult(fallback);
   }
@@ -75,15 +88,22 @@ export async function runAutoReelExtractionStage(args: {
   try {
     const result = await client.runExtractionJob(preflight.request, {
       signal: args.signal,
-      onProgress: (payload) => args.onProgress?.(mergeExtractionResult(preflight, payload))
+      onProgress: (payload) =>
+        args.onProgress?.(mergeExtractionResult(preflight, payload)),
     });
     return toStageResult(mergeExtractionResult(preflight, result));
   } catch (error: unknown) {
-    if (error instanceof AutoReelSidecarCancelledError || args.signal?.aborted) {
+    if (isAutoReelSidecarCancelledError(error) || args.signal?.aborted) {
       throw new AutoReelExtractionCancelledError();
     }
-    if (error instanceof AutoReelSidecarUnavailableError) {
-      const fallback = buildImmediateExtractionResult(preflight, args.job, args.request, "sidecar-unavailable", error.message);
+    if (isAutoReelSidecarUnavailableError(error)) {
+      const fallback = buildImmediateExtractionResult(
+        preflight,
+        args.job,
+        args.request,
+        "sidecar-unavailable",
+        error.message
+      );
       args.onProgress?.(fallback);
       return toStageResult(fallback);
     }
@@ -116,7 +136,7 @@ export function buildAutoReelExtractionRequest(args: {
         cacheHits: 0,
         cacheMisses: 0,
         attempts: 0,
-        error: `Clip "${clip.name}" is ${clip.mediaType} media and is not eligible for frame extraction.`
+        error: `Clip "${clip.name}" is ${clip.mediaType} media and is not eligible for frame extraction.`,
       });
       continue;
     }
@@ -125,7 +145,9 @@ export function buildAutoReelExtractionRequest(args: {
     if (!clip.mediaPath) {
       const message = `Clip "${clip.name}" does not expose a verified source media path in this host session.`;
       warnings.push(message);
-      preflightFrameSamples.push(...baseSamples.map((sample) => unavailableFrameSample(sample, message)));
+      preflightFrameSamples.push(
+        ...baseSamples.map((sample) => unavailableFrameSample(sample, message))
+      );
       preflightFailures.push({
         taskId: `frames:${clip.id}`,
         clipId: clip.id,
@@ -133,7 +155,7 @@ export function buildAutoReelExtractionRequest(args: {
         status: "unavailable",
         message,
         attempts: 0,
-        recordedAt: new Date().toISOString()
+        recordedAt: new Date().toISOString(),
       });
       preflightClipResults.push({
         clipId: clip.id,
@@ -143,15 +165,20 @@ export function buildAutoReelExtractionRequest(args: {
         cacheHits: 0,
         cacheMisses: 0,
         attempts: 0,
-        error: message
+        error: message,
       });
       continue;
     }
 
-    if (typeof clip.sourceInSeconds !== "number" || typeof clip.sourceOutSeconds !== "number") {
+    if (
+      typeof clip.sourceInSeconds !== "number" ||
+      typeof clip.sourceOutSeconds !== "number"
+    ) {
       const message = `Clip "${clip.name}" is missing verified source in/out timing for extraction.`;
       warnings.push(message);
-      preflightFrameSamples.push(...baseSamples.map((sample) => unavailableFrameSample(sample, message)));
+      preflightFrameSamples.push(
+        ...baseSamples.map((sample) => unavailableFrameSample(sample, message))
+      );
       preflightFailures.push({
         taskId: `frames:${clip.id}`,
         clipId: clip.id,
@@ -159,7 +186,7 @@ export function buildAutoReelExtractionRequest(args: {
         status: "unavailable",
         message,
         attempts: 0,
-        recordedAt: new Date().toISOString()
+        recordedAt: new Date().toISOString(),
       });
       preflightClipResults.push({
         clipId: clip.id,
@@ -169,7 +196,7 @@ export function buildAutoReelExtractionRequest(args: {
         cacheHits: 0,
         cacheMisses: 0,
         attempts: 0,
-        error: message
+        error: message,
       });
       continue;
     }
@@ -190,17 +217,20 @@ export function buildAutoReelExtractionRequest(args: {
           sourceOutSeconds: clip.sourceOutSeconds,
           samplePlan: baseSamples.map((sample) => ({
             sourceTimeSeconds: sample.sourceTimeSeconds,
-            sampleKind: sample.sampleKind
-          }))
-        }
+            sampleKind: sample.sampleKind,
+          })),
+        },
       }),
       sourceInSeconds: clip.sourceInSeconds,
       sourceOutSeconds: clip.sourceOutSeconds,
       samplePlan: baseSamples.map((sample) => ({
         id: sample.id,
+        clipId: clip.id,
         sourceTimeSeconds: sample.sourceTimeSeconds,
-        sampleKind: sample.sampleKind
-      }))
+        sampleKind: sample.sampleKind,
+        extractionStatus: "pending",
+        capturedAt: undefined,
+      })),
     });
   }
 
@@ -210,18 +240,20 @@ export function buildAutoReelExtractionRequest(args: {
       approvedRoots.add(directoryOfPath(selectedSong.mediaPath));
       audioTasks.push(selectedSong);
     } else {
-      preflightAudioExtractions.push(unavailableAudioExtraction(selectedSong, selectedSong.label));
+      preflightAudioExtractions.push(
+        unavailableAudioExtraction(selectedSong, selectedSong.label)
+      );
     }
   }
 
-  if (args.request.setup?.musicSource.extractClipAudio) {
+  if (args.request.setup?.musicSource?.extractClipAudio) {
     for (const frameTask of frameTasks) {
       audioTasks.push({
         id: buildExtractionCacheKey({
           category: "clip-audio",
           mediaFingerprint: frameTask.mediaFingerprint,
           version: EXTRACTION_VERSION,
-          parameters: { clipId: frameTask.clipId, sourceKind: "clip-audio" }
+          parameters: { clipId: frameTask.clipId, sourceKind: "clip-audio" },
         }),
         sourceKind: "clip-audio",
         clipId: frameTask.clipId,
@@ -232,8 +264,8 @@ export function buildAutoReelExtractionRequest(args: {
           category: "audio-proxy",
           mediaFingerprint: frameTask.mediaFingerprint,
           version: EXTRACTION_VERSION,
-          parameters: { clipId: frameTask.clipId, sourceKind: "clip-audio" }
-        })
+          parameters: { clipId: frameTask.clipId, sourceKind: "clip-audio" },
+        }),
       });
     }
   }
@@ -244,36 +276,50 @@ export function buildAutoReelExtractionRequest(args: {
       jobId: args.job.id,
       requestId: args.request.id,
       requestedAt: new Date().toISOString(),
-      approvedRoots: Array.from(approvedRoots).filter((value) => value.length > 0).sort(),
+      approvedRoots: Array.from(approvedRoots)
+        .filter((value) => value.length > 0)
+        .sort(),
       frameTasks,
       audioTasks,
       cache: {
         rootName: "rkflow-cache",
         extractorVersion: EXTRACTION_VERSION,
         ttlSeconds: CACHE_TTL_SECONDS,
-        maxBytes: CACHE_MAX_BYTES
+        maxBytes: CACHE_MAX_BYTES,
       },
       limits: {
         concurrency: EXTRACTION_CONCURRENCY,
-        retryLimit: EXTRACTION_RETRY_LIMIT
-      }
+        retryLimit: EXTRACTION_RETRY_LIMIT,
+      },
     },
     preflightFrameSamples,
     preflightAudioExtractions,
     preflightFailures,
     preflightClipResults,
-    warnings
+    warnings,
   };
 }
 
-export function buildExtractionProgressMessage(result: AutoReelExtractionResult): string {
-  const clipLabel = result.progress.currentClipName ? ` ${result.progress.currentClipName}` : "";
-  const clipProgress = `${result.progress.completedClips}/${Math.max(1, result.progress.totalClips)} clips`;
-  const audioProgress = `${result.progress.completedAudioTasks}/${Math.max(1, result.progress.totalAudioTasks)} audio`;
+export function buildExtractionProgressMessage(
+  result: AutoReelExtractionResult
+): string {
+  const clipLabel = result.progress.currentClipName
+    ? ` ${result.progress.currentClipName}`
+    : "";
+  const clipProgress = `${result.progress.completedClips}/${Math.max(
+    1,
+    result.progress.totalClips
+  )} clips`;
+  const audioProgress = `${result.progress.completedAudioTasks}/${Math.max(
+    1,
+    result.progress.totalAudioTasks
+  )} audio`;
   return `Extracting${clipLabel}. ${clipProgress}, ${audioProgress}, cache ${result.progress.cacheHits} hit / ${result.progress.cacheMisses} miss.`;
 }
 
-export function isAutoReelExtractionCancelledError(error: unknown): error is AutoReelExtractionCancelledError {
+export function isAutoReelExtractionCancelledError(
+  error: unknown
+): error is AutoReelExtractionCancelledError {
   return error instanceof AutoReelExtractionCancelledError;
 }
 
@@ -285,9 +331,12 @@ function mergeExtractionResult(
     ...result,
     clipResults: [...preflight.preflightClipResults, ...result.clipResults],
     frameSamples: [...preflight.preflightFrameSamples, ...result.frameSamples],
-    audioExtractions: [...preflight.preflightAudioExtractions, ...result.audioExtractions],
+    audioExtractions: [
+      ...preflight.preflightAudioExtractions,
+      ...result.audioExtractions,
+    ],
     failures: [...preflight.preflightFailures, ...result.failures],
-    warnings: [...preflight.warnings, ...result.warnings]
+    warnings: [...preflight.warnings, ...result.warnings],
   };
 }
 
@@ -300,35 +349,37 @@ function buildImmediateExtractionResult(
 ): AutoReelExtractionResult {
   const frameSamples = [
     ...preflight.preflightFrameSamples,
-    ...preflight.request.frameTasks.flatMap((task) =>
-      task.samplePlan.map((sample) =>
+    ...preflight.request.frameTasks.flatMap((task: any) =>
+      task.samplePlan.map((sample: any) =>
         unavailableFrameSample(
           {
             ...sample,
-            clipId: task.clipId
+            clipId: task.clipId,
           },
           reason,
           task.cacheKey
         )
       )
-    )
+    ),
   ];
   const audioExtractions = [
     ...preflight.preflightAudioExtractions,
-    ...preflight.request.audioTasks.map((task) => unavailableAudioExtraction(task, reason))
+    ...preflight.request.audioTasks.map((task: any) =>
+      unavailableAudioExtraction(task, reason)
+    ),
   ];
   const failures = [
     ...preflight.preflightFailures,
-    ...preflight.request.frameTasks.map<AutoReelExtractionFailure>((task) => ({
+    ...preflight.request.frameTasks.map<AutoReelExtractionFailure>((task: any) => ({
       taskId: `frames:${task.clipId}`,
       clipId: task.clipId,
       targetKind: "frames",
       status: status === "cancelled" ? "cancelled" : "failed",
       message: reason,
       attempts: 0,
-      recordedAt: new Date().toISOString()
+      recordedAt: new Date().toISOString(),
     })),
-    ...preflight.request.audioTasks.map<AutoReelExtractionFailure>((task) => ({
+    ...preflight.request.audioTasks.map<AutoReelExtractionFailure>((task: any) => ({
       taskId: task.id,
       clipId: task.clipId,
       audioTaskId: task.id,
@@ -336,8 +387,8 @@ function buildImmediateExtractionResult(
       status: status === "cancelled" ? "cancelled" : "failed",
       message: reason,
       attempts: 0,
-      recordedAt: new Date().toISOString()
-    }))
+      recordedAt: new Date().toISOString(),
+    })),
   ];
 
   return {
@@ -347,7 +398,7 @@ function buildImmediateExtractionResult(
     status,
     sidecar: {
       status: "unavailable",
-      reason
+      reason,
     },
     progress: {
       completedClips: preflight.request.frameTasks.length,
@@ -356,31 +407,35 @@ function buildImmediateExtractionResult(
       completedAudioTasks: preflight.request.audioTasks.length,
       totalAudioTasks: preflight.request.audioTasks.length,
       cacheHits: 0,
-      cacheMisses: preflight.request.frameTasks.length + preflight.request.audioTasks.length
+      cacheMisses:
+        preflight.request.frameTasks.length +
+        preflight.request.audioTasks.length,
     },
     clipResults: [
       ...preflight.preflightClipResults,
-      ...preflight.request.frameTasks.map((task) => ({
+      ...preflight.request.frameTasks.map((task: any) => ({
         clipId: task.clipId,
         clipName: task.clipName,
-        frameSampleIds: task.samplePlan.map((sample) => sample.id),
+        frameSampleIds: task.samplePlan.map((sample: any) => sample.id),
         status: "failed" as const,
         cacheHits: 0,
         cacheMisses: task.samplePlan.length,
         attempts: 0,
-        error: reason
-      }))
+        error: reason,
+      })),
     ],
     frameSamples,
     audioExtractions,
     failures,
     warnings: [...preflight.warnings, reason],
     startedAt: new Date().toISOString(),
-    completedAt: new Date().toISOString()
+    completedAt: new Date().toISOString(),
   };
 }
 
-function toStageResult(extraction: AutoReelExtractionResult): AutoReelExtractionStageResult {
+function toStageResult(
+  extraction: AutoReelExtractionResult
+): AutoReelExtractionStageResult {
   return {
     extraction,
     frameSamples: extraction.frameSamples,
@@ -390,12 +445,17 @@ function toStageResult(extraction: AutoReelExtractionResult): AutoReelExtraction
     planningText:
       extraction.status === "sidecar-unavailable"
         ? "Frame/audio extraction could not run because the local analysis sidecar is unavailable."
-        : "Frame/audio extraction completed. Vision AI, Music AI, scoring, story building, and planning are still not started."
+        : "Frame/audio extraction completed. Vision AI, Music AI, scoring, story building, and planning are still not started.",
   };
 }
 
 function unavailableFrameSample(
-  sample: { id: string; clipId: string; sampleKind: FrameSample["sampleKind"]; sourceTimeSeconds: number },
+  sample: {
+    id: string;
+    clipId: string;
+    sampleKind: FrameSample["sampleKind"];
+    sourceTimeSeconds: number;
+  },
   reason: string,
   cacheKey?: string
 ): FrameSample {
@@ -409,26 +469,28 @@ function unavailableFrameSample(
     extractionStatus: "unavailable",
     capabilityReason: reason,
     error: reason,
-    capturedAt: new Date().toISOString()
+    capturedAt: new Date().toISOString(),
   };
 }
 
 function unavailableAudioExtraction(
-  task: Pick<AutoReelAudioExtractionTask, "id" | "sourceKind" | "clipId" | "label" | "cacheKey">,
+  task: Pick<
+    AutoReelAudioExtractionTask,
+    "id" | "sourceKind" | "clipId" | "label" | "cacheKey"
+  >,
   reason: string
 ): AutoReelAudioExtraction {
   return {
     id: task.id,
     taskId: task.id,
     sourceKind: task.sourceKind,
-    clipId: task.clipId,
-    cacheKey: task.cacheKey,
-    cacheStatus: "unavailable",
-    extractionStatus: "unavailable",
-    waveform: [],
-    extractedAt: new Date().toISOString(),
-    capabilityReason: reason,
-    error: reason
+    clipId: task.clipId ?? "",
+    label: task.label,
+    filePath: "",
+    format: "wav",
+    durationSeconds: 0,
+    status: "failed",
+    error: reason,
   };
 }
 
@@ -448,7 +510,7 @@ function resolveSelectedSongAudioTask(
           category: "selected-song",
           mediaFingerprint: request.mediaSelection.mediaFingerprint,
           version: EXTRACTION_VERSION,
-          parameters: { requestId: request.id, mode: musicSource.mode }
+          parameters: { requestId: request.id, mode: musicSource.mode },
         }),
         sourceKind: "selected-song",
         label: "Selected song is missing a verified local filesystem path.",
@@ -458,8 +520,8 @@ function resolveSelectedSongAudioTask(
           category: "audio-proxy",
           mediaFingerprint: request.mediaSelection.mediaFingerprint,
           version: EXTRACTION_VERSION,
-          parameters: { requestId: request.id, mode: musicSource.mode }
-        })
+          parameters: { requestId: request.id, mode: musicSource.mode },
+        }),
       };
     }
     return {
@@ -467,7 +529,11 @@ function resolveSelectedSongAudioTask(
         category: "selected-song",
         mediaFingerprint: request.mediaSelection.mediaFingerprint,
         version: EXTRACTION_VERSION,
-        parameters: { requestId: request.id, mode: musicSource.mode, filePath: musicSource.filePath }
+        parameters: {
+          requestId: request.id,
+          mode: musicSource.mode,
+          filePath: musicSource.filePath,
+        },
       }),
       sourceKind: "selected-song",
       label: musicSource.fileName || "Selected song",
@@ -477,20 +543,29 @@ function resolveSelectedSongAudioTask(
         category: "audio-proxy",
         mediaFingerprint: request.mediaSelection.mediaFingerprint,
         version: EXTRACTION_VERSION,
-        parameters: { requestId: request.id, sourcePath: musicSource.filePath }
-      })
+        parameters: {
+          requestId: request.id,
+          sourcePath: musicSource.filePath,
+        },
+      }),
     };
   }
 
   if (musicSource.mode === "project-item") {
-    const projectItem = context.projectItemOptions.find((item) => item.id === musicSource.projectItemId);
+    const projectItem = context.projectItemOptions.find(
+      (item) => item.id === musicSource.projectItemId
+    );
     const mediaPath = projectItem?.mediaPath || "";
     return {
       id: buildExtractionCacheKey({
         category: "selected-song",
         mediaFingerprint: request.mediaSelection.mediaFingerprint,
         version: EXTRACTION_VERSION,
-        parameters: { requestId: request.id, mode: musicSource.mode, projectItemId: musicSource.projectItemId }
+        parameters: {
+          requestId: request.id,
+          mode: musicSource.mode,
+          projectItemId: musicSource.projectItemId,
+        },
       }),
       sourceKind: "selected-song",
       label: projectItem?.label || "Selected song project item",
@@ -500,8 +575,11 @@ function resolveSelectedSongAudioTask(
         category: "audio-proxy",
         mediaFingerprint: request.mediaSelection.mediaFingerprint,
         version: EXTRACTION_VERSION,
-        parameters: { requestId: request.id, projectItemId: musicSource.projectItemId }
-      })
+        parameters: {
+          requestId: request.id,
+          projectItemId: musicSource.projectItemId,
+        },
+      }),
     };
   }
 
@@ -510,7 +588,7 @@ function resolveSelectedSongAudioTask(
       category: "selected-song",
       mediaFingerprint: request.mediaSelection.mediaFingerprint,
       version: EXTRACTION_VERSION,
-      parameters: { requestId: request.id, mode: musicSource.mode }
+      parameters: { requestId: request.id, mode: musicSource.mode },
     }),
     sourceKind: "selected-song",
     label:
@@ -523,13 +601,13 @@ function resolveSelectedSongAudioTask(
       category: "audio-proxy",
       mediaFingerprint: request.mediaSelection.mediaFingerprint,
       version: EXTRACTION_VERSION,
-      parameters: { requestId: request.id, mode: musicSource.mode }
-    })
+      parameters: { requestId: request.id, mode: musicSource.mode },
+    }),
   };
 }
 
 function directoryOfPath(value: string): string {
-  const normalized = value.replaceAll("\\", "/");
+  const normalized = value.replaceAll("", "/");
   const index = normalized.lastIndexOf("/");
   return index <= 0 ? normalized : normalized.slice(0, index);
 }

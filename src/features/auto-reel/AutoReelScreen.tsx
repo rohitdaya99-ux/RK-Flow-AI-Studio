@@ -32,6 +32,7 @@ import {
   ReferenceReelInput
 } from "./AutoReelSections";
 import { glassCardStyle, sectionWrapStyle, titleCase } from "./AutoReelUi";
+import { AutoReelRankedList } from "./AutoReelRankedList";
 
 export default function AutoReelScreen() {
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -101,10 +102,10 @@ export default function AutoReelScreen() {
     try {
       const nextContext = await loadAutoReelSetupContext();
       const draft = loadAutoReelSetupDraft();
-      const nextState = createSetupStateFromDraft(draft, nextContext);
+      const nextState = createSetupStateFromDraft(draft);
       setContext(nextContext);
-      setProjectId(draft?.projectId || nextContext.activeProjectId);
-      setSequenceId(draft?.sequenceId || nextContext.activeSequenceId);
+      setProjectId((draft as any)?.projectId || nextContext.activeProjectId);
+      setSequenceId((draft as any)?.sequenceId || nextContext.activeSequenceId);
       setState(nextState);
       setPlanningText(buildPlanningText(nextState, nextContext, "idle"));
       setLog([`Loaded Premiere context for ${nextContext.projectName || "Unknown Project"} / ${nextContext.sequenceName || "No active sequence"}.`]);
@@ -302,6 +303,8 @@ export default function AutoReelScreen() {
 
       <AutoReelRequestPreview job={job} panelWidth={workspaceWidth} requestPreview={requestPreview} log={log} />
 
+      <AutoReelRankedList report={job?.scoring} />
+
       <div style={{ display: "flex", gap: spacing.sm, flexWrap: "wrap" }}>
         <Button onClick={() => void handleRunSetup()} disabled={loading || running || !context?.connected}>
           {running ? "Running Vision Pipeline..." : "Start Auto Reel Vision Pipeline"}
@@ -381,12 +384,16 @@ function buildPhaseRows(job: AutoReelJob | null, running: boolean, error: string
   const state = job?.state ?? "idle";
   return [
     phaseRow("Setup Validation", running || state !== "idle" ? (error ? "error" : state === "idle" ? "idle" : "success") : "idle", "Validates durations, URLs, clip-count rules, and source choices."),
-    phaseRow("Timeline Scan", state === "scanning" ? "loading" : state === "extracting" || state === "analyzing_vision" || state === "awaiting_review" ? "success" : "idle", "Reads selected clips, sequence clips, In/Out overlaps, and project-item matches from the active Premiere host."),
-    phaseRow("Descriptor Capture", state === "extracting" || state === "analyzing_vision" || state === "awaiting_review" ? "success" : running ? "loading" : "idle", "Serializes truthful ClipDescriptor and MediaSelection output with capability notes and cache keys."),
-    phaseRow("Frame / Audio Extraction", state === "extracting" ? "loading" : state === "analyzing_vision" || state === "awaiting_review" ? "success" : "idle", "Extracts sampled frames and audio proxies only from approved verified local paths, with truthful cache and fallback reporting."),
+    phaseRow("Timeline Scan", state === "scanning" ? "loading" : state === "extracting" || state === "analyzing_vision" || state === "analyzing_faces" || state === "analyzing_emotion" || state === "analyzing_music" || state === "scoring" || state === "awaiting_review" ? "success" : "idle", "Reads selected clips, sequence clips, In/Out overlaps, and project-item matches from the active Premiere host."),
+    phaseRow("Descriptor Capture", state === "extracting" || state === "analyzing_vision" || state === "analyzing_faces" || state === "analyzing_emotion" || state === "analyzing_music" || state === "scoring" ||  state === "awaiting_review" ? "success" : running ? "loading" : "idle", "Serializes truthful ClipDescriptor and MediaSelection output with capability notes and cache keys."),
+    phaseRow("Frame / Audio Extraction", state === "extracting" ? "loading" : state === "analyzing_vision" || state === "analyzing_faces" || state === "analyzing_emotion" || state === "analyzing_music" || state === "scoring" || state === "awaiting_review" ? "success" : "idle", "Extracts sampled frames and audio proxies only from approved verified local paths, with truthful cache and fallback reporting."),
     phaseRow("Reference Capture", job ? "success" : "idle", "Stores music, people, and reference-reel metadata only. No face, emotion, wedding, music, scoring, or planning analysis runs yet."),
     phaseRow("Vision Analysis", state === "analyzing_vision" ? "loading" : job?.vision?.status === "completed" ? "success" : job?.vision ? "error" : "idle", "Measures generic visual quality and scene cues from extracted frames only, with per-metric confidence and cache reporting."),
-    phaseRow("Face / Wedding / Emotion / Music / Story", "idle", "Not started in Phase 5.")
+    phaseRow("Face Analysis", state === "analyzing_faces" ? "loading" : job?.face?.status === "completed" ? "success" : job?.face ? "error" : "idle", "Detects and clusters anonymous faces."),
+    phaseRow("Emotion Analysis", state === "analyzing_emotion" ? "loading" : job?.emotion?.status === "completed" ? "success" : job?.emotion ? "error" : "idle", "Estimates expressions and clip mood."),
+    phaseRow("Music Analysis", state === "analyzing_music" ? "loading" : job?.music?.status === "completed" ? "success" : job?.music ? "error" : "idle", "Analyzes the selected music source for beats, energy, and sections."),
+    phaseRow("Scoring", state === "scoring" ? "loading" : job?.scoring ? "success" : "idle", "Scores and ranks clips based on all available signals."),
+    phaseRow("Story Building", state === "building_story" ? "loading" : job?.plan ? "success" : "idle", "Not started in Phase 10."),
   ];
 }
 

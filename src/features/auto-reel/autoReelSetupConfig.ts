@@ -1,20 +1,23 @@
 import {
   AutoReelAspectRatio,
-  AutoReelBalanceTarget,
-  AutoReelCutDensity,
-  AutoReelEmotionPriority,
-  AutoReelEnergyLevel,
-  AutoReelReferencePerson,
   AutoReelRequest,
   AutoReelSetupConfig,
-  AutoReelStoryMode,
-  AutoReelTuningLevel,
   MediaSelection,
-  MediaSelectionMode
+  MusicSource
 } from "./models";
 import { ValidationIssue, validateAutoReelSetupConfig } from "./validation";
 
 export type AutoReelLayoutMode = "compact" | "medium" | "regular" | "wide";
+export type MediaSelectionMode = "active-timeline" | "selected-clips" | "project-items" | "manual-selection" | "in-out-range";
+export type AutoReelStoryMode = "chronological" | "narrative" | "montage" | "story";
+export type AutoReelEmotionPriority = "balanced" | "high" | "low";
+export type AutoReelBalanceTarget = "faces" | "actions" | "scenery" | "balanced";
+export type AutoReelEnergyLevel = "low" | "medium" | "high" | "balanced";
+export type AutoReelCutDensity = "low" | "medium" | "high" | "balanced";
+export type AutoReelTuningLevel = "low" | "medium" | "high" | "balanced";
+export interface AutoReelReferencePerson {
+  role: "bride" | "groom" | "custom";
+}
 export type AutoReelType =
   | "wedding-highlight"
   | "cinematic-reel"
@@ -60,6 +63,7 @@ export interface AutoReelSetupState {
   motionIntensity: AutoReelTuningLevel;
   sfxIntensity: AutoReelTuningLevel;
   colorIntensity: AutoReelTuningLevel;
+  scoringPresetId: string;
   outputSequenceName: string;
   createNewSequence: true;
   selectedProjectItemIds: string[];
@@ -113,6 +117,7 @@ export function createDefaultAutoReelSetupState(overrides: Partial<AutoReelSetup
     motionIntensity: "balanced",
     sfxIntensity: "low",
     colorIntensity: "balanced",
+    scoringPresetId: "cinematic",
     outputSequenceName: "Auto Reel",
     createNewSequence: true,
     selectedProjectItemIds: [],
@@ -137,57 +142,52 @@ export function createDefaultAutoReelSetupState(overrides: Partial<AutoReelSetup
 }
 
 export function buildSetupConfig(state: AutoReelSetupState): AutoReelSetupConfig {
+  let musicSource: MusicSource | undefined;
+  switch (state.musicSourceMode) {
+    case "local-file":
+      if (state.musicLocalFilePath) {
+        musicSource = {
+          type: "local_file",
+          path: state.musicLocalFilePath,
+          name: state.musicLocalFileName,
+        };
+      }
+      break;
+    case "project-item":
+      if (state.musicProjectItemId) {
+        musicSource = {
+          type: "premiere_project_item",
+          projectItemId: state.musicProjectItemId,
+        };
+      }
+      break;
+    case "authorized-direct-url":
+      if (state.musicDirectUrl) {
+        musicSource = {
+          type: "authorized_direct_url",
+          url: state.musicDirectUrl,
+        };
+      }
+      break;
+    case "social-reference":
+      if (state.musicSocialReferenceUrl) {
+        musicSource = {
+          type: "social_reference",
+          url: state.musicSocialReferenceUrl,
+        };
+      }
+      break;
+    case "none":
+    default:
+      musicSource = {
+        type: "no_music",
+      };
+      break;
+  }
+
   return {
-    sourceMode: state.sourceMode,
-    clipFilter: {
-      includeLockedTracks: state.includeLockedTracks,
-      includeDisabledClips: state.includeDisabledClips,
-      includeAudioOnlyItems: state.includeAudioOnlyItems,
-      includeStillItems: state.includeStillItems,
-      minimumClipCount: state.minimumClipCount,
-      maximumClipCount: state.maximumClipCount
-    },
-    aspectRatio: state.aspectRatio,
-    reelType: state.reelType,
-    style: state.style,
-    storyMode: state.storyMode,
-    emotionPriority: state.emotionPriority,
-    balanceTarget: state.balanceTarget,
-    energy: state.energy,
-    cutDensity: state.cutDensity,
-    transitionIntensity: state.transitionIntensity,
-    motionIntensity: state.motionIntensity,
-    sfxIntensity: state.sfxIntensity,
-    colorIntensity: state.colorIntensity,
-    outputSequenceName: state.outputSequenceName.trim(),
-    createNewSequence: true,
-    musicSource: {
-      mode: state.musicSourceMode,
-      fileName: state.musicLocalFileName || undefined,
-      filePath: state.musicLocalFilePath || undefined,
-      projectItemId: state.musicProjectItemId || undefined,
-      directUrl: normalizeOptionalText(state.musicDirectUrl),
-      socialReferenceUrl: normalizeOptionalText(state.musicSocialReferenceUrl),
-      cachedMusicId: state.cachedMusicId || undefined,
-      extractClipAudio: state.extractClipAudio,
-      copyrightNoticeAccepted: state.copyrightNoticeAccepted
-    },
-    references: state.references.map((reference) => ({
-      id: reference.id,
-      role: reference.role,
-      label: reference.label,
-      fileName: reference.fileName
-    })),
-    referenceReel:
-      state.referenceReelUrl.trim() || state.referenceReelLocalFileName.trim()
-        ? {
-            mode: state.referenceReelLocalFileName.trim() ? "local-file" : "url",
-            url: normalizeOptionalText(state.referenceReelUrl),
-            localFileName: normalizeOptionalText(state.referenceReelLocalFileName)
-          }
-        : undefined,
-    selectedProjectItemIds: state.selectedProjectItemIds,
-    manualClipIds: state.manualClipIds
+    scoringPresetId: state.scoringPresetId,
+    musicSource: musicSource,
   };
 }
 
@@ -366,7 +366,3 @@ function isHttpUrl(value: string): boolean {
   }
 }
 
-function normalizeOptionalText(value: string): string | undefined {
-  const trimmed = value.trim();
-  return trimmed ? trimmed : undefined;
-}

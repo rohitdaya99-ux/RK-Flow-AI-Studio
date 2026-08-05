@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
-from typing import List
-from app.models import FacialExpressionEstimate, FrameSample, Face
+from typing import List, Optional, Dict
+from app.models import MusicSource, MusicCatalogRecommendation, MusicProviderStatus
 
-class ExpressionProvider(ABC):
-    """Abstract base class for expression estimation providers."""
+class MusicCatalogProvider(ABC):
+    """Abstract base class for music catalog providers."""
 
     @abstractmethod
     def get_name(self) -> str:
@@ -18,17 +18,20 @@ class ExpressionProvider(ABC):
         ...
 
     @abstractmethod
-    def analyze_face(self, face: Face, frame_timestamp: float) -> FacialExpressionEstimate:
+    def get_recommendations(self, mood: str, tempo_range: Dict[str, float], duration_range: Dict[str, float]) -> List[MusicCatalogRecommendation]:
+        """
+        Provides music recommendations based on editorial criteria.
+        This is a placeholder for future functionality.
+        """
         ...
 
-
-class DisabledExpressionProvider(ExpressionProvider):
+class DisabledMusicCatalogProvider(MusicCatalogProvider):
     """A provider that is always disabled and returns a reason."""
-    def __init__(self, reason: str = "Provider not configured or unavailable."):
+    def __init__(self, reason: str = "Music catalog provider not configured or unavailable."):
         self._reason = reason
 
     def get_name(self) -> str:
-        return "DisabledProvider"
+        return "DisabledMusicCatalogProvider"
 
     def is_enabled(self) -> bool:
         return False
@@ -36,82 +39,49 @@ class DisabledExpressionProvider(ExpressionProvider):
     def get_reason(self) -> str:
         return self._reason
 
-    def analyze_face(self, face: Face, frame_timestamp: float) -> FacialExpressionEstimate:
-        return FacialExpressionEstimate(
-            label='uncertain',
-            confidence=0.0,
-            provider=self.get_name(),
-            face_id=face.anonymous_id,
-            frame_timestamp=frame_timestamp,
-            uncertainty_reason=self.get_reason()
-        )
+    def get_recommendations(self, mood: str, tempo_range: Dict[str, float], duration_range: Dict[str, float]) -> List[MusicCatalogRecommendation]:
+        return []
 
-
-class LocalLandmarkExpressionProvider(ExpressionProvider):
+class LocalMusicLibraryProvider(MusicCatalogProvider):
     """
-    Estimates expressions using geometric properties of facial landmarks.
-    Does not use any identity recognition or complex classification model.
+    A provider that allows selecting music from a user's local library.
+    Does not provide recommendations directly, but enables local file analysis.
     """
     def get_name(self) -> str:
-        return "LocalLandmarkExpressionProvider"
+        return "LocalMusicLibraryProvider"
 
     def is_enabled(self) -> bool:
-        # In a real scenario, this would check if landmark capabilities are present.
+        return True # Always enabled to allow local file selection
+
+    def get_reason(self) -> str:
+        return "Enabled. Allows selection of local audio files for analysis."
+
+    def get_recommendations(self, mood: str, tempo_range: Dict[str, float], duration_range: Dict[str, float]) -> List[MusicCatalogRecommendation]:
+        return [] # No recommendations from local library, only direct selection
+
+class PremiereProjectMusicProvider(MusicCatalogProvider):
+    """
+    A provider that allows selecting music from Premiere project items.
+    """
+    def get_name(self) -> str:
+        return "PremiereProjectMusicProvider"
+
+    def is_enabled(self) -> bool:
+        # In a real scenario, this would check Premiere Bridge connectivity
         return True
 
     def get_reason(self) -> str:
-        return "Enabled. Uses geometric analysis of facial landmarks."
+        return "Enabled. Allows selection of audio from Premiere project items."
 
-    def analyze_face(self, face: Face, frame_timestamp: float) -> FacialExpressionEstimate:
-        # Basic quality checks
-        if face.confidence < 0.7 or face.blur_score > 0.6:
-            return FacialExpressionEstimate(label='uncertain', confidence=face.confidence, provider=self.get_name(), face_id=face.anonymous_id, frame_timestamp=frame_timestamp, qualityWarning="Low confidence or high blur")
+    def get_recommendations(self, mood: str, tempo_range: Dict[str, float], duration_range: Dict[str, float]) -> List[MusicCatalogRecommendation]:
+        return []
 
-        smile_confidence = self._calculate_smile_proxy(face.landmarks)
-        eye_openness = self._calculate_eye_openness(face.landmarks)
-
-        label = 'neutral'
-        confidence = 1.0 - smile_confidence
-
-        if smile_confidence > 0.5:
-            label = 'smiling'
-            confidence = smile_confidence
-        
-        if eye_openness < 0.15: # Example threshold for closed eyes
-            label = 'eyes-closed'
-            confidence = 1.0 - eye_openness
-
-        return FacialExpressionEstimate(
-            label=label,
-            confidence=confidence,
-            provider=self.get_name(),
-            face_id=face.anonymous_id,
-            frame_timestamp=frame_timestamp,
-        )
-
-    def _calculate_smile_proxy(self, landmarks) -> float:
-        # Placeholder for geometric calculation based on mouth landmarks.
-        try:
-            mouth_width = abs(landmarks.mouth_right.x - landmarks.mouth_left.x)
-            eye_dist = abs(landmarks.right_eye[0].x - landmarks.left_eye[0].x)
-            if eye_dist > 0:
-                ratio = mouth_width / eye_dist
-                return min(1.0, max(0.0, (ratio - 0.45) * 2.5))
-        except (AttributeError, IndexError):
-            pass
-        return 0.0
-
-    def _calculate_eye_openness(self, landmarks) -> float:
-        # Placeholder for geometric calculation based on eye landmarks (eye aspect ratio).
-        return 0.8 # Default to open
-
-
-class LocalModelExpressionProvider(DisabledExpressionProvider):
+class LicensedCatalogProvider(DisabledMusicCatalogProvider):
     """
-    A provider that uses a local, pretrained model. Disabled by default.
+    A placeholder for a licensed music catalog provider, disabled by default.
     """
     def __init__(self):
-        super().__init__(reason="No commercially-approved model artifact is configured or licensed.")
+        super().__init__(reason="No commercially-approved licensed music catalog is configured.")
 
     def get_name(self) -> str:
-        return "LocalModelExpressionProvider"
+        return "LicensedCatalogProvider"

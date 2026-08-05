@@ -1,4 +1,4 @@
-import type { CommandAction } from "../../types/Command";
+
 
 export const AUTO_REEL_JOB_STATES = [
   "idle",
@@ -19,25 +19,55 @@ export const AUTO_REEL_JOB_STATES = [
   "failed"
 ] as const;
 
+export type AutoReelJobState = (typeof AUTO_REEL_JOB_STATES)[number];
+
+export const MUSIC_ANALYSIS_JOB_STATES = [
+  "probing_audio",
+  "extracting_audio",
+  "loading_waveform",
+  "analyzing_tempo",
+  "detecting_beats",
+  "detecting_onsets",
+  "analyzing_energy",
+  "segmenting_sections",
+  "building_music_profile",
+  "awaiting_music_review",
+  "completed",
+  "cancelled",
+  "failed",
+] as const;
+
+export type AutoReelAspectRatio = "9:16" | "16:9" | "1:1" | "4:5";
+export type ClipMediaType = "video" | "audio" | "image";
+export type AutoReelMetadataStatus = "pending" | "available" | "unavailable" | "failed" | "metadata-fallback" | "host-verified";
+export type AutoReelCapabilityNote = { reason: string; source?: string; field?: string; code?: string; severity?: "info" | "warning" | "reject" };
+export type SignalSource = "measured" | "provider_model" | "heuristic" | "user_confirmed" | "user_corrected" | "unavailable";
+
+
 export interface MediaSelection {
-  mode: MediaSelectionMode;
-  projectId?: string;
-  sequenceId?: string;
-  sequenceName?: string;
-  clipIds: string[];
-  projectItemIds: string[];
-  inPointSeconds?: number;
-  outPointSeconds?: number;
-  usedFallback: boolean;
-  sequenceResolution: AutoReelFrameSize | null;
-  fps: number | null;
-  timebase: number | null;
-  playheadSeconds: number | null;
-  selectedClipCount: number;
-  scannedClipCount: number;
-  mediaFingerprint: string;
-  cacheKey: string;
-  capabilityNotes: AutoReelCapabilityNote[];
+    mode: string;
+    projectId: string;
+    sequenceId: string;
+    sequenceName: string;
+    clipIds: string[];
+    projectItemIds: string[];
+    inPointSeconds: number;
+    outPointSeconds: number;
+    usedFallback: boolean;
+    sequenceResolution: { width: number; height: number } | null;
+    fps: number | null;
+    timebase: number | null;
+    playheadSeconds: number | null;
+    selectedClipCount: number;
+    scannedClipCount: number;
+    mediaFingerprint: string;
+    cacheKey: string;
+    capabilityNotes: AutoReelCapabilityNote[];
+}
+
+export interface AutoReelSetupConfig {
+    scoringPresetId: string;
+    musicSource?: MusicSource;
 }
 
 export interface AutoReelRequest {
@@ -55,6 +85,8 @@ export interface AutoReelRequest {
   setup?: AutoReelSetupConfig;
 }
 
+export type UserClipPreference = "required" | "excluded" | "preferred" | "neutral";
+
 export interface ClipDescriptor {
   id: string;
   projectItemId?: string | null;
@@ -64,6 +96,7 @@ export interface ClipDescriptor {
   mediaPath?: string | null;
   sourceInSeconds: number | null;
   sourceOutSeconds: number | null;
+  durationSeconds?: number | null;
   timelineStartSeconds?: number | null;
   timelineEndSeconds?: number | null;
   trackIndex?: number | null;
@@ -71,6 +104,7 @@ export interface ClipDescriptor {
   speed: number | null;
   disabled: boolean | null;
   selected: boolean | null;
+  userPreference?: UserClipPreference;
   linkedClipIds: string[] | null;
   frameRate?: number | null;
   width?: number | null;
@@ -97,7 +131,7 @@ export interface FrameSample {
   error?: string;
   capabilityReason?: string;
   extractionStatus: "pending" | "available" | "unavailable" | "failed";
-  capturedAt: string;
+  capturedAt?: string;
 }
 
 export interface VisionSignals {
@@ -384,330 +418,414 @@ export interface EmotionReport {
   completedAt?: string;
 }
 
-export interface ExpressionSignals {
-  clipId: string;
-  source: SignalSource;
+export type MusicSourceType =
+  | "local_file"
+  | "premiere_project_item"
+  | "authorized_direct_url"
+  | "social_reference"
+  | "no_music";
+
+export interface MusicSource {
+  type: MusicSourceType;
+  mode?: "auto" | "manual" | "preserve-original" | string;
+  path?: string; // For local_file, premiere_project_item, authorized_direct_url
+  filePath?: string;
+  fileName?: string;
+  extractClipAudio?: boolean;
+  url?: string; // For social_reference, authorized_direct_url
+  projectItemId?: string; // For premiere_project_item
+  name?: string;
+  fingerprint?: string;
+  cacheKey?: string;
+  capabilityReason?: string;
+}
+
+export interface MusicAnalysisRequest {
+  jobId: string;
+  requestId: string;
+  musicSource: MusicSource;
+  analysisRangeStartSeconds?: number;
+  analysisRangeEndSeconds?: number;
+  preferredSectionType?: MusicSectionType;
+  enableBeatSnapping: boolean;
+  firstBeatOffsetSeconds?: number;
+  manualBeatMarkers: number[];
+  musicImportance: number;
+  parameters: Record<string, any>;
+}
+
+export interface AudioProbeResult {
+  durationSeconds: number;
+  codec?: string;
+  container?: string;
+  sampleRate?: number;
+  channels?: number;
+  bitDepth?: number;
+  loudnessMetadata?: number;
+  startTime?: number;
+  streamIndex?: number;
+  fileSize?: number;
+  fingerprint: string;
+  sourcePathStatus: "approved" | "unapproved" | "unavailable";
+  capabilityReason?: string;
+}
+
+export interface BeatPoint {
+  timestamp: number;
   confidence: number;
-  primaryEmotion:
-    | "happy"
-    | "romantic"
-    | "emotional"
-    | "funny"
-    | "energetic"
-    | "calm"
-    | "unknown";
-  emotionScore: number;
-  expressions: Array<{ label: string; score: number; frameSampleId?: string }>;
-  notes: string[];
+  isDownbeat: boolean;
 }
 
-export interface WeddingEventSignals {
-  clipId: string;
-  source: SignalSource;
+export interface OnsetPoint {
+  timestamp: number;
+  strength: number;
+}
+
+export interface EnergyPoint {
+  timestamp: number;
+  rms: number;
+  normalizedEnergy: number; // 0-1
+  onsetStrength: number;
+  beatProximity: number;
   confidence: number;
-  primaryEvent:
-    | "bride-entry"
-    | "groom-entry"
-    | "haldi"
-    | "mehndi"
-    | "sangeet"
-    | "baraat"
-    | "varmala"
-    | "pheras"
-    | "reception"
-    | "cake"
-    | "dance"
-    | "couple-portrait"
-    | "drone"
-    | "decor"
-    | "jewellery"
-    | "family"
-    | "unknown";
-  candidates: Array<{ event: string; confidence: number }>;
-  evidence: string[];
+  isSilence: boolean;
 }
 
-export interface AudioEnergyPoint {
-  timeSeconds: number;
-  energy: number;
-}
+export type MusicSectionType =
+  | "intro_candidate"
+  | "low_energy"
+  | "medium_energy"
+  | "high_energy"
+  | "repeated_section"
+  | "chorus_candidate"
+  | "drop_candidate"
+  | "emotional_candidate"
+  | "outro_candidate"
+  | "unknown";
 
-export interface AudioSection {
-  label: "intro" | "verse" | "chorus" | "drop" | "outro" | "unknown";
+export interface MusicSection {
+  id: string;
   startSeconds: number;
   endSeconds: number;
-  energy: number;
+  durationSeconds: number;
+  type: MusicSectionType;
+  confidence: number;
+  energyAverage: number;
+  energyPeak: number;
+  beatDensity: number;
+  onsetDensity: number;
+  repetitionScore: number;
+  editorialSuitability: string[];
+}
+
+export type TempoCategory =
+  | "very_slow"
+  | "slow"
+  | "medium"
+  | "fast"
+  | "very_fast"
+  | "unstable"
+  | "unknown";
+
+export type EditorialCategory =
+  | "romantic"
+  | "emotional"
+  | "cinematic"
+  | "celebratory"
+  | "energetic"
+  | "luxury"
+  | "documentary"
+  | "calm"
+  | "mixed"
+  | "unknown";
+
+export interface MusicEditorialProfile {
+  overallTempoCategory: TempoCategory;
+  overallEnergyCategory: EditorialCategory; // Reusing EditorialCategory for energy
+  cutDensityRecommendation: "sparse" | "balanced" | "rapid" | "unknown";
+  openingHookTiming?: number;
+  emotionalSectionSuggestions: Array<{ start: number; end: number; confidence: number }>;
+  danceSectionSuggestions: Array<{ start: number; end: number; confidence: number }>;
+  climaxDropSuggestions: Array<{ start: number; end: number; confidence: number }>;
+  outroTiming?: number;
+  recommendedReelDurationRanges: Array<{ min: number; max: number }>;
+  suitableWeddingModes: string[];
+  unsuitableModes: string[];
+  confidence: number;
+  evidence: EmotionEvidence[]; // Reusing EmotionEvidence for consistency
 }
 
 export interface AudioAnalysis {
-  id: string;
-  sourceClipId?: string;
-  sourcePath?: string;
-  source: SignalSource;
-  durationSeconds: number;
-  bpm?: number;
-  beatTimesSeconds: number[];
-  energyCurve: AudioEnergyPoint[];
-  sections: AudioSection[];
-  confidence: number;
-  analyzedAt: string;
-}
-
-export interface AutoReelAudioWaveformPoint {
-  timeSeconds: number;
-  amplitude: number;
-}
-
-export interface AutoReelAudioExtraction {
-  id: string;
-  taskId: string;
-  sourceKind: "selected-song" | "clip-audio";
-  clipId?: string;
-  sourcePath?: string;
-  outputPath?: string;
+  clipId: string; // Or a unique ID for the audio source if not tied to a clip
+  source: MusicSource;
+  probeResult: AudioProbeResult;
+  bpmEstimate: number;
+  bpmConfidence: number;
+  beatTimestamps: BeatPoint[];
+  onsetTimestamps: OnsetPoint[];
+  energyCurve: EnergyPoint[];
+  sections: MusicSection[];
+  editorialProfile: MusicEditorialProfile;
+  tempoStability: number;
+  transientDensity: number;
   cacheKey: string;
   cacheStatus: "hit" | "miss" | "unavailable";
-  extractionStatus: "available" | "unavailable" | "failed";
-  durationSeconds?: number;
-  sampleRate?: number;
-  channels?: number;
-  codec?: string;
-  waveform: AutoReelAudioWaveformPoint[];
-  extractedAt: string;
+  analysisVersion: string;
   error?: string;
   capabilityReason?: string;
 }
 
-export interface AutoReelFrameExtractionTask {
-  clipId: string;
-  clipName: string;
-  mediaPath: string;
-  mediaFingerprint: string;
-  cacheKey: string;
-  sourceInSeconds: number;
-  sourceOutSeconds: number;
-  samplePlan: Array<{
-    id: string;
-    sourceTimeSeconds: number;
-    sampleKind: FrameSample["sampleKind"];
-  }>;
+export interface MusicProviderStatus {
+  providerName: string;
+  enabled: boolean;
+  reason?: string;
 }
 
-export interface AutoReelAudioExtractionTask {
-  id: string;
-  sourceKind: "selected-song" | "clip-audio";
-  clipId?: string;
-  label: string;
-  mediaPath: string;
-  mediaFingerprint: string;
-  cacheKey: string;
+export interface MusicCapabilities {
+  available: boolean;
+  version: string;
+  ffmpegAvailable: boolean;
+  librosaAvailable: boolean;
+  providers: MusicProviderStatus[];
+  reason?: string;
 }
 
-export interface AutoReelExtractionFailure {
-  taskId: string;
-  clipId?: string;
-  audioTaskId?: string;
-  targetKind: "frames" | "audio";
-  status: "unavailable" | "failed" | "cancelled";
-  message: string;
-  attempts: number;
-  recordedAt: string;
+export interface SFXOpportunity {
+  category:
+    | "Whoosh"
+    | "Hit"
+    | "Rise"
+    | "Drop"
+    | "Impact"
+    | "Transition"
+    | "Crowd"
+    | "Applause"
+    | "Temple Bell"
+    | "Firework"
+    | "Camera Shutter"
+    | "Sparkle"
+    | "Soft Swell"
+    | "Emotional Boom"
+    | "Ambient Room Tone";
+  timestamp: number;
+  reason: string;
+  intensity: number; // 0-1
+  confidence: number;
+  requiredAssetAvailability: "available" | "unavailable" | "unknown";
+  sourceProviderStatus: string;
 }
 
-export interface AutoReelExtractionRequest {
-  schemaVersion: 1;
+export interface MusicAnalysisReport {
   jobId: string;
   requestId: string;
-  requestedAt: string;
-  approvedRoots: string[];
-  frameTasks: AutoReelFrameExtractionTask[];
-  audioTasks: AutoReelAudioExtractionTask[];
-  cache: {
-    rootName: "rkflow-cache";
-    extractorVersion: string;
-    ttlSeconds: number;
-    maxBytes: number;
+  status: (typeof MUSIC_ANALYSIS_JOB_STATES)[number];
+  sidecar: { status: "available" | "unavailable"; baseUrl?: string; version?: string; reason?: string };
+  musicAnalysisVersion: string;
+  capabilities: MusicCapabilities;
+  progress: {
+    completedAudioSources: number;
+    totalAudioSources: number;
+    currentAudioSourceId?: string;
+    currentAudioSourceName?: string;
   };
-  limits: {
-    concurrency: number;
-    retryLimit: number;
-  };
-}
-
-export interface AutoReelClipExtractionResult {
-  clipId: string;
-  clipName: string;
-  frameSampleIds: string[];
-  status: "available" | "partial" | "unavailable" | "failed";
-  cacheHits: number;
-  cacheMisses: number;
-  attempts: number;
-  error?: string;
-}
-
-export interface AutoReelExtractionProgressSnapshot {
-  currentClipId?: string;
-  currentClipName?: string;
-  completedClips: number;
-  remainingClips: number;
-  totalClips: number;
-  completedAudioTasks: number;
-  totalAudioTasks: number;
-  cacheHits: number;
-  cacheMisses: number;
-}
-
-export interface AutoReelExtractionResult {
-  schemaVersion: 1;
-  jobId: string;
-  requestId: string;
-  status: "completed" | "cancelled" | "failed" | "sidecar-unavailable";
-  sidecar: {
-    status: "available" | "unavailable";
-    baseUrl?: string;
-    version?: string;
-    reason?: string;
-  };
-  progress: AutoReelExtractionProgressSnapshot;
-  clipResults: AutoReelClipExtractionResult[];
-  frameSamples: FrameSample[];
-  audioExtractions: AutoReelAudioExtraction[];
-  failures: AutoReelExtractionFailure[];
+  audioAnalyses: AudioAnalysis[];
+  sfxOpportunities: SFXOpportunity[];
+  failures: any[];
   warnings: string[];
   startedAt: string;
-  completedAt: string;
+  completedAt?: string;
+}
+
+export interface MusicCatalogRecommendation {
+  mood: EditorialCategory;
+  tempoRange: { min: number; max: number };
+  durationRange: { min: number; max: number };
+  instrumentationStyle: string[];
+  energyStructure: string[];
+  editCompatibility: string[];
+  reason: string;
+}
+
+export type SignalTrustLevel =
+  | "measured"
+  | "provider_model"
+  | "heuristic"
+  | "user_confirmed"
+  | "user_corrected"
+  | "unavailable";
+
+export interface SignalWeight {
+  signal: string; // e.g., "vision.sharpness", "emotion.smile_score"
+  weight: number;
+  trust: Partial<Record<SignalTrustLevel, number>>; // Multiplier for trust level
+}
+
+export interface PenaltyRule {
+  id: string;
+  signal: string;
+  threshold: number;
+  operator: ">" | "<" | "==";
+  penaltyPoints: number;
+  reason: string;
+}
+
+export interface DiversityRule {
+  id: string;
+  signal: string; // e.g., "wedding.primaryEvent", "face.dominantClusterId"
+  maxOccurrences: number;
+  penaltyPoints: number;
+  reason: string;
+}
+
+export interface ScoringProfile {
+  id: string;
+  name: string;
+  description: string;
+  weights: SignalWeight[];
+  penalties: PenaltyRule[];
+  diversity: DiversityRule[];
+  /** Bumped whenever the operator saves an edited profile. */
+  version?: string;
+  /**
+   * Operator-editable multiplier per category (default 1). Scales every signal
+   * weight inside that category; `preference` scales the user-choice signal.
+   */
+  categoryWeights?: Partial<Record<ScoreCategory, number>>;
+}
+
+export interface ScorePreset {
+  id: string;
+  name: string;
+  description: string;
+  profile: ScoringProfile;
+}
+
+export interface ClipScoreReason {
+  description: string;
+  scoreEffect: number; // Positive for bonuses, negative for penalties
+  sourceSignal: string;
+}
+
+export type ScoreCategory =
+  | "technical"
+  | "vision"
+  | "face"
+  | "wedding"
+  | "emotion"
+  | "music"
+  | "preference";
+
+export const SCORE_CATEGORIES: readonly ScoreCategory[] = [
+  "technical",
+  "vision",
+  "face",
+  "wedding",
+  "emotion",
+  "music",
+  "preference"
+];
+
+/**
+ * A per-category rollup. `value` is null whenever the category contributed no
+ * available signal, so callers can render "unavailable" instead of defaulting
+ * a missing measurement to zero.
+ */
+export interface CategoryScore {
+  category: ScoreCategory;
+  value: number | null;
+  available: boolean;
+  weightedSignalCount: number;
+  availableSignalCount: number;
+  missingSignals: string[];
+  dominantTrust: SignalTrustLevel | null;
 }
 
 export interface ClipScoreBreakdown {
   clipId: string;
   finalScore: number;
-  qualityScore: number;
-  emotionScore: number;
+  rawScore: number;
+  /**
+   * Legacy flat category fields. These carry the real computed value when the
+   * category is available and 0 when it is not — always read
+   * `categories[...].available` before displaying them.
+   */
+  technicalScore: number;
+  visionScore: number;
   faceScore: number;
-  weddingEventScore: number;
-  musicMatchScore: number;
-  userPreferenceScore: number;
-  penalties: Array<{ reason: string; score: number }>;
-  reasons: string[];
+  weddingScore: number;
+  emotionScore: number;
+  musicCompatibilityScore: number;
+  preferenceScore: number;
+  categories: Record<ScoreCategory, CategoryScore>;
+  penalties: number; // Sum of all penalty points
+  diversityAdjustment: number;
   confidence: number;
-}
-
-export interface StoryBeat {
-  id: string;
-  order: number;
-  label: string;
-  purpose: string;
-  targetDurationSeconds: number;
-  preferredEvents: string[];
-  emotionalGoal: string;
-  clipIds: string[];
-}
-
-export interface TransitionDecision {
-  id: string;
-  afterSegmentId: string;
-  type: "cut" | "cross-dissolve" | "dip" | "whip" | "zoom" | "flash" | "match-cut";
-  durationSeconds: number;
-  reason: string;
-  beatAligned: boolean;
-}
-
-export interface MotionDecision {
-  id: string;
-  segmentId: string;
-  type: "none" | "pan" | "zoom" | "push-in" | "pull-out" | "speed-ramp" | "stabilize";
-  intensity: number;
-  reason: string;
-}
-
-export interface SFXDecision {
-  id: string;
-  segmentId?: string;
-  transitionId?: string;
-  type: "whoosh" | "hit" | "rise" | "drop" | "impact" | "crowd" | "applause" | "temple-bell" | "firework";
-  gainDb: number;
-  reason: string;
-}
-
-export interface ColorSuggestion {
-  id: string;
-  segmentId: string;
-  preset?: string;
-  whiteBalance?: "cooler" | "neutral" | "warmer";
-  exposureAdjustment?: number;
-  protectSkinTones: boolean;
-  reason: string;
-}
-
-export interface ReelSegment {
-  id: string;
-  order: number;
-  storyBeatId: string;
-  clipId: string;
-  projectItemId?: string;
-  sourceInSeconds: number;
-  sourceOutSeconds: number;
-  timelineStartSeconds: number;
-  durationSeconds: number;
-  score: number;
-  reason: string;
+  trustSummary: Partial<Record<SignalTrustLevel, number>>;
+  state: "selected" | "rejected" | "uncertain";
+  positiveReasons: ClipScoreReason[];
+  negativeReasons: ClipScoreReason[];
+  unavailableSignals: string[];
+  providerVersions: Record<string, string>;
+  userPreference: UserClipPreference;
   locked: boolean;
 }
 
-export interface ReelPlan {
-  id: string;
+export interface RankedClipCandidate {
+  rank: number;
+  clipId: string;
+  score: number;
+  breakdown: ClipScoreBreakdown;
+}
+
+export interface ScoringReport {
   jobId: string;
-  requestId: string;
-  version: number;
-  title: string;
-  intentSummary: string;
-  sourceSequenceId?: string;
-  targetDurationSeconds: number;
-  totalDurationSeconds: number;
-  segments: ReelSegment[];
-  storyBeats: StoryBeat[];
-  transitions: TransitionDecision[];
-  motionDecisions: MotionDecision[];
-  sfxDecisions: SFXDecision[];
-  colorSuggestions: ColorSuggestion[];
-  rejectedClipIds: string[];
+  status: "completed" | "failed" | "cancelled";
+  scoringProfileId: string;
+  scoringProfileVersion: string;
+  scoringEngineVersion: string;
+  rankedClips: RankedClipCandidate[];
   warnings: string[];
-  generatedAt: string;
-}
-
-export interface PlanRevision {
-  id: string;
-  planId: string;
-  revision: number;
-  reason: string;
-  changeSummary: string[];
-  plan: ReelPlan;
-  createdAt: string;
-}
-
-export interface ExecutionActionReport {
-  commandId: string;
-  action: CommandAction;
-  success: boolean;
-  message: string;
-  error?: string;
-  completedAt: string;
-}
-
-export interface ExecutionReport {
-  id: string;
-  jobId: string;
-  planId: string;
-  sourceSequenceId?: string;
-  outputSequenceId?: string;
-  outputSequenceName: string;
-  createdNewSequence: true;
-  sourceTimelineModified: false;
-  actions: ExecutionActionReport[];
+  /** True when scoring stopped early; rankedClips then holds partial results. */
+  partial: boolean;
+  totalClips: number;
+  completedClips: number;
+  failureReason?: string;
   startedAt: string;
-  completedAt?: string;
-  status: "running" | "completed" | "failed" | "cancelled";
-  error?: string;
+  completedAt: string;
+  lastScoredAt: string;
+}
+
+/**
+ * Per-clip user overrides. Persisted on the job so a reopened Auto Reel keeps
+ * the operator's locks, requirements, and exclusions.
+ */
+export interface AutoReelUserClipChoices {
+  lockedClipIds: string[];
+  requiredClipIds: string[];
+  excludedClipIds: string[];
+  updatedAt: string;
+}
+
+export function createEmptyUserClipChoices(updatedAt: string): AutoReelUserClipChoices {
+  return { lockedClipIds: [], requiredClipIds: [], excludedClipIds: [], updatedAt };
+}
+
+export function getUserClipPreference(
+  clipId: string,
+  choices: AutoReelUserClipChoices | undefined
+): UserClipPreference {
+  if (!choices) return "neutral";
+  if (choices.excludedClipIds.includes(clipId)) return "excluded";
+  if (choices.requiredClipIds.includes(clipId)) return "required";
+  if (choices.lockedClipIds.includes(clipId)) return "preferred";
+  return "neutral";
+}
+
+export interface ScoringCapabilities {
+  available: boolean;
+  version: string;
+  presets: Array<{ id: string; name: string; description: string }>;
+  reason?: string;
 }
 
 export interface AutoReelJobProgress {
@@ -723,6 +841,174 @@ export interface AutoReelJobTransition {
   reason?: string;
 }
 
+export interface ExecutionReport {
+  id: string;
+  status: "completed" | "failed";
+  startTime: string;
+  endTime: string;
+}
+
+export interface PlanRevision {
+  id: string;
+  plan: ReelPlan;
+  createdAt: string;
+  reason: string;
+}
+
+export interface ReelPlan {
+  schemaVersion: number;
+  id: string;
+  beats: StoryBeat[];
+  totalDuration: number;
+}
+
+export interface StoryBeat {
+  id: string;
+  clipId: string;
+  startTime: number;
+  endTime: number;
+}
+
+export interface AutoReelFrameExtractionTask {
+  clipId: string;
+  clipName: string;
+  mediaPath: string;
+  mediaFingerprint: string;
+  sourceInSeconds?: number;
+  sourceOutSeconds?: number;
+  samplePlan: FrameSample[];
+  cacheKey: string;
+}
+
+export interface AutoReelAudioExtractionTask {
+  id: string;
+  clipId?: string;
+  sourceKind: "clip-audio" | "selected-song";
+  label: string;
+  mediaPath: string;
+  mediaFingerprint: string;
+  cacheKey: string;
+  parameters?: Record<string, any>;
+}
+
+export interface AutoReelExtractionRequest {
+  schemaVersion?: 1;
+  requestId: string;
+  jobId: string;
+  requestedAt?: string;
+  approvedRoots?: string[];
+  cache?: {
+    rootName: string;
+    extractorVersion: string;
+    ttlSeconds?: number;
+    maxBytes?: number;
+  };
+  limits?: {
+    concurrency?: number;
+    retryLimit?: number;
+  };
+  mediaSelection?: MediaSelection;
+  frameTasks: AutoReelFrameExtractionTask[];
+  audioTasks: AutoReelAudioExtractionTask[];
+  setup?: { musicSource?: MusicSource };
+}
+
+export interface AutoReelExtractionResult {
+  schemaVersion: 1;
+  jobId: string;
+  requestId: string;
+  status: "running" | "completed" | "cancelled" | "failed" | "sidecar-unavailable";
+  sidecar: {
+    status: "available" | "unavailable";
+    reason?: string;
+  };
+  progress: {
+    completedClips: number;
+    remainingClips: number;
+    totalClips: number;
+    completedAudioTasks: number;
+    totalAudioTasks: number;
+    cacheHits: number;
+    cacheMisses: number;
+    currentClipName?: string;
+  };
+  clipResults: any[];
+  frameSamples: FrameSample[];
+  audioExtractions: AutoReelAudioExtraction[];
+  failures: AutoReelExtractionFailure[];
+  warnings: string[];
+  startedAt: string;
+  completedAt: string;
+}
+
+export interface AutoReelExtractionFailure {
+  taskId: string;
+  clipId?: string;
+  audioSourceId?: string;
+  targetKind?: "frames" | "audio";
+  audioTaskId?: string;
+  status: "unavailable" | "failed" | "cancelled";
+  message: string;
+  attempts: number;
+  recordedAt: string;
+}
+
+export interface AutoReelAudioExtraction {
+  id: string;
+  taskId?: string;
+  clipId: string;
+  sourceKind?: "clip-audio" | "selected-song";
+  label?: string;
+  filePath: string;
+  format: string;
+  durationSeconds: number;
+  status: "completed" | "failed";
+  error?: string;
+}
+
+export interface ExpressionSignals {
+    clipId: string;
+    source: SignalSource;
+    confidence: number;
+    primaryEmotion:
+      | "happy"
+      | "romantic"
+      | "emotional"
+      | "funny"
+      | "energetic"
+      | "calm"
+      | "unknown";
+    emotionScore: number;
+    expressions: Array<{ label: string; score: number; frameSampleId?: string }>;
+    notes: string[];
+  }
+  
+  export interface WeddingEventSignals {
+    clipId: string;
+    source: SignalSource;
+    confidence: number;
+    primaryEvent:
+      | "bride-entry"
+      | "groom-entry"
+      | "haldi"
+      | "mehndi"
+      | "sangeet"
+      | "baraat"
+      | "varmala"
+      | "pheras"
+      | "reception"
+      | "cake"
+      | "dance"
+      | "couple-portrait"
+      | "drone"
+      | "decor"
+      | "jewellery"
+      | "family"
+      | "unknown";
+    candidates: Array<{ event: string; confidence: number }>;
+    evidence: string[];
+  }
+
 export interface AutoReelJob {
   schemaVersion: 1;
   id: string;
@@ -736,11 +1022,16 @@ export interface AutoReelJob {
   faceSignals: FaceSignals[];
   expressionSignals: ExpressionSignals[];
   weddingEventSignals: WeddingEventSignals[];
-  audioAnalysis?: AudioAnalysis;
   extraction?: AutoReelExtractionResult;
   vision?: VisionBatchAnalysis;
   face?: FaceReport;
   emotion?: EmotionReport;
+  music?: MusicAnalysisReport; // New field for music analysis report
+  scoring?: ScoringReport; // New field for scoring report
+  /** Operator lock/require/exclude decisions, persisted across sessions. */
+  userClipChoices?: AutoReelUserClipChoices;
+  /** Saved custom weight profile, when the operator edited the preset. */
+  customScoringProfile?: ScoringProfile;
   extractionFailures: AutoReelExtractionFailure[];
   scoreBreakdowns: ClipScoreBreakdown[];
   storyBeats: StoryBeat[];

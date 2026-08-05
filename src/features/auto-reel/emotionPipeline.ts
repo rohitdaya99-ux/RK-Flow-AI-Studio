@@ -83,7 +83,7 @@ function unavailableBatch(job: AutoReelJob, reason: string, capabilities?: Emoti
     sidecar: { status: "unavailable", reason },
     emotionModelVersion: EMOTION_VERSION,
     capabilities: capabilities || { available: false, version: EMOTION_VERSION, providers: [], reason },
-    progress: { completed_clips: 0, total_clips: 0 },
+    progress: { completedClips: 0, totalClips: 0 },
     clips: [],
     failures: [],
     warnings: [reason],

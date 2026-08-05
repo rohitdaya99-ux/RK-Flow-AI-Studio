@@ -19,7 +19,7 @@ export class AutoReelScanCancelledError extends Error {
 export interface AutoReelScannerProjectItemOption {
   id: string;
   label: string;
-  type: string;
+  type: "clip" | "bin";
   mediaPath?: string;
   projectItemId?: string | null;
   nodeId?: string | null;

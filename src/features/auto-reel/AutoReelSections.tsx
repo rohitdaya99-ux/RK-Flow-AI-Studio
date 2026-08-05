@@ -23,6 +23,7 @@ import {
   uploadLabelStyle
 } from "./AutoReelUi";
 import { spacing } from "../../ui/theme";
+import { scoringPresets } from "./scoringPresets";
 
 export const REEL_TYPE_OPTIONS: Array<{ value: AutoReelType; label: string }> = [
   { value: "wedding-highlight", label: "Wedding Highlight" },
@@ -286,6 +287,13 @@ export function AutoReelConfigurationSection({
             <select value={state.colorIntensity} onChange={(event) => onPatchState({ colorIntensity: event.target.value as AutoReelSetupState["colorIntensity"] })} style={fieldStyle} disabled={loading || running}>
               {LEVEL_OPTIONS.map((option) => (
                 <option key={option} value={option}>{titleCase(option)}</option>
+              ))}
+            </select>
+          </Field>
+          <Field label="Scoring Preset" flex={fieldBasis}>
+            <select value={state.scoringPresetId} onChange={(event) => onPatchState({ scoringPresetId: event.target.value })} style={fieldStyle} disabled={loading || running}>
+              {scoringPresets.map((preset) => (
+                <option key={preset.id} value={preset.id}>{preset.name}</option>
               ))}
             </select>
           </Field>
@@ -554,7 +562,7 @@ export function AutoReelRequestPreview({
   const progressPercent = !job || job.progress.total <= 0 ? 0 : Math.round((job.progress.current / job.progress.total) * 100);
   const extraction = job?.extraction;
   const vision = job?.vision;
-  const currentClip = extraction?.progress.currentClipName || extraction?.progress.currentClipId || "None";
+  const currentClip = extraction?.progress.currentClipName || "None";
   const currentFrame = vision?.progress.currentFrameSampleId || "None";
   const remainingClips = extraction?.progress.remainingClips ?? 0;
   return (
