@@ -1061,6 +1061,16 @@ export interface AutoReelJob {
   computeFallbackReport?: any;
   executionPerformanceReport?: any;
   businessReport?: any;
+  businessIntelligenceReport?: any;
+  marketingCampaign?: any;
+  thumbnailReport?: any;
+  socialReport?: any;
+  clientPortalReport?: any;
+  teamCollaborationReport?: any;
+  learningProgress?: any;
+  automationHealthReport?: any;
+  enterpriseReport?: any;
+  missionReport?: any;
   executionReport?: ExecutionReport;
   transitions: AutoReelJobTransition[];
   warnings: string[];
