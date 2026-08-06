@@ -102,26 +102,31 @@ export async function loadAutoReelSetupContext(): Promise<AutoReelSetupContext> 
   const api = premiereAPI;
   const bridge = new PremiereBridge();
 
-  const [
-    activeProject,
-    activeSequence,
-    projects,
-    sequences,
-    timeline,
-    promptReelMusic,
-  ] = await Promise.all([
-    api.getCurrentProject(),
-    api.getActiveSequence(),
-    Promise.resolve([]), // Placeholder for getProjects
-    Promise.resolve([]), // Placeholder for getSequences
-    Promise.resolve(null as unknown as TimelineState), // Placeholder for contextEngine.getTimeline()
-    getPromptReelMusicOptions(),
-  ]);
+  const activeProject = await api.getCurrentProject();
+  const activeSequence = await api.getActiveSequence();
+  const timeline = await bridge.readTimeline();
+  const promptReelMusic = await getPromptReelMusicOptions();
+
+  // In Premiere UXP, we often only have access to the active project easily.
+  // We mock a list of 1 if active, else empty.
+  const projects = activeProject ? [{ id: activeProject.id || activeProject.name || "proj-1", name: activeProject.name }] : [];
+  
+  // Try to get all sequences if supported, else just list the active one
+  let sequences = [];
+  try {
+    if (activeProject && typeof activeProject.getSequences === "function") {
+      sequences = await activeProject.getSequences();
+    } else if (activeSequence) {
+      sequences = [activeSequence];
+    }
+  } catch (err) {
+    if (activeSequence) sequences = [activeSequence];
+  }
 
   const context: AutoReelSetupContext = {
     connected: bridge.isConnected(),
-    activeProjectId: activeProject?.id || "",
-    activeSequenceId: activeSequence?.id || "",
+    activeProjectId: activeProject?.id || activeProject?.name || "proj-1",
+    activeSequenceId: activeSequence?.id || activeSequence?.name || "seq-1",
     projectName: activeProject?.name || "No active project",
     sequenceName: activeSequence?.name || "No active sequence",
     clipCount: timeline?.videoTracks.reduce((acc, t) => acc + t.clips.length, 0) || 0,
@@ -132,8 +137,8 @@ export async function loadAutoReelSetupContext(): Promise<AutoReelSetupContext> 
     fps: activeSequence?.fps || 25,
     timebase: activeSequence?.timebase || 25,
     frameSize: activeSequence?.frameSize || { width: 1920, height: 1080 },
-    projectOptions: projects.map((p: any) => ({ ...p, active: p.id === activeProject?.id })),
-    sequenceOptions: sequences.map((s: any) => ({ ...s, active: s.id === activeSequence?.id })),
+    projectOptions: projects.map((p: any) => ({ id: p.id || p.name || "proj-1", name: p.name, active: (p.id || p.name) === (activeProject?.id || activeProject?.name) })),
+    sequenceOptions: sequences.map((s: any) => ({ id: s.id || s.name || "seq-1", name: s.name, active: (s.id || s.name) === (activeSequence?.id || activeSequence?.name) })),
     projectItemOptions: [], // Placeholder
     manualClipOptions: [], // Placeholder
     musicOptions: promptReelMusic.map((m: any) => ({
@@ -143,7 +148,7 @@ export async function loadAutoReelSetupContext(): Promise<AutoReelSetupContext> 
     })),
     selectedClips: [], // Placeholder for BrainClip[]
     sequenceClips: [], // Placeholder for BrainClip[]
-    timeline,
+    timeline: timeline as any,
     lockedTrackSupport: "unavailable",
   };
   return context;

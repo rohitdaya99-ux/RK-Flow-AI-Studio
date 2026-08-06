@@ -322,8 +322,8 @@ export default function AppShell() {
           >
             <div style={WORKSPACE_CONTENT_COLUMN_STYLE}>
               <Card style={{ background: colors.panel, boxShadow: shadows.raised }}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: spacing.md, flexWrap: "wrap", alignItems: "center" }}>
-                  <div>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: spacing.md, flexWrap: "wrap", alignItems: "flex-start", paddingRight: spacing.sm }}>
+                  <div style={{ flex: "1 1 auto", minWidth: 200 }}>
                     <div style={{ color: colors.gold, fontSize: typography.sizes.xs, fontWeight: 700, textTransform: "uppercase" }}>
                       Monday, August 3, 2026
                     </div>
@@ -335,9 +335,11 @@ export default function AppShell() {
                     </p>
                   </div>
                   {!assistantOpen && (
-                    <Button variant="secondary" onClick={handleAssistantOpen}>
-                      Open Assistant
-                    </Button>
+                    <div style={{ flex: "0 0 auto", marginTop: spacing.xs }}>
+                      <Button variant="secondary" onClick={handleAssistantOpen}>
+                        Open Assistant
+                      </Button>
+                    </div>
                   )}
                 </div>
               </Card>
@@ -516,12 +518,12 @@ const LeftNav = memo(function LeftNav({
                       {item.icon}
                     </span>
                     {!navCollapsed && (
-                      <span style={NAV_LABEL_STACK_STYLE}>
-                        <span style={NAV_TITLE_STYLE}>{item.title}</span>
-                        <span style={NAV_BADGE_ROW_STYLE}>
+                      <div style={NAV_LABEL_STACK_STYLE}>
+                        <div style={NAV_TITLE_STYLE}>{item.title}</div>
+                        <div style={NAV_BADGE_ROW_STYLE}>
                           <StatusChip label={`Phase ${item.phase}`} tone={active ? "warning" : "neutral"} />
-                        </span>
-                      </span>
+                        </div>
+                      </div>
                     )}
                   </Button>
                 );

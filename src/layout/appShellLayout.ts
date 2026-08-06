@@ -42,5 +42,5 @@ export const NAV_BADGE_ROW_STYLE: CSSProperties = {
 };
 
 export function formatModuleNavLabel(title: string, phase: number): string {
-  return `${title} Phase ${phase}`;
+  return `${title} - Phase ${phase}`;
 }

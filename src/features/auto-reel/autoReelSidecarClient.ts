@@ -66,11 +66,18 @@ export class AutoReelSidecarClient {
   private token: string;
 
   constructor(
-    baseUrl: string = "http://127.0.0.1:8000",
+    baseUrl: string = "http://127.0.0.1:43191",
     token: string = generateToken(32)
   ) {
     this.baseUrl = baseUrl;
     this.token = token;
+  }
+
+  public async checkHealth(): Promise<void> {
+    const response = await fetch(`${this.baseUrl}/health`);
+    if (!response.ok) {
+      throw new AutoReelSidecarUnavailableError();
+    }
   }
 
   private async fetchWithAuth<T>(

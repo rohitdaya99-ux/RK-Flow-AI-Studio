@@ -22,7 +22,7 @@ import {
   titleCase,
   uploadLabelStyle
 } from "./AutoReelUi";
-import { spacing } from "../../ui/theme";
+import { spacing, colors } from "../../ui/theme";
 import { scoringPresets } from "./scoringPresets";
 
 export const REEL_TYPE_OPTIONS: Array<{ value: AutoReelType; label: string }> = [
@@ -312,6 +312,8 @@ export function AutoReelConfigurationSection({
   );
 }
 
+import { uxpStorageService } from "../../services/uxpStorageService";
+
 export function MusicSourcePicker({
   context,
   state,
@@ -331,7 +333,7 @@ export function MusicSourcePicker({
 }) {
   return (
     <div style={sectionWrapStyle}>
-      <Card title="MusicSourcePicker" subtitle="Configure a music input or reference mode. No copyrighted media is downloaded from social links." style={{ ...glassCardStyle, flex: "1 1 100%", minWidth: 0 }}>
+      <Card title="Music Source" subtitle="Configure a music input or reference mode. No copyrighted media is downloaded from social links." style={{ ...glassCardStyle, flex: "1 1 100%", minWidth: 0 }}>
         <div style={formRowStyle}>
           <Field label="Music source" flex={fieldBasis} error={errors.fields.musicSource}>
             <select value={state.musicSourceMode} onChange={(event) => onPatchState({ musicSourceMode: event.target.value as AutoReelSetupState["musicSourceMode"] })} style={fieldStyle} disabled={loading || running}>
@@ -342,22 +344,22 @@ export function MusicSourcePicker({
           </Field>
           {state.musicSourceMode === "local-file" && (
             <Field label="Local audio file" flex={fieldBasis} error={errors.fields.musicSource}>
-              <label style={uploadLabelStyle}>
-                <span>{state.musicLocalFileName || "Choose local audio file"}</span>
-                <input
-                  type="file"
-                  accept="audio/*"
-                  style={{ display: "none" }}
-                  onChange={(event) => {
-                    const file = event.target.files?.[0] as (File & { path?: string }) | undefined;
+              <button
+                type="button"
+                style={{ ...uploadLabelStyle, border: "1px solid " + colors.border, background: colors.panel, cursor: "pointer", width: "100%", textAlign: "left" }}
+                onClick={async () => {
+                  const file = await uxpStorageService.pickAudioFile();
+                  if (file) {
                     onPatchState({
-                      musicLocalFileName: file?.name ?? "",
-                      musicLocalFilePath: file?.path ?? ""
+                      musicLocalFileName: file.name,
+                      musicLocalFilePath: file.path
                     });
-                  }}
-                  disabled={loading || running}
-                />
-              </label>
+                  }
+                }}
+                disabled={loading || running}
+              >
+                <span>{state.musicLocalFileName || "Choose local audio file"}</span>
+              </button>
             </Field>
           )}
           {state.musicSourceMode === "project-item" && (
@@ -416,7 +418,7 @@ export function PersonReferenceManager({
 }) {
   return (
     <div style={sectionWrapStyle}>
-      <Card title="PersonReferenceManager" subtitle="Reference matching unavailable: commercial recognition model not configured. Reference images remain local and are not uploaded or embedded." style={{ ...glassCardStyle, flex: "1 1 100%", minWidth: 0 }}>
+      <Card title="Person References" subtitle="Reference matching unavailable: commercial recognition model not configured. Reference images remain local and are not uploaded or embedded." style={{ ...glassCardStyle, flex: "1 1 100%", minWidth: 0 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: spacing.md }}>
           {state.references.map((reference) => (
             <div key={reference.id} style={referenceCardStyle(layoutMode === "wide")}>
@@ -426,22 +428,22 @@ export function PersonReferenceManager({
                   <div style={helperTextStyle}>{titleCase(reference.role)} reference</div>
                 </div>
                 <div style={{ display: "flex", gap: spacing.sm, flexWrap: "wrap" }}>
-                  <label style={uploadLabelStyle}>
-                    <span>{reference.fileName || "Select image"}</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      style={{ display: "none" }}
-                      onChange={(event) => {
-                        const file = event.target.files?.[0];
+                  <button
+                    type="button"
+                    style={{ ...uploadLabelStyle, border: "1px solid " + colors.border, background: colors.panel, cursor: "pointer" }}
+                    onClick={async () => {
+                      const file = await uxpStorageService.pickImageFile();
+                      if (file) {
                         onUpdateReference(reference.id, {
-                          fileName: file?.name ?? "",
-                          previewUrl: file ? URL.createObjectURL(file) : undefined
+                          fileName: file.name,
+                          previewUrl: file.path ? `file://${file.path}` : undefined
                         });
-                      }}
-                      disabled={loading || running}
-                    />
-                  </label>
+                      }
+                    }}
+                    disabled={loading || running}
+                  >
+                    <span>{reference.fileName || "Select image"}</span>
+                  </button>
                   {reference.role === "custom" && (
                     <button type="button" onClick={() => onRemoveReference(reference.id)} disabled={loading || running}>
                       Remove
@@ -493,16 +495,25 @@ export function ReferenceReelInput({
 
   return (
     <div style={sectionWrapStyle}>
-      <Card title="ReferenceReelInput" subtitle="Attach a reference reel URL or local file. Both remain reference-only in Phase 4." style={{ ...glassCardStyle, flex: "1 1 100%", minWidth: 0 }}>
+      <Card title="Reference Reel" subtitle="Attach a reference reel URL or local file. Both remain reference-only in Phase 4." style={{ ...glassCardStyle, flex: "1 1 100%", minWidth: 0 }}>
         <div style={formRowStyle}>
           <Field label="Instagram / YouTube URL" flex={fieldBasis} error={error}>
             <Input value={state.referenceReelUrl} onChange={(event) => onPatchState({ referenceReelUrl: event.target.value })} placeholder="https://instagram.com/reel/... or https://youtube.com/shorts/..." disabled={loading || running} />
           </Field>
           <Field label="Authorized local reference file" flex={fieldBasis}>
-            <label style={uploadLabelStyle}>
+            <button
+              type="button"
+              style={{ ...uploadLabelStyle, border: "1px solid " + colors.border, background: colors.panel, cursor: "pointer", width: "100%", textAlign: "left" }}
+              onClick={async () => {
+                const file = await uxpStorageService.pickVideoFile();
+                if (file) {
+                  onPatchState({ referenceReelLocalFileName: file.name });
+                }
+              }}
+              disabled={loading || running}
+            >
               <span>{state.referenceReelLocalFileName || "Choose local reference reel"}</span>
-              <input type="file" accept="video/*" style={{ display: "none" }} onChange={(event) => onPatchState({ referenceReelLocalFileName: event.target.files?.[0]?.name ?? "" })} disabled={loading || running} />
-            </label>
+            </button>
           </Field>
           <Field label="Validation state" flex={fieldBasis}>
             <div style={{ display: "flex", gap: spacing.sm, flexWrap: "wrap", alignItems: "center" }}>

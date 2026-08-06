@@ -15,6 +15,7 @@ import {
   serializeAutoReelSetupIntoRequest,
   validateAutoReelSetupState
 } from "./autoReelSetupConfig";
+import { AutoReelSidecarClient } from "./autoReelSidecarClient";
 import {
   AutoReelSetupContext,
   createSetupStateFromDraft,
@@ -63,6 +64,7 @@ export default function AutoReelScreen() {
   const [projectId, setProjectId] = useState("");
   const [sequenceId, setSequenceId] = useState("");
   const [state, setState] = useState<AutoReelSetupState>(() => createDefaultAutoReelSetupState());
+  const [sidecarAvailable, setSidecarAvailable] = useState<boolean | null>(null);
   const [job, setJob] = useState<AutoReelJob | null>(null);
   const [requestPreview, setRequestPreview] = useState<string>("");
   const [planningText, setPlanningText] = useState("Idle. Configure Auto Reel setup to run extraction followed by local Vision analysis of extracted frames.");
@@ -136,6 +138,15 @@ export default function AutoReelScreen() {
       setScoringControls(createScoringControlsState(nextState.scoringPresetId));
       setScoringStatus(createScoringRunStatus());
       setClipListView(createClipListViewState());
+      
+      const sidecarClient = new AutoReelSidecarClient();
+      try {
+        await sidecarClient.checkHealth();
+        setSidecarAvailable(true);
+      } catch (err) {
+        setSidecarAvailable(false);
+      }
+
       setPlanningText(buildPlanningText(nextState, nextContext, "idle"));
       setLog([`Loaded Premiere context for ${nextContext.projectName || "Unknown Project"} / ${nextContext.sequenceName || "No active sequence"}.`]);
       setRequestPreview(
@@ -415,7 +426,6 @@ export default function AutoReelScreen() {
   return (
     <div ref={rootRef} style={{ display: "flex", flexDirection: "column", gap: spacing.lg, minWidth: 0, width: "100%" }}>
       <Card
-        title="Auto Reel"
         subtitle="Extraction and Phase 5 local Vision analysis inside the existing workstation. Vision reads extracted frames only and stops before Face, Wedding, Emotion, Music, Story, planning, or execution."
         style={glassCardStyle}
       >
@@ -425,7 +435,7 @@ export default function AutoReelScreen() {
           <StatusChip label={context?.sequenceName || "No active sequence"} tone={context?.sequenceName ? "neutral" : "warning"} />
           <StatusChip label={`Layout ${layoutMode}`} tone="neutral" />
           <StatusChip label={job ? `Setup ${job.state}` : "Setup idle"} tone={job ? "success" : "neutral"} />
-          <StatusChip label={job?.extraction?.sidecar.status === "available" ? "Sidecar available" : "Sidecar unavailable"} tone={job?.extraction?.sidecar.status === "available" ? "success" : "danger"} />
+          <StatusChip label={sidecarAvailable === true ? "Sidecar available" : sidecarAvailable === false ? "Sidecar unavailable" : "Checking sidecar..."} tone={sidecarAvailable === true ? "success" : sidecarAvailable === false ? "danger" : "warning"} />
         </div>
       </Card>
 

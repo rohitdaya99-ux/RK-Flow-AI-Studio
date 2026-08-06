@@ -9,3 +9,8 @@ backup_v2/
 src_backup/
 exports/
 reverse/
+
+# Sidecar
+analysis-sidecar/sidecar.pid
+analysis-sidecar/sidecar.log
+analysis-sidecar/sidecar-token.txt
