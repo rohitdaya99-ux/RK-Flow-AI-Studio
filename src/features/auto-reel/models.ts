@@ -1051,6 +1051,16 @@ export interface AutoReelJob {
   viralReelReport?: any;
   reviewSessions?: any[];
   pluginRegistry?: Record<string, any>;
+  workflowRun?: any;
+  clientReviewReport?: any;
+  assetIntelligenceReport?: any;
+  searchCapabilityReport?: any;
+  musicCompositionReport?: any;
+  voiceReport?: any;
+  cloudRenderReport?: any;
+  computeFallbackReport?: any;
+  executionPerformanceReport?: any;
+  businessReport?: any;
   executionReport?: ExecutionReport;
   transitions: AutoReelJobTransition[];
   warnings: string[];
