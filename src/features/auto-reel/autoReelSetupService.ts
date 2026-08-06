@@ -125,8 +125,8 @@ export async function loadAutoReelSetupContext(): Promise<AutoReelSetupContext> 
 
   const context: AutoReelSetupContext = {
     connected: bridge.isConnected(),
-    activeProjectId: activeProject?.id || activeProject?.name || "proj-1",
-    activeSequenceId: activeSequence?.id || activeSequence?.name || "seq-1",
+    activeProjectId: activeProject?.guid || activeProject?.id || activeProject?.name || "proj-1",
+    activeSequenceId: activeSequence?.guid || activeSequence?.id || activeSequence?.name || "seq-1",
     projectName: activeProject?.name || "No active project",
     sequenceName: activeSequence?.name || "No active sequence",
     clipCount: timeline?.videoTracks.reduce((acc, t) => acc + t.clips.length, 0) || 0,
@@ -137,8 +137,16 @@ export async function loadAutoReelSetupContext(): Promise<AutoReelSetupContext> 
     fps: activeSequence?.fps || 25,
     timebase: activeSequence?.timebase || 25,
     frameSize: activeSequence?.frameSize || { width: 1920, height: 1080 },
-    projectOptions: projects.map((p: any) => ({ id: p.id || p.name || "proj-1", name: p.name, active: (p.id || p.name) === (activeProject?.id || activeProject?.name) })),
-    sequenceOptions: sequences.map((s: any) => ({ id: s.id || s.name || "seq-1", name: s.name, active: (s.id || s.name) === (activeSequence?.id || activeSequence?.name) })),
+    projectOptions: projects.map((p: any) => ({
+      id: p.guid || p.id || p.name || "proj-1",
+      name: p.name,
+      active: (p.guid || p.id || p.name) === (activeProject?.guid || activeProject?.id || activeProject?.name)
+    })),
+    sequenceOptions: sequences.map((s: any) => ({
+      id: s.guid || s.id || s.name || "seq-1",
+      name: s.name,
+      active: (s.guid || s.id || s.name) === (activeSequence?.guid || activeSequence?.id || activeSequence?.name)
+    })),
     projectItemOptions: [], // Placeholder
     manualClipOptions: [], // Placeholder
     musicOptions: promptReelMusic.map((m: any) => ({
@@ -266,32 +274,38 @@ export async function runAutoReelSetup(args: {
     };
     updateProgress(job, "Extraction complete.", "Phase 2: Extraction complete.");
 
-    // 3. Vision Analysis
-    job = transitionAutoReelJob(job, "analyzing_vision");
-    updateProgress(job, "Analyzing vision...", "Phase 3: Analyzing vision.");
-    const visionResult = await runVisionPipeline({ job, signal });
-    job = { ...job, vision: visionResult };
-    updateProgress(job, "Vision analysis complete.", "Phase 3: Vision analysis complete.");
+    const skipDeepAnalysis = job.request.setup?.scoringPresetId === "technical" || job.customScoringProfile?.id === "technical-v1";
 
-    // 4. Face Analysis
-    job = transitionAutoReelJob(job, "analyzing_faces");
-    updateProgress(job, "Analyzing faces...", "Phase 4: Analyzing faces.");
-    const faceResult = await runFacePipeline({ job, signal });
-    job = { ...job, face: faceResult };
-    updateProgress(job, "Face analysis complete.", "Phase 4: Face analysis complete.");
+    if (!skipDeepAnalysis) {
+      // 3. Vision Analysis
+      job = transitionAutoReelJob(job, "analyzing_vision");
+      updateProgress(job, "Analyzing vision...", "Phase 3: Analyzing vision.");
+      const visionResult = await runVisionPipeline({ job, signal });
+      job = { ...job, vision: visionResult };
+      updateProgress(job, "Vision analysis complete.", "Phase 3: Vision analysis complete.");
 
-    // 5. Emotion Analysis
-    job = transitionAutoReelJob(job, "analyzing_emotion");
-    updateProgress(job, "Analyzing emotions...", "Phase 5: Analyzing emotions.");
-    const emotionResult = await runEmotionPipeline({ job, signal });
-    job = { ...job, emotion: emotionResult };
-    updateProgress(job, "Emotion analysis complete.", "Phase 5: Emotion analysis complete.");
+      // 4. Face Analysis
+      job = transitionAutoReelJob(job, "analyzing_faces");
+      updateProgress(job, "Analyzing faces...", "Phase 4: Analyzing faces.");
+      const faceResult = await runFacePipeline({ job, signal });
+      job = { ...job, face: faceResult };
+      updateProgress(job, "Face analysis complete.", "Phase 4: Face analysis complete.");
 
-    // 6. Music Analysis
-    job = transitionAutoReelJob(job, "analyzing_music");
-    updateProgress(job, "Analyzing music...", "Phase 6: Analyzing music.");
-    job = await runMusicAnalysisPipeline(job);
-    updateProgress(job, "Music analysis complete.", "Phase 6: Music analysis complete.");
+      // 5. Emotion Analysis
+      job = transitionAutoReelJob(job, "analyzing_emotion");
+      updateProgress(job, "Analyzing emotions...", "Phase 5: Analyzing emotions.");
+      const emotionResult = await runEmotionPipeline({ job, signal });
+      job = { ...job, emotion: emotionResult };
+      updateProgress(job, "Emotion analysis complete.", "Phase 5: Emotion analysis complete.");
+
+      // 6. Music Analysis
+      job = transitionAutoReelJob(job, "analyzing_music");
+      updateProgress(job, "Analyzing music...", "Phase 6: Analyzing music.");
+      job = await runMusicAnalysisPipeline(job);
+      updateProgress(job, "Music analysis complete.", "Phase 6: Music analysis complete.");
+    } else {
+      updateProgress(job, "Skipping deep analysis (Technical Only).", "Phases 3-6 skipped due to Technical Only scoring profile.");
+    }
 
     // 7. Scoring
     job = transitionAutoReelJob(job, "scoring");

@@ -14,6 +14,8 @@ from .face_models import FaceRequest
 from .face_service import FaceService
 from .emotion_models import EmotionRequest
 from .emotion_service import EmotionService
+from .models import MusicAnalysisRequest
+from .services.music_analysis.service import MusicService
 
 
 def create_app(
@@ -22,9 +24,11 @@ def create_app(
     token: str,
     face_service: FaceService | None = None,
     emotion_service: EmotionService | None = None,
+    music_service: MusicService | None = None,
 ) -> FastAPI:
     face_service = face_service or FaceService(service.bind, service.base_url, service.version)
     emotion_service = emotion_service or EmotionService(service.bind, service.base_url, service.version)
+    music_service = music_service or MusicService()
     app = FastAPI(title="RK Flow Analysis Sidecar", version=service.version)
 
     def require_token(authorization: str = Header(default="")) -> None:
@@ -32,13 +36,27 @@ def create_app(
         if authorization != expected:
             raise HTTPException(status_code=401, detail="Unauthorized")
 
-    @app.get("/health", dependencies=[Depends(require_token)])
+    @app.get("/health")
     async def health() -> dict:
         return {
             "status": "ok",
             "bind": service.bind,
             "version": service.version,
         }
+
+    @app.get("/session")
+    async def session() -> JSONResponse:
+        if service.bind not in ["127.0.0.1", "localhost"]:
+            raise HTTPException(status_code=403, detail="Session endpoint only available on localhost")
+        return JSONResponse(
+            content={
+                "status": "ok",
+                "token": token,
+                "expiresAt": None,
+                "version": service.version,
+            },
+            headers={"Cache-Control": "no-store"}
+        )
 
     @app.get("/capabilities", dependencies=[Depends(require_token)])
     async def capabilities() -> dict:
@@ -67,6 +85,12 @@ def create_app(
 
     @app.get("/emotion/capabilities", dependencies=[Depends(require_token)])
     async def emotion_capabilities(): return emotion_service.capabilities().model_dump()
+
+    @app.get("/music/capabilities", dependencies=[Depends(require_token)])
+    async def music_capabilities(): return music_service.get_capabilities().model_dump()
+
+    @app.post("/music/analyze", dependencies=[Depends(require_token)])
+    async def music_analyze(request: MusicAnalysisRequest): return music_service.analyze_audio(request).model_dump()
 
     @app.post("/face/jobs", dependencies=[Depends(require_token)])
     async def face_submit(request: FaceRequest): return {"jobId": await face_service.submit(request)}

@@ -6871,6 +6871,7 @@ const autoReelExtractionService_1 = __webpack_require__(578);
 const autoReelScanner_1 = __webpack_require__(9652);
 const visionPipeline_1 = __webpack_require__(8961);
 const autoReelSetupConfig_1 = __webpack_require__(8489);
+const autoReelSidecarClient_1 = __webpack_require__(7950);
 const autoReelSetupService_1 = __webpack_require__(1676);
 const AutoReelSections_1 = __webpack_require__(716);
 const AutoReelUi_1 = __webpack_require__(2390);
@@ -6889,6 +6890,7 @@ function AutoReelScreen() {
     const [projectId, setProjectId] = (0, react_1.useState)("");
     const [sequenceId, setSequenceId] = (0, react_1.useState)("");
     const [state, setState] = (0, react_1.useState)(() => (0, autoReelSetupConfig_1.createDefaultAutoReelSetupState)());
+    const [sidecarAvailable, setSidecarAvailable] = (0, react_1.useState)(null);
     const [job, setJob] = (0, react_1.useState)(null);
     const [requestPreview, setRequestPreview] = (0, react_1.useState)("");
     const [planningText, setPlanningText] = (0, react_1.useState)("Idle. Configure Auto Reel setup to run extraction followed by local Vision analysis of extracted frames.");
@@ -6946,6 +6948,22 @@ function AutoReelScreen() {
             setScoringControls((0, autoReelScoringControls_1.createScoringControlsState)(nextState.scoringPresetId));
             setScoringStatus((0, autoReelScoringControls_1.createScoringRunStatus)());
             setClipListView((0, autoReelScoringControls_1.createClipListViewState)());
+            const sidecarClient = new autoReelSidecarClient_1.AutoReelSidecarClient();
+            try {
+                await sidecarClient.checkHealth();
+                try {
+                    await sidecarClient.pairSession();
+                    setSidecarAvailable(true);
+                }
+                catch (pairErr) {
+                    setSidecarAvailable(false);
+                    console.error("[RK Flow][Sidecar] Pairing failed", pairErr);
+                }
+            }
+            catch (err) {
+                setSidecarAvailable(false);
+                console.error("[RK Flow][Sidecar] Health failed", err);
+            }
             setPlanningText(buildPlanningText(nextState, nextContext, "idle"));
             setLog([`Loaded Premiere context for ${nextContext.projectName || "Unknown Project"} / ${nextContext.sequenceName || "No active sequence"}.`]);
             setRequestPreview(JSON.stringify((0, autoReelSetupConfig_1.serializeAutoReelSetupIntoRequest)(nextState, buildRequestBase(nextState, nextContext)), null, 2));
@@ -7192,7 +7210,7 @@ function AutoReelScreen() {
             scoringAbortRef.current.aborted = true;
         }
     }
-    return ((0, jsx_runtime_1.jsxs)("div", { ref: rootRef, style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.lg, minWidth: 0, width: "100%" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Auto Reel", subtitle: "Extraction and Phase 5 local Vision analysis inside the existing workstation. Vision reads extracted frames only and stops before Face, Wedding, Emotion, Music, Story, planning, or execution.", style: AutoReelUi_1.glassCardStyle, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: loading ? "Loading context" : context?.connected ? "Premiere connected" : "Premiere not ready", tone: loading ? "warning" : context?.connected ? "success" : "danger" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: context?.projectName || "No active project", tone: context?.projectName ? "neutral" : "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: context?.sequenceName || "No active sequence", tone: context?.sequenceName ? "neutral" : "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Layout ${layoutMode}`, tone: "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job ? `Setup ${job.state}` : "Setup idle", tone: job ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job?.extraction?.sidecar.status === "available" ? "Sidecar available" : "Sidecar unavailable", tone: job?.extraction?.sidecar.status === "available" ? "success" : "danger" })] }) }), (0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelSourceSection, { context: context, projectId: projectId, sequenceId: sequenceId, state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onProjectId: setProjectId, onSequenceId: setSequenceId, onPatchState: patchState, onToggleListValue: toggleListValue }) }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelConfigurationSection, { state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.MusicSourcePicker, { context: context, state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.PersonReferenceManager, { state: state, layoutMode: layoutMode, loading: loading, running: running, onUpdateReference: updateReference, onAddCustomReference: addCustomReference, onRemoveReference: removeReference }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.ReferenceReelInput, { state: state, fieldBasis: fieldBasis, loading: loading, running: running, error: errors.fields.referenceReel, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelPlanningPanel, { planningText: planningText, phases: buildPhaseRows(job, running, error), error: error }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelRequestPreview, { job: job, panelWidth: workspaceWidth, requestPreview: requestPreview, log: log }), (0, jsx_runtime_1.jsx)(AutoReelScoringPanel_1.AutoReelScoringPanel, { controls: scoringControls, status: scoringStatus, report: job?.scoring, savedProfileVersion: job?.customScoringProfile?.categoryWeights
+    return ((0, jsx_runtime_1.jsxs)("div", { ref: rootRef, style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.lg, minWidth: 0, width: "100%" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { subtitle: "Extraction and Phase 5 local Vision analysis inside the existing workstation. Vision reads extracted frames only and stops before Face, Wedding, Emotion, Music, Story, planning, or execution.", style: AutoReelUi_1.glassCardStyle, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: loading ? "Loading context" : context?.connected ? "Premiere connected" : "Premiere not ready", tone: loading ? "warning" : context?.connected ? "success" : "danger" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: context?.projectName || "No active project", tone: context?.projectName ? "neutral" : "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: context?.sequenceName || "No active sequence", tone: context?.sequenceName ? "neutral" : "warning" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Layout ${layoutMode}`, tone: "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: job ? `Setup ${job.state}` : "Setup idle", tone: job ? "success" : "neutral" }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: sidecarAvailable === true ? "Sidecar available" : sidecarAvailable === false ? "Sidecar unavailable" : "Checking sidecar...", tone: sidecarAvailable === true ? "success" : sidecarAvailable === false ? "danger" : "warning" })] }) }), (0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelSourceSection, { context: context, projectId: projectId, sequenceId: sequenceId, state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onProjectId: setProjectId, onSequenceId: setSequenceId, onPatchState: patchState, onToggleListValue: toggleListValue }) }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelConfigurationSection, { state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.MusicSourcePicker, { context: context, state: state, fieldBasis: fieldBasis, loading: loading, running: running, errors: errors, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.PersonReferenceManager, { state: state, layoutMode: layoutMode, loading: loading, running: running, onUpdateReference: updateReference, onAddCustomReference: addCustomReference, onRemoveReference: removeReference }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.ReferenceReelInput, { state: state, fieldBasis: fieldBasis, loading: loading, running: running, error: errors.fields.referenceReel, onPatchState: patchState }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelPlanningPanel, { planningText: planningText, phases: buildPhaseRows(job, running, error), error: error }), (0, jsx_runtime_1.jsx)(AutoReelSections_1.AutoReelRequestPreview, { job: job, panelWidth: workspaceWidth, requestPreview: requestPreview, log: log }), (0, jsx_runtime_1.jsx)(AutoReelScoringPanel_1.AutoReelScoringPanel, { controls: scoringControls, status: scoringStatus, report: job?.scoring, savedProfileVersion: job?.customScoringProfile?.categoryWeights
                     ? job.customScoringProfile.version ?? null
                     : null, disabled: loading || running || !job || job.clips.length === 0, onSelectPreset: handleSelectPreset, onCategoryWeight: handleCategoryWeight, onRestoreDefaults: handleRestoreDefaults, onSaveProfile: handleSaveCustomProfile, onRescore: () => void handleRescore(), onCancel: handleCancelScoring }), (0, jsx_runtime_1.jsx)(AutoReelRankedList_1.AutoReelRankedList, { report: job?.scoring, clips: job?.clips ?? [], view: clipListView, choices: job?.userClipChoices, layoutMode: layoutMode, disabled: running || scoringStatus.phase === "running", onViewChange: (patch) => setClipListView((current) => ({ ...current, ...patch })), onChoice: handleClipChoice }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.Button, { onClick: () => void handleRunSetup(), disabled: loading || running || !context?.connected, children: running ? "Running Vision Pipeline..." : "Start Auto Reel Vision Pipeline" }), running && ((0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: handleCancelRun, children: "Cancel Analysis" })), (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: () => void refreshContext(), disabled: loading || running, children: "Refresh Premiere Context" })] })] }));
 }
@@ -7337,23 +7355,28 @@ function AutoReelSourceSection({ context, projectId, sequenceId, state, fieldBas
 function AutoReelConfigurationSection({ state, fieldBasis, loading, running, errors, onPatchState }) {
     return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Reel Configuration", subtitle: "Set the structure, pacing, priorities, and new-sequence output metadata.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.formRowStyle, children: [(0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Reel type / mode", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.reelType, onChange: (event) => onPatchState({ reelType: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.bK.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option.value, children: option.label }, option.value))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Target duration", flex: fieldBasis, error: errors.fields.targetDurationSeconds, children: (0, jsx_runtime_1.jsx)("select", { value: String(state.targetDurationSeconds), onChange: (event) => onPatchState({ targetDurationSeconds: Number(event.target.value) }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.U$.map((seconds) => ((0, jsx_runtime_1.jsxs)("option", { value: seconds, children: [seconds, " seconds"] }, seconds))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Aspect ratio", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.aspectRatio, onChange: (event) => onPatchState({ aspectRatio: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.ui.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: option }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Style", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.style, onChange: (event) => onPatchState({ style: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.dp.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Story mode", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.storyMode, onChange: (event) => onPatchState({ storyMode: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.FC.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Emotion priority", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.emotionPriority, onChange: (event) => onPatchState({ emotionPriority: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.mQ.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Bride / groom / family balance", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.balanceTarget, onChange: (event) => onPatchState({ balanceTarget: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.A6.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Energy", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.energy, onChange: (event) => onPatchState({ energy: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.K6.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Cut density", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.cutDensity, onChange: (event) => onPatchState({ cutDensity: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.F2.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Transition intensity", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.transitionIntensity, onChange: (event) => onPatchState({ transitionIntensity: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.mQ.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Motion intensity", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.motionIntensity, onChange: (event) => onPatchState({ motionIntensity: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.mQ.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "SFX intensity", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.sfxIntensity, onChange: (event) => onPatchState({ sfxIntensity: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.mQ.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Color intensity", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.colorIntensity, onChange: (event) => onPatchState({ colorIntensity: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.mQ.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option, children: (0, AutoReelUi_1.titleCase)(option) }, option))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Scoring Preset", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("select", { value: state.scoringPresetId, onChange: (event) => onPatchState({ scoringPresetId: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: scoringPresets_1.scoringPresets.map((preset) => ((0, jsx_runtime_1.jsx)("option", { value: preset.id, children: preset.name }, preset.id))) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Output sequence name", flex: fieldBasis, error: errors.fields.outputSequenceName, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.outputSequenceName, onChange: (event) => onPatchState({ outputSequenceName: event.target.value }), disabled: loading || running }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Create new sequence", flex: fieldBasis, children: (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: true, readOnly: true }), (0, jsx_runtime_1.jsx)("span", { children: "Enabled by default and required" })] }) })] }) }) }));
 }
+const uxpStorageService_1 = __webpack_require__(8778);
 function MusicSourcePicker({ context, state, fieldBasis, loading, running, errors, onPatchState }) {
-    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "MusicSourcePicker", subtitle: "Configure a music input or reference mode. No copyrighted media is downloaded from social links.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: [(0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.formRowStyle, children: [(0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Music source", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsx)("select", { value: state.musicSourceMode, onChange: (event) => onPatchState({ musicSourceMode: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.zc.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option.value, children: option.label }, option.value))) }) }), state.musicSourceMode === "local-file" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Local audio file", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.uploadLabelStyle, children: [(0, jsx_runtime_1.jsx)("span", { children: state.musicLocalFileName || "Choose local audio file" }), (0, jsx_runtime_1.jsx)("input", { type: "file", accept: "audio/*", style: { display: "none" }, onChange: (event) => {
-                                            const file = event.target.files?.[0];
-                                            onPatchState({
-                                                musicLocalFileName: file?.name ?? "",
-                                                musicLocalFilePath: file?.path ?? ""
-                                            });
-                                        }, disabled: loading || running })] }) })), state.musicSourceMode === "project-item" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Premiere project item", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsxs)("select", { value: state.musicProjectItemId, onChange: (event) => onPatchState({ musicProjectItemId: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: [(0, jsx_runtime_1.jsx)("option", { value: "", children: "Select audio project item" }), context?.musicOptions.filter((option) => option.source === "project-item").map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option.id, children: option.label }, option.id)))] }) })), state.musicSourceMode === "authorized-direct-url" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Authorized direct URL", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.musicDirectUrl, onChange: (event) => onPatchState({ musicDirectUrl: event.target.value }), placeholder: "https://example.com/music-track.mp3", disabled: loading || running }) })), state.musicSourceMode === "social-reference" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Social link reference-only", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.musicSocialReferenceUrl, onChange: (event) => onPatchState({ musicSocialReferenceUrl: event.target.value }), placeholder: "https://instagram.com/reel/... or https://youtube.com/shorts/...", disabled: loading || running }) }))] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", flexWrap: "wrap", gap: theme_1.spacing.sm, alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: state.extractClipAudio, onChange: (event) => onPatchState({ extractClipAudio: event.target.checked }), disabled: loading || running }), (0, jsx_runtime_1.jsx)("span", { children: "Also extract clip audio proxies for selected clips." })] }), (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: state.copyrightNoticeAccepted, onChange: (event) => onPatchState({ copyrightNoticeAccepted: event.target.checked }), disabled: loading || running }), (0, jsx_runtime_1.jsx)("span", { children: "I confirm that any uploaded or linked music is licensed or reference-only." })] })] }), (0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.helperTextStyle, children: "Direct URLs must point to authorized media files. Social links are stored as reference-only and are never treated as a licensed source track by this Phase 4 workflow. Clip-audio extraction runs only when explicitly requested." })] }) }));
+    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsxs)(primitives_1.Card, { title: "Music Source", subtitle: "Configure a music input or reference mode. No copyrighted media is downloaded from social links.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: [(0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.formRowStyle, children: [(0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Music source", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsx)("select", { value: state.musicSourceMode, onChange: (event) => onPatchState({ musicSourceMode: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: exports.zc.map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option.value, children: option.label }, option.value))) }) }), state.musicSourceMode === "local-file" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Local audio file", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsx)("button", { type: "button", style: { ...AutoReelUi_1.uploadLabelStyle, border: "1px solid " + theme_1.colors.border, background: theme_1.colors.panel, cursor: "pointer", width: "100%", textAlign: "left" }, onClick: async () => {
+                                    const file = await uxpStorageService_1.uxpStorageService.pickAudioFile();
+                                    if (file) {
+                                        onPatchState({
+                                            musicLocalFileName: file.name,
+                                            musicLocalFilePath: file.path
+                                        });
+                                    }
+                                }, disabled: loading || running, children: (0, jsx_runtime_1.jsx)("span", { children: state.musicLocalFileName || "Choose local audio file" }) }) })), state.musicSourceMode === "project-item" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Premiere project item", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsxs)("select", { value: state.musicProjectItemId, onChange: (event) => onPatchState({ musicProjectItemId: event.target.value }), style: AutoReelUi_1.fieldStyle, disabled: loading || running, children: [(0, jsx_runtime_1.jsx)("option", { value: "", children: "Select audio project item" }), context?.musicOptions.filter((option) => option.source === "project-item").map((option) => ((0, jsx_runtime_1.jsx)("option", { value: option.id, children: option.label }, option.id)))] }) })), state.musicSourceMode === "authorized-direct-url" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Authorized direct URL", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.musicDirectUrl, onChange: (event) => onPatchState({ musicDirectUrl: event.target.value }), placeholder: "https://example.com/music-track.mp3", disabled: loading || running }) })), state.musicSourceMode === "social-reference" && ((0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Social link reference-only", flex: fieldBasis, error: errors.fields.musicSource, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.musicSocialReferenceUrl, onChange: (event) => onPatchState({ musicSocialReferenceUrl: event.target.value }), placeholder: "https://instagram.com/reel/... or https://youtube.com/shorts/...", disabled: loading || running }) }))] }), (0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.md, display: "flex", flexWrap: "wrap", gap: theme_1.spacing.sm, alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: state.extractClipAudio, onChange: (event) => onPatchState({ extractClipAudio: event.target.checked }), disabled: loading || running }), (0, jsx_runtime_1.jsx)("span", { children: "Also extract clip audio proxies for selected clips." })] }), (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.checkboxRowStyle, children: [(0, jsx_runtime_1.jsx)("input", { type: "checkbox", checked: state.copyrightNoticeAccepted, onChange: (event) => onPatchState({ copyrightNoticeAccepted: event.target.checked }), disabled: loading || running }), (0, jsx_runtime_1.jsx)("span", { children: "I confirm that any uploaded or linked music is licensed or reference-only." })] })] }), (0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.helperTextStyle, children: "Direct URLs must point to authorized media files. Social links are stored as reference-only and are never treated as a licensed source track by this Phase 4 workflow. Clip-audio extraction runs only when explicitly requested." })] }) }));
 }
 function PersonReferenceManager({ state, layoutMode, loading, running, onUpdateReference, onAddCustomReference, onRemoveReference }) {
-    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "PersonReferenceManager", subtitle: "Reference matching unavailable: commercial recognition model not configured. Reference images remain local and are not uploaded or embedded.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [state.references.map((reference) => ((0, jsx_runtime_1.jsxs)("div", { style: (0, AutoReelUi_1.referenceCardStyle)(layoutMode === "wide"), children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.xs, minWidth: 0 }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: "#4A1621", fontWeight: 700 }, children: reference.label }), (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.helperTextStyle, children: [(0, AutoReelUi_1.titleCase)(reference.role), " reference"] })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.uploadLabelStyle, children: [(0, jsx_runtime_1.jsx)("span", { children: reference.fileName || "Select image" }), (0, jsx_runtime_1.jsx)("input", { type: "file", accept: "image/*", style: { display: "none" }, onChange: (event) => {
-                                                            const file = event.target.files?.[0];
-                                                            onUpdateReference(reference.id, {
-                                                                fileName: file?.name ?? "",
-                                                                previewUrl: file ? URL.createObjectURL(file) : undefined
-                                                            });
-                                                        }, disabled: loading || running })] }), reference.role === "custom" && ((0, jsx_runtime_1.jsx)("button", { type: "button", onClick: () => onRemoveReference(reference.id), disabled: loading || running, children: "Remove" }))] })] }), reference.previewUrl ? ((0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.sm, display: "flex", gap: theme_1.spacing.md, alignItems: "center", flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)("img", { src: reference.previewUrl, alt: `${reference.label} preview`, style: AutoReelUi_1.previewImageStyle }), (0, jsx_runtime_1.jsx)("button", { type: "button", onClick: () => onUpdateReference(reference.id, { fileName: "", previewUrl: undefined }), disabled: loading || running, children: "Clear" })] })) : null] }, reference.id))), (0, jsx_runtime_1.jsx)("div", { children: (0, jsx_runtime_1.jsx)("button", { type: "button", onClick: onAddCustomReference, disabled: loading || running, children: "Add Family / Custom Person" }) })] }) }) }));
+    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Person References", subtitle: "Reference matching unavailable: commercial recognition model not configured. Reference images remain local and are not uploaded or embedded.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [state.references.map((reference) => ((0, jsx_runtime_1.jsxs)("div", { style: (0, AutoReelUi_1.referenceCardStyle)(layoutMode === "wide"), children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.xs, minWidth: 0 }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: "#4A1621", fontWeight: 700 }, children: reference.label }), (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.helperTextStyle, children: [(0, AutoReelUi_1.titleCase)(reference.role), " reference"] })] }), (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)("button", { type: "button", style: { ...AutoReelUi_1.uploadLabelStyle, border: "1px solid " + theme_1.colors.border, background: theme_1.colors.panel, cursor: "pointer" }, onClick: async () => {
+                                                    const file = await uxpStorageService_1.uxpStorageService.pickImageFile();
+                                                    if (file) {
+                                                        onUpdateReference(reference.id, {
+                                                            fileName: file.name,
+                                                            previewUrl: file.path ? `file://${file.path}` : undefined
+                                                        });
+                                                    }
+                                                }, disabled: loading || running, children: (0, jsx_runtime_1.jsx)("span", { children: reference.fileName || "Select image" }) }), reference.role === "custom" && ((0, jsx_runtime_1.jsx)("button", { type: "button", onClick: () => onRemoveReference(reference.id), disabled: loading || running, children: "Remove" }))] })] }), reference.previewUrl ? ((0, jsx_runtime_1.jsxs)("div", { style: { marginTop: theme_1.spacing.sm, display: "flex", gap: theme_1.spacing.md, alignItems: "center", flexWrap: "wrap" }, children: [(0, jsx_runtime_1.jsx)("img", { src: reference.previewUrl, alt: `${reference.label} preview`, style: AutoReelUi_1.previewImageStyle }), (0, jsx_runtime_1.jsx)("button", { type: "button", onClick: () => onUpdateReference(reference.id, { fileName: "", previewUrl: undefined }), disabled: loading || running, children: "Clear" })] })) : null] }, reference.id))), (0, jsx_runtime_1.jsx)("div", { children: (0, jsx_runtime_1.jsx)("button", { type: "button", onClick: onAddCustomReference, disabled: loading || running, children: "Add Family / Custom Person" }) })] }) }) }));
 }
 function ReferenceReelInput({ state, fieldBasis, loading, running, error, onPatchState }) {
     const status = !state.referenceReelUrl.trim() && !state.referenceReelLocalFileName.trim()
@@ -7361,7 +7384,12 @@ function ReferenceReelInput({ state, fieldBasis, loading, running, error, onPatc
         : !state.referenceReelUrl.trim() || (0, autoReelSetupConfig_1.isReferenceUrl)(state.referenceReelUrl)
             ? "valid"
             : "invalid";
-    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "ReferenceReelInput", subtitle: "Attach a reference reel URL or local file. Both remain reference-only in Phase 4.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.formRowStyle, children: [(0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Instagram / YouTube URL", flex: fieldBasis, error: error, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.referenceReelUrl, onChange: (event) => onPatchState({ referenceReelUrl: event.target.value }), placeholder: "https://instagram.com/reel/... or https://youtube.com/shorts/...", disabled: loading || running }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Authorized local reference file", flex: fieldBasis, children: (0, jsx_runtime_1.jsxs)("label", { style: AutoReelUi_1.uploadLabelStyle, children: [(0, jsx_runtime_1.jsx)("span", { children: state.referenceReelLocalFileName || "Choose local reference reel" }), (0, jsx_runtime_1.jsx)("input", { type: "file", accept: "video/*", style: { display: "none" }, onChange: (event) => onPatchState({ referenceReelLocalFileName: event.target.files?.[0]?.name ?? "" }), disabled: loading || running })] }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Validation state", flex: fieldBasis, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: status, tone: status === "valid" ? "success" : status === "invalid" ? "danger" : "neutral" }), (0, jsx_runtime_1.jsx)("span", { style: AutoReelUi_1.helperTextStyle, children: "Reference-only. No media download or style cloning happens in Phase 4." })] }) })] }) }) }));
+    return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Reference Reel", subtitle: "Attach a reference reel URL or local file. Both remain reference-only in Phase 4.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.formRowStyle, children: [(0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Instagram / YouTube URL", flex: fieldBasis, error: error, children: (0, jsx_runtime_1.jsx)(primitives_1.Input, { value: state.referenceReelUrl, onChange: (event) => onPatchState({ referenceReelUrl: event.target.value }), placeholder: "https://instagram.com/reel/... or https://youtube.com/shorts/...", disabled: loading || running }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Authorized local reference file", flex: fieldBasis, children: (0, jsx_runtime_1.jsx)("button", { type: "button", style: { ...AutoReelUi_1.uploadLabelStyle, border: "1px solid " + theme_1.colors.border, background: theme_1.colors.panel, cursor: "pointer", width: "100%", textAlign: "left" }, onClick: async () => {
+                                const file = await uxpStorageService_1.uxpStorageService.pickVideoFile();
+                                if (file) {
+                                    onPatchState({ referenceReelLocalFileName: file.name });
+                                }
+                            }, disabled: loading || running, children: (0, jsx_runtime_1.jsx)("span", { children: state.referenceReelLocalFileName || "Choose local reference reel" }) }) }), (0, jsx_runtime_1.jsx)(AutoReelUi_1.Field, { label: "Validation state", flex: fieldBasis, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: status, tone: status === "valid" ? "success" : status === "invalid" ? "danger" : "neutral" }), (0, jsx_runtime_1.jsx)("span", { style: AutoReelUi_1.helperTextStyle, children: "Reference-only. No media download or style cloning happens in Phase 4." })] }) })] }) }) }));
 }
 function AutoReelPlanningPanel({ planningText, phases, error }) {
     return ((0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.sectionWrapStyle, children: (0, jsx_runtime_1.jsx)(primitives_1.Card, { title: "Planning Visibility", subtitle: "Readable request summary and structured setup phases. No fake analysis results are shown here.", style: { ...AutoReelUi_1.glassCardStyle, flex: "1 1 100%", minWidth: 0 }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.md }, children: [(0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.planningTextPanelStyle, children: planningText }), (0, jsx_runtime_1.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: theme_1.spacing.sm }, children: phases.map((phase) => ((0, jsx_runtime_1.jsxs)("div", { style: AutoReelUi_1.phaseRowStyle, children: [(0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.sm, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: "#4A1621", fontWeight: 700 }, children: phase.title }), (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: phase.status, tone: phase.tone })] }), (0, jsx_runtime_1.jsx)("div", { style: AutoReelUi_1.helperTextStyle, children: phase.detail })] }, phase.title))) }), error ? (0, jsx_runtime_1.jsx)("div", { style: { color: "#A23A35" }, children: error }) : null] }) }) }));
@@ -8594,7 +8622,8 @@ exports.JH = [
     "dance",
     "luxury",
     "documentary",
-    "viral"
+    "viral",
+    "technical"
 ];
 function listScoringPresets() {
     const byId = new Map(scoringPresets_1.scoringPresets.map((preset) => [preset.id, preset]));
@@ -9969,18 +9998,31 @@ function createSetupStateFromDraft(draft) {
 async function loadAutoReelSetupContext() {
     const api = PremiereAPI_1.premiereAPI;
     const bridge = new PremiereBridge_1.PremiereBridge();
-    const [activeProject, activeSequence, projects, sequences, timeline, promptReelMusic,] = await Promise.all([
-        api.getCurrentProject(),
-        api.getActiveSequence(),
-        Promise.resolve([]), // Placeholder for getProjects
-        Promise.resolve([]), // Placeholder for getSequences
-        Promise.resolve(null), // Placeholder for contextEngine.getTimeline()
-        (0, promptReelService_1.getPromptReelMusicOptions)(),
-    ]);
+    const activeProject = await api.getCurrentProject();
+    const activeSequence = await api.getActiveSequence();
+    const timeline = await bridge.readTimeline();
+    const promptReelMusic = await (0, promptReelService_1.getPromptReelMusicOptions)();
+    // In Premiere UXP, we often only have access to the active project easily.
+    // We mock a list of 1 if active, else empty.
+    const projects = activeProject ? [{ id: activeProject.id || activeProject.name || "proj-1", name: activeProject.name }] : [];
+    // Try to get all sequences if supported, else just list the active one
+    let sequences = [];
+    try {
+        if (activeProject && typeof activeProject.getSequences === "function") {
+            sequences = await activeProject.getSequences();
+        }
+        else if (activeSequence) {
+            sequences = [activeSequence];
+        }
+    }
+    catch (err) {
+        if (activeSequence)
+            sequences = [activeSequence];
+    }
     const context = {
         connected: bridge.isConnected(),
-        activeProjectId: activeProject?.id || "",
-        activeSequenceId: activeSequence?.id || "",
+        activeProjectId: activeProject?.guid || activeProject?.id || activeProject?.name || "proj-1",
+        activeSequenceId: activeSequence?.guid || activeSequence?.id || activeSequence?.name || "seq-1",
         projectName: activeProject?.name || "No active project",
         sequenceName: activeSequence?.name || "No active sequence",
         clipCount: timeline?.videoTracks.reduce((acc, t) => acc + t.clips.length, 0) || 0,
@@ -9991,8 +10033,16 @@ async function loadAutoReelSetupContext() {
         fps: activeSequence?.fps || 25,
         timebase: activeSequence?.timebase || 25,
         frameSize: activeSequence?.frameSize || { width: 1920, height: 1080 },
-        projectOptions: projects.map((p) => ({ ...p, active: p.id === activeProject?.id })),
-        sequenceOptions: sequences.map((s) => ({ ...s, active: s.id === activeSequence?.id })),
+        projectOptions: projects.map((p) => ({
+            id: p.guid || p.id || p.name || "proj-1",
+            name: p.name,
+            active: (p.guid || p.id || p.name) === (activeProject?.guid || activeProject?.id || activeProject?.name)
+        })),
+        sequenceOptions: sequences.map((s) => ({
+            id: s.guid || s.id || s.name || "seq-1",
+            name: s.name,
+            active: (s.guid || s.id || s.name) === (activeSequence?.guid || activeSequence?.id || activeSequence?.name)
+        })),
         projectItemOptions: [], // Placeholder
         manualClipOptions: [], // Placeholder
         musicOptions: promptReelMusic.map((m) => ({
@@ -10002,7 +10052,7 @@ async function loadAutoReelSetupContext() {
         })),
         selectedClips: [], // Placeholder for BrainClip[]
         sequenceClips: [], // Placeholder for BrainClip[]
-        timeline,
+        timeline: timeline,
         lockedTrackSupport: "unavailable",
     };
     return context;
@@ -10088,29 +10138,35 @@ async function runAutoReelSetup(args) {
             warnings: [...job.warnings, ...extractionResult.warnings]
         };
         updateProgress(job, "Extraction complete.", "Phase 2: Extraction complete.");
-        // 3. Vision Analysis
-        job = (0, models_1.transitionAutoReelJob)(job, "analyzing_vision");
-        updateProgress(job, "Analyzing vision...", "Phase 3: Analyzing vision.");
-        const visionResult = await (0, visionPipeline_1.runVisionPipeline)({ job, signal });
-        job = { ...job, vision: visionResult };
-        updateProgress(job, "Vision analysis complete.", "Phase 3: Vision analysis complete.");
-        // 4. Face Analysis
-        job = (0, models_1.transitionAutoReelJob)(job, "analyzing_faces");
-        updateProgress(job, "Analyzing faces...", "Phase 4: Analyzing faces.");
-        const faceResult = await (0, facePipeline_1.runFacePipeline)({ job, signal });
-        job = { ...job, face: faceResult };
-        updateProgress(job, "Face analysis complete.", "Phase 4: Face analysis complete.");
-        // 5. Emotion Analysis
-        job = (0, models_1.transitionAutoReelJob)(job, "analyzing_emotion");
-        updateProgress(job, "Analyzing emotions...", "Phase 5: Analyzing emotions.");
-        const emotionResult = await (0, emotionPipeline_1.runEmotionPipeline)({ job, signal });
-        job = { ...job, emotion: emotionResult };
-        updateProgress(job, "Emotion analysis complete.", "Phase 5: Emotion analysis complete.");
-        // 6. Music Analysis
-        job = (0, models_1.transitionAutoReelJob)(job, "analyzing_music");
-        updateProgress(job, "Analyzing music...", "Phase 6: Analyzing music.");
-        job = await (0, autoReelMusicService_1.runMusicAnalysisPipeline)(job);
-        updateProgress(job, "Music analysis complete.", "Phase 6: Music analysis complete.");
+        const skipDeepAnalysis = job.request.setup?.scoringPresetId === "technical" || job.customScoringProfile?.id === "technical-v1";
+        if (!skipDeepAnalysis) {
+            // 3. Vision Analysis
+            job = (0, models_1.transitionAutoReelJob)(job, "analyzing_vision");
+            updateProgress(job, "Analyzing vision...", "Phase 3: Analyzing vision.");
+            const visionResult = await (0, visionPipeline_1.runVisionPipeline)({ job, signal });
+            job = { ...job, vision: visionResult };
+            updateProgress(job, "Vision analysis complete.", "Phase 3: Vision analysis complete.");
+            // 4. Face Analysis
+            job = (0, models_1.transitionAutoReelJob)(job, "analyzing_faces");
+            updateProgress(job, "Analyzing faces...", "Phase 4: Analyzing faces.");
+            const faceResult = await (0, facePipeline_1.runFacePipeline)({ job, signal });
+            job = { ...job, face: faceResult };
+            updateProgress(job, "Face analysis complete.", "Phase 4: Face analysis complete.");
+            // 5. Emotion Analysis
+            job = (0, models_1.transitionAutoReelJob)(job, "analyzing_emotion");
+            updateProgress(job, "Analyzing emotions...", "Phase 5: Analyzing emotions.");
+            const emotionResult = await (0, emotionPipeline_1.runEmotionPipeline)({ job, signal });
+            job = { ...job, emotion: emotionResult };
+            updateProgress(job, "Emotion analysis complete.", "Phase 5: Emotion analysis complete.");
+            // 6. Music Analysis
+            job = (0, models_1.transitionAutoReelJob)(job, "analyzing_music");
+            updateProgress(job, "Analyzing music...", "Phase 6: Analyzing music.");
+            job = await (0, autoReelMusicService_1.runMusicAnalysisPipeline)(job);
+            updateProgress(job, "Music analysis complete.", "Phase 6: Music analysis complete.");
+        }
+        else {
+            updateProgress(job, "Skipping deep analysis (Technical Only).", "Phases 3-6 skipped due to Technical Only scoring profile.");
+        }
         // 7. Scoring
         job = (0, models_1.transitionAutoReelJob)(job, "scoring");
         updateProgress(job, "Scoring clips...", "Phase 7: Scoring clips.");
@@ -10143,18 +10199,18 @@ async function runAutoReelSetup(args) {
 var __webpack_unused_export__;
 
 __webpack_unused_export__ = ({ value: true });
-exports.AutoReelSidecarClient = __webpack_unused_export__ = exports.AutoReelSidecarCancelledError = void 0;
+exports.AutoReelSidecarClient = __webpack_unused_export__ = exports.AutoReelSidecarCancelledError = __webpack_unused_export__ = void 0;
 exports.isAutoReelSidecarCancelledError = isAutoReelSidecarCancelledError;
 exports.isAutoReelSidecarUnavailableError = isAutoReelSidecarUnavailableError;
+__webpack_unused_export__ = isAutoReelSidecarAuthError;
 __webpack_unused_export__ = mapSidecarHealthResponse;
-function generateToken(length) {
-    const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let result = "";
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
+class AutoReelSidecarAuthError extends Error {
+    constructor(message = "Authentication with sidecar failed.") {
+        super(message);
+        this.name = "AutoReelSidecarAuthError";
     }
-    return result;
 }
+__webpack_unused_export__ = AutoReelSidecarAuthError;
 class AutoReelSidecarCancelledError extends Error {
     constructor(message = "Sidecar operation was cancelled.") {
         super(message);
@@ -10175,6 +10231,9 @@ function isAutoReelSidecarCancelledError(error) {
 function isAutoReelSidecarUnavailableError(error) {
     return error instanceof AutoReelSidecarUnavailableError;
 }
+function isAutoReelSidecarAuthError(error) {
+    return error instanceof AutoReelSidecarAuthError;
+}
 function mapSidecarHealthResponse(_response, _config, baseUrl) {
     if (baseUrl.includes("localhost") || baseUrl.includes("127.0.0.1")) {
         return { available: true, reason: "" };
@@ -10184,32 +10243,71 @@ function mapSidecarHealthResponse(_response, _config, baseUrl) {
 class AutoReelSidecarClient {
     baseUrl;
     token;
-    constructor(baseUrl = "http://127.0.0.1:8000", token = generateToken(32)) {
+    constructor(baseUrl = "http://127.0.0.1:43191") {
         this.baseUrl = baseUrl;
-        this.token = token;
+        this.token = null;
+    }
+    async pairSession() {
+        try {
+            const response = await fetch(`${this.baseUrl}/session`, {
+                method: "GET",
+            });
+            if (!response.ok) {
+                throw new AutoReelSidecarUnavailableError(`Pairing failed: ${response.statusText}`);
+            }
+            const data = await response.json();
+            if (data.status === "ok" && data.token) {
+                this.token = data.token;
+            }
+            else {
+                throw new AutoReelSidecarUnavailableError("Pairing failed: Invalid session response");
+            }
+        }
+        catch (e) {
+            if (e instanceof AutoReelSidecarUnavailableError) {
+                throw e;
+            }
+            throw new AutoReelSidecarUnavailableError(`Pairing failed: ${e.message}`);
+        }
+    }
+    async checkHealth() {
+        try {
+            const response = await fetch(`${this.baseUrl}/health`, {
+                method: "GET",
+            });
+            if (!response.ok) {
+                throw new AutoReelSidecarUnavailableError(`Health check failed: ${response.statusText}`);
+            }
+            const data = await response.json();
+            if (data.status !== "ok") {
+                throw new AutoReelSidecarUnavailableError("Health check failed: Invalid status");
+            }
+        }
+        catch (e) {
+            if (e instanceof AutoReelSidecarUnavailableError) {
+                throw e;
+            }
+            throw new AutoReelSidecarUnavailableError(`Health check failed: ${e.message}`);
+        }
     }
     async fetchWithAuth(endpoint, options = {}) {
+        return this.doFetchWithAuth(endpoint, options, false);
+    }
+    async doFetchWithAuth(endpoint, options, isRetry) {
+        if (!this.token) {
+            await this.pairSession();
+        }
         const headers = new Headers(options.headers || {});
         headers.set("Authorization", `Bearer ${this.token}`);
         if (options.method === "POST" && options.body) {
             headers.set("Content-Type", "application/json");
         }
+        let response;
         try {
-            const response = await fetch(`${this.baseUrl}${endpoint}`, {
+            response = await fetch(`${this.baseUrl}${endpoint}`, {
                 ...options,
                 headers,
             });
-            if (!response.ok) {
-                let errorBody;
-                try {
-                    errorBody = await response.json();
-                }
-                catch (e) {
-                    errorBody = { detail: response.statusText };
-                }
-                throw new Error(`Sidecar request failed: ${response.status} ${errorBody.detail || "Unknown error"}`);
-            }
-            return await response.json();
         }
         catch (error) {
             if (error instanceof Error && error.message.includes("fetch")) {
@@ -10217,14 +10315,62 @@ class AutoReelSidecarClient {
             }
             throw error;
         }
+        if (!response.ok) {
+            if ((response.status === 401 || response.status === 403) && !isRetry) {
+                // Token might have expired or sidecar restarted. Retry once.
+                this.token = null;
+                await this.pairSession();
+                return this.doFetchWithAuth(endpoint, options, true);
+            }
+            else if (response.status === 401 || response.status === 403) {
+                throw new AutoReelSidecarAuthError();
+            }
+            let errorBody;
+            try {
+                errorBody = await response.json();
+            }
+            catch (e) {
+                errorBody = { detail: response.statusText };
+            }
+            throw new Error(`Sidecar request failed: ${response.status} ${errorBody.detail || "Unknown error"}`);
+        }
+        return await response.json();
+    }
+    async pollJob(endpointBase, request, options) {
+        const submitResponse = await this.fetchWithAuth(`${endpointBase}/jobs`, {
+            method: "POST",
+            body: JSON.stringify(request),
+        });
+        const jobId = submitResponse.jobId;
+        while (true) {
+            if (options.signal?.aborted) {
+                try {
+                    await this.fetchWithAuth(`${endpointBase}/jobs/${jobId}/cancel`, { method: "POST" });
+                }
+                catch (e) {
+                    console.error(`Failed to cancel job ${jobId}:`, e);
+                }
+                throw new AutoReelSidecarCancelledError();
+            }
+            const res = await this.fetchWithAuth(`${endpointBase}/jobs/${jobId}`);
+            if (res.status === "completed") {
+                return res;
+            }
+            if (res.status === "failed") {
+                throw new Error(`Job failed: ${res.error || "Unknown error"}`);
+            }
+            if (options.onProgress && res.progress) {
+                options.onProgress(res.progress);
+            }
+            await new Promise(r => setTimeout(r, 1000));
+        }
     }
     async getMusicCapabilities() {
         try {
-            return await this.fetchWithAuth("/api/v1/music/capabilities");
+            return await this.fetchWithAuth("/music/capabilities");
         }
         catch (error) {
             console.error("Failed to get music capabilities:", error);
-            // Return a default "unavailable" capability object
             return {
                 available: false,
                 version: "unknown",
@@ -10236,50 +10382,17 @@ class AutoReelSidecarClient {
         }
     }
     async analyzeMusic(request) {
-        return this.fetchWithAuth("/api/v1/music/analyze", {
+        return this.fetchWithAuth("/music/analyze", {
             method: "POST",
             body: JSON.stringify(request),
         });
     }
     async runExtractionJob(request, options) {
-        // Mock implementation for testing
-        return new Promise((resolve, reject) => {
-            if (options.signal?.aborted) {
-                return reject(new AutoReelSidecarCancelledError());
-            }
-            setTimeout(() => {
-                resolve({
-                    schemaVersion: 1,
-                    jobId: request.jobId,
-                    requestId: request.requestId,
-                    status: "completed",
-                    sidecar: {
-                        status: "available",
-                        reason: "",
-                    },
-                    progress: {
-                        completedClips: request.frameTasks.length,
-                        remainingClips: 0,
-                        totalClips: request.frameTasks.length,
-                        completedAudioTasks: request.audioTasks.length,
-                        totalAudioTasks: request.audioTasks.length,
-                        cacheHits: 0,
-                        cacheMisses: 0,
-                    },
-                    clipResults: [],
-                    frameSamples: [],
-                    audioExtractions: [],
-                    failures: [],
-                    warnings: [],
-                    startedAt: new Date().toISOString(),
-                    completedAt: new Date().toISOString(),
-                });
-            }, 100);
-        });
+        return this.pollJob("/extraction", request, options);
     }
     async getVisionCapabilities() {
         try {
-            return await this.fetchWithAuth("/api/v1/vision/capabilities");
+            return await this.fetchWithAuth("/vision/capabilities");
         }
         catch (error) {
             console.error("Failed to get vision capabilities:", error);
@@ -10300,39 +10413,11 @@ class AutoReelSidecarClient {
         }
     }
     async runVisionJob(request, options) {
-        return new Promise((resolve, reject) => {
-            if (options.signal?.aborted) {
-                return reject(new AutoReelSidecarCancelledError());
-            }
-            setTimeout(() => {
-                resolve({
-                    schemaVersion: 1,
-                    jobId: request.jobId,
-                    requestId: request.requestId,
-                    status: "completed",
-                    sidecar: { status: "available", reason: "" },
-                    visionVersion: request.visionVersion,
-                    gpuAccelerated: false,
-                    progress: {
-                        completedFrames: request.frames.length,
-                        totalFrames: request.frames.length,
-                        completedClips: 1,
-                        totalClips: 1,
-                        cacheHits: 0,
-                        cacheMisses: 0,
-                    },
-                    clips: [],
-                    failures: [],
-                    warnings: [],
-                    startedAt: new Date().toISOString(),
-                    completedAt: new Date().toISOString(),
-                });
-            }, 100);
-        });
+        return this.pollJob("/vision", request, options);
     }
     async getEmotionCapabilities() {
         try {
-            return await this.fetchWithAuth("/api/v1/emotion/capabilities");
+            return await this.fetchWithAuth("/emotion/capabilities");
         }
         catch (error) {
             console.error("Failed to get emotion capabilities:", error);
@@ -10345,35 +10430,11 @@ class AutoReelSidecarClient {
         }
     }
     async runEmotionJob(request, options) {
-        return new Promise((resolve, reject) => {
-            if (options.signal?.aborted)
-                return reject(new AutoReelSidecarCancelledError());
-            setTimeout(() => {
-                resolve({
-                    schemaVersion: 1,
-                    jobId: request.jobId,
-                    requestId: request.requestId,
-                    status: "completed",
-                    sidecar: { status: "available", reason: "" },
-                    emotionVersion: request.emotionVersion,
-                    progress: {
-                        completedClips: request.clips.length,
-                        totalClips: request.clips.length,
-                        cacheHits: 0,
-                        cacheMisses: 0,
-                    },
-                    clips: [],
-                    failures: [],
-                    warnings: [],
-                    startedAt: new Date().toISOString(),
-                    completedAt: new Date().toISOString(),
-                });
-            }, 100);
-        });
+        return this.pollJob("/emotion", request, options);
     }
     async getFaceCapabilities() {
         try {
-            return await this.fetchWithAuth("/api/v1/face/capabilities");
+            return await this.fetchWithAuth("/face/capabilities");
         }
         catch (error) {
             console.error("Failed to get face capabilities:", error);
@@ -10387,32 +10448,7 @@ class AutoReelSidecarClient {
         }
     }
     async runFaceJob(request, options) {
-        return new Promise((resolve, reject) => {
-            if (options.signal?.aborted)
-                return reject(new AutoReelSidecarCancelledError());
-            setTimeout(() => {
-                resolve({
-                    schemaVersion: 1,
-                    jobId: request.jobId,
-                    requestId: request.requestId,
-                    status: "completed",
-                    sidecar: { status: "available", reason: "" },
-                    faceVersion: request.faceVersion,
-                    progress: {
-                        completedFrames: request.frames.length,
-                        totalFrames: request.frames.length,
-                        cacheHits: 0,
-                        cacheMisses: 0,
-                    },
-                    clips: [],
-                    clusters: [],
-                    failures: [],
-                    warnings: [],
-                    startedAt: new Date().toISOString(),
-                    completedAt: new Date().toISOString(),
-                });
-            }, 100);
-        });
+        return this.pollJob("/face", request, options);
     }
 }
 exports.AutoReelSidecarClient = AutoReelSidecarClient;
@@ -10844,7 +10880,7 @@ function serializeAutoReelJob(job) {
 var __webpack_unused_export__;
 
 __webpack_unused_export__ = ({ value: true });
-exports.scoringPresets = exports.AK = exports.M9 = exports.zx = exports.Hw = exports.zO = exports._3 = exports.M6 = exports.AT = exports.cinematicPreset = void 0;
+exports.scoringPresets = exports.H2 = exports.AK = exports.M9 = exports.zx = exports.Hw = exports.zO = exports._3 = exports.M6 = exports.AT = exports.cinematicPreset = void 0;
 const cinematicProfile = {
     id: "cinematic-v1",
     name: "Cinematic",
@@ -10985,6 +11021,23 @@ const balancedProfile = {
         { signal: "vision.motion", weight: 0.5, trust: {} },
     ],
 };
+const technicalProfile = {
+    id: "technical-v1",
+    name: "Technical Only",
+    description: "Relies entirely on low-level frame metrics (sharpness, exposure, stability). Skips Vision, Face, Emotion, and Music AI.",
+    weights: [
+        { signal: "technical.sharpness", weight: 1.0, trust: {} },
+        { signal: "technical.exposure", weight: 0.9, trust: {} },
+        { signal: "technical.stability", weight: 0.8, trust: {} },
+        { signal: "technical.composition", weight: 0.7, trust: {} },
+        { signal: "technical.focus", weight: 0.6, trust: {} },
+    ],
+    penalties: [
+        { id: "blur", signal: "technical.blur", threshold: 0.5, operator: ">", penaltyPoints: 20, reason: "Excessive blur" },
+        { id: "shake", signal: "technical.stability", threshold: 0.5, operator: "<", penaltyPoints: 20, reason: "Excessive camera shake" },
+    ],
+    diversity: [],
+};
 exports.cinematicPreset = { id: "cinematic", name: "Cinematic", description: "Creates a reel with a film-like, visually polished aesthetic.", profile: cinematicProfile };
 exports.AT = { id: "emotional", name: "Emotional", description: "Focuses on clips with strong emotional content.", profile: emotionalProfile };
 exports.M6 = { id: "couple", name: "Couple", description: "Prioritizes shots of the couple.", profile: coupleProfile };
@@ -10994,6 +11047,7 @@ exports.Hw = { id: "luxury", name: "Luxury", description: "Showcases high-end de
 exports.zx = { id: "documentary", name: "Documentary", description: "Tells the story of the day.", profile: documentaryProfile };
 exports.M9 = { id: "viral", name: "Viral", description: "Optimized for social media.", profile: viralProfile };
 exports.AK = { id: "balanced", name: "Balanced", description: "A well-rounded mix of moments.", profile: balancedProfile };
+exports.H2 = { id: "technical", name: "Technical Only", description: "Fastest scoring using only frame metrics.", profile: technicalProfile };
 exports.scoringPresets = [
     exports.cinematicPreset,
     exports.AT,
@@ -11004,6 +11058,7 @@ exports.scoringPresets = [
     exports.zx,
     exports.M9,
     exports.AK,
+    exports.H2,
 ];
 
 
@@ -15039,7 +15094,7 @@ function AppShell() {
                                 gap: theme_1.spacing.lg,
                                 height: "100%",
                                 minHeight: 0
-                            }, children: [(0, jsx_runtime_1.jsxs)("div", { style: appShellLayout_1.WORKSPACE_CONTENT_COLUMN_STYLE, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { style: { background: theme_1.colors.panel, boxShadow: theme_1.shadows.raised }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "center" }, children: [(0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.gold, fontSize: theme_1.typography.sizes.xs, fontWeight: 700, textTransform: "uppercase" }, children: "Monday, August 3, 2026" }), (0, jsx_runtime_1.jsx)("h1", { style: { margin: `${theme_1.spacing.xs}px 0 0`, fontFamily: theme_1.typography.heading, fontSize: theme_1.typography.sizes.xxl, color: theme_1.colors.maroonDeep }, children: activeConfig.title }), (0, jsx_runtime_1.jsx)("p", { style: { margin: `${theme_1.spacing.xs}px 0 0`, color: theme_1.colors.inkMuted }, children: activeConfig.description })] }), !assistantOpen && ((0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: handleAssistantOpen, children: "Open Assistant" }))] }) }), (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: appShellLayout_1.WORKSPACE_SCROLL_REGION_STYLE, children: (0, jsx_runtime_1.jsx)(ErrorBoundary_1.default, { resetKey: activeModule, children: (0, jsx_runtime_1.jsx)(WorkspacePanel, { moduleId: activeModule, timelineInfo: timelineInfo }) }) })] }), assistantOpen && ((0, jsx_runtime_1.jsx)("div", { style: { flex: "0 0 340px", width: 340, minWidth: 300, minHeight: 0 }, children: (0, jsx_runtime_1.jsx)(AIChatPanel_1.default, { title: "AI Assistant", suggestedActions: assistantActions, onAction: handleAssistantAction }) }))] }) })] }), (0, jsx_runtime_1.jsxs)("footer", { style: {
+                            }, children: [(0, jsx_runtime_1.jsxs)("div", { style: appShellLayout_1.WORKSPACE_CONTENT_COLUMN_STYLE, children: [(0, jsx_runtime_1.jsx)(primitives_1.Card, { style: { background: theme_1.colors.panel, boxShadow: theme_1.shadows.raised }, children: (0, jsx_runtime_1.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: theme_1.spacing.md, flexWrap: "wrap", alignItems: "flex-start", paddingRight: theme_1.spacing.sm }, children: [(0, jsx_runtime_1.jsxs)("div", { style: { flex: "1 1 auto", minWidth: 200 }, children: [(0, jsx_runtime_1.jsx)("div", { style: { color: theme_1.colors.gold, fontSize: theme_1.typography.sizes.xs, fontWeight: 700, textTransform: "uppercase" }, children: "Monday, August 3, 2026" }), (0, jsx_runtime_1.jsx)("h1", { style: { margin: `${theme_1.spacing.xs}px 0 0`, fontFamily: theme_1.typography.heading, fontSize: theme_1.typography.sizes.xxl, color: theme_1.colors.maroonDeep }, children: activeConfig.title }), (0, jsx_runtime_1.jsx)("p", { style: { margin: `${theme_1.spacing.xs}px 0 0`, color: theme_1.colors.inkMuted }, children: activeConfig.description })] }), !assistantOpen && ((0, jsx_runtime_1.jsx)("div", { style: { flex: "0 0 auto", marginTop: theme_1.spacing.xs }, children: (0, jsx_runtime_1.jsx)(primitives_1.Button, { variant: "secondary", onClick: handleAssistantOpen, children: "Open Assistant" }) }))] }) }), (0, jsx_runtime_1.jsx)(primitives_1.ScrollArea, { style: appShellLayout_1.WORKSPACE_SCROLL_REGION_STYLE, children: (0, jsx_runtime_1.jsx)(ErrorBoundary_1.default, { resetKey: activeModule, children: (0, jsx_runtime_1.jsx)(WorkspacePanel, { moduleId: activeModule, timelineInfo: timelineInfo }) }) })] }), assistantOpen && ((0, jsx_runtime_1.jsx)("div", { style: { flex: "0 0 340px", width: 340, minWidth: 300, minHeight: 0 }, children: (0, jsx_runtime_1.jsx)(AIChatPanel_1.default, { title: "AI Assistant", suggestedActions: assistantActions, onAction: handleAssistantAction }) }))] }) })] }), (0, jsx_runtime_1.jsxs)("footer", { style: {
                     flex: "0 0 auto",
                     borderTop: `1px solid ${theme_1.colors.border}`,
                     background: theme_1.colors.panel,
@@ -15116,7 +15171,7 @@ const LeftNav = (0, react_1.memo)(function LeftNav({ activeModule, navCollapsed,
                                                 background: active ? theme_1.colors.cream : theme_1.colors.white,
                                                 color: active ? theme_1.colors.maroon : theme_1.colors.inkMuted,
                                                 border: `1px solid ${active ? theme_1.colors.goldSoft : theme_1.colors.border}`
-                                            }, children: item.icon }), !navCollapsed && ((0, jsx_runtime_1.jsxs)("span", { style: appShellLayout_1.NAV_LABEL_STACK_STYLE, children: [(0, jsx_runtime_1.jsx)("span", { style: appShellLayout_1.NAV_TITLE_STYLE, children: item.title }), (0, jsx_runtime_1.jsx)("span", { style: appShellLayout_1.NAV_BADGE_ROW_STYLE, children: (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Phase ${item.phase}`, tone: active ? "warning" : "neutral" }) })] }))] }, item.id));
+                                            }, children: item.icon }), !navCollapsed && ((0, jsx_runtime_1.jsxs)("div", { style: appShellLayout_1.NAV_LABEL_STACK_STYLE, children: [(0, jsx_runtime_1.jsx)("div", { style: appShellLayout_1.NAV_TITLE_STYLE, children: item.title }), (0, jsx_runtime_1.jsx)("div", { style: appShellLayout_1.NAV_BADGE_ROW_STYLE, children: (0, jsx_runtime_1.jsx)(primitives_1.StatusChip, { label: `Phase ${item.phase}`, tone: active ? "warning" : "neutral" }) })] }))] }, item.id));
                             })] }, group.label))) }) })] }));
 });
 function WorkspacePanel({ moduleId, timelineInfo }) {
@@ -15274,7 +15329,7 @@ exports.NAV_BADGE_ROW_STYLE = {
     minWidth: 0
 };
 function formatModuleNavLabel(title, phase) {
-    return `${title} Phase ${phase}`;
+    return `${title} - Phase ${phase}`;
 }
 
 
@@ -17060,6 +17115,58 @@ function normalizeSystemStat(value) {
     }
     return "—";
 }
+
+
+/***/ },
+
+/***/ 8778
+(__unused_webpack_module, exports) {
+
+var __webpack_unused_export__;
+
+__webpack_unused_export__ = ({ value: true });
+exports.uxpStorageService = void 0;
+class DefaultUXPFilePickerService {
+    get localFileSystem() {
+        try {
+            const uxp = globalThis.require?.("uxp");
+            return uxp?.storage?.localFileSystem;
+        }
+        catch {
+            return null;
+        }
+    }
+    async pickFile(types) {
+        const fs = this.localFileSystem;
+        if (!fs) {
+            console.warn("[UXPStorage] localFileSystem not available. Cannot pick file.");
+            return null;
+        }
+        try {
+            const file = await fs.getFileForOpening({ types, allowMultiple: false });
+            if (!file)
+                return null;
+            return {
+                name: file.name,
+                path: file.nativePath
+            };
+        }
+        catch (error) {
+            console.error("[UXPStorage] Error picking file:", error);
+            return null;
+        }
+    }
+    pickAudioFile() {
+        return this.pickFile(["wav", "mp3", "aiff", "aif", "m4a", "aac", "flac"]);
+    }
+    pickImageFile() {
+        return this.pickFile(["jpg", "jpeg", "png", "webp", "tiff"]);
+    }
+    pickVideoFile() {
+        return this.pickFile(["mp4", "mov", "m4v"]);
+    }
+}
+exports.uxpStorageService = new DefaultUXPFilePickerService();
 
 
 /***/ },

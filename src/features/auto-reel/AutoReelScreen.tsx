@@ -142,9 +142,16 @@ export default function AutoReelScreen() {
       const sidecarClient = new AutoReelSidecarClient();
       try {
         await sidecarClient.checkHealth();
-        setSidecarAvailable(true);
+        try {
+          await sidecarClient.pairSession();
+          setSidecarAvailable(true);
+        } catch (pairErr) {
+          setSidecarAvailable(false);
+          console.error("[RK Flow][Sidecar] Pairing failed", pairErr);
+        }
       } catch (err) {
         setSidecarAvailable(false);
+        console.error("[RK Flow][Sidecar] Health failed", err);
       }
 
       setPlanningText(buildPlanningText(nextState, nextContext, "idle"));

@@ -14,14 +14,11 @@ import {
 
 } from "./models";
 
-function generateToken(length: number): string {
-  const characters =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let result = "";
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
+export class AutoReelSidecarAuthError extends Error {
+  constructor(message = "Authentication with sidecar failed.") {
+    super(message);
+    this.name = "AutoReelSidecarAuthError";
   }
-  return result;
 }
 
 export class AutoReelSidecarCancelledError extends Error {
@@ -38,23 +35,19 @@ export class AutoReelSidecarUnavailableError extends Error {
   }
 }
 
-export function isAutoReelSidecarCancelledError(
-  error: unknown
-): error is AutoReelSidecarCancelledError {
+export function isAutoReelSidecarCancelledError(error: unknown): error is AutoReelSidecarCancelledError {
   return error instanceof AutoReelSidecarCancelledError;
 }
 
-export function isAutoReelSidecarUnavailableError(
-  error: unknown
-): error is AutoReelSidecarUnavailableError {
+export function isAutoReelSidecarUnavailableError(error: unknown): error is AutoReelSidecarUnavailableError {
   return error instanceof AutoReelSidecarUnavailableError;
 }
 
-export function mapSidecarHealthResponse(
-  _response: any,
-  _config: any,
-  baseUrl: string
-): any {
+export function isAutoReelSidecarAuthError(error: unknown): error is AutoReelSidecarAuthError {
+  return error instanceof AutoReelSidecarAuthError;
+}
+
+export function mapSidecarHealthResponse(_response: any, _config: any, baseUrl: string): any {
   if (baseUrl.includes("localhost") || baseUrl.includes("127.0.0.1")) {
     return { available: true, reason: "" };
   }
@@ -63,70 +56,152 @@ export function mapSidecarHealthResponse(
 
 export class AutoReelSidecarClient {
   private baseUrl: string;
-  private token: string;
+  private token: string | null;
 
-  constructor(
-    baseUrl: string = "http://127.0.0.1:43191",
-    token: string = generateToken(32)
-  ) {
+  constructor(baseUrl: string = "http://127.0.0.1:43191") {
     this.baseUrl = baseUrl;
-    this.token = token;
+    this.token = null;
   }
 
-  public async checkHealth(): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/health`);
-    if (!response.ok) {
-      throw new AutoReelSidecarUnavailableError();
+  public async pairSession(): Promise<void> {
+    try {
+      const response = await fetch(`${this.baseUrl}/session`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new AutoReelSidecarUnavailableError(`Pairing failed: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      if (data.status === "ok" && data.token) {
+        this.token = data.token;
+      } else {
+        throw new AutoReelSidecarUnavailableError("Pairing failed: Invalid session response");
+      }
+    } catch (e) {
+      if (e instanceof AutoReelSidecarUnavailableError) {
+        throw e;
+      }
+      throw new AutoReelSidecarUnavailableError(`Pairing failed: ${(e as Error).message}`);
     }
   }
 
-  private async fetchWithAuth<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<T> {
+  public async checkHealth(): Promise<void> {
+    try {
+      const response = await fetch(`${this.baseUrl}/health`, {
+        method: "GET",
+      });
+      if (!response.ok) {
+        throw new AutoReelSidecarUnavailableError(`Health check failed: ${response.statusText}`);
+      }
+      const data = await response.json();
+      if (data.status !== "ok") {
+        throw new AutoReelSidecarUnavailableError("Health check failed: Invalid status");
+      }
+    } catch (e) {
+      if (e instanceof AutoReelSidecarUnavailableError) {
+        throw e;
+      }
+      throw new AutoReelSidecarUnavailableError(`Health check failed: ${(e as Error).message}`);
+    }
+  }
+
+  private async fetchWithAuth<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    return this.doFetchWithAuth(endpoint, options, false);
+  }
+
+  private async doFetchWithAuth<T>(endpoint: string, options: RequestInit, isRetry: boolean): Promise<T> {
+    if (!this.token) {
+      await this.pairSession();
+    }
+
     const headers = new Headers(options.headers || {});
     headers.set("Authorization", `Bearer ${this.token}`);
+    
     if (options.method === "POST" && options.body) {
       headers.set("Content-Type", "application/json");
     }
 
+    let response: Response;
     try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      response = await fetch(`${this.baseUrl}${endpoint}`, {
         ...options,
         headers,
       });
-
-      if (!response.ok) {
-        let errorBody;
-        try {
-          errorBody = await response.json();
-        } catch (e) {
-          errorBody = { detail: response.statusText };
-        }
-        throw new Error(
-          `Sidecar request failed: ${response.status} ${
-            errorBody.detail || "Unknown error"
-          }`
-        );
-      }
-
-      return await response.json();
     } catch (error) {
       if (error instanceof Error && error.message.includes("fetch")) {
         throw new AutoReelSidecarUnavailableError();
       }
       throw error;
     }
+
+    if (!response.ok) {
+      if ((response.status === 401 || response.status === 403) && !isRetry) {
+        // Token might have expired or sidecar restarted. Retry once.
+        this.token = null;
+        await this.pairSession();
+        return this.doFetchWithAuth(endpoint, options, true);
+      } else if (response.status === 401 || response.status === 403) {
+        throw new AutoReelSidecarAuthError();
+      }
+
+      let errorBody;
+      try {
+        errorBody = await response.json();
+      } catch (e) {
+        errorBody = { detail: response.statusText };
+      }
+      throw new Error(
+        `Sidecar request failed: ${response.status} ${errorBody.detail || "Unknown error"}`
+      );
+    }
+
+    return await response.json();
+  }
+
+  private async pollJob<T>(
+    endpointBase: string,
+    request: any,
+    options: { signal?: AbortSignal; onProgress?: (payload: any) => void }
+  ): Promise<T> {
+    const submitResponse = await this.fetchWithAuth<{ jobId: string }>(`${endpointBase}/jobs`, {
+      method: "POST",
+      body: JSON.stringify(request),
+    });
+    
+    const jobId = submitResponse.jobId;
+
+    while (true) {
+      if (options.signal?.aborted) {
+        try {
+          await this.fetchWithAuth(`${endpointBase}/jobs/${jobId}/cancel`, { method: "POST" });
+        } catch (e) {
+          console.error(`Failed to cancel job ${jobId}:`, e);
+        }
+        throw new AutoReelSidecarCancelledError();
+      }
+
+      const res = await this.fetchWithAuth<any>(`${endpointBase}/jobs/${jobId}`);
+      if (res.status === "completed") {
+        return res as T;
+      }
+      if (res.status === "failed") {
+        throw new Error(`Job failed: ${res.error || "Unknown error"}`);
+      }
+      if (options.onProgress && res.progress) {
+        options.onProgress(res.progress);
+      }
+      
+      await new Promise(r => setTimeout(r, 1000));
+    }
   }
 
   async getMusicCapabilities(): Promise<MusicCapabilities> {
     try {
-      return await this.fetchWithAuth<MusicCapabilities>(
-        "/api/v1/music/capabilities"
-      );
+      return await this.fetchWithAuth<MusicCapabilities>("/music/capabilities");
     } catch (error) {
       console.error("Failed to get music capabilities:", error);
-      // Return a default "unavailable" capability object
       return {
         available: false,
         version: "unknown",
@@ -138,10 +213,8 @@ export class AutoReelSidecarClient {
     }
   }
 
-  async analyzeMusic(
-    request: MusicAnalysisRequest
-  ): Promise<MusicAnalysisReport> {
-    return this.fetchWithAuth<MusicAnalysisReport>("/api/v1/music/analyze", {
+  async analyzeMusic(request: MusicAnalysisRequest): Promise<MusicAnalysisReport> {
+    return this.fetchWithAuth<MusicAnalysisReport>("/music/analyze", {
       method: "POST",
       body: JSON.stringify(request),
     });
@@ -149,50 +222,14 @@ export class AutoReelSidecarClient {
 
   async runExtractionJob(
     request: any,
-    options: {
-      signal?: AbortSignal;
-      onProgress?: (payload: any) => void;
-    }
+    options: { signal?: AbortSignal; onProgress?: (payload: any) => void }
   ): Promise<AutoReelExtractionResult> {
-    // Mock implementation for testing
-    return new Promise((resolve, reject) => {
-      if (options.signal?.aborted) {
-        return reject(new AutoReelSidecarCancelledError());
-      }
-      setTimeout(() => {
-        resolve({
-          schemaVersion: 1,
-          jobId: request.jobId,
-          requestId: request.requestId,
-          status: "completed",
-          sidecar: {
-            status: "available",
-            reason: "",
-          },
-          progress: {
-            completedClips: request.frameTasks.length,
-            remainingClips: 0,
-            totalClips: request.frameTasks.length,
-            completedAudioTasks: request.audioTasks.length,
-            totalAudioTasks: request.audioTasks.length,
-            cacheHits: 0,
-            cacheMisses: 0,
-          },
-          clipResults: [],
-          frameSamples: [],
-          audioExtractions: [],
-          failures: [],
-          warnings: [],
-          startedAt: new Date().toISOString(),
-          completedAt: new Date().toISOString(),
-        });
-      }, 100);
-    });
+    return this.pollJob<AutoReelExtractionResult>("/extraction", request, options);
   }
 
   async getVisionCapabilities(): Promise<VisionCapabilities> {
     try {
-      return await this.fetchWithAuth<VisionCapabilities>("/api/v1/vision/capabilities");
+      return await this.fetchWithAuth<VisionCapabilities>("/vision/capabilities");
     } catch (error) {
       console.error("Failed to get vision capabilities:", error);
       return {
@@ -214,45 +251,14 @@ export class AutoReelSidecarClient {
 
   async runVisionJob(
     request: any,
-    options: {
-      signal?: AbortSignal;
-      onProgress?: (payload: any) => void;
-    }
+    options: { signal?: AbortSignal; onProgress?: (payload: any) => void }
   ): Promise<VisionBatchAnalysis> {
-    return new Promise((resolve, reject) => {
-      if (options.signal?.aborted) {
-        return reject(new AutoReelSidecarCancelledError());
-      }
-      setTimeout(() => {
-        resolve({
-          schemaVersion: 1,
-          jobId: request.jobId,
-          requestId: request.requestId,
-          status: "completed",
-          sidecar: { status: "available", reason: "" },
-          visionVersion: request.visionVersion,
-          gpuAccelerated: false,
-          progress: {
-            completedFrames: request.frames.length,
-            totalFrames: request.frames.length,
-            completedClips: 1,
-            totalClips: 1,
-            cacheHits: 0,
-            cacheMisses: 0,
-          },
-          clips: [],
-          failures: [],
-          warnings: [],
-          startedAt: new Date().toISOString(),
-          completedAt: new Date().toISOString(),
-        } as VisionBatchAnalysis);
-      }, 100);
-    });
+    return this.pollJob<VisionBatchAnalysis>("/vision", request, options);
   }
 
   async getEmotionCapabilities(): Promise<EmotionCapabilities> {
     try {
-      return await this.fetchWithAuth<EmotionCapabilities>("/api/v1/emotion/capabilities");
+      return await this.fetchWithAuth<EmotionCapabilities>("/emotion/capabilities");
     } catch (error) {
       console.error("Failed to get emotion capabilities:", error);
       return {
@@ -266,40 +272,14 @@ export class AutoReelSidecarClient {
 
   async runEmotionJob(
     request: any,
-    options: {
-      signal?: AbortSignal;
-      onProgress?: (payload: any) => void;
-    }
+    options: { signal?: AbortSignal; onProgress?: (payload: any) => void }
   ): Promise<EmotionReport> {
-    return new Promise((resolve, reject) => {
-      if (options.signal?.aborted) return reject(new AutoReelSidecarCancelledError());
-      setTimeout(() => {
-        resolve({
-          schemaVersion: 1,
-          jobId: request.jobId,
-          requestId: request.requestId,
-          status: "completed",
-          sidecar: { status: "available", reason: "" },
-          emotionVersion: request.emotionVersion,
-          progress: {
-            completedClips: request.clips.length,
-            totalClips: request.clips.length,
-            cacheHits: 0,
-            cacheMisses: 0,
-          },
-          clips: [],
-          failures: [],
-          warnings: [],
-          startedAt: new Date().toISOString(),
-          completedAt: new Date().toISOString(),
-        } as unknown as EmotionReport);
-      }, 100);
-    });
+    return this.pollJob<EmotionReport>("/emotion", request, options);
   }
 
   async getFaceCapabilities(): Promise<FaceCapabilities> {
     try {
-      return await this.fetchWithAuth<FaceCapabilities>("/api/v1/face/capabilities");
+      return await this.fetchWithAuth<FaceCapabilities>("/face/capabilities");
     } catch (error) {
       console.error("Failed to get face capabilities:", error);
       return {
@@ -314,35 +294,8 @@ export class AutoReelSidecarClient {
 
   async runFaceJob(
     request: any,
-    options: {
-      signal?: AbortSignal;
-      onProgress?: (payload: any) => void;
-    }
+    options: { signal?: AbortSignal; onProgress?: (payload: any) => void }
   ): Promise<FaceReport> {
-    return new Promise((resolve, reject) => {
-      if (options.signal?.aborted) return reject(new AutoReelSidecarCancelledError());
-      setTimeout(() => {
-        resolve({
-          schemaVersion: 1,
-          jobId: request.jobId,
-          requestId: request.requestId,
-          status: "completed",
-          sidecar: { status: "available", reason: "" },
-          faceVersion: request.faceVersion,
-          progress: {
-            completedFrames: request.frames.length,
-            totalFrames: request.frames.length,
-            cacheHits: 0,
-            cacheMisses: 0,
-          },
-          clips: [],
-          clusters: [],
-          failures: [],
-          warnings: [],
-          startedAt: new Date().toISOString(),
-          completedAt: new Date().toISOString(),
-        } as unknown as FaceReport);
-      }, 100);
-    });
+    return this.pollJob<FaceReport>("/face", request, options);
   }
 }

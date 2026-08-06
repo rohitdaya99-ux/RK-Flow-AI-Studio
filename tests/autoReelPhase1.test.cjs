@@ -401,7 +401,7 @@ test("Navigation label and phase badge remain separate layout elements", () => {
   assert.equal(NAV_LABEL_STACK_STYLE.display, "flex");
   assert.equal(NAV_LABEL_STACK_STYLE.flexDirection, "column");
   assert.equal(NAV_BADGE_ROW_STYLE.display, "flex");
-  assert.equal(formatModuleNavLabel("Auto Reel", 2), "Auto Reel Phase 2");
+  assert.equal(formatModuleNavLabel("Auto Reel", 2), "Auto Reel - Phase 2");
 });
 
 test("Phase 3 scanner filters source modes, manual picks, and project-item bins", async () => {
@@ -864,13 +864,13 @@ function fakeMemory() {
   };
 }
 
-test("Phase 10 preset selector exposes all nine scoring presets in operator order", () => {
+test("Phase 10 preset selector exposes all ten scoring presets in operator order", () => {
   assert.deepEqual(Array.from(SCORING_PRESET_ORDER), [
     "balanced", "cinematic", "emotional", "couple", "family",
-    "dance", "luxury", "documentary", "viral"
+    "dance", "luxury", "documentary", "viral", "technical"
   ]);
   const presets = listScoringPresets();
-  assert.equal(presets.length, 9);
+  assert.equal(presets.length, 10);
   assert.deepEqual(presets.map((p) => p.id), Array.from(SCORING_PRESET_ORDER));
 
   const controls = selectPreset(createScoringControlsState(), "dance");

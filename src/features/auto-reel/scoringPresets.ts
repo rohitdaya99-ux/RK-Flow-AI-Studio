@@ -150,6 +150,24 @@ const balancedProfile: ScoringProfile = {
   ],
 };
 
+const technicalProfile: ScoringProfile = {
+  id: "technical-v1",
+  name: "Technical Only",
+  description: "Relies entirely on low-level frame metrics (sharpness, exposure, stability). Skips Vision, Face, Emotion, and Music AI.",
+  weights: [
+    { signal: "technical.sharpness", weight: 1.0, trust: {} },
+    { signal: "technical.exposure", weight: 0.9, trust: {} },
+    { signal: "technical.stability", weight: 0.8, trust: {} },
+    { signal: "technical.composition", weight: 0.7, trust: {} },
+    { signal: "technical.focus", weight: 0.6, trust: {} },
+  ],
+  penalties: [
+    { id: "blur", signal: "technical.blur", threshold: 0.5, operator: ">", penaltyPoints: 20, reason: "Excessive blur" },
+    { id: "shake", signal: "technical.stability", threshold: 0.5, operator: "<", penaltyPoints: 20, reason: "Excessive camera shake" },
+  ],
+  diversity: [],
+};
+
 
 export const cinematicPreset: ScorePreset = { id: "cinematic", name: "Cinematic", description: "Creates a reel with a film-like, visually polished aesthetic.", profile: cinematicProfile };
 export const emotionalPreset: ScorePreset = { id: "emotional", name: "Emotional", description: "Focuses on clips with strong emotional content.", profile: emotionalProfile };
@@ -160,6 +178,7 @@ export const luxuryPreset: ScorePreset = { id: "luxury", name: "Luxury", descrip
 export const documentaryPreset: ScorePreset = { id: "documentary", name: "Documentary", description: "Tells the story of the day.", profile: documentaryProfile };
 export const viralPreset: ScorePreset = { id: "viral", name: "Viral", description: "Optimized for social media.", profile: viralProfile };
 export const balancedPreset: ScorePreset = { id: "balanced", name: "Balanced", description: "A well-rounded mix of moments.", profile: balancedProfile };
+export const technicalPreset: ScorePreset = { id: "technical", name: "Technical Only", description: "Fastest scoring using only frame metrics.", profile: technicalProfile };
 
 
 export const scoringPresets: ScorePreset[] = [
@@ -172,4 +191,5 @@ export const scoringPresets: ScorePreset[] = [
   documentaryPreset,
   viralPreset,
   balancedPreset,
+  technicalPreset,
 ];

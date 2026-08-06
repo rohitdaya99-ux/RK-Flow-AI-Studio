@@ -24,7 +24,8 @@ export const SCORING_PRESET_ORDER = [
   "dance",
   "luxury",
   "documentary",
-  "viral"
+  "viral",
+  "technical"
 ] as const;
 
 export type ScoringPresetId = (typeof SCORING_PRESET_ORDER)[number];
