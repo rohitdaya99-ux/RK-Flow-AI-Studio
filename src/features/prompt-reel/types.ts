@@ -27,6 +27,7 @@ export interface ReelPlanClip {
   mediaType: string;
   mediaPath?: string;
   projectItemId?: string;
+  projectItem?: any;
   shotType: string;
   emotionWeight: number;
   musicEnergyWeight: number;
@@ -34,6 +35,12 @@ export interface ReelPlanClip {
   selectionScore: number;
   reason: string;
   promptTags: string[];
+  stableId?: string;
+  sourceIn?: number | null;
+  sourceOut?: number | null;
+  timelineStart?: number;
+  timelineEnd?: number;
+  trackType?: "video" | "audio";
 }
 
 export interface ReelPlan {

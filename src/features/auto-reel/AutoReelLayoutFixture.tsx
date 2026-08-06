@@ -15,6 +15,18 @@ import {
 } from "./autoReelSetupConfig";
 import { AutoReelSetupContext } from "./autoReelSetupService";
 import { spacing } from "../../ui/theme";
+import { AutoReelScoringPanel } from "./AutoReelScoringPanel";
+import { AutoReelRankedList } from "./AutoReelRankedList";
+import {
+  createClipListViewState,
+  createScoringControlsState,
+  createScoringRunStatus
+} from "./autoReelScoringControls";
+import {
+  buildScoringFixtureClips,
+  buildScoringFixtureReport,
+  buildScoringFixtureChoices
+} from "./autoReelScoringFixture";
 
 export const AUTO_REEL_LAYOUT_FIXTURE_WIDTHS = [280, 500, 900, 1146, 1440] as const;
 
@@ -68,6 +80,10 @@ const FIXTURE_LOG = [
   "Loaded Premiere context for RK Flow Wedding Project With Long Client Name / Main Wedding Sequence With Long Title.",
   "Prepared AutoReelRequest preview."
 ];
+
+const FIXTURE_SCORING_REPORT = buildScoringFixtureReport();
+const FIXTURE_SCORING_CLIPS = buildScoringFixtureClips();
+const FIXTURE_SCORING_CHOICES = buildScoringFixtureChoices();
 
 export function AutoReelLayoutFixture() {
   if (process.env.NODE_ENV === "production") {
@@ -143,6 +159,29 @@ export function AutoReelLayoutFixture() {
                 panelWidth={width}
                 requestPreview={JSON.stringify({ fixture: true, width }, null, 2)}
                 log={FIXTURE_LOG}
+              />
+              <AutoReelScoringPanel
+                controls={createScoringControlsState("cinematic")}
+                status={createScoringRunStatus()}
+                report={FIXTURE_SCORING_REPORT}
+                savedProfileVersion={null}
+                disabled={false}
+                onSelectPreset={() => undefined}
+                onCategoryWeight={() => undefined}
+                onRestoreDefaults={() => undefined}
+                onSaveProfile={() => undefined}
+                onRescore={() => undefined}
+                onCancel={() => undefined}
+              />
+              <AutoReelRankedList
+                report={FIXTURE_SCORING_REPORT}
+                clips={FIXTURE_SCORING_CLIPS}
+                view={{ ...createClipListViewState(), expandedClipId: "clip-023" }}
+                choices={FIXTURE_SCORING_CHOICES}
+                layoutMode={layoutMode}
+                disabled={false}
+                onViewChange={() => undefined}
+                onChoice={() => undefined}
               />
             </div>
           </div>

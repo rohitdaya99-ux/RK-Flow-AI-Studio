@@ -12,12 +12,21 @@ import {
 
 export interface AutoEditSourceClip {
   id?: string;
+  stableId?: string;
   path?: string;
   start?: number;
   end?: number;
   duration?: number;
   score?: number;
   type?: "video" | "audio";
+  trackType?: "video" | "audio";
+  projectItemId?: string | null;
+  projectItem?: any;
+  trackIndex?: number;
+  sourceIn?: number | null;
+  sourceOut?: number | null;
+  timelineStart?: number;
+  timelineEnd?: number;
 }
 
 export class AutoEditAssembler {
@@ -42,6 +51,7 @@ export class AutoEditAssembler {
 
     const sequenceName = this.buildSequenceName(template.name, styleProfile);
     const plan = this.buildAssemblyPlan(sequenceName, template, sourceClips);
+    this.validatePreflight(sourceClips);
     return this.executeAssemblyPlan(sequenceName, plan.clipPlans, plan.createSequenceCommand, onProgress);
   }
 
@@ -66,6 +76,7 @@ export class AutoEditAssembler {
         createCommand("ADD_CLIP_TO_SEQUENCE", {
           clipId: clip.clipName,
           projectItemId: clip.projectItemId,
+          projectItem: clip.projectItem,
           mediaPath: clip.mediaPath,
           start: plan.clips
             .slice(0, index)
@@ -91,12 +102,35 @@ export class AutoEditAssembler {
       return { clip, commands };
     });
 
+    this.validatePreflight(plan.clips);
+
     return this.executeAssemblyPlan(
       sequenceName,
       clipPlans,
       createCommand("CREATE_SEQUENCE", { name: sequenceName }),
       onProgress
     );
+  }
+
+  private validatePreflight(clips: AutoEditSourceClip[] | ReelPlan["clips"]) {
+    for (const clip of clips) {
+      const mediaPath = "path" in clip ? clip.path : (clip as any).mediaPath;
+      if (!clip.projectItem && !clip.projectItemId && !mediaPath) {
+        throw new Error(
+          JSON.stringify(
+            {
+              clipName: "clipName" in clip ? clip.clipName : clip.id,
+              stableId: "clipId" in clip ? clip.clipId : clip.id,
+              projectItemId: clip.projectItemId,
+              mediaPath: mediaPath,
+              reason: "Unresolvable ProjectItem: missing projectItem, projectItemId, and verified mediaPath"
+            },
+            null,
+            2
+          )
+        );
+      }
+    }
   }
 
   private async executeAssemblyPlan(
@@ -202,6 +236,8 @@ export class AutoEditAssembler {
       commands.push(
         createCommand(clip.type === "audio" ? "ADD_AUDIO_TO_SEQUENCE" : "ADD_CLIP_TO_SEQUENCE", {
           clipId: clip.id,
+          projectItemId: clip.projectItemId,
+          projectItem: clip.projectItem,
           mediaPath: clip.path,
           start: currentTime,
           end: clip.end,
@@ -272,14 +308,27 @@ function normalizeClip(clip: AutoEditSourceClip): AutoEditSourceClip {
 }
 
 function normalizeTimelineClip(clip: TimelineClip): AutoEditSourceClip {
+  if (clip.projectItemId === undefined || clip.projectItemId === null) {
+    console.warn(`[RK Flow][AutoEditAssembler] projectItemId is undefined/null for clip ${clip.id ?? clip.name}`);
+  }
+
   return {
     id: clip.id,
+    stableId: clip.id,
+    projectItemId: clip.projectItemId,
+    projectItem: clip.projectItem,
     path: clip.mediaPath ?? undefined,
     start: clip.start,
     end: clip.end,
     duration: clip.duration,
     score: clip.duration,
-    type: "video"
+    type: clip.trackType ?? (clip.mediaType === "audio" ? "audio" : "video"),
+    trackType: clip.trackType ?? (clip.mediaType === "audio" ? "audio" : "video"),
+    trackIndex: clip.trackIndex,
+    sourceIn: clip.sourceIn,
+    sourceOut: clip.sourceOut,
+    timelineStart: clip.start,
+    timelineEnd: clip.end
   };
 }
 

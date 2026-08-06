@@ -1037,6 +1037,20 @@ export interface AutoReelJob {
   storyBeats: StoryBeat[];
   plan?: ReelPlan;
   revisions: PlanRevision[];
+  storyPlan?: any; // To avoid circular/complex typing for now, or just import
+  storyHistory?: any;
+  durationPlan?: any;
+  durationHistory?: any;
+  productionReport?: any;
+  cinematographyReport?: any;
+  vfxPlan?: any;
+  soundDesignPlan?: any;
+  finalDirectionPlan?: any;
+  cameraPerformanceReport?: any;
+  storyEngagementReport?: any;
+  viralReelReport?: any;
+  reviewSessions?: any[];
+  pluginRegistry?: Record<string, any>;
   executionReport?: ExecutionReport;
   transitions: AutoReelJobTransition[];
   warnings: string[];

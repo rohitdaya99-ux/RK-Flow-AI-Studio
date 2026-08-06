@@ -61,6 +61,9 @@ export class CommandValidator {
         requireNonEmptyString(payload, "clipId", errors);
         requireFiniteNumber(payload, "time", errors);
         break;
+      case "DELETE_CLIP":
+        requireNonEmptyString(payload, "clipId", errors);
+        break;
       case "TRIM_CLIP":
         requireNonEmptyString(payload, "clipId", errors);
         requireFiniteNumber(payload, "start", errors);

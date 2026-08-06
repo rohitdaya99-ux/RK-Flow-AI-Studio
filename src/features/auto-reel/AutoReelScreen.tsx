@@ -33,10 +33,32 @@ import {
 } from "./AutoReelSections";
 import { glassCardStyle, sectionWrapStyle, titleCase } from "./AutoReelUi";
 import { AutoReelRankedList } from "./AutoReelRankedList";
+import { AutoReelScoringPanel } from "./AutoReelScoringPanel";
+import { ScoringCancelledError, runScoringPipeline } from "./autoReelScoringService";
+import { AutoReelJobMemory } from "./AutoReelJobMemory";
+import { MemoryEngine } from "../../core/brain/MemoryEngine";
+import { ScoreCategory } from "./models";
+import {
+  ClipChoiceKind,
+  ClipListViewState,
+  ScoringControlsState,
+  ScoringRunStatus,
+  buildCustomProfile,
+  createClipListViewState,
+  createScoringControlsState,
+  createScoringRunStatus,
+  resolveControlsProfile,
+  restoreDefaultWeights,
+  selectPreset,
+  setCategoryWeight,
+  toggleClipChoice
+} from "./autoReelScoringControls";
 
 export default function AutoReelScreen() {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const runAbortRef = useRef<AbortController | null>(null);
+  const scoringAbortRef = useRef<{ aborted: boolean } | null>(null);
+  const jobMemoryRef = useRef<AutoReelJobMemory | null>(null);
   const [context, setContext] = useState<AutoReelSetupContext | null>(null);
   const [projectId, setProjectId] = useState("");
   const [sequenceId, setSequenceId] = useState("");
@@ -49,6 +71,11 @@ export default function AutoReelScreen() {
   const [running, setRunning] = useState(false);
   const [error, setError] = useState("");
   const [panelWidth, setPanelWidth] = useState<number | null>(null);
+  const [scoringControls, setScoringControls] = useState<ScoringControlsState>(() =>
+    createScoringControlsState()
+  );
+  const [scoringStatus, setScoringStatus] = useState<ScoringRunStatus>(() => createScoringRunStatus());
+  const [clipListView, setClipListView] = useState<ClipListViewState>(() => createClipListViewState());
 
   useEffect(() => {
     void refreshContext();
@@ -82,8 +109,7 @@ export default function AutoReelScreen() {
   const workspaceWidth = useMemo(
     () => getAutoReelEffectiveWidth(panelWidth, window.innerWidth),
     [panelWidth]
-  );
-  const layoutMode = useMemo(() => getAutoReelLayoutMode(workspaceWidth), [workspaceWidth]);
+  );  const layoutMode = useMemo(() => getAutoReelLayoutMode(workspaceWidth), [workspaceWidth]);
   const fieldBasis = fieldFlex(layoutMode);
   const errors = useMemo(
     () =>
@@ -107,6 +133,9 @@ export default function AutoReelScreen() {
       setProjectId((draft as any)?.projectId || nextContext.activeProjectId);
       setSequenceId((draft as any)?.sequenceId || nextContext.activeSequenceId);
       setState(nextState);
+      setScoringControls(createScoringControlsState(nextState.scoringPresetId));
+      setScoringStatus(createScoringRunStatus());
+      setClipListView(createClipListViewState());
       setPlanningText(buildPlanningText(nextState, nextContext, "idle"));
       setLog([`Loaded Premiere context for ${nextContext.projectName || "Unknown Project"} / ${nextContext.sequenceName || "No active sequence"}.`]);
       setRequestPreview(
@@ -249,6 +278,140 @@ export default function AutoReelScreen() {
     runAbortRef.current?.abort();
   }
 
+  function getJobMemory(): AutoReelJobMemory {
+    if (!jobMemoryRef.current) {
+      jobMemoryRef.current = new AutoReelJobMemory(new MemoryEngine());
+    }
+    return jobMemoryRef.current;
+  }
+
+  /**
+   * Persists a job that already carries the operator's latest choices. Failure
+   * to persist is surfaced rather than swallowed, because the operator would
+   * otherwise believe their locks survived a reload when they did not.
+   */
+  function persistJob(nextJob: AutoReelJob): void {
+    try {
+      getJobMemory().save(nextJob);
+    } catch (cause) {
+      const message = cause instanceof Error ? cause.message : "Could not persist Auto Reel job.";
+      setLog((current) => [...current, `Persistence warning: ${message}`]);
+    }
+  }
+
+  function handleSelectPreset(presetId: string) {
+    setScoringControls((current) => selectPreset(current, presetId));
+    patchState({ scoringPresetId: presetId });
+  }
+
+  function handleCategoryWeight(category: ScoreCategory, value: number) {
+    setScoringControls((current) => setCategoryWeight(current, category, value));
+  }
+
+  function handleRestoreDefaults() {
+    setScoringControls((current) => restoreDefaultWeights(current));
+  }
+
+  function handleSaveCustomProfile() {
+    if (!job) {
+      setError("Run the Auto Reel pipeline before saving a custom scoring profile.");
+      return;
+    }
+    const { profile, state: nextControls } = buildCustomProfile(scoringControls);
+    setScoringControls(nextControls);
+    const nextJob: AutoReelJob = { ...job, customScoringProfile: profile, updatedAt: new Date().toISOString() };
+    setJob(nextJob);
+    persistJob(nextJob);
+    setLog((current) => [...current, `Saved custom scoring profile ${profile.id} v${profile.version}.`]);
+  }
+
+  function handleClipChoice(clipId: string, kind: ClipChoiceKind) {
+    if (!job) {
+      return;
+    }
+    const updatedAt = new Date().toISOString();
+    const nextChoices = toggleClipChoice(job.userClipChoices, clipId, kind, updatedAt);
+    const nextJob: AutoReelJob = { ...job, userClipChoices: nextChoices, updatedAt };
+    setJob(nextJob);
+    persistJob(nextJob);
+  }
+
+  async function handleRescore() {
+    if (!job) {
+      setError("Run the Auto Reel pipeline before scoring clips.");
+      return;
+    }
+    if (job.clips.length === 0) {
+      setError("No scanned clips are available to score.");
+      return;
+    }
+
+    const abortSignal = { aborted: false };
+    scoringAbortRef.current = abortSignal;
+    setError("");
+    setScoringStatus({
+      phase: "running",
+      completedClips: 0,
+      totalClips: job.clips.length,
+      currentClipName: null,
+      failureReason: null
+    });
+
+    try {
+      const scoredJob = await runScoringPipeline(job, {
+        profile: resolveControlsProfile(scoringControls),
+        signal: abortSignal,
+        memory: new MemoryEngine(),
+        userClipChoices: job.userClipChoices,
+        onProgress: (progress) => {
+          setScoringStatus((current) => ({
+            ...current,
+            completedClips: progress.completedClips,
+            totalClips: progress.totalClips,
+            currentClipName: progress.currentClipName
+          }));
+        }
+      });
+
+      setJob(scoredJob);
+      const report = scoredJob.scoring;
+      setScoringStatus({
+        phase: report?.status === "cancelled" ? "cancelled" : "completed",
+        completedClips: report?.completedClips ?? 0,
+        totalClips: report?.totalClips ?? job.clips.length,
+        currentClipName: null,
+        failureReason: null
+      });
+      setLog((current) => [
+        ...current,
+        report?.status === "cancelled"
+          ? `Scoring cancelled after ${report.completedClips} of ${report.totalClips} clips. Partial ranking retained.`
+          : `Scored ${report?.completedClips ?? 0} clips with profile ${report?.scoringProfileId} v${report?.scoringProfileVersion}.`
+      ]);
+    } catch (cause) {
+      if (cause instanceof ScoringCancelledError) {
+        setScoringStatus((current) => ({ ...current, phase: "cancelled", currentClipName: null }));
+        return;
+      }
+      const message = cause instanceof Error ? cause.message : "Scoring failed.";
+      setScoringStatus((current) => ({
+        ...current,
+        phase: "failed",
+        currentClipName: null,
+        failureReason: message
+      }));
+      setLog((current) => [...current, `Scoring failed: ${message}`]);
+    } finally {
+      scoringAbortRef.current = null;
+    }
+  }
+
+  function handleCancelScoring() {
+    if (scoringAbortRef.current) {
+      scoringAbortRef.current.aborted = true;
+    }
+  }
+
   return (
     <div ref={rootRef} style={{ display: "flex", flexDirection: "column", gap: spacing.lg, minWidth: 0, width: "100%" }}>
       <Card
@@ -303,7 +466,34 @@ export default function AutoReelScreen() {
 
       <AutoReelRequestPreview job={job} panelWidth={workspaceWidth} requestPreview={requestPreview} log={log} />
 
-      <AutoReelRankedList report={job?.scoring} />
+      <AutoReelScoringPanel
+        controls={scoringControls}
+        status={scoringStatus}
+        report={job?.scoring}
+        savedProfileVersion={
+          job?.customScoringProfile?.categoryWeights
+            ? job.customScoringProfile.version ?? null
+            : null
+        }
+        disabled={loading || running || !job || job.clips.length === 0}
+        onSelectPreset={handleSelectPreset}
+        onCategoryWeight={handleCategoryWeight}
+        onRestoreDefaults={handleRestoreDefaults}
+        onSaveProfile={handleSaveCustomProfile}
+        onRescore={() => void handleRescore()}
+        onCancel={handleCancelScoring}
+      />
+
+      <AutoReelRankedList
+        report={job?.scoring}
+        clips={job?.clips ?? []}
+        view={clipListView}
+        choices={job?.userClipChoices}
+        layoutMode={layoutMode}
+        disabled={running || scoringStatus.phase === "running"}
+        onViewChange={(patch) => setClipListView((current) => ({ ...current, ...patch }))}
+        onChoice={handleClipChoice}
+      />
 
       <div style={{ display: "flex", gap: spacing.sm, flexWrap: "wrap" }}>
         <Button onClick={() => void handleRunSetup()} disabled={loading || running || !context?.connected}>

@@ -24,7 +24,10 @@ export interface TimelineClip {
   mediaPath: string | null;
   projectItemId: string | null;
   projectItemNodeId: string | null;
+  projectItemGuid?: string | null;
+  projectItem?: any;
   mediaType: TimelineClipMediaType;
+  trackType?: TimelineTrackType;
   itemType: string | null;
   sourceIn: number | null;
   sourceOut: number | null;

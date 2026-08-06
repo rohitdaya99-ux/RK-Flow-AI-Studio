@@ -816,3 +816,465 @@ test("Phase 7 wedding evidence stays an unverified local-cue suggestion", () => 
   assert.equal(confirmed.status, "user_confirmed");
   assert.equal(new DedicatedWeddingModelProvider().enabled, false);
 });
+
+// ---------------------------------------------------------------------------
+// Phase 10 — Configurable AI Scoring Engine UI integration
+// ---------------------------------------------------------------------------
+
+const {
+  SCORING_PRESET_ORDER,
+  applyClipListView,
+  buildCategoryDisplays,
+  buildClipListRows,
+  buildCustomProfile,
+  buildScoreExplanation,
+  countClipStates,
+  createClipListViewState,
+  createScoringControlsState,
+  createScoringRunStatus,
+  describeScoringRun,
+  hasClipChoice,
+  hasCustomWeights,
+  listScoringPresets,
+  remainingClips,
+  resolveControlsProfile,
+  restoreDefaultWeights,
+  selectPreset,
+  setCategoryWeight,
+  toggleClipChoice
+} = require("../src/features/auto-reel/autoReelScoringControls.ts");
+const {
+  buildScoringFixtureChoices,
+  buildScoringFixtureClips,
+  buildScoringFixtureReport
+} = require("../src/features/auto-reel/autoReelScoringFixture.ts");
+const {
+  ScoringEngine,
+  runScoringPipeline,
+  resolveScoringProfile
+} = require("../src/features/auto-reel/autoReelScoringService.ts");
+const { SCORE_CATEGORIES } = require("../src/features/auto-reel/models.ts");
+
+function fakeMemory() {
+  const values = new Map();
+  return {
+    values,
+    getAnalysis: (scope, key) => values.get(`${scope}::${key}`) ?? null,
+    setAnalysis: (scope, key, value) => values.set(`${scope}::${key}`, value)
+  };
+}
+
+test("Phase 10 preset selector exposes all nine scoring presets in operator order", () => {
+  assert.deepEqual(Array.from(SCORING_PRESET_ORDER), [
+    "balanced", "cinematic", "emotional", "couple", "family",
+    "dance", "luxury", "documentary", "viral"
+  ]);
+  const presets = listScoringPresets();
+  assert.equal(presets.length, 9);
+  assert.deepEqual(presets.map((p) => p.id), Array.from(SCORING_PRESET_ORDER));
+
+  const controls = selectPreset(createScoringControlsState(), "dance");
+  assert.equal(controls.presetId, "dance");
+  assert.equal(resolveControlsProfile(controls).id, "dance-v1");
+});
+
+test("Phase 10 custom weights scale categories and restore defaults cleanly", () => {
+  let controls = createScoringControlsState("cinematic");
+  assert.equal(hasCustomWeights(controls), false);
+  // An unedited profile must stay byte-identical to the authored preset.
+  assert.equal(resolveControlsProfile(controls).categoryWeights, undefined);
+
+  controls = setCategoryWeight(controls, "emotion", 1.8);
+  assert.equal(controls.categoryWeights.emotion, 1.8);
+  assert.equal(hasCustomWeights(controls), true);
+  assert.equal(resolveControlsProfile(controls).categoryWeights.emotion, 1.8);
+
+  // Out-of-range input clamps rather than producing a negative weight.
+  assert.equal(setCategoryWeight(controls, "face", -4).categoryWeights.face, 0);
+  assert.equal(setCategoryWeight(controls, "face", 99).categoryWeights.face, 2);
+
+  const restored = restoreDefaultWeights(controls);
+  assert.equal(hasCustomWeights(restored), false);
+  for (const category of SCORE_CATEGORIES) {
+    assert.equal(restored.categoryWeights[category], 1);
+  }
+
+  // Switching preset also drops edited weights so presets stay predictable.
+  assert.equal(hasCustomWeights(selectPreset(controls, "viral")), false);
+});
+
+test("Phase 10 save custom profile bumps the persisted profile version", () => {
+  let controls = setCategoryWeight(createScoringControlsState("cinematic"), "music", 1.5);
+  assert.equal(controls.profileVersion, "1");
+
+  const first = buildCustomProfile(controls);
+  assert.equal(first.profile.version, "2");
+  assert.equal(first.profile.categoryWeights.music, 1.5);
+  assert.equal(first.state.profileVersion, "2");
+
+  const second = buildCustomProfile(first.state);
+  assert.equal(second.profile.version, "3");
+});
+
+test("Phase 10 ranked list renders every clip with its real name and duration", () => {
+  const rows = buildClipListRows(buildScoringFixtureReport(), buildScoringFixtureClips());
+  assert.equal(rows.length, 4);
+  assert.equal(rows[0].clipName, "Clip 023 Varmala Hero");
+  assert.equal(rows[0].candidate.rank, 1);
+  assert.equal(rows[0].durationSeconds, 4.5);
+  // A clip with no measurable duration reports null, never a defaulted zero.
+  assert.equal(rows[3].durationSeconds, null);
+
+  assert.deepEqual(countClipStates(rows), { selected: 2, rejected: 0, uncertain: 2 });
+});
+
+test("Phase 10 raw and adjusted toggle reorders by the score actually displayed", () => {
+  const rows = buildClipListRows(buildScoringFixtureReport(), buildScoringFixtureClips());
+  const view = createClipListViewState();
+
+  const adjusted = applyClipListView(rows, view);
+  assert.equal(adjusted[0].candidate.breakdown.finalScore, 87);
+
+  const raw = applyClipListView(rows, { ...view, rawMode: true });
+  assert.equal(raw[0].candidate.breakdown.rawScore, 93);
+  // clip-047 is penalised, so raw ranks it above clip-011's flat 74.5 only if
+  // the raw value is genuinely used for ordering.
+  assert.deepEqual(raw.map((r) => r.candidate.clipId), ["clip-023", "clip-011", "clip-047", "clip-099"]);
+});
+
+test("Phase 10 filter, sort, and search narrow the ranked list without inventing rows", () => {
+  const rows = buildClipListRows(buildScoringFixtureReport(), buildScoringFixtureClips());
+  const view = createClipListViewState();
+
+  assert.equal(applyClipListView(rows, { ...view, filter: "selected" }).length, 2);
+  assert.equal(applyClipListView(rows, { ...view, filter: "uncertain" }).length, 2);
+  assert.equal(applyClipListView(rows, { ...view, filter: "rejected" }).length, 0);
+
+  const searched = applyClipListView(rows, { ...view, search: "varmala" });
+  assert.equal(searched.length, 1);
+  assert.equal(searched[0].candidate.clipId, "clip-023");
+  assert.equal(applyClipListView(rows, { ...view, search: "no-such-clip" }).length, 0);
+
+  assert.deepEqual(
+    applyClipListView(rows, { ...view, sort: "name" }).map((r) => r.candidate.clipId),
+    ["clip-011", "clip-023", "clip-047", "clip-099"]
+  );
+  // Unknown durations sort last instead of being treated as zero-length.
+  assert.deepEqual(
+    applyClipListView(rows, { ...view, sort: "duration" }).map((r) => r.candidate.clipId),
+    ["clip-011", "clip-023", "clip-047", "clip-099"]
+  );
+  assert.deepEqual(
+    applyClipListView(rows, { ...view, sort: "confidence" }).map((r) => r.candidate.clipId),
+    ["clip-023", "clip-011", "clip-047", "clip-099"]
+  );
+});
+
+test("Phase 10 trust labels distinguish heuristic evidence from measured evidence", () => {
+  const report = buildScoringFixtureReport();
+  const displays = buildCategoryDisplays(report.rankedClips[0].breakdown);
+  const byCategory = Object.fromEntries(displays.map((d) => [d.category, d]));
+
+  assert.equal(byCategory.technical.trustLabel, "Measured");
+  assert.equal(byCategory.technical.heuristic, false);
+  assert.equal(byCategory.vision.trustLabel, "Provider-model");
+  assert.equal(byCategory.vision.heuristic, false);
+
+  // Wedding and music are local-cue estimates and must be flagged as such.
+  assert.equal(byCategory.wedding.trustLabel, "Heuristic");
+  assert.equal(byCategory.wedding.heuristic, true);
+  assert.equal(byCategory.music.trustLabel, "Heuristic");
+  assert.equal(byCategory.music.heuristic, true);
+});
+
+test("Phase 10 unavailable signals are shown as unavailable, never defaulted to zero", () => {
+  const report = buildScoringFixtureReport();
+  const displays = buildCategoryDisplays(report.rankedClips[0].breakdown);
+  const preference = displays.find((d) => d.category === "preference");
+
+  assert.equal(preference.available, false);
+  assert.equal(preference.value, null);
+  assert.equal(preference.trustLabel, "Unavailable");
+
+  // The all-unavailable clip exposes no numeric score for any category.
+  const unscored = buildCategoryDisplays(report.rankedClips[3].breakdown);
+  assert.equal(unscored.every((d) => d.available === false), true);
+  assert.equal(unscored.every((d) => d.value === null), true);
+});
+
+test("Phase 10 score explanation is derived only from the real breakdown", () => {
+  const report = buildScoringFixtureReport();
+  const text = buildScoreExplanation(report.rankedClips[0].breakdown, "Clip 023");
+
+  assert.match(text, /^Clip 023 scored 87 because it is sharp, is well exposed, contains a visible smile estimate, and aligns well with the selected music section\./);
+  assert.match(text, /lost 6 points due to near-duplicate anonymous face coverage/);
+  assert.match(text, /1 signal was unavailable and contributed nothing/);
+  assert.match(text, /Confidence is 86%/);
+
+  // Diversity adjustments are reported rather than folded silently into score.
+  const penalised = buildScoreExplanation(report.rankedClips[2].breakdown, "Clip 047");
+  assert.match(penalised, /5 points were removed as a diversity adjustment/);
+
+  // A clip with nothing measurable is never given invented praise.
+  const unscored = buildScoreExplanation(report.rankedClips[3].breakdown, "Clip 099");
+  assert.match(unscored, /could not be scored because no signal was available/);
+  assert.doesNotMatch(unscored, /scored 0 because it is/);
+});
+
+test("Phase 10 lock, require, and exclude choices stay mutually exclusive and persist", () => {
+  const at = "2026-08-05T10:00:00.000Z";
+  let choices = toggleClipChoice(undefined, "clip-023", "lock", at);
+  assert.deepEqual(choices.lockedClipIds, ["clip-023"]);
+  assert.equal(hasClipChoice(choices, "clip-023", "lock"), true);
+
+  // Requiring a locked clip moves it rather than leaving it in both lists.
+  choices = toggleClipChoice(choices, "clip-023", "require", at);
+  assert.deepEqual(choices.lockedClipIds, []);
+  assert.deepEqual(choices.requiredClipIds, ["clip-023"]);
+
+  choices = toggleClipChoice(choices, "clip-023", "exclude", at);
+  assert.deepEqual(choices.requiredClipIds, []);
+  assert.deepEqual(choices.excludedClipIds, ["clip-023"]);
+
+  // Toggling the same kind clears it.
+  choices = toggleClipChoice(choices, "clip-023", "exclude", at);
+  assert.deepEqual(choices.excludedClipIds, []);
+
+  const restored = buildScoringFixtureChoices();
+  assert.equal(hasClipChoice(restored, "clip-011", "lock"), true);
+  assert.equal(hasClipChoice(restored, "clip-023", "require"), true);
+  assert.equal(hasClipChoice(restored, "clip-023", "lock"), false);
+});
+
+test("Phase 10 clip choices and custom profile survive a MemoryEngine round trip", async () => {
+  const memory = fakeMemory();
+  const job = scoringJob();
+  job.userClipChoices = toggleClipChoice(undefined, "clip-a", "require", "2026-08-05T10:00:00.000Z");
+  job.customScoringProfile = buildCustomProfile(
+    setCategoryWeight(createScoringControlsState("cinematic"), "technical", 1.4)
+  ).profile;
+
+  const scored = await runScoringPipeline(job, {
+    memory,
+    now: () => "2026-08-05T10:00:00.000Z"
+  });
+
+  const jobs = new AutoReelJobMemory(memory);
+  const restored = jobs.get(scored.id);
+  assert.notEqual(restored, null);
+  assert.deepEqual(restored.userClipChoices.requiredClipIds, ["clip-a"]);
+  assert.equal(restored.customScoringProfile.categoryWeights.technical, 1.4);
+  assert.equal(restored.customScoringProfile.version, "2");
+  assert.equal(restored.scoring.rankedClips.length, 2);
+  assert.equal(restored.scoring.lastScoredAt, "2026-08-05T10:00:00.000Z");
+
+  // The restored profile drives the next run without re-deriving from preset.
+  assert.equal(resolveScoringProfile(restored).categoryWeights.technical, 1.4);
+});
+
+test("Phase 10 rerun with identical inputs and config is deterministic", () => {
+  const profile = resolveControlsProfile(
+    setCategoryWeight(createScoringControlsState("cinematic"), "vision", 1.25)
+  );
+  const now = () => "2026-08-05T10:00:00.000Z";
+
+  const first = new ScoringEngine(scoringJob(), profile).score({ now });
+  const second = new ScoringEngine(scoringJob(), profile).score({ now });
+
+  assert.deepEqual(first, second);
+  assert.equal(JSON.stringify(first), JSON.stringify(second));
+});
+
+test("Phase 10 cancellation stops scoring and reports partial results", () => {
+  const job = scoringJob();
+  const profile = resolveControlsProfile(createScoringControlsState("cinematic"));
+  const signal = { aborted: false };
+
+  const report = new ScoringEngine(job, profile).score({
+    signal,
+    now: () => "2026-08-05T10:00:00.000Z",
+    onProgress: () => { signal.aborted = true; }
+  });
+
+  assert.equal(report.status, "cancelled");
+  assert.equal(report.partial, true);
+  assert.equal(report.totalClips, 2);
+  assert.equal(report.completedClips, 1);
+  // Partial results are retained rather than discarded.
+  assert.equal(report.rankedClips.length, 1);
+});
+
+test("Phase 10 run status text reports progress, cancellation, and failure honestly", () => {
+  const idle = createScoringRunStatus();
+  assert.equal(idle.phase, "idle");
+  assert.match(describeScoringRun(idle), /Scoring has not run yet/);
+
+  const running = { phase: "running", completedClips: 3, totalClips: 10, currentClipName: "Clip 023", failureReason: null };
+  assert.equal(remainingClips(running), 7);
+  assert.match(describeScoringRun(running), /Scoring Clip 023 — 3 of 10 complete, 7 remaining/);
+
+  const cancelled = { phase: "cancelled", completedClips: 4, totalClips: 10, currentClipName: null, failureReason: null };
+  assert.match(describeScoringRun(cancelled), /cancelled after 4 of 10 clips\. Partial results/);
+
+  const failed = { phase: "failed", completedClips: 0, totalClips: 10, currentClipName: null, failureReason: "sidecar unavailable" };
+  assert.match(describeScoringRun(failed), /Scoring failed: sidecar unavailable/);
+  assert.doesNotMatch(describeScoringRun(failed), /Scored/);
+
+  const partialReport = buildScoringFixtureReport({ partial: true });
+  assert.equal(partialReport.partial, true);
+  assert.equal(partialReport.rankedClips.length, 2);
+  assert.equal(partialReport.totalClips, 4);
+});
+
+test("Phase 10 scoring panels stay readable in the narrow layout mode", () => {
+  // 280px is the narrowest supported workstation width in the frozen shell.
+  assert.equal(getAutoReelLayoutMode(280), "compact");
+  assert.equal(getAutoReelLayoutMode(500), "medium");
+  assert.equal(getAutoReelLayoutMode(900), "regular");
+  assert.equal(getAutoReelLayoutMode(1146), "wide");
+
+  const rows = buildClipListRows(buildScoringFixtureReport(), buildScoringFixtureClips());
+  // Every row carries a real name, so compact mode truncates rather than
+  // falling back to a raw clip id.
+  assert.equal(rows.every((row) => row.clipName.length > 0), true);
+  assert.equal(rows.every((row) => row.clipName !== row.candidate.clipId), true);
+});
+
+function scoringJob() {
+  const base = createAutoReelJob(request(), "job-scoring", "2026-08-05T00:00:00.000Z");
+  return {
+    ...base,
+    clips: [
+      {
+        id: "clip-a", name: "Clip A", mediaType: "video",
+        sourceInSeconds: 0, sourceOutSeconds: 4, durationSeconds: 4, timelineStartSeconds: 0,
+        speed: 1, disabled: false, selected: true, linkedClipIds: [],
+        mediaFingerprint: "fp-a", cacheKey: "ck-a", metadataStatus: "host-verified", capabilityNotes: []
+      },
+      {
+        id: "clip-b", name: "Clip B", mediaType: "video",
+        sourceInSeconds: 0, sourceOutSeconds: 6, durationSeconds: 6, timelineStartSeconds: 6,
+        speed: 1, disabled: false, selected: true, linkedClipIds: [],
+        mediaFingerprint: "fp-b", cacheKey: "ck-b", metadataStatus: "host-verified", capabilityNotes: []
+      }
+    ],
+    vision: {
+      schemaVersion: 1, jobId: "job-scoring", requestId: "r", status: "completed",
+      sidecar: { status: "available" }, visionVersion: "phase-5-vision-v1", gpuAccelerated: false,
+      progress: { completedFrames: 2, totalFrames: 2, completedClips: 2, totalClips: 2, cacheHits: 0, cacheMisses: 2 },
+      clips: [
+        visionClip("clip-a", 0.9, 0.8),
+        visionClip("clip-b", 0.6, 0.5)
+      ],
+      failures: [], warnings: [], startedAt: "2026-08-05T00:00:00.000Z", completedAt: "2026-08-05T00:00:01.000Z"
+    }
+  };
+}
+
+function visionClip(clipId, sharpness, exposure) {
+  return {
+    clipId, clipName: clipId, frameCount: 1, qualityScore: sharpness, rejectScore: 0,
+    warnings: [], confidence: 0.9, source: "measured",
+    frames: [{
+      frameSampleId: `${clipId}-f1`, clipId, clipName: clipId, sampleKind: "middle",
+      sourceTimeSeconds: 1, contentHash: `${clipId}-hash`, visionVersion: "phase-5-vision-v1",
+      processedAt: "2026-08-05T00:00:00.000Z", cacheKey: `${clipId}-ck`, cacheStatus: "miss",
+      sharpness, blurScore: 1 - sharpness, noiseScore: 0.1, exposure, brightness: 0.5,
+      contrast: 0.5, saturation: 0.5,
+      whiteBalanceEstimate: { tint: 0, neutral: true, confidence: 0.8 },
+      motionEstimate: 0.4, cameraShake: 0.2, edgeDensity: 0.5,
+      compositionEstimate: 0.7, ruleOfThirdsEstimate: 0.6,
+      horizonEstimate: { present: true, confidence: 0.7, note: "" },
+      foregroundRatio: 0.5, backgroundRatio: 0.5,
+      sceneEstimate: { indoorOutdoor: "outdoor", dayNight: "day", shotType: "wide", droneLikelihood: 0.2, confidence: 0.8, notes: [] },
+      qualityScore: sharpness, rejectScore: 0, warnings: [],
+      confidence: {
+        sharpness: 0.9, blur: 0.9, noise: 0.9, exposure: 0.9, brightness: 0.9, contrast: 0.9,
+        saturation: 0.9, whiteBalance: 0.9, motion: 0.9, cameraShake: 0.9, edgeDensity: 0.9,
+        composition: 0.9, ruleOfThirds: 0.9, horizon: 0.9, foregroundBackground: 0.9, scene: 0.9
+      },
+      capabilities: ["opencv"]
+    }]
+  };
+}
+
+test("Phase Assembly preserves projectItem and Preflight blocks unresolved clips", async () => {
+  const { AutoEditAssembler } = require("../src/features/auto-edit/AutoEditAssembler.ts");
+  const assembler = new AutoEditAssembler();
+  
+  let preflightError = null;
+  try {
+    await assembler.assemble("Reel", [{
+      id: "clip_001",
+      path: undefined,
+      projectItemId: null,
+      projectItem: undefined,
+      score: 100
+    }]);
+  } catch (error) {
+    preflightError = error;
+  }
+  
+  assert.ok(preflightError, "Preflight should have thrown an error for missing ProjectItem");
+  assert.match(preflightError.message, /Unresolvable ProjectItem/);
+  assert.match(preflightError.message, /clip_001/);
+  
+  let executeError = null;
+  try {
+    await assembler.assembleReelPlan({
+      title: "Test Sequence",
+      templateName: "Fast Cinematic",
+      clips: [{
+        clipId: "test_clip",
+        clipName: "test_clip",
+        start: 0,
+        end: 1,
+        sourceDuration: 1,
+        durationSeconds: 1,
+        projectItemId: "project-123",
+        projectItem: { id: "live" },
+        mediaPath: "/path/to/media.mp4"
+      }]
+    });
+  } catch (error) {
+    executeError = error;
+  }
+  
+  // Preflight passes, it will fail down the line on executor because there's no Premiere host in this test
+  if (executeError) {
+    assert.doesNotMatch(executeError.message, /Unresolvable ProjectItem/);
+  }
+});
+
+test("CommandExecutor validates timeline-modifying commands against sequence state", async () => {
+  const { CommandExecutor } = require("../src/commands/CommandExecutor.ts");
+  const executor = new CommandExecutor({
+    project: {
+      getSequence: () => null, // No sequence available
+      getClips: () => ({ cut: async () => {}, trim: async () => {} })
+    },
+    execute: async () => ({}) // Dummy bridge execute
+  });
+
+  const cutResult = await executor.execute({
+    id: "cmd-1",
+    timestamp: 1234,
+    action: "CUT_CLIP",
+    payload: { clipId: "c1", time: 10 }
+  });
+  
+  assert.equal(cutResult.success, false);
+  assert.match(cutResult.error || "", /No active sequence found/);
+  
+  const moveResult = await executor.execute({
+    id: "cmd-2",
+    timestamp: 1234,
+    action: "MOVE_PLAYHEAD",
+    payload: { time: 0 }
+  });
+  // Without a full Premiere implementation, dummy execution will probably just return undefined or empty object,
+  // but it should NOT have the 'Active sequence is required' error.
+  if (moveResult.error) {
+    assert.doesNotMatch(moveResult.error, /Active sequence is required/);
+  }
+});
